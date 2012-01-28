@@ -1,0 +1,15 @@
+#tooltip {
+padding: 5px;
+background: #1c3b51;
+border: 1px solid #ffffff;
+text-align: center;
+font-family: arial, helvetica, serif;
+font-size: 8pt;
+color: #ffffff;
+filter: alpha(opacity=80);
+-moz-opacity: 0.8;
+opacity: 0.8;
+}
+
+span.tip {
+}

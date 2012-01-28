@@ -1,0 +1,50 @@
+* {
+margin: 0px;
+padding: 0px;
+}
+
+body {
+margin: 0px;
+padding: 0px;
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+color: #445566;
+background-color: #f6f9fb;
+overflow: hidden;
+}
+
+input {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+border: 1px solid #7fa0bc;
+padding: 2px;
+color: #445566;
+}
+
+select {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+border: 1px solid #7fa0bc;
+padding: 1px;
+color: #445566;
+}
+
+table td {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+}
+
+.button_mouseover {
+cursor: pointer;
+border: 2px solid #bccad6;
+}
+
+.button_mouseout {
+cursor: pointer;
+border: 2px solid #f6f9fb;
+}
+
+#main {
+overflow: auto;
+padding: 10px;
+}

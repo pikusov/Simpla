@@ -1,0 +1,7 @@
+.statusbar {
+clear: left;
+background: #f7f7f7 url("../img/statusbar/bg.png") repeat-x;
+height: 24px;
+line-height: 24px;
+border-top: 1px solid #9fa0a4;
+}

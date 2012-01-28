@@ -1,0 +1,24 @@
+.alert {
+position: absolute;
+top: 0px;
+left: 0px;
+width: 500px;
+text-align: center;
+font-size: 11pt;
+font-weight: bold;
+line-height: 15pt;
+}
+
+.alert_ok {
+background-color: #f8fafc;
+padding: 15px;
+border: 2px solid #B5D4FE;
+color: #445566;
+}
+
+.alert_error {
+background-color: #fff6bf;
+padding: 15px;
+border: 2px solid #ffd324;
+color: #445566;
+}

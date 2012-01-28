@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Квитанция для оплаты в банке
+	</name>
+	<settings>
+		<variable>recipient</variable>
+		<name>Получатель</name>
+	</settings>
+	<settings>
+		<variable>inn</variable>
+		<name>ИНН получателя</name>
+	</settings>
+	<settings>
+		<variable>account</variable>
+		<name>Счет получателя</name>
+	</settings>
+	<settings>
+		<variable>bank</variable>
+		<name>Банк получателя</name>
+	</settings>
+	<settings>
+		<variable>bik</variable>
+		<name>БИК</name>
+	</settings>
+	<settings>
+		<variable>correspondent_account</variable>
+		<name>Кор. счет</name>
+	</settings>
+	<settings>
+		<variable>banknote</variable>
+		<name>Обозначение валюты</name>
+	</settings>
+	<settings>
+		<variable>pense</variable>
+		<name>Обозначение копеек</name>
+	</settings>
+</module>

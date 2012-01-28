@@ -1,0 +1,120 @@
+//.  Example 1 ................................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smexplorer",
+	theme_advanced_buttons3_add : "smexplorer",
+	plugin_smexplorer_directory : "/download/",
+	file_browser_callback : "SMPlugins"
+});
+
+//.  Example 2 ................................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smexplorer",
+	theme_advanced_buttons3_add : "smexplorer",
+	plugin_smexplorer_directory : "/download/",
+	plugin_smexplorer_server : "",
+	plugin_smexplorer_show_upload : "1",
+	plugin_smexplorer_orderby : "0",
+	plugin_smexplorer_show_folder_menu : "1",
+	plugin_smexplorer_show_file_menu : "1",
+	plugin_smexplorer_link_target : "_blank",
+	plugin_smexplorer_hidden_folder : "",
+	plugin_smexplorer_hidden_subfolder : "",
+	plugin_smexplorer_hidden_filetype : "",
+	plugin_smexplorer_show_chmod : "0",
+	plugin_smexplorer_upload_filetype : "",
+	plugin_smexplorer_upload_filesize : "",
+	plugin_smexplorer_check_session_variable : "",
+	plugin_smexplorer_document_root : "",
+	plugin_smexplorer_width : "800",
+	plugin_smexplorer_height : "600",
+	file_browser_callback : "SMPlugins"
+});
+
+//. Information ...............................................................
+Include JavaScript file:
+<script language="javascript" type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/smexplorer/smplugins.js"></script>
+
+//. Parameter .................................................................
+[plugin_smexplorer_directory]
+	Directory path, comma separated list
+	e.g.: "path1,path2"
+
+[plugin_smexplorer_server]
+	Protocol and domain name for the absolut path in a HTML <img> tag
+	e.g.:
+	plugin_smimage_directory : "/images/"
+	plugin_smimage_server : "http://synasys.de"
+	-> <img src="http://synasys.de/images/leipzig.png" />
+
+[plugin_smexplorer_show_upload]
+	Show upload function
+	0 = Hidden
+	1 = Visible
+
+[plugin_smexplorer_orderby]
+	Order by
+	0 = File time (Descending order)
+	1 = File name (Ascending order)
+	2 = File name (Descending order)
+	3 = File size (Ascending order)
+	4 = File size (Descending order)
+	5 = File time (Ascending order)
+	6 = File time (Descending order)
+
+[plugin_smexplorer_show_folder_menu]
+	Show folder menu
+	0 = Hidden
+	1 = Visible
+
+[plugin_smexplorer_show_file_menu]
+	Show file menu
+	0 = Hidden
+	1 = Visible
+
+[plugin_smexplorer_link_target]
+	HTML link target
+	e.g.: "_blank" or "_parent" ...
+
+[plugin_smexplorer_hidden_folder]
+	Hidden folder, comma separated list
+	e.g.: "folder1,folder2"
+
+[plugin_smexplorer_hidden_subfolder]
+	Hidden sub folder, comma separated list
+	e.g.: "subfolder1,subfolder2"
+
+[plugin_smexplorer_hidden_filetype]
+	Hidden file type, comma separated list
+	e.g.: "pdf,exe"
+
+[plugin_smexplorer_show_chmod]
+	Show folder permissions (Linux-Server)
+	0 = Hidden
+	1 = Visible
+
+[plugin_smexplorer_upload_filetype]
+	Upload file type, comma separated list
+	e.g.: "jpg,gif"
+
+[plugin_smexplorer_upload_filesize]
+	Upload file size (KB)
+	e.g.: "100" -> 100KB
+
+[plugin_smexplorer_check_session_variable]
+	Check session variable of a content management systems (CMS)
+	e.g.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[plugin_smexplorer_document_root]
+	Server root directory path of your web folder.
+	If You have a PHP installation without $_SERVER["DOCUMENT_ROOT"] access.
+
+[plugin_smexplorer_width]
+	Window width (pixel)
+
+[plugin_smexplorer_height]
+	Window height (pixel)

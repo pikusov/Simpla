@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>Prompt</title>
+
+<style type="text/css">
+<!--
+* {
+font-family: Arial, sans-serif;
+font-size: 10pt;
+}
+
+body {
+background-color: ThreeDFace;
+margin: 10px;
+}
+-->
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+function xGetElementById(e) {
+	if(typeof(e)=='string') {
+		if(document.getElementById) e=document.getElementById(e);
+		else if(document.all) e=document.all[e];
+		else e=null;
+	}
+	return e;
+}
+
+function xAddEventListener(e,eT,eL,cap) {
+	if(!(e=xGetElementById(e)))return;
+	eT=eT.toLowerCase();
+	if(e.addEventListener)e.addEventListener(eT,eL,cap||false);
+	else if(e.attachEvent)e.attachEvent('on'+eT,eL);
+	else e['on'+eT]=eL;
+}
+
+xAddEventListener(
+	this,
+	'load',
+	function() {
+		document.getElementById('loading').style.display = 'none';
+		var lines;
+		var input = '';
+		if (window.dialogArguments) {
+			var args = window.dialogArguments;
+			if (args['caption']) {
+				document.title = args['caption'];
+			}
+			input = args['input'] || (typeof(args['input']) == 'number') ? args['input'] : '';
+			var msg = args['msg'] || '';
+			if (typeof(msg) != 'string') {
+				msg = new String(msg);
+			}
+
+			if ((navigator.appVersion.indexOf('MSIE') != -1) && (navigator.userAgent.indexOf('Opera') == -1)) {
+				lines = [];
+				while (msg.length && msg.match(/^([^\r\n]*)(\r\n|\n\r|\r|\n)?/)) {
+					lines.push(RegExp.$1);
+					msg = msg.substr(RegExp.$2 ? RegExp.$1.length + RegExp.$2.length : RegExp.$1.length);
+				}
+			}
+			else {
+				lines = msg.split(/\r\n|\n\r|\r|\n/);
+			}
+		}
+		else {
+			lines = [];
+		}
+		var div = document.createElement('div');
+		div.style.whiteSpace = 'nowrap';
+		for (var i = 0; i < lines.length; i++) {
+			div.appendChild(document.createTextNode(lines[i] == ' ' ? '' : lines[i]));
+			if (i < lines.length - 1) {
+				div.appendChild(document.createElement('br'));
+			}
+		}
+		var question = document.getElementById('question');
+		question.appendChild(div);
+		var answer = document.getElementById('answer');
+		answer.value = input;
+		document.getElementById('main').style.display = '';
+		answer.focus();
+	},
+	false
+);
+
+xAddEventListener(
+	this,
+	'load',
+	function() {
+		xAddEventListener(
+			document.body,
+			'keypress',
+			function(e) {
+				var asc = e ? e.keyCode : event.which; // key's ASCII code
+				//alert(asc);
+				if (asc == 13) {
+					document.getElementById('btnOK').click();
+				}
+				else if (asc == 27) {
+					document.getElementById('btnCancel').click();
+				}
+			},
+			true
+		)
+	},
+	false
+);
+
+function btnOkClicked() {
+	window.returnValue = document.getElementById('answer').value;
+	window.close();
+}
+
+function btnCancelClicked() {
+	window.returnValue = undefined;
+	window.close();
+}
+//]]>
+</script>
+
+</head>
+<body>
+
+<div id="loading" style="text-align:center">Loading...</div>
+	<div id="main" style="display:none">
+		<table border="0" width="100%" cellspacing="0" cellpadding="0">
+		<tr>
+			<td valign="top" style="width:40px"><img src="icon.gif" alt="" width="32" height="32" /></td>
+			<td valign="top"><p id="question"></p><p style="padding-right: 10px"><input id="answer" type="text" style="width:100%" /></p></td>
+		</tr>
+		</table>
+
+		<div style="height:10px;"></div>
+		<div style="text-align:center">
+
+		<div style="margin:0 auto;">
+			<button id="btnOK" onclick="btnOkClicked();" style="width:66px">OK</button>
+			<button id="btnCancel" onclick="btnCancelClicked();" style="width:66px">Cancel</button>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

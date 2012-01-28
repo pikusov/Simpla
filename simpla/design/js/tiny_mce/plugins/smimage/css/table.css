@@ -1,0 +1,33 @@
+table {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+color: #445566;
+text-align: left;
+}
+
+table tr {
+cursor: default;
+}
+
+table th {
+background: #e5e7eb url("../img/table_th_bg.gif") repeat-x;
+color: #445566;
+line-height: 18pt;
+height: 18pt;
+border-bottom: 1px solid #d2d6d9;
+border-right: 1px solid #d2d6d9;
+padding-left: 2px;
+padding-right: 2px;
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+}
+
+table td {
+color: #445566;
+line-height: 18pt;
+height: 18pt;
+padding-left: 2px;
+padding-right: 2px;
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+}

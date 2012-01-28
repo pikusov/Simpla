@@ -1,0 +1,37 @@
+.window {
+display: none;
+position: absolute;
+left: 0px;
+top: 0px;
+width: 350px;
+height: 285px;
+background-color: #f4f4f4;
+border: 1px solid #666666;
+}
+
+.window .top {
+height: 24px;
+line-height: 24px;
+background: url("../img/window_top.gif") repeat-x;
+text-align: center;
+font-weight: bold;
+color: #3d4242;
+overflow: hidden;
+white-space: nowrap;
+}
+
+.window .content {
+padding: 10px;
+overflow: hidden;
+border: 1px solid #f8f8f8;
+}
+
+.window .button_mouseover {
+cursor: pointer;
+border: 2px solid #bccad6;
+}
+
+.window .button_mouseout {
+cursor: pointer;
+border: 2px solid #f4f4f4;
+}

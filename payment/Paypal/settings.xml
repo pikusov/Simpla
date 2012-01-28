@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Paypal
+	</name>
+	<settings>
+		<variable>business</variable>
+		<name>Merchant email</name>
+	</settings>
+	<settings>
+		<variable>mode</variable>
+		<name>Mode</name>
+		<options>
+			<name>Real payments</name>
+			<value>real</value>
+		</options>
+		<options>
+			<name>Sandbox mode</name>
+			<value>sandbox</value>
+		</options>
+	</settings>
+</module>

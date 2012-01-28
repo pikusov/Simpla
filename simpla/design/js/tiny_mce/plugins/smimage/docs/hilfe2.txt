@@ -1,0 +1,89 @@
+[config.php]
+
+//. Parameter .................................................................
+[$CONFIG["directory"]]
+	Verzeichnispfad
+
+[$CONFIG["server"]]
+	Protokoll und Domain-Name für den absoluten Pfad im HTML <img>-Tag
+	z.B.:
+	plugin_smimage_directory : "/images/"
+	plugin_smimage_server : "http://synasys.de"
+	-> <img src="http://synasys.de/images/leipzig.png" />
+
+[$CONFIG["orderby"]]
+	Sortieren nach:
+	0 = Dateidatum (Absteigende Sortierung)
+	1 = Dateinamen (Aufsteigende Sortierung)
+	2 = Dateinamen (Absteigende Sortierung)
+	3 = Dateigröße (Aufsteigende Sortierung)
+	4 = Dateigröße (Absteigende Sortierung)
+	5 = Bildgröße (Aufsteigende Sortierung)
+	6 = Bildgröße (Absteigende Sortierung)
+	7 = Dateidatum (Aufsteigende Sortierung)
+	8 = Dateidatum (Absteigende Sortierung)
+
+[$CONFIG["show_thumbnail"]]
+	Vorschaubilder oder Tabelle anzeigen
+	0 = Tabelle
+	1 = Vorschaubilder
+
+[$CONFIG["thumbnails_perpage"]]
+	Thumbnails pro Seite (0...n)
+
+[$CONFIG["thumbnail_size"]]
+	Größe der Vorschaubilder (Pixel)
+
+[$CONFIG["jpg_quality"]]
+	JPG-Qualität der Vorschaubilder
+
+[$CONFIG["show_upload"]]
+	Upload-Menüpunkt anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["upload_filesize"]]
+	Upload Dateigröße (KB)
+	z.B.: "100" -> 100KB
+
+[$CONFIG["show_image_menu"]]
+	Bilder-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["show_folder_menu"]]
+	Verzeichnis-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["show_newfolder"]]
+	Neues Verzeichnis-Button anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["check_session_variable"]]
+	Überprüfung einer Session-Variable eines Content-Management-Systems (CMS)
+	z.B.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[$CONFIG["preview_thumbnail_size"]]
+	Größe der Vorschaubilder (Pixel) in der Tabellenanzeige
+
+[$CONFIG["chmod_folder"]]
+	Konfiguration der Verzeichnis-Zugriffsrechte
+
+[$CONFIG["chmod_file"]]
+	Konfiguration der Datei-Zugriffsrechte
+
+[$CONFIG["no_cache"]]
+	Configuration cache
+	0 = Webbrowser cache
+	1 = No webbrowser cache
+
+[$CONFIG["document_root"]]
+	Server Root-Verzeichnispfad Ihres Webverzeichnisses.
+	Wenn Sie ein PHP-Installation ohne Zugriff auf $_SERVER["DOCUMENT_ROOT"] haben.
+
+[$CONFIG["style"]]
+	Cascading Style Sheets (CSS)
+	Style des HTML <img>-Tag

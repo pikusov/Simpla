@@ -1,0 +1,114 @@
+//.  Example 1 ................................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smimage",
+	theme_advanced_buttons3_add : "smimage",
+	plugin_smimage_directory : "/images/",
+	file_browser_callback : "SMPlugins"
+});
+
+//.  Example 2 ................................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smimage",
+	theme_advanced_buttons3_add : "smimage",
+	plugin_smimage_directory : "/images/",
+	plugin_smimage_server : "",
+	plugin_smimage_thumbnail_size : "120",
+	plugin_smimage_jpg_quality : "80",
+	plugin_smimage_show_thumbnail : "1",
+	plugin_smimage_orderby : "0",
+	plugin_smimage_show_upload : "1",
+	plugin_smimage_show_image_menu : "1",
+	plugin_smimage_show_folder_menu : "1",
+	plugin_smimage_show_newfolder : "1",
+	plugin_smimage_thumbnails_perpage : "20",
+	plugin_smimage_upload_filesize : "",
+	plugin_smimage_check_session_variable : "",
+	plugin_smimage_document_root : "",
+	plugin_smimage_width : "800",
+	plugin_smimage_height : "600",
+	file_browser_callback : "SMPlugins"
+});
+
+//. Information ...............................................................
+Include JavaScript file:
+<script language="javascript" type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/smimage/smplugins.js"></script>
+
+//. Parameter .................................................................
+[plugin_smimage_directory]
+	Directory path
+
+[plugin_smimage_server]
+	Protocol and domain name for the absolut path in a HTML <img> tag
+	e.g.:
+	plugin_smimage_directory : "/images/"
+	plugin_smimage_server : "http://synasys.de"
+	-> <img src="http://synasys.de/images/leipzig.png" />
+
+[plugin_smimage_thumbnail_size]
+	Thumbnail size (pixel)
+
+[plugin_smimage_jpg_quality]
+	JPG quality (1...100)
+
+[plugin_smimage_show_thumbnail]
+	Show thumbnails or table
+	0 = Table
+	1 = Thumbnails
+
+[plugin_smimage_orderby]
+	Order by:
+	0 = File time (Descending order)
+	1 = File name (Ascending order)
+	2 = File name (Descending order)
+	3 = File size (Ascending order)
+	4 = File size (Descending order)
+	5 = Image size (Ascending order)
+	6 = Image size (Descending order)
+	7 = File time (Ascending order)
+	8 = File time (Descending order) 
+
+[plugin_smimage_show_upload]
+	Show upload function
+	0 = Hidden
+	1 = Visible
+
+[plugin_smimage_show_image_menu]
+	Show image menu
+	0 = Hidden
+	1 = Visible
+
+[plugin_smimage_show_folder_menu]
+	Show folder menu
+	0 = Hidden
+	1 = Visible
+
+[plugin_smimage_show_newfolder]
+	Show new folder button
+	0 = Hidden
+	1 = Visible
+
+[plugin_smimage_thumbnails_perpage]
+	Thumbnails per page (0...n)
+
+[plugin_smimage_upload_filesize]
+	Upload file size (KB)
+	e.g.: "100" -> 100KB
+
+[plugin_smimage_check_session_variable]
+	Check session variable of a content management systems (CMS)
+	e.g.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[plugin_smimage_document_root]
+	Server root directory path of your web folder.
+	If You have a PHP installation without $_SERVER["DOCUMENT_ROOT"] access.
+
+[plugin_smimage_width]
+	Window width (pixel)
+
+[plugin_smimage_height]
+	Window height (pixel)

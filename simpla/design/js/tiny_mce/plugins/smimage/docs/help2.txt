@@ -1,0 +1,89 @@
+[config.php]
+
+//. Parameter .................................................................
+[$CONFIG["directory"]]
+	Directory path
+
+[$CONFIG["server"]]
+	Protocol and domain name for the absolut path in a HTML <img> tag
+	e.g.:
+	plugin_smimage_directory : "/images/"
+	plugin_smimage_server : "http://synasys.de"
+	-> <img src="http://synasys.de/images/leipzig.png" />
+
+[$CONFIG["orderby"]]
+	Order by:
+	0 = File time (Descending order)
+	1 = File name (Ascending order)
+	2 = File name (Descending order)
+	3 = File size (Ascending order)
+	4 = File size (Descending order)
+	5 = Image size (Ascending order)
+	6 = Image size (Descending order)
+	7 = File time (Ascending order)
+	8 = File time (Descending order) 
+
+[$CONFIG["show_thumbnail"]]
+	Show thumbnails or table
+	0 = Table
+	1 = Thumbnails
+
+[$CONFIG["thumbnails_perpage"]]
+	Thumbnails per page (0...n)
+
+[$CONFIG["thumbnail_size"]]
+	Thumbnail size (pixel)
+
+[$CONFIG["jpg_quality"]]
+	JPG quality (1...100)
+
+[$CONFIG["show_upload"]]
+	Show upload function
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["upload_filesize"]]
+	Upload file size (KB)
+	e.g.: "100" -> 100KB
+
+[$CONFIG["show_image_menu"]]
+	Show image menu
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["show_folder_menu"]]
+	Show folder menu
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["show_newfolder"]]
+	Show new folder button
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["check_session_variable"]]
+	Check session variable of a content management systems (CMS)
+	e.g.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[$CONFIG["preview_thumbnail_size"]]
+	Size of preview thumbnail (pixel), table view
+
+[$CONFIG["chmod_folder"]]
+	Configuration folder permission
+
+[$CONFIG["chmod_file"]]
+	Configuration file permission
+
+[$CONFIG["no_cache"]]
+	Configuration cache
+	0 = Webbrowser cache
+	1 = No webbrowser cache
+
+[$CONFIG["document_root"]]
+	Server root directory path of your web folder.
+	If You have a PHP installation without $_SERVER["DOCUMENT_ROOT"] access.
+
+[$CONFIG["style"]]
+	Cascading Style Sheets (CSS)
+	Style of the HTML <img> tag

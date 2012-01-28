@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<!-- JavaScript -->
+<script language="javascript" type="text/javascript" src="tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/smexplorer/smplugins.js"></script>
+<script language="javascript" type="text/javascript">
+<!--
+// Editor Initialisierung
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smexplorer",
+	theme_advanced_buttons3_add : "smexplorer",
+	plugin_smimage_directory : "/download/",
+	file_browser_callback : "SMPlugins"
+});
+//-->
+</script>
+
+</head>
+<body>
+
+<form name="form1" method="post" action="">
+	<textarea id="textarea1" name="textarea1"></textarea>
+</form>
+
+</body>
+</html>

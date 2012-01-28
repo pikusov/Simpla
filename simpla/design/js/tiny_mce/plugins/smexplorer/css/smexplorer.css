@@ -1,0 +1,84 @@
+* {
+margin: 0px;
+padding: 0px;
+}
+
+body {
+margin: 0px;
+padding: 0px;
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+color: #445566;
+background-color: #ffffff;
+overflow: hidden;
+}
+
+a {
+color: #445566;
+}
+
+input {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+border: 1px solid #7fa0bc;
+padding: 2px;
+}
+
+tr {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+line-height: 18pt;
+height: 18pt;
+}
+
+td {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+padding-left: 4px;
+line-height: 18pt;
+height: 18pt;
+}
+
+.checkbox {
+border: 0px;
+}
+
+.edit {
+border-width: 0px;
+background-color: transparent;
+font-size: 10pt;
+}
+
+#main_left {
+float: left;
+width: 220px;
+height: 566px;
+overflow: auto;
+background-color: #edf4fe;
+}
+
+#main_right {
+float: left;
+background-color: #ffffff;
+width: 574px;
+height: 566px;
+}
+
+#upload {
+display: none;
+background-color: #f6f9fb;
+border-bottom: 1px solid #d2d6d9;
+}
+
+#view {
+display: none;
+border-bottom: 1px solid #d2d6d9;
+height: 50%;
+}
+
+#upload_info {
+padding: 2px;
+border: 1px solid #7fa0bc;
+background-color: #fafdff;
+margin-top: 15px;
+}

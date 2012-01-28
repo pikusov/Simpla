@@ -1,0 +1,105 @@
+[config.php]
+
+//. Parameter .................................................................
+[$CONFIG["directory"]]
+	Directory path, comma separated list
+	e.g.: "path1,path2"
+
+[$CONFIG["server"]]
+	Protocol and domain name for the absolut path in a HTML <a> tag
+	e.g.:
+	plugin_smexplorer_directory : "/images/"
+	plugin_smexplorer_server : "http://synasys.de"
+	-> <a href="http://synasys.de/images/leipzig.png">Text</a>
+
+[$CONFIG["orderby"]]
+	Order by
+	0 = File time (Descending order)
+	1 = File name (Ascending order)
+	2 = File name (Descending order)
+	3 = File size (Ascending order)
+	4 = File size (Descending order)
+	5 = File time (Ascending order)
+	6 = File time (Descending order)
+
+[$CONFIG["link_target"]]
+	HTML link target
+	e.g.: "_blank" or "_parent" ...
+
+[$CONFIG["show_chmod"]]
+	Show folder permissions (Linux-Server)
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["show_folder_menu"]]
+	Show folder menu
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["show_file_menu"]]
+	Show file menu
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["hidden_folder"]]
+	Hidden folder, comma separated list
+	e.g.: "folder1,folder2"
+
+[$CONFIG["hidden_subfolder"]]
+	Hidden sub folder, comma separated list
+	e.g.: "subfolder1,subfolder2"
+
+[$CONFIG["hidden_filetype"]]
+	Hidden file type, comma separated list
+	e.g.: "pdf,exe"
+
+[$CONFIG["show_upload"]]
+	Show upload function
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["upload_filetype"]]
+	Upload file type, comma separated list
+	e.g.: "jpg,gif"
+
+[$CONFIG["upload_filesize"]]
+	Upload file size (KB)
+	e.g.: "100" -> 100KB
+
+[$CONFIG["check_session_variable"]]
+	Check session variable of a content management systems (CMS)
+	e.g.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[$CONFIG["folder_tree_width"]]
+	Width of the folder tree frame
+	e.g.: "220" -> 220 pixel
+
+[$CONFIG["show_preview"]]
+	Show preview thumbnail
+	0 = Hidden
+	1 = Visible
+
+[$CONFIG["preview_thumbnail_size"]]
+	Preview thumbnail size
+	e.g.: "200" -> 200 pixel
+
+[$CONFIG["rename_file_ext"]]
+	Rename file extension
+	0 = No
+	1 = Yes
+
+[$CONFIG["chmod_folder"]]
+	Configuration folder permission
+
+[$CONFIG["chmod_file"]]
+	Configuration file permission
+
+[$CONFIG["no_cache"]]
+	Configuration cache
+	0 = Webbrowser cache
+	1 = No webbrowser cache
+
+[$CONFIG["document_root"]]
+	Server root directory path of your web folder.
+	If You have a PHP installation without $_SERVER["DOCUMENT_ROOT"] access.

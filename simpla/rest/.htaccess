@@ -1,0 +1,28 @@
+<Limit GET POST PUT DELETE>
+Allow from all
+</Limit>
+
+AddDefaultCharset UTF-8
+
+RewriteEngine on
+
+# Товары
+RewriteRule  ^products/?$                          index.php?resource=products                                          [L,QSA]
+RewriteRule  ^products/([\d,]+)/?$                 index.php?resource=products&id=$1                                    [L,QSA]
+RewriteRule  ^categories/(\d+)/products/?$         index.php?resource=products&category=$1                           [L,QSA]
+RewriteRule  ^categories/(\d+)/brands/(\d+)/products/?$         index.php?resource=products&category=$1&category=$2                          [L,QSA]
+
+RewriteRule  ^categories/?$                        index.php?resource=categories                                        [L,QSA]
+
+RewriteRule  ^products/(\d+)/categories/?$         index.php?resource=products_categories&product_id=$1                 [L,QSA]
+
+
+RewriteRule  ^orders/(\d+)/purchases/?$           index.php?resource=purchases&order_id=$1                            [L,QSA]
+
+# Blog
+RewriteRule  ^blog/?$                          index.php?resource=blog                                         [L,QSA]
+RewriteRule  ^blog/([\d,]+)/?$                 index.php?resource=blog&id=$1                                    [L,QSA]
+
+# Orders
+RewriteRule  ^orders/?$                          index.php?resource=orders                                          [L,QSA]
+RewriteRule  ^orders/([\d,]+)/?$                 index.php?resource=orders&id=$1                                    [L,QSA]

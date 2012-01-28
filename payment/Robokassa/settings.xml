@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Робокасса
+	</name>
+	<settings>
+		<variable>login</variable>
+		<name>Логин в робокассе</name>
+	</settings>
+	<settings>
+		<variable>password1</variable>
+		<name>Пароль1</name>
+	</settings>
+	<settings>
+		<variable>password2</variable>
+		<name>Пароль2</name>
+	</settings>
+	<settings>
+		<variable>language</variable>
+		<name>Язык шлюза</name>
+		<options>
+			<name>Русский</name>
+			<value>ru</value>
+		</options>
+		<options>
+			<name>Английский</name>
+			<value>en</value>
+		</options>
+	</settings>
+</module>

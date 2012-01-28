@@ -1,0 +1,7 @@
+//.  Beispiel .................................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smeditimage",
+	theme_advanced_buttons3_add : "smeditimage"
+});

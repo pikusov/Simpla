@@ -1,0 +1,64 @@
+#baloon {
+	width: 187px;
+	top: 0px;
+	left: 0px;
+	padding: 0;
+	margin: 0;
+
+	display: none;
+	position: absolute;
+        z-index: 64999;
+
+        filter: Alpha(Opacity='75');
+	-moz-opacity: 0.75;
+	opacity: 0.8;
+}
+
+#baloonHeader {
+	width: 187px;
+	height: 19px;
+	padding: 0;
+	margin: 0;
+	font-size: 0;
+	line-height: 0;
+	background-repeat: no-repeat;
+
+	display: block;
+}
+
+.baloonHeaderDirect {
+	background-image: url(../i/baloon-header.gif);
+}
+
+.baloonHeaderFlip {
+	background-image: url(../i/baloon-header-flip.gif);
+}
+
+#baloonFooter {
+	width: 187px;
+	height: 3px;
+	padding: 0;
+	margin: 0;
+	font-size: 0;
+	line-height: 0;
+	background-image: url(../i/baloon-footer.gif);
+	background-repeat: no-repeat;
+
+	display: block;
+}
+
+#baloonBody {
+	padding: 10px;
+
+	background-color: #D0D0D0;
+
+	width: 167px;
+	width: expression('167px');
+	margin: 0;
+	font: normal normal 10px/14px Verdana, Arial, serif;
+	line-height: 140%;
+	background-image: url(../i/baloon-body.gif);
+	background-repeat: repeat-y;
+
+	display: block;
+}

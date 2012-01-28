@@ -1,0 +1,114 @@
+//.  Beispiel 1 ...............................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smimage",
+	theme_advanced_buttons3_add : "smimage",
+	plugin_smimage_directory : "/images/",
+	file_browser_callback : "SMPlugins"
+});
+
+//.  Beispiel 2 ...............................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smimage",
+	theme_advanced_buttons3_add : "smimage",
+	plugin_smimage_directory : "/images/",
+	plugin_smimage_server : "",
+	plugin_smimage_thumbnail_size : "120",
+	plugin_smimage_jpg_quality : "80",
+	plugin_smimage_show_thumbnail : "1",
+	plugin_smimage_orderby : "0",
+	plugin_smimage_show_upload : "1",
+	plugin_smimage_show_image_menu : "1",
+	plugin_smimage_show_folder_menu : "1",
+	plugin_smimage_show_newfolder : "1",
+	plugin_smimage_thumbnails_perpage : "20",
+	plugin_smimage_upload_filesize : "",
+	plugin_smimage_check_session_variable : "",
+	plugin_smimage_document_root : "",
+	plugin_smimage_width : "800",
+	plugin_smimage_height : "600",
+	file_browser_callback : "SMPlugins"
+});
+
+//. Hinweis ...................................................................
+JavaScript-Datei einbinden:
+<script language="javascript" type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/smimage/smplugins.js"></script>
+
+//. Parameter .................................................................
+[plugin_smimage_directory]
+	Verzeichnispfad
+
+[plugin_smimage_server]
+	Protokoll und Domain-Name für den absoluten Pfad im HTML <img>-Tag
+	z.B.:
+	plugin_smimage_directory : "/images/"
+	plugin_smimage_server : "http://synasys.de"
+	-> <img src="http://synasys.de/images/leipzig.png" />
+
+[plugin_smimage_thumbnail_size]
+	Größe der Vorschaubilder (Pixel)
+
+[plugin_smimage_jpg_quality]
+	JPG-Qualität der Vorschaubilder
+
+[plugin_smimage_show_thumbnail]
+	Vorschaubilder oder Tabelle anzeigen
+	0 = Tabelle
+	1 = Vorschaubilder
+
+[plugin_smimage_orderby]
+	Sortieren nach:
+	0 = Dateidatum (Absteigende Sortierung)
+	1 = Dateinamen (Aufsteigende Sortierung)
+	2 = Dateinamen (Absteigende Sortierung)
+	3 = Dateigröße (Aufsteigende Sortierung)
+	4 = Dateigröße (Absteigende Sortierung)
+	5 = Bildgröße (Aufsteigende Sortierung)
+	6 = Bildgröße (Absteigende Sortierung)
+	7 = Dateidatum (Aufsteigende Sortierung)
+	8 = Dateidatum (Absteigende Sortierung)
+
+[plugin_smimage_show_upload]
+	Upload-Menüpunkt anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smimage_show_image_menu]
+	Bilder-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smimage_show_folder_menu]
+	Verzeichnis-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smimage_show_newfolder]
+	Neues Verzeichnis-Button anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smimage_thumbnails_perpage]
+	Thumbnails pro Seite (0...n)
+
+[plugin_smimage_upload_filesize]
+	Upload Dateigröße (KB)
+	z.B.: "100" -> 100KB
+
+[plugin_smimage_check_session_variable]
+	Überprüfung einer Session-Variable eines Content-Management-Systems (CMS)
+	z.B.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[plugin_smimage_document_root]
+	Server Root-Verzeichnispfad Ihres Webverzeichnisses.
+	Wenn Sie ein PHP-Installation ohne Zugriff auf $_SERVER["DOCUMENT_ROOT"] haben.
+
+[plugin_smimage_width]
+	Fensterbreite (Pixel)
+
+[plugin_smimage_height]
+	Fensterhöhe (Pixel)

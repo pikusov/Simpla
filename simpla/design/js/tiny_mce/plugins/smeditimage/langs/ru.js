@@ -1,0 +1,20 @@
+tinyMCE.addI18n('ru.smeditimage',{
+desc : 'Редактор изображений',
+button_ok_caption : 'OK',
+button_cancel_caption : 'Отмена',
+label_1_caption : 'Описание',
+label_2_caption : 'Title',
+label_3_caption : 'Выравнивание',
+label_4_caption : 'Отступы',
+label_5_caption : 'Стиль',
+label_6_caption : 'Размер',
+label_7_caption : 'Граница',
+label_8_caption : 'px',
+alignment_1_hint : 'Нет',
+alignment_2_hint : 'Налево',
+alignment_3_hint : 'Направо',
+size_1_hint : 'Ширина',
+size_2_hint : 'Высота',
+size_lock_hint : 'Сохранять пропорции',
+size_orig_hint : 'Показать исходный размер'
+});

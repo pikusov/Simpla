@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Qiwi
+	</name>
+	<settings>
+		<variable>qiwi_login</variable>
+		<name>Логин в Qiwi</name>
+	</settings>
+	<settings>
+		<variable>qiwi_password</variable>
+		<name>Пароль в Qiwi</name>
+	</settings>
+</module>

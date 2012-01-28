@@ -1,0 +1,43 @@
+.tree_menu {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+padding: 2px;
+}
+
+.tree_menu a {
+display: block;
+text-decoration: none;
+height: 24px;
+line-height: 24px;
+color: #445566;
+}
+
+.tree_menu a:hover {
+text-decoration: none;
+color: #3979dc;
+}
+
+.tree_menu a#active {
+font-weight: bold;
+}
+
+.tree_menu ul {
+}
+
+.tree_menu li {
+cursor: pointer;
+list-style: none;
+white-space: nowrap;
+}
+
+.tree_menu img {
+vertical-align: text-bottom;
+margin-left: 4px;
+margin-right: 4px;
+width: 16px;
+height: 16px;
+}
+
+.sub_tree_menu {
+padding-left: 20px;
+}

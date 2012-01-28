@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Интеркасса
+	</name>
+	<settings>
+		<variable>interkassa_shop_id</variable>
+		<name>Идентификатор магазина</name>
+	</settings>
+	<settings>
+		<variable>interkassa_secret_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+</module>

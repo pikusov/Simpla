@@ -1,0 +1,252 @@
+.panel {
+  border-width:1px;
+  border-style:solid;
+  border-color:#888888;
+  background-color:#EEEEEE;
+  padding:0px;
+}
+
+.head {
+
+  font-family:Tahoma;
+  font-size:11px;
+  font-weight:bold;
+  text-align:center;
+  color:#000000;
+  cursor:default;
+}
+
+.arrow_prev {
+  font-family:Tahoma;
+  font-size:11px;
+  text-align:center;
+  color:#000000;
+  padding:4px;
+  cursor:pointer;
+}
+
+.arrow_prev_over {
+  font-family:Tahoma;
+  font-size:11px;
+  text-align:center;
+  background-color:#CCCCCC;
+  color:#000000;
+  padding:4px;
+  cursor:pointer;
+}
+.arrow_prev_down {
+  font-family:Tahoma;
+  font-size:11px;
+  padding:4px;
+  cursor:pointer;
+}
+
+.arrow_next {
+  font-family:Tahoma;
+  font-size:11px;
+  text-align:center;
+  color:#000000;
+  padding:4px;
+  cursor:pointer;
+}
+.arrow_next_over {
+  font-family:Tahoma;
+  font-size:11px;
+  background-color:#CCCCCC;
+  text-align:center;
+  color:#000000;
+  padding:4px;
+  cursor:pointer;
+}
+.arrow_next_down{
+  font-family:Tahoma;
+  font-size:11px;
+  text-align:center;
+  color:#000000;
+  padding:4px;
+  cursor:pointer;
+}
+.row_week{
+  border-width:1px;
+  border-style:solid;
+  border-color:#888888;
+}
+.weekday{
+  font-family:Tahoma;
+  font-size:11px;
+  text-align:center;
+  color:#ffffff;
+  background-color:#888888;
+  padding:1px;
+  cursor:default;
+}
+.row_day {
+  padding:1px;
+}
+.day {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  border:1px solid #f0f0f0;
+  cursor:pointer;
+}
+.day_over {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  background-color:#CCCCCC;
+  border:1px solid #888888;
+  cursor:pointer;
+}
+.day_down {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  background-color:#f0f0f0;
+  border:1px solid #f0f0f0;
+  cursor:pointer;
+}
+.day_empty {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  border:1px solid #f0f0f0;
+  cursor:default;
+}
+.day_disabled {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  background-color:#888888;
+  border:1px solid #888888;
+  cursor:pointer;
+}
+.day_current {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  background-color:#FFFFFF;
+  border:1px solid #888888;
+  cursor:pointer;
+}
+.day_special {
+  font-family:Tahoma;
+  font-size:11px;
+  width:22px;
+  height:15px;
+  text-align:center;
+  color:#000000;
+  background-color:#FFFFFF;
+  border:1px solid #888888;
+  cursor:pointer;
+}
+
+.row_foot {
+  margin:0px;
+}
+.foot {
+
+  font-size:11px;
+  width:50px;
+  margin:0px 1px;
+  text-align:center;
+  color:#ffffff;
+  background-color:#99b3cc;
+  border-width:1px;
+  border-style:solid;
+  border-color:#cce6ff #668099 #668099 #cce6ff;
+  padding:1px;
+  cursor:pointer;
+}
+.foot_over {
+
+  font-size:11px;
+  width:50px;
+  margin:0px 1px;
+  text-align:center;
+  color:#ffffff;
+  background-color:#afc6dd;
+  border-width:1px;
+  border-style:solid;
+  border-color:#cce6ff #668099 #668099 #cce6ff;
+  padding:1px;
+  cursor:pointer;
+}
+.foot_down {
+
+  font-size:11px;
+  width:50px;
+  margin:0px 1px;
+  text-align:center;
+  color:#ffffff;
+  background-color:#7e93aa;
+  border-width:1px;
+  border-style:solid;
+  border-color:#4b6077 #afc6dd #afc6dd #4b6077;
+  padding:2px 0px 0px 2px;
+  cursor:pointer;
+}
+
+
+.list {
+
+  font-size:12px;
+  color:#000000;
+  background-color:#f0f0f0;
+}
+
+.info {
+  font-size:10px;
+  color:#000000;
+  text-align:left;
+  margin:2px 6px;
+  padding:2px;
+}
+
+.tip_title {
+
+  font-size:11px;
+  text-align:center;
+  color:#ffffff;
+  background-color:#cc9999;
+  border-width:1px;
+  border-style:solid;
+  border-color:#996666 #ffcccc #ffcccc #996666;
+  padding:0px 3px;
+}
+.tip_box {
+  filter:
+    alpha(opacity:90)
+    progid:DXImageTransform.Microsoft.RandomDissolve(duration=0.5);
+  -moz-opacity:0.9;
+  width:200px; height:100px;
+
+  font-size:11px;
+  text-align:left;
+  color:#000000;
+  background-color:#cfcfcf;
+  border-width:1px;
+  border-style:solid;
+  border-color:#cce6ff #668099 #668099 #cce6ff;
+  padding:3px;
+  cursor:default;
+  overflow:auto;
+}

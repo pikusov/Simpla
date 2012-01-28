@@ -1,0 +1,20 @@
+User-agent: *
+
+Disallow: /sections/404
+
+Disallow: /simpla/
+Disallow: /order/
+Disallow: /user/
+Disallow: /js/
+Disallow: /captcha/
+Disallow: /Smarty/
+Disallow: /design/
+Disallow: /api/
+Disallow: /compiled/
+Disallow: /cart/
+Disallow: /resize/
+Disallow: /password.php
+
+
+
+

@@ -1,0 +1,105 @@
+[config.php]
+
+//. Parameter .................................................................
+[$CONFIG["directory"]]
+	Verzeichnispfad, Auflistung Komma getrennt
+	z.B.: "Verzeichnispfad1,Verzeichnispfad2"
+
+[$CONFIG["server"]]
+	Protokoll und Domain-Name für den absoluten Pfad im HTML <a>-Tag
+	z.B.:
+	plugin_smexplorer_directory : "/images/"
+	plugin_smexplorer_server : "http://synasys.de"
+	-> <a href="http://synasys.de/images/leipzig.png">Text</a>
+
+[$CONFIG["orderby"]]
+	Sortieren nach
+	0 = Dateidatum (Absteigende Sortierung)
+	1 = Dateinamen (Aufsteigende Sortierung)
+	2 = Dateinamen (Absteigende Sortierung)
+	3 = Dateigröße (Aufsteigende Sortierung)
+	4 = Dateigröße (Absteigende Sortierung)
+	5 = Dateidatum (Aufsteigende Sortierung)
+	6 = Dateidatum (Absteigende Sortierung)
+
+[$CONFIG["link_target"]]
+	HTML Zielfenster
+	z.B.: "_blank" or "_parent" ...
+
+[$CONFIG["show_chmod"]]
+	Verzeichnis-Zugriffsrechte anzeigen (Linux-Server)
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["show_folder_menu"]]
+	Verzeichnis-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["show_file_menu"]]
+	Datei-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["hidden_folder"]]
+	Verzeichnis ausblenden, Auflistung Komma getrennt
+	z.B.: "Verzeichnis1,Verzeichnis2"
+
+[$CONFIG["hidden_subfolder"]]
+	Unterverzeichnis ausblenden, Auflistung Komma getrennt
+	z.B.: "Unterverzeichnis1,Unterverzeichnis2"
+
+[$CONFIG["hidden_filetype"]]
+	Dateityp aublenden, Auflistung Komma getrennt
+	z.B.: "pdf,exe"
+
+[$CONFIG["show_upload"]]
+	Upload-Menüpunkt anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["upload_filetype"]]
+	Upload Dateityp, Auflistung Komma getrennt
+	z.B.: "jpg,gif"
+
+[$CONFIG["upload_filesize"]]
+	Upload Dateigröße (KB)
+	z.B.: "100" -> 100KB
+
+[$CONFIG["check_session_variable"]]
+	Überprüfung einer Session-Variable eines Content-Management-Systems (CMS)
+	z.B.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[$CONFIG["folder_tree_width"]]
+	Breite des Verzeichnisbaum-Bereiches
+	z.B.: "220" -> 220 Pixel
+
+[$CONFIG["show_preview"]]
+	Vorschaubilder anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[$CONFIG["preview_thumbnail_size"]]
+	Größe der Vorschaubilder
+	z.B.: "200" -> 200 Pixel
+
+[$CONFIG["rename_file_ext"]]
+	Umbenennen der Dateierweiterung
+	0 = Nein
+	1 = Ja
+
+[$CONFIG["chmod_folder"]]
+	Konfiguration der Verzeichnis-Zugriffsrechte
+
+[$CONFIG["chmod_file"]]
+	Konfiguration der Datei-Zugriffsrechte
+
+[$CONFIG["no_cache"]]
+	Configuration cache
+	0 = Webbrowser cache
+	1 = No webbrowser cache
+
+[$CONFIG["document_root"]]
+	Server Root-Verzeichnispfad Ihres Webverzeichnisses.
+	Wenn Sie ein PHP-Installation ohne Zugriff auf $_SERVER["DOCUMENT_ROOT"] haben.

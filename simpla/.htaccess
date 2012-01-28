@@ -1,0 +1,4 @@
+AuthName "Simpla CMS"
+AuthType Basic
+AuthUserFile /Users/denispikusov/Sites/simpla/simpla/.passwd
+require valid-user

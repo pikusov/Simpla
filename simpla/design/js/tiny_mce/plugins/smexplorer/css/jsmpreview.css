@@ -1,0 +1,12 @@
+.jsmpreview {
+display: none;
+position: absolute;
+}
+
+.jsmpreview img {
+padding: 3px;
+border: 1px solid #7fa0bc;
+background-color: #ffffff;
+margin-bottom: 10px;
+background: #ffffff;
+}

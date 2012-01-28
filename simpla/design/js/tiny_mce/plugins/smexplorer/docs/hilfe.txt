@@ -1,0 +1,120 @@
+//.  Beispiel 1 ...............................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smexplorer",
+	theme_advanced_buttons3_add : "smexplorer",
+	plugin_smexplorer_directory : "/download/",
+	file_browser_callback : "SMPlugins"
+});
+
+//.  Beispiel 2 ...............................................................
+tinyMCE.init({
+	mode : "textareas",
+	theme : "advanced",
+	plugins : "smexplorer",
+	theme_advanced_buttons3_add : "smexplorer",
+	plugin_smexplorer_directory : "/download/",
+	plugin_smexplorer_server : "",
+	plugin_smexplorer_show_upload : "1",
+	plugin_smexplorer_orderby : "0",
+	plugin_smexplorer_show_folder_menu : "1",
+	plugin_smexplorer_show_file_menu : "1",
+	plugin_smexplorer_link_target : "_blank",
+	plugin_smexplorer_hidden_folder : "",
+	plugin_smexplorer_hidden_subfolder : "",
+	plugin_smexplorer_hidden_filetype : "",
+	plugin_smexplorer_show_chmod : "0",
+	plugin_smexplorer_upload_filetype : "",
+	plugin_smexplorer_upload_filesize : "",
+	plugin_smexplorer_check_session_variable : "",
+	plugin_smexplorer_document_root : "",
+	plugin_smexplorer_width : "800",
+	plugin_smexplorer_height : "600",
+	file_browser_callback : "SMPlugins"
+});
+
+//. Hinweis ...................................................................
+JavaScript-Datei einbinden:
+<script language="javascript" type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/smexplorer/smplugins.js"></script>
+
+//. Parameter .................................................................
+[plugin_smexplorer_directory]
+	Verzeichnispfad, Auflistung Komma getrennt
+	z.B.: "Verzeichnispfad1,Verzeichnispfad2"
+
+[plugin_smexplorer_server]
+	Protokoll und Domain-Name für den absoluten Pfad im HTML <img>-Tag
+	z.B.:
+	plugin_smimage_directory : "/images/"
+	plugin_smimage_server : "http://synasys.de"
+	-> <img src="http://synasys.de/images/leipzig.png" />
+
+[plugin_smexplorer_show_upload]
+	Upload-Menüpunkt anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smexplorer_orderby]
+	Sortieren nach
+	0 = Dateidatum (Absteigende Sortierung)
+	1 = Dateinamen (Aufsteigende Sortierung)
+	2 = Dateinamen (Absteigende Sortierung)
+	3 = Dateigröße (Aufsteigende Sortierung)
+	4 = Dateigröße (Absteigende Sortierung)
+	5 = Dateidatum (Aufsteigende Sortierung)
+	6 = Dateidatum (Absteigende Sortierung)
+
+[plugin_smexplorer_show_folder_menu]
+	Verzeichnis-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smexplorer_show_file_menu]
+	Datei-Menü anzeigen
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smexplorer_link_target]
+	HTML Zielfenster
+	z.B.: "_blank" or "_parent" ...
+
+[plugin_smexplorer_hidden_folder]
+	Verzeichnis ausblenden, Auflistung Komma getrennt
+	z.B.: "Verzeichnis1,Verzeichnis2"
+
+[plugin_smexplorer_hidden_subfolder]
+	Unterverzeichnis ausblenden, Auflistung Komma getrennt
+	z.B.: "Unterverzeichnis1,Unterverzeichnis2"
+
+[plugin_smexplorer_hidden_filetype]
+	Dateityp aublenden, Auflistung Komma getrennt
+	z.B.: "pdf,exe"
+
+[plugin_smexplorer_show_chmod]
+	Verzeichnis-Zugriffsrechte anzeigen (Linux-Server)
+	0 = Unsichtbar
+	1 = Sichtbar
+
+[plugin_smexplorer_upload_filetype]
+	Upload Dateityp, Auflistung Komma getrennt
+	z.B.: "jpg,gif"
+
+[plugin_smexplorer_upload_filesize]
+	Upload Dateigröße (KB)
+	z.B.: "100" -> 100KB
+
+[plugin_smexplorer_check_session_variable]
+	Überprüfung einer Session-Variable eines Content-Management-Systems (CMS)
+	z.B.: ADDT -> "kt_login_id"
+	      Dreamweaver -> "MM_user_id"
+
+[plugin_smexplorer_document_root]
+	Server Root-Verzeichnispfad Ihres Webverzeichnisses.
+	Wenn Sie ein PHP-Installation ohne Zugriff auf $_SERVER["DOCUMENT_ROOT"] haben.
+
+[plugin_smexplorer_width]
+	Fensterbreite (Pixel)
+
+[plugin_smexplorer_height]
+	Fensterhöhe (Pixel)

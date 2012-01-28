@@ -1,0 +1,16 @@
+.splitter_vertical {
+float: left;
+background: #f0f3f7 url("../img/splitter/bg_v.gif") repeat-y;
+width: 4px;
+border-left: 1px solid #d2d6d9;
+border-right: 1px solid #d2d6d9;
+font-size: 0px;
+}
+
+.splitter_horizontal {
+background: #f0f3f7 url("../img/splitter/bg_h.gif") repeat-x;
+height: 4px;
+border-top: 1px solid #d2d6d9;
+border-bottom: 1px solid #d2d6d9;
+font-size: 0px;
+}

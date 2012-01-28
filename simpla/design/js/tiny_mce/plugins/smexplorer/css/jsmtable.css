@@ -1,0 +1,67 @@
+.jsmtable {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+color: #445566;
+text-align: left;
+line-height: 18pt;
+height: 18pt;
+white-space: nowrap;
+overflow: hidden;
+}
+
+.jsmtable tr {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+cursor: default;
+}
+
+.jsmtable td {
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+padding-left: 2px;
+padding-right: 2px;
+}
+
+/* TR */
+.jsmtable_tr {
+cursor: default;
+}
+
+.jsmtable_tr_mouseover {
+background: url("../img/jsmtable/tr_active_bg.gif") repeat-x;
+padding-left: 2px;
+padding-right: 2px;
+}
+
+.jsmtable_tr_mousedown {
+background: url("../img/jsmtable/tr_active_bg.gif") repeat-x;
+padding-left: 2px;
+padding-right: 2px;
+}
+
+/* TH */
+.jsmtable_th {
+background: url("../img/jsmtable/th_bg.gif") repeat-x;
+border-bottom: 1px solid #d2d6d9;
+border-right: 1px solid #d2d6d9;
+padding-left: 2px;
+padding-right: 2px;
+}
+
+.jsmtable_th_mouseover {
+background: url("../img/jsmtable/th_active_bg.gif") repeat-x;
+border-bottom: 1px solid #d2d6d9;
+border-right: 1px solid #d2d6d9;
+padding-left: 2px;
+padding-right: 2px;
+cursor: pointer;
+}
+
+.jsmtable_th_mousedown {
+background: url("../img/jsmtable/th_down_bg.gif") repeat-x;
+border-bottom: 1px solid #d2d6d9;
+border-right: 1px solid #d2d6d9;
+padding-left: 2px;
+padding-right: 2px;
+cursor: pointer;
+}

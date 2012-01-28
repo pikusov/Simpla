@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Webmoney
+	</name>
+	<settings>
+		<variable>purse</variable>
+		<name>Номер кошелька</name>
+	</settings>
+	<settings>
+		<variable>secret_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+</module>

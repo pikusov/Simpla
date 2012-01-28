@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+       "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>SMEditImage</title>
+<meta name="content-type" content="text/html; charset=iso-8859-1" />
+<meta name="author" content="Jens Stolinski" />
+<meta name="publisher" content="Jens Stolinski" />
+<meta name="company" content="SYNASYS MEDIA" />
+
+<!-- JavaScript -->
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript" src="js/smeditimage.js"></script>
+<script language="javascript" type="text/javascript" src="js/jsmbutton.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="css/jsmbutton.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/smeditimage.css" type="text/css" media="screen" />
+
+</head>
+<body scroll="no">
+
+<div id="main">
+	<form name="form_imagedata" action="">
+		<div style="height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_1_caption', '?'));</script>:</b></div>
+		<div style="height:31px;"><input style="width:99%;" type="text" name="edit1" maxlength=""></div>
+
+		<div style="height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_2_caption', '?'));</script>:</b></div>
+		<div style="height:31px;"><input style="width:99%;" type="text" name="edit2" maxlength=""></div>
+
+		<div style="float:left; width:162px;">
+			<div style="height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_3_caption', '?'));</script>:</b></div>
+			<div style="padding-bottom:9px;">
+				<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td><img id="alignment_1" class="button_mouseout" style="margin-right:8px;" src="img/icon_float_none_24x24.png" height="24" width="24" border="0" onclick="SMEditImage_SetAlignment(this, '');" onmouseover="Button_MouseOver(this);" onmouseout="Button_MouseOut(this);" /></td>
+					<td><img id="alignment_2" class="button_mouseout" style="margin-right:8px;" src="img/icon_float_left_24x24.png" height="24" width="24" border="0" onclick="SMEditImage_SetAlignment(this, 'float: left;');" onmouseover="Button_MouseOver(this);" onmouseout="Button_MouseOut(this);" /></td>
+					<td><img id="alignment_3" class="button_mouseout" style="margin-right:8px;" src="img/icon_float_right_24x24.png" height="24" width="24" border="0" onclick="SMEditImage_SetAlignment(this, 'float: right;');" onmouseover="Button_MouseOver(this);" onmouseout="Button_MouseOut(this);" /></td>
+				</tr>
+				</table>
+			</div>
+		</div>
+		<div style="float:left;">
+			<div style="height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_4_caption', '?'));</script>:</b></div>
+			<div style="padding-bottom:9px;">
+				<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td><img id="margin_1" style="border:2px solid #f6f9fb; margin-right:4px;" src="img/icon_margin_left_24x24.png" height="24" width="24" border="0" /></td>
+					<td><input style="width:25px; margin-right:14px; text-align:right;" type="text" name="edit6" maxlength="3" onclick="SMEditImage_SetEnable('margin_1', true);" onblur="SMEditImage_SetEnable('margin_1', false);" onchange="SMEditImage_CheckFormIsNaN(this); SMEditImage_SetMargin();"></td>
+					<td><img id="margin_2" style="border:2px solid #f6f9fb; margin-right:4px;" src="img/icon_margin_right_24x24.png" height="24" width="24" border="0" /></td>
+					<td><input style="width:25px; margin-right:14px; text-align:right;" type="text" name="edit7" maxlength="3" onclick="SMEditImage_SetEnable('margin_2', true);" onblur="SMEditImage_SetEnable('margin_2', false);" onchange="SMEditImage_CheckFormIsNaN(this); SMEditImage_SetMargin();"></td>
+					<td><img id="margin_3" style="border:2px solid #f6f9fb; margin-right:4px;" src="img/icon_margin_top_24x24.png" height="24" width="24" border="0" /></td>
+					<td><input style="width:25px; margin-right:14px; text-align:right;" type="text" name="edit8" maxlength="3" onclick="SMEditImage_SetEnable('margin_3', true);" onblur="SMEditImage_SetEnable('margin_3', false);" onchange="SMEditImage_CheckFormIsNaN(this); SMEditImage_SetMargin();"></td>
+					<td><img id="margin_4" style="border:2px solid #f6f9fb; margin-right:4px;" src="img/icon_margin_bottom_24x24.png" height="24" width="24" border="0" /></td>
+					<td><input style="width:25px; margin-right:5px; text-align:right;" type="text" name="edit9" maxlength="3" onclick="SMEditImage_SetEnable('margin_4', true);" onblur="SMEditImage_SetEnable('margin_4', false);" onchange="SMEditImage_CheckFormIsNaN(this); SMEditImage_SetMargin();"></td>
+					<td><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_8_caption', '?'));</script></b></td>
+				</tr>
+				</table>
+			</div>
+		</div>
+
+		<div style="clear:left; height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_5_caption', '?'));</script>:</b></div>
+		<div style="height:31px;"><input style="width:99%;" type="text" name="edit3" maxlength="" onblur="SMEditImage_CheckStyle(this); SMEditImage_AlignmentIni(); SMEditImage_MarginIni();"></div>
+
+		<div style="float:left; width:270px;">
+			<div style="height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_6_caption', '?'));</script>:</b></div>
+			<table cellspacing="0" cellpadding="0" border="0">
+			<tr>
+				<td style="width:60px;"><input id="size_1" style="width:99%; text-align:right;" type="text" name="edit4" maxlength="4" onchange="SMEditImage_SetSize(this);"></td>
+				<td style="padding-left:10px; padding-right:5px;"><img id="size_lock" class="button_mouseout" src="img/icon_lock_16x16.png" height="16" width="16" border="0" onclick="SMEditImage_SetSizeProportions(this);" onmouseover="Button_MouseOver(this);" onmouseout="Button_MouseOut(this);" /></td>
+				<td style="width:60px;"><input id="size_2" style="width:99%; text-align:right;" type="text" name="edit5" maxlength="4" onchange="SMEditImage_SetSize(this);"></td>
+				<td style="padding-left:10px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_8_caption', '?'));</script></b></td>
+				<td style="padding-left:10px;"><img id="size_orig" class="button_mouseout" src="img/icon_orig_16x16.png" height="16" width="16" border="0" onclick="SMEditImage_SetOrigSize();" onmouseover="Button_MouseOver(this);" onmouseout="Button_MouseOut(this);" /></td>
+			</tr>
+			</table>
+		</div>
+
+		<div style="float:left;">
+			<div style="height:18px;"><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_7_caption', '?'));</script>:</b></div>
+			<div style="padding-bottom:0px;">
+				<table cellspacing="0" cellpadding="0" border="0">
+				<tr>
+					<td><input id="border_1" name="border_1" style="width:25px; margin-right:5px; text-align:right;" type="text" maxlength="3" onchange="SMEditImage_CheckFormIsNaN(this); SMEditImage_SetBorder();"></td>
+					<td><b><script language="javascript" type="text/javascript">document.write(tinyMCEPopup.getLang('smeditimage.label_8_caption', '?'));</script></b></td>
+				</tr>
+				</table>
+			</div>
+		</div>
+
+		<div style="clear:left; padding-top:18px;"></div>
+
+		<div style="margin:0 auto; width:230px;">
+			<script language="javascript" type="text/javascript">
+			<!--
+			var jSMB1 = new jSMButton();
+			var jSMB2 = new jSMButton();
+
+			jSMB1.SetStyle('float:left;');
+			jSMB2.SetStyle('float:left; margin-left:30px;');
+			jSMB1.Paint('jSMB1', tinyMCEPopup.getLang('smeditimage.button_ok_caption', '?'), 'SMEditImage_UpdateAttribute();');
+			jSMB2.Paint('jSMB2', tinyMCEPopup.getLang('smeditimage.button_cancel_caption', '?'), 'SMEditImage_Close();');
+			//-->
+			</script>
+		</div>
+	</form>
+</div>
+
+<script language="javascript" type="text/javascript">
+<!--
+// Event-Handler: OnFocus
+window.onfocus = function() {
+	SMEditImage_WindowResize();
+};
+
+// Event-Handler: OnResize
+window.onresize = function() {
+	SMEditImage_WindowResize();
+};
+
+// Event-Handler: OnLoad
+window.onload = function() {
+	SMEditImage_Ini();
+	SMEditImage_WindowResize();
+};
+//-->
+</script>
+
+</body>
+</html>

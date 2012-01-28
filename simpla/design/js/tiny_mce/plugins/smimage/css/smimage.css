@@ -1,0 +1,88 @@
+* {
+margin: 0px;
+padding: 0px;
+}
+
+body {
+margin: 0px;
+padding: 0px;
+font-family: arial, helvetica, serif;
+font-size: 10pt;
+color: #445566;
+background-color: #ffffff;
+overflow: hidden;
+}
+
+input {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+border: 1px solid #7fa0bc;
+padding: 2px;
+color: #445566;
+}
+
+select {
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+border: 1px solid #7fa0bc;
+padding: 1px;
+color: #445566;
+}
+
+#main {
+overflow: auto;
+padding: 4px;
+height: 1000px;
+}
+
+#upload {
+padding: 5px;
+margin: 4px;
+background-color: #f6f9fb;
+border: 1px solid #d2d6d9;
+min-width: 700px;
+}
+
+.thumbnail {
+display: none;
+float: left;
+margin-right: 6px;
+margin-bottom: 6px;
+text-align: center;
+border: 1px solid #a8adb4;
+background-color: #a8adb4;
+font-size: 8pt;
+color: #ffffff;
+}
+
+.folder {
+float: left;
+margin-right: 6px;
+margin-bottom: 6px;
+text-align: center;
+border: 1px solid #ffcc66;
+background-color: #ffcc66;
+font-size: 8pt;
+color: #ffffff;
+}
+
+.edit {
+border-width: 0px;
+background-color: transparent;
+font-size: 10pt;
+}
+
+#wait {
+display: none;
+position: absolute;
+top: 0px;
+left: 0px;
+background-color: #616a74;
+filter: alpha(opacity=50);
+-moz-opacity: 0.5;
+opacity: 0.5;
+}
+
+#wait #wait_animation {
+position: absolute;
+}

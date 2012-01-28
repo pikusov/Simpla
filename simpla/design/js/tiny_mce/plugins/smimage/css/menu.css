@@ -1,0 +1,23 @@
+.image_menu a {
+width: 100%;
+height: 22px;
+display: block;
+text-decoration: none;
+color: #000000;
+text-indent: 3px;
+}
+
+.image_menu a:hover {
+color: #000000;
+background: url("../img/image_menu_active_bg.gif") repeat-x;
+text-decoration: none;
+}
+
+.image_menu ul {
+display: inline;
+}
+
+.image_menu li {
+list-style: none;
+display: inline;
+}

@@ -1,0 +1,49 @@
+.toolbar {
+padding-left: 10px;
+height: 33px;
+background: #f7f7f7 url("../img/toolbar/bg.png") repeat-x;
+}
+
+.toolbar a {
+display: block;
+text-decoration: none;
+height: 24px;
+width: 24px;
+padding: 3px;
+border-color: transparent;
+border-width: 1px;
+border-style: solid;
+_border-color:red; /*For IE6-*/
+_filter:chroma(color=red); /*For IE6-*/
+}
+
+.toolbar a:hover {
+text-decoration: none;
+background-color: #90b9d2;
+border: 1px solid #68a3c2;
+}
+
+.toolbar ul {
+}
+
+.toolbar li {
+float: left;
+display: inline;
+}
+
+.toolbar .separator {
+margin-right: 3px;
+margin-left: 3px;
+margin-top: 5px;
+width: 2px;
+}
+
+.toolbar .select {
+margin-left: 5px;
+margin-top: 5px;
+width: 110px;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 10pt;
+border: 1px solid #7fa0bc;
+color: #445566;
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+	<HEAD>
+		<TITLE>Validate JS</TITLE>
+
+		<SCRIPT src="js/default.js"  language="JavaScript" type="text/javascript"></SCRIPT>
+		<SCRIPT src="js/validate.js" language="JavaScript" type="text/javascript"></SCRIPT>
+		<SCRIPT src="js/baloon.js"   language="JavaScript" type="text/javascript"></SCRIPT>
+
+		<LINK href="css/default.css" rel="stylesheet" type="text/css" />
+		<LINK href="css/baloon.css" rel="stylesheet" type="text/css" />
+	</HEAD>
+
+	<BODY>
+		<TABLE width="100%" border="0" cellpadding="10" cellspacing="0">
+			<FORM action="index.html" method="GET" enctype="multipart/form-data">
+				<TR valign="top">
+					<TD width="50%">
+						Текст сообщения об ошибке будет браться из атрибута <STRONG>notice</STRONG>, если тот есть. Если у формы есть атрибут <STRONG>onsubmit</STRONG>, то стандартный скрипт валидации подцепляться не будет.
+						Допустимые значения текстовых полей (<STRONG>text</STRONG>, <STRONG>password</STRONG> или <STRONG>textarea</STRONG>) определяются атрибутом <STRONG>pattern</STRONG>, значение которого в общем случае
+						представляет из себя регулярное выражение, соотвествующее корректному значению поля. Ограничители писать не надо.
+						Например значение этого поля должно начинаться с 'a', заканчиваться на 'c', и содержать внутри хотя бы один 'b' (<STRONG>^ab+c$</STRONG>).
+						<BR /><BR /> Кстати, в старых Opera&#146;ах (&lt; 7) регулярные выражения вроде бы отсутвуют как класс.
+					</TD>
+					<TD width="50%">
+						<INPUT type="text" name="count" pattern="^aq+c$" notice="skiri"/>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						Если атрибут <STRONG>pattern</STRONG> равен number, то в поле ожидается неотрицательное целое число
+					</TD>
+
+					<TD>
+						<INPUT type="text" name="number" pattern="number" notice="В этом поле должно быть целое число"/>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						Если атрибут <STRONG>pattern</STRONG> равен url, то в поле ожидается URL. К сожалению, в регулярных выражениях я не очень силен,
+						поэтому шаблон иногда сбоит. Так что перед использованием протестите
+					</TD>
+
+					<TD>
+						<INPUT type="text" name="url" pattern="url" notice="В этом поле должен быть URL"/>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						Если атрибут <STRONG>pattern</STRONG> равен string, то поле просто не должно быть пустым
+					</TD>
+					<TD>
+						<INPUT type="text" name="string"  pattern="string" notice="В этом поле хоть что-то надо вписать"/>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						Если атрибут <STRONG>pattern</STRONG> равен email, то в поле ожидается email адрес
+					</TD>
+					<TD>
+						<INPUT type="text" name="email"  pattern="email" notice="В этом поле должен быть email адрес"/>
+					</TD>
+				</TR>
+
+
+				<TR valign="top">
+					<TD>
+						 Ошибка возникает при выборе OPTION&#146;а с атрибутом <STRONG>notselected</STRONG>.
+						 Элемент с атрибутом <STRONG>select-multiple</STRONG> я еще не придумал как проверять (пока не было еще в этом нужды)
+					</TD>
+
+					<TD>
+						<SELECT name="choise" notice="Надо выбрать 1 элемент, причем не первый">
+							<OPTION value="1" notselected="notselected">Одын</OPTION>
+							<OPTION value="2">Две</OPTION>
+							<OPTION value="3">Три</OPTION>
+							<OPTION value="4">Четыре</OPTION>
+						</SELECT>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						У любого из checkbox&#146;ов можно указать атрибуты <STRONG>min</STRONG>, <STRONG>max</STRONG> и
+						<STRONG>notice</STRONG>
+					</TD>
+
+					<TD>
+						<FIELDSET>
+							<LEGEND>Группа checkbox&#146;ов с одинаковым именем</LEGEND>
+
+							<INPUT class="radio" type="checkbox" name="rand" min="1" max="2" notice="Надо выбрать по краней мере 1 элемент, но не больше 2х"/>
+							<INPUT class="radio" type="checkbox" name="rand"/>
+							<INPUT class="radio" type="checkbox" name="rand"/>
+							<INPUT class="radio" type="checkbox" name="rand"/>
+							<INPUT class="radio" type="checkbox" name="rand"/>
+						</FIELDSET>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						<STRONG>TEXTAREA</STRONG> проверяется так же, как и <STRONG>INPUT[@type = 'text']</STRONG>
+					</TD>
+
+					<TD>
+						<TEXTAREA name="text" pattern="string" notice="Сюда надо просто что то ввести"></TEXTAREA>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						У любого из radiobutton&#146;ов можно указать атрибуты <STRONG>min</STRONG>, <STRONG>max</STRONG> и <STRONG>notice</STRONG>.
+						<BR>Причем, так как это radiobutton, а не checkbox, то <STRONG>min</STRONG> = <STRONG>max</STRONG> = 1
+					</TD>
+
+					<TD>
+						<FIELDSET>
+							<LEGEND>Группа radiobutton&#146;ов с одинаковым именем</LEGEND>
+
+							<INPUT class="radio" type="radio" name="mask"/>
+							<INPUT class="radio" type="radio" name="mask" min="1" max="1" notice="Надо выбрать какой то 1 элемент"/>
+							<INPUT class="radio" type="radio" name="mask"/>
+							<INPUT class="radio" type="radio" name="mask"/>
+						</FIELDSET>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						Элемент типа <STRONG>file</STRONG> я не придумал как проверять. Да и проверять его редко когда надо, разве что при закачке картинок.
+						Но в их случае я пользуюсь превьюшками, а имя файла и расширение как правило интереса совсем не представляют
+					</TD>
+
+					<TD>
+						<INPUT type="file" name="photo"/>
+					</TD>
+				</TR>
+
+				<TR valign="top">
+					<TD>
+						Значения полей типа <STRONG>image</STRONG>, <STRONG>button</STRONG>, <STRONG>submit</STRONG>,
+						<STRONG>reset</STRONG> и <STRONG>hidden</STRONG> никак не проверяются
+					</TD>
+					<TD>
+						<INPUT type="submit" value="submit"/>
+					</TD>
+				</TR>
+			</FORM>
+		</TABLE>
+	</BODY>
+</HTML>
