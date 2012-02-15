@@ -1,19 +1,20 @@
+{* Список товаров *}
 
 <!-- Хлебные крошки /-->
 <div id="path">
-  <a href="/">Главная</a>
-  {if $category}
-  {foreach from=$category->path item=cat}
-  → <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
-  {/foreach}  
-  {if $brand}
-  → <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
-  {/if}
-  {elseif $brand}
-  → <a href="brands/{$brand->url}">{$brand->name|escape}</a>
-  {elseif $keyword}
-  → Поиск
-  {/if}
+	<a href="/">Главная</a>
+	{if $category}
+	{foreach from=$category->path item=cat}
+	→ <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
+	{/foreach}  
+	{if $brand}
+	→ <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
+	{/if}
+	{elseif $brand}
+	→ <a href="brands/{$brand->url}">{$brand->name|escape}</a>
+	{elseif $keyword}
+	→ Поиск
+	{/if}
 </div>
 <!-- Хлебные крошки #End /-->
 
@@ -132,7 +133,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="myButton" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}

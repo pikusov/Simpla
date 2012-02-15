@@ -99,13 +99,9 @@ e[type="button"] {
 	font-size: 12px;
 	display: inline;
 	padding-right: 5px;
-	//padding: 3px 6px 3px 7px;
 	list-style: none;
 }
-#currencies ul li.selected, #currencies ul li:hover{
-	//background-color: #ffffff;
-	//padding: 3px 6px 3px 7px;
-}
+
 #currencies ul li a{
 	white-space: nowrap;
 	color: #505050;
@@ -504,14 +500,14 @@ e[type="button"] {
 }
 
 
-/* Кнопка в корзину */
-.myButton {
+/* Кнопка */
+.button {
 float: left;
 clear: left;
 cursor: pointer; 
 }
 
-.myButton {
+.button {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -531,12 +527,12 @@ cursor: pointer;
 	padding:6px 20px;
 	text-decoration:none;
 	text-shadow:1px 1px 0px #ffffff;
-}.myButton:hover {
+}.button:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
 	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
 	background-color:#dfdfdf;
-}.myButton:active {
+}.button:active {
 	position:relative;
 	top:1px;
 }
@@ -676,11 +672,6 @@ input[type="password"]
 	display:block;
 	margin-bottom: 10px;
 }
-.button_submit {
-	float: right;
-	margin-top: 20px;
-	font-size: 20px;
-}
 
 /* @group Комментарии */
 .comment_list {
@@ -745,10 +736,14 @@ input[type="password"]
 	margin-top: 15px;
 	margin-right: 10px;
 }
-.comment_form .button_send {
-	font-size: 18px;
+.comment_form .button,
+.feedback_form .button,
+.register_form .button,
+.login_form .button{
 	float: right;
-	margin-top: 25px;
+	display: block;
+	margin-top: 10px;
+	margin-right: 0px;
 }
 /* @end — Форма отправки комментария */
 

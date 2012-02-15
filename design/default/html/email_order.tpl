@@ -1,3 +1,5 @@
+{* Шаблон письма пользователю о заказе *}
+
 {$subject = "Заказ №`$order->id`" scope=parent}
 <h1 style="font-weight:normal;font-family:arial;">
 	<a href="{$config->root_url}/order/{$order->url}">Ваш заказ №{$order->id}</a>

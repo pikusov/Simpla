@@ -1,8 +1,9 @@
 <?PHP
 
+define( 'PCLZIP_TEMPORARY_DIR', 'simpla/files/backup/' );
+
 require_once('api/Simpla.php');
 require_once('simpla/pclzip/pclzip.lib.php');
-define( 'PCLZIP_TEMPORARY_DIR', 'simpla/files/backup/' );
 
 class BackupAdmin extends Simpla
 {

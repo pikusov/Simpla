@@ -29,14 +29,14 @@ $(function() {
 
 	// Добавление категории
 	$('#product_categories .add').click(function() {
-		$("#product_categories ul li:last").clone(true).appendTo('#product_categories ul').fadeIn('slow').find("select[name*=categories]:last").focus();
+		$("#product_categories ul li:last").clone(false).appendTo('#product_categories ul').fadeIn('slow').find("select[name*=categories]:last").focus();
 		$("#product_categories ul li:last span.add").hide();
 		$("#product_categories ul li:last span.delete").show();
 		return false;		
 	});
 
 	// Удаление категории
-	$("#product_categories .delete").click(function() {
+	$("#product_categories .delete").live('click', function() {
 		$(this).closest("li").fadeOut(200, function() { $(this).remove(); });
 		return false;
 	});

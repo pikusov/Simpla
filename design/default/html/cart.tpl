@@ -1,3 +1,5 @@
+{* Шаблон корзины *}
+
 {$meta_title = "Корзина" scope=parent}
 
 <h1>
@@ -129,7 +131,7 @@
 
 	<label>Комментарий к&nbsp;заказу</label>
 	<textarea name="comment" id="order_comment">{$comment|escape}</textarea>
-	<input type="submit" name="checkout" class="button_submit" value="Оформить заказ">
+	<input type="submit" name="checkout" class="button" value="Оформить заказ">
 	</div>
    
 </form>

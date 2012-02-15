@@ -1,3 +1,5 @@
+{* Шаблон страницы зарегистрированного пользователя *}
+
 <h1>{$user->name|escape}</h1>
 
 {if $error}
@@ -12,10 +14,10 @@
 
 <form class="form" method="post">
 	<label>Имя, фамилия</label>
-	<input format=".+" notice="Введите имя" value="{$name|escape}" name="name" maxlength="255" type="text"/>
+	<input data-format=".+" data-notice="Введите имя" value="{$name|escape}" name="name" maxlength="255" type="text"/>
  
 	<label>Email</label>
-	<input format="email" notice="Введите email" value="{$email|escape}" name="email" maxlength="255" type="text"/></td>
+	<input data-format="email" data-notice="Введите email" value="{$email|escape}" name="email" maxlength="255" type="text"/></td>
 	
 	<label> <a href='#' onclick="$('#password').show();return false;">Изменить пароль</a></label>
 	<input id="password" value="" name="password" type="password" style="display:none;"/>

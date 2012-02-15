@@ -39,7 +39,7 @@ class ImportAjax extends Simpla
 	public function import()
 	{
 		// Для корректной работы установим локаль cp1251
-		setlocale(LC_ALL, 'ru_RU.UTF8');
+		setlocale(LC_ALL, 'ru_RU.UTF-8');
 		
 		// Определяем колонки из первой строки файла
 		$f = fopen($this->import_files_dir.$this->import_file, 'r');

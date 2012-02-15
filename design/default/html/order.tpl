@@ -1,3 +1,5 @@
+{* Страница заказа *}
+
 {$meta_title = "Ваш заказ №`$order->id`" scope=parent}
 
 <h1>Ваш заказ №{$order->id} 
@@ -176,7 +178,7 @@
     	</li>
     {/foreach}
 </ul>
-<input type='submit' value='Закончить заказ'>
+<input type='submit' class="button" value='Закончить заказ'>
 </form>
 
 {* Выбраный способ оплаты *}

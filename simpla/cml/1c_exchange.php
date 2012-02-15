@@ -21,7 +21,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 	if(is_array($tmp_files))
 	foreach($tmp_files as $v)
 	{
-    	unlink($v);
+    	//unlink($v);
     }
 	print "zip=no\n";
 	print "file_limit=1000000\n";
@@ -292,7 +292,7 @@ if($simpla->request->get('type') == 'catalog' && $simpla->request->get('mode') =
 	if(is_array($tmp_files))
 	foreach($tmp_files as $v)
 	{
-    	unlink($v);
+    	//unlink($v);
     }
    	print "zip=no\n";
 	print "file_limit=1000000\n";
@@ -330,7 +330,7 @@ if($simpla->request->get('type') == 'catalog' && $simpla->request->get('mode') =
 		import_variants($xml->ПакетПредложений);
 	}
 		
-	//unlink($dir.$filename);
+	unlink($dir.$filename);
 	print "success";		
 
 }

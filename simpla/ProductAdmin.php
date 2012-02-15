@@ -289,6 +289,7 @@ class ProductAdmin extends Simpla
 				// Связанные товары
 				$related_products = $this->products->get_related_products(array('product_id'=>$product->id));
 			}
+			else
 			{
 				// Сразу активен
 				$product->visible = 1;			

@@ -1,15 +1,16 @@
-{* Заголовок *}
-  <!-- Хлебные крошки /-->
-  <div id="path">
-    <a href="./">Главная</a>
-    {foreach from=$category->path item=cat}
-    → <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
-    {/foreach}
-    {if $brand}
-    → <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
-    {/if}
-    →  {$product->name|escape}                
-  </div>
+{* Страница товара *}
+
+<!-- Хлебные крошки /-->
+<div id="path">
+	<a href="./">Главная</a>
+	{foreach from=$category->path item=cat}
+	→ <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
+	{/foreach}
+	{if $brand}
+	→ <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
+	{/if}
+	→  {$product->name|escape}                
+</div>
 <!-- Хлебные крошки #End /-->
 
 <h1 data-product="{$product->id}">{$product->name|escape}</h1>
@@ -48,7 +49,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="myButton" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}
@@ -125,7 +126,7 @@
 			{foreach $product->variants as $v}
 			<tr class="variant">
 				<td>
-					<input id="related_{$v->id}" name="variant" value="{$v->id}" type="radio" class="variant_radiobutton" {if $product->variants|count<2}checked style="display:none;"{/if}/>
+					<input id="related_{$v->id}" name="variant" value="{$v->id}" type="radio" class="variant_radiobutton"  {if $v@first}checked{/if} {if $product->variants|count<2} style="display:none;"{/if}/>
 				</td>
 				<td>
 					{if $v->name}<label class="variant_name" for="related_{$v->id}">{$v->name}</label>{/if}
@@ -137,7 +138,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="myButton" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}
@@ -200,12 +201,13 @@
 		<div>
 		<label for="comment_name">Имя</label>
 		<input class="input_name" type="text" id="comment_name" name="name" value="{$comment_name}" data-format=".+" data-notice="Введите имя"/><br />
+
+		<input class="button" type="submit" name="comment" value="Отправить" />
 		
 		<label for="comment_captcha">Число</label>
 		<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}" alt='captcha'/></div> 
 		<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" data-format="\d\d\d\d" data-notice="Введите капчу"/>
 		
-		<input class="button_send" type="submit" name="comment" value="Отправить" />
 		</div>
 	</form>
 	<!--Форма отправления комментария (The End)-->

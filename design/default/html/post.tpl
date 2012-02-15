@@ -1,3 +1,5 @@
+{* Страница отдельной записи блога *}
+
 <!-- Заголовок /-->
 <h1 data-post="{$post->id}">{$post->name|escape}</h1>
 <p>{$post->date|date}</p>
@@ -71,12 +73,13 @@
 		<div>
 		<label for="comment_name">Имя</label>
 		<input class="input_name" type="text" id="comment_name" name="name" value="{$comment_name}" format=".+" notice="Введите имя"/><br />
+
+		<input class="button" type="submit" name="comment" value="Отправить" />
 		
 		<label for="comment_captcha">Число</label>
 		<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}"/></div> 
 		<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" format="\d\d\d\d" notice="Введите капчу"/>
 		
-		<input class="button_send" type="submit" name="comment" value="Отправить" />
 		</div>
 	</form>
 	<!--Форма отправления комментария (The End)-->

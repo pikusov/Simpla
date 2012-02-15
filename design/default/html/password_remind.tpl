@@ -1,10 +1,5 @@
-{* Подключаем js-проверку формы *}
-<script src="/js/baloon/js/default.js" language="JavaScript" type="text/javascript"></script>
-<script src="/js/baloon/js/validate.js" language="JavaScript" type="text/javascript"></script>
-<script src="/js/baloon/js/baloon.js" language="JavaScript" type="text/javascript"></script>
-<link  href="/js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
+{* Письмо пользователю для восстановления пароля *}
 
-    
 {if $email_sent}
 <h1>Вам отправлено письмо</h1>
 
@@ -21,7 +16,7 @@
 
 <form class="form" method="post">
 	<label>Введите email, который вы указывали при регистрации</label>
-	<input type="text" name="email" format="email" notice="Введите email" value="{$email|escape}"  maxlength="255"/>
+	<input type="text" name="email" data-format="email" data-notice="Введите email" value="{$email|escape}"  maxlength="255"/>
 	<input type="submit" class="button_submit" value="Вспомнить" />
 </form>
 {/if}

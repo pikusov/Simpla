@@ -166,7 +166,7 @@ class Products extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND p.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.mysql_real_escape_string(trim($keyword)).'%") ');
 		}
 
 		if(!empty($filter['featured']))

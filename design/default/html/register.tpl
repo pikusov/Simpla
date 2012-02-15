@@ -1,8 +1,4 @@
-{* Подключаем js-проверку формы *}
-<script src="/js/baloon/js/default.js" language="JavaScript" type="text/javascript"></script>
-<script src="/js/baloon/js/validate.js" language="JavaScript" type="text/javascript"></script>
-<script src="/js/baloon/js/baloon.js" language="JavaScript" type="text/javascript"></script>
-<link   href="/js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
+{* Страница регистрации *}
 
 <h1>Регистрация</h1>
 
@@ -16,15 +12,15 @@
 </div>
 {/if}
 
-<form class="form" method="post">
+<form class="form register_form" method="post">
 	<label>Имя</label>
-	<input type="text" name="name" format=".+" notice="Введите имя" value="{$name|escape}" maxlength="255" />
+	<input type="text" name="name" data-format=".+" data-notice="Введите имя" value="{$name|escape}" maxlength="255" />
 	
 	<label>Email</label>
-	<input type="text" name="email" format="email" notice="Введите email" value="{$email|escape}" maxlength="255" />
+	<input type="text" name="email" data-format="email" data-notice="Введите email" value="{$email|escape}" maxlength="255" />
 
     <label>Пароль</label>
-    <input type="password" name="password" format=".+" notice="Введите пароль" value="" />
+    <input type="password" name="password" data-format=".+" data-notice="Введите пароль" value="" />
 
-	<input type=submit class="button_submit" name="register" value="Зарегистрироваться">
+	<input type=submit class="button" name="register" value="Зарегистрироваться">
 </form>

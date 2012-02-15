@@ -1,3 +1,5 @@
+{* Главная страница магазина *}
+
 {* Для того чтобы обернуть центральный блок в шаблон, отличный от index.tpl *}
 {* Укажите нужный шаблон строкой ниже. Это работает и для других модулей *}
 {$wrapper = 'index.tpl' scope=parent}
@@ -52,7 +54,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="myButton" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}
@@ -110,7 +112,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="myButton" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}
@@ -167,7 +169,7 @@
 			</tr>
 			{/foreach}
 			</table>
-			<input type="submit" class="myButton" value="в корзину" data-result-text="добавлено"/>
+			<input type="submit" class="button" value="в корзину" data-result-text="добавлено"/>
 		</form>
 		<!-- Выбор варианта товара (The End) -->
 		{else}

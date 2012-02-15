@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.7, created on 2012-01-23 15:52:27
+<?php /* Smarty version Smarty-3.0.7, created on 2012-02-06 15:13:36
          compiled from "simpla/design/html/product.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:17921586114f1d742ba8ba52-22858454%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:18897574534f2fe0107f6078-67114273%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '8b90adbe07b8cb8775992b60a66b5fc21f18942e' => 
     array (
       0 => 'simpla/design/html/product.tpl',
-      1 => 1327330269,
+      1 => 1328537482,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '17921586114f1d742ba8ba52-22858454',
+  'nocache_hash' => '18897574534f2fe0107f6078-67114273',
   'function' => 
   array (
     'category_select' => 
@@ -56,14 +56,14 @@ $(function() {
 
 	// Добавление категории
 	$('#product_categories .add').click(function() {
-		$("#product_categories ul li:last").clone(true).appendTo('#product_categories ul').fadeIn('slow').find("select[name*=categories]:last").focus();
+		$("#product_categories ul li:last").clone(false).appendTo('#product_categories ul').fadeIn('slow').find("select[name*=categories]:last").focus();
 		$("#product_categories ul li:last span.add").hide();
 		$("#product_categories ul li:last span.delete").show();
 		return false;		
 	});
 
 	// Удаление категории
-	$("#product_categories .delete").click(function() {
+	$("#product_categories .delete").live('click', function() {
 		$(this).closest("li").fadeOut(200, function() { $(this).remove(); });
 		return false;
 	});

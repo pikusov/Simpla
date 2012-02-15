@@ -38,7 +38,7 @@ class CommentsAdmin extends Simpla
 		
 		// Действия с выбранными
 		$ids = $this->request->post('check');
-		if(!empty($ids))
+		if(!empty($ids) && is_array($ids))
 		switch($this->request->post('action'))
 		{
 		    case 'approve':

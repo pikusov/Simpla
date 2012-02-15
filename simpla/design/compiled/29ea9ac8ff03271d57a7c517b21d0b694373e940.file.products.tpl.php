@@ -1,17 +1,17 @@
-<?php /* Smarty version Smarty-3.0.7, created on 2012-01-19 16:59:11
+<?php /* Smarty version Smarty-3.0.7, created on 2012-01-29 23:59:58
          compiled from "simpla/design/html/products.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:4025764094f182fbfc1e450-58696961%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:18756311074f25cf6e3f9f27-02300003%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '29ea9ac8ff03271d57a7c517b21d0b694373e940' => 
     array (
       0 => 'simpla/design/html/products.tpl',
-      1 => 1326985136,
+      1 => 1327838393,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '4025764094f182fbfc1e450-58696961',
+  'nocache_hash' => '18756311074f25cf6e3f9f27-02300003',
   'function' => 
   array (
     'category_select' => 
