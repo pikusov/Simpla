@@ -17,7 +17,7 @@ class Comments extends Simpla
 	// Возвращает комментарий по id
 	public function get_comment($id)
 	{
-		$query = $this->db->placehold("SELECT c.id, c.object_id, c.name, c.ip, c.type, c.text, c.date, c.text, c.approved FROM __comments c WHERE id=? LIMIT 1", intval($id));
+		$query = $this->db->placehold("SELECT c.id, c.object_id, c.name, c.ip, c.type, c.text, c.date, c.approved FROM __comments c WHERE id=? LIMIT 1", intval($id));
 
 		if($this->db->query($query))
 			return $this->db->result();

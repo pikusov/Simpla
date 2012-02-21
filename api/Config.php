@@ -17,7 +17,8 @@ class Config
 {
 	
 	// Файл для хранения настроек
-	public $config_file = 'config/simpla.ini.php';
+	public $config_file = 'config/config.php';
+	public $default_config_file = 'config/default_config.php';
 		
 	private $vars = array();
 	
@@ -28,11 +29,24 @@ class Config
 		// Временная зона
 		date_default_timezone_set('CET');
 
-		// Читаем настройки из файла
-		$ini = parse_ini_file($this->config_file);
+		// Читаем настройки из дефолтного файла
+		$ini = parse_ini_file($this->default_config_file);
 		// Записываем настройку как переменную класса
 		foreach($ini as $var=>$value)
 			$this->vars[$var] = $value;
+			
+		// Переопределяем настройки из основного файла
+		if(is_file($this->config_file))
+		{
+			$ini = parse_ini_file($this->config_file);
+			// Записываем настройку как переменную класса
+			foreach($ini as $var=>$value)
+				$this->vars[$var] = $value;
+		}
+		else
+		{
+			copy($this->default_config_file, $this->config_file);
+		}
 			
 		// Адрес сайта - тоже одна из настроек, но вычисляем его автоматически, а не берем из файла
 		$script_dir1 = realpath(dirname(dirname(__FILE__)));

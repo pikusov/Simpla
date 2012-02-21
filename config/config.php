@@ -66,4 +66,4 @@ watermark_file = simpla/files/watermark/watermark.png;
 downloads_dir = files/downloads/;
 
 [simpla]
-version = 2.1_RC5;
+version = 2.1.0;

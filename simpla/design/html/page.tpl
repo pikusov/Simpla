@@ -163,7 +163,7 @@ function translit(str)
 		<!-- Параметры страницы -->
 		<div class="block">
 			<ul>
-				<li><label class=property>Название пункта в меню</label><input name="name" class="simpla_inp" type="text" value="{$page->meta_title|escape}" /></li>
+				<li><label class=property>Название пункта в меню</label><input name="name" class="simpla_inp" type="text" value="{$page->name|escape}" /></li>
 				<li><label class=property>Меню</label>	
 					<select name="menu_id">
 				   		{foreach from=$menus item=m}

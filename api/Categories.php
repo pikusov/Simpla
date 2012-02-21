@@ -108,14 +108,20 @@ class Categories extends Simpla
 	// Удаление категории
 	public function delete_category($id)
 	{
-		if(!empty($id))
+		if(!$category = $this->get_category(intval($id)))
+			return false;
+		foreach($category->children as $id)
 		{
-			$query = $this->db->placehold("DELETE FROM __categories WHERE id=? LIMIT 1", $id);
-			$this->db->query($query);
-			$query = $this->db->placehold("DELETE FROM __products_categories WHERE category_id=?", $id);
-			$this->db->query($query);
-			$this->init_categories();			
+			if(!empty($id))
+			{
+				$query = $this->db->placehold("DELETE FROM __categories WHERE id=? LIMIT 1", $id);
+				$this->db->query($query);
+				$query = $this->db->placehold("DELETE FROM __products_categories WHERE category_id=?", $id);
+				$this->db->query($query);
+				$this->init_categories();			
+			}
 		}
+		return true;
 	}
 	
 	// Добавить категорию к заданному товару

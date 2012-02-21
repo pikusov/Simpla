@@ -102,7 +102,7 @@ class Feedbacks extends Simpla
 			unset($feedback->date);
 			$date_query = $this->db->placehold(', date=STR_TO_DATE(?, ?)', $date, $this->settings->date_format);
 		}
-		$query = $this->db->placehold("UPDATE __fednacks SET ?% $date_query WHERE id in(?@) LIMIT 1", $feedback, (array)$id);
+		$query = $this->db->placehold("UPDATE __feedbacks SET ?% $date_query WHERE id in(?@) LIMIT 1", $feedback, (array)$id);
 		$this->db->query($query);
 		return $id;
 	}

@@ -38,7 +38,7 @@ class ImportAjax extends Simpla
 
 	public function import()
 	{
-		// Для корректной работы установим локаль cp1251
+		// Для корректной работы установим локаль UTF-8
 		setlocale(LC_ALL, 'ru_RU.UTF-8');
 		
 		// Определяем колонки из первой строки файла
