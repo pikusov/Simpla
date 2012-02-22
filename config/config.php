@@ -64,6 +64,3 @@ watermark_file = simpla/files/watermark/watermark.png;
 
 ;Директория хранения цифровых товаров
 downloads_dir = files/downloads/;
-
-[simpla]
-version = 2.1.0;
