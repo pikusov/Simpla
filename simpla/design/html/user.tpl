@@ -1,7 +1,6 @@
 {capture name=tabs}
-	<li class="active"><a href="index.php?module=UsersAdmin">Покупатели</a></li>
-	<li><a href="index.php?module=GroupsAdmin">Группы</a></li>
-	<li><a href="index.php?module=CouponsAdmin">Купоны</a></li>
+		<li class="active"><a href="index.php?module=UsersAdmin">Покупатели</a></li>
+		<li><a href="index.php?module=GroupsAdmin">Группы</a></li>
 {/capture}
 
 {if $user->id}

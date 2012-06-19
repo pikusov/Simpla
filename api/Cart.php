@@ -24,9 +24,6 @@ class Cart extends Simpla
 		$cart->purchases = array();
 		$cart->total_price = 0;
 		$cart->total_products = 0;
-		$cart->coupon = null;
-		$cart->discount = 0;
-		$cart->coupon_discount = 0;
 
 		// Берем из сессии список variant_id=>amount
 		if(!empty($_SESSION['shopping_cart']))
@@ -70,40 +67,14 @@ class Cart extends Simpla
 					}
 				}
 				
-				// Пользовательская скидка
-				$cart->discount = 0;
+				$discount = 0;
 				if(isset($_SESSION['user_id']) && $user = $this->users->get_user(intval($_SESSION['user_id'])))
-					$cart->discount = $user->discount;
+					$discount = $user->discount;
 					
-				$cart->total_price *= (100-$cart->discount)/100;
-				
-				// Скидка по купону
-				if(isset($_SESSION['coupon_code']))
-				{
-					$cart->coupon = $this->coupons->get_coupon($_SESSION['coupon_code']);
-					if($cart->coupon && $cart->coupon->valid && $cart->total_price>=$cart->coupon->min_order_price)
-					{
-						if($cart->coupon->type=='absolute')
-						{
-							// Абсолютная скидка не более суммы заказа
-							$cart->coupon_discount = $cart->total_price>$cart->coupon->value?$cart->coupon->value:$cart->total_price;
-							$cart->total_price = max(0, $cart->total_price-$cart->coupon->value);
-						}
-						else
-						{
-							$cart->coupon_discount = $cart->total_price * ($cart->coupon->value)/100;
-							$cart->total_price = $cart->total_price-$cart->coupon_discount;
-						}
-					}
-					else
-					{
-						unset($_SESSION['coupon_code']);
-					}
-				}
-				
+				$cart->total_price *= (100-$discount)/100;
 			}
 		}
-			
+	
 		return $cart;
 	}
 	
@@ -174,24 +145,6 @@ class Cart extends Simpla
 	public function empty_cart()
 	{
 		unset($_SESSION['shopping_cart']);
-		unset($_SESSION['coupon_code']);
 	}
  
-	/*
-	*
-	* Применить купон
-	*
-	*/
-	public function apply_coupon($coupon_code)
-	{
-		$coupon = $this->coupons->get_coupon((string)$coupon_code);
-		if($coupon && $coupon->valid)
-		{
-			$_SESSION['coupon_code'] = $coupon->code;
-		}
-		else
-		{
-			unset($_SESSION['coupon_code']);
-		}		
-	} 
 }

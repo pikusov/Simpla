@@ -844,16 +844,6 @@ input[type="password"]
 	font-size:12px;
 }
 
-#purchases .coupon .name{
-	font-size:14px;
-}
-#purchases .coupon .name input.coupon_code{
-	width: 200px;
-}
-#purchases .coupon .name input{
-	font-size:16px;
-}
-
 ul#deliveries{
 	margin-top: 20px;
 	margin-bottom: 20px;

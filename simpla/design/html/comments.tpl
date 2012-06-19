@@ -23,7 +23,7 @@
 {* Заголовок *}
 <div id="header">
 	{if $keyword && $comments_count}
-	<h1>{$comments_count|plural:'Нашелся':'Нашлось':'Нашлись'} {$comments_count} {$comments_count|plural:'комментарий':'комментариев':'комментария'}</h1> 
+	<h1>{$comments_count|plural:'Нашелся':'Нашлось':'Нашлись'} {$comments_count} {$comments_count|plural:'комментирий':'комментариев':'комментария'}</h1> 
 	{elseif !$type}
 	<h1>{$comments_count} {$comments_count|plural:'комментарий':'комментариев':'комментария'}</h1> 
 	{elseif $type=='product'}

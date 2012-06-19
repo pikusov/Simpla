@@ -2,13 +2,9 @@
 $('form.variants').live('submit', function(e) {
 	e.preventDefault();
 	button = $(this).find('input[type="submit"]');
-	if($(this).find('input[name=variant]:checked').size()>0)
-		variant = $(this).find('input[name=variant]:checked').val();
-	if($(this).find('select[name=variant]').size()>0)
-		variant = $(this).find('select').val();
 	$.ajax({
 		url: "ajax/cart.php",
-		data: {variant: variant},
+		data: {variant: $(this).find('input[name=variant]:checked').val()},
 		dataType: 'json',
 		success: function(data){
 			$('#cart_informer').html(data);
@@ -26,7 +22,6 @@ $('form.variants').live('submit', function(e) {
 	$('.transfer_class').find('img').css('height', '100%');
 	return false;
 });
-
 
 /*
 // Аяксовая корзина

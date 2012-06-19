@@ -58,18 +58,6 @@
 	</th>
 </tr>
 {/if}
-{* Купон, если есть *}
-{if $order->coupon_discount > 0}
-<tr>
-	<th class="image"></th>
-	<th class="name">купон</th>
-	<th class="price"></th>
-	<th class="amount"></th>
-	<th class="price">
-		&minus;{$order->coupon_discount|convert}&nbsp;{$currency->sign}
-	</th>
-</tr>
-{/if}
 {* Если стоимость доставки входит в сумму заказа *}
 {if !$order->separate_delivery && $order->delivery_price>0}
 <tr>
@@ -174,7 +162,7 @@
 
 {if !$order->paid}
 {* Выбор способа оплаты *}
-{if $payment_methods && !$payment_method && $order->total_price>0}
+{if $payment_methods && !$payment_method}
 <form method="post">
 <h2>Выберите способ оплаты</h2>
 <ul id="deliveries">

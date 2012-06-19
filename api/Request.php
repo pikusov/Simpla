@@ -78,7 +78,7 @@ class Request extends Simpla
     	$val = null;
     	if(!empty($name) && isset($_POST[$name]))
     		$val = $_POST[$name];
-    	elseif(empty($name))
+    	else
     		$val = file_get_contents('php://input');
     		
     	if($type == 'string')
@@ -108,28 +108,21 @@ class Request extends Simpla
     		return null;
     }
 
+    
 	/**
 	 * Рекурсивная чистка магических слешей
 	 */
-	private function stripslashes_recursive($var)
-	{
-		if(get_magic_quotes_gpc())
-		{
-			$res = null;
-			if(is_array($var))
-				foreach($var as $k=>$v)
-					$res[stripcslashes($k)] = $this->stripslashes_recursive($v);
-				else
-					$res = stripcslashes($var);
-		}
-		else
-		{
-			$res = $var;
-		}
+    private function stripslashes_recursive($var)
+    {
+		$res = null;
+		if(is_array($var))
+			foreach($var as $k=>$v)
+				$res[stripcslashes($k)] = $this->stripslashes_recursive($v);
+			else
+				$res = stripcslashes($var);
 		return $res;
 	}
-    
-    	
+	
 	/**
 	* Проверка сессии
 	*/
@@ -167,7 +160,7 @@ class Request extends Simpla
 
 		$query_is_empty = true;
 		foreach($query as $name=>$value)
-			if($value!='' && $value!=null)
+			if(!empty($value))
 				$query_is_empty = false;
 		
 		if(!$query_is_empty)

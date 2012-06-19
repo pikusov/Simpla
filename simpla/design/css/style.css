@@ -136,15 +136,6 @@
 	padding-left: 20px;
 }
 
-/* Купоны */
-#product .block li select.coupon_type {
-	width: 70px;
-	font-size: 18px;
-}
-#product #column_left .block li input.coupon_value {
-	width: 130px;
-	font-size: 18px;
-}
 
 /* Варианты товара */
 #variants_block {
@@ -740,22 +731,6 @@ div#expand a
 	color: #000000;
 	border-bottom-color: #000000;	
 }
-
-#list .coupon_name {
-	width:220px;
-}
-#list .coupon_details {
-	width:200px;
-}
-#list .coupon_discount {
-	width:180px;
-}
-#list .coupon_details .detail,
-#list .coupon_discount .detail{
-	color:#707070;
-	font-size: 11px;
-}
-
 
 .icons a
 {

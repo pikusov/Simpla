@@ -28,8 +28,6 @@ class RestProducts extends Rest
 		$filter['sort'] = $this->request->get('sort');
 		// Категория
 		$filter['category_id'] = $this->request->get('category');
-		// Дата последнего изменения
-		$filter['modified_from'] = $this->request->get('modified_from');
 		// Бренд
 		$filter['brand_id'] = $this->request->get('brand');
 		// Страница

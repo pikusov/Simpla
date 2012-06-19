@@ -5,7 +5,7 @@ class UserAdmin extends Simpla
 {	
 	public function fetch()
 	{
-		if(!empty($_POST['user_info']))
+		if($this->request->post('user_info'))
 		{
 			$user->id = $this->request->post('id', 'integer');
 			$user->enabled = $this->request->post('enabled');
@@ -34,7 +34,7 @@ class UserAdmin extends Simpla
 			}
 		}
 		elseif($this->request->post('check'))
-		{ 
+		{
 			// Действия с выбранными
 			$ids = $this->request->post('check');
 			if(is_array($ids))
@@ -43,14 +43,7 @@ class UserAdmin extends Simpla
 				case 'delete':
 				{
 					foreach($ids as $id)
-						$o = $this->orders->get_order(intval($id));
-						if($o->status<3)
-						{
-							$this->orders->update_order($id, array('status'=>3, 'user_id'=>null));
-							$this->orders->open($id);							
-						}
-						else
-							$this->orders->delete_order($id);
+						$this->orders->delete_order($id);	      
 					break;
 				}
 			}

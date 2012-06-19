@@ -31,7 +31,7 @@
 					<a href="{url module=PageAdmin id=$page->id return=$smarty.server.REQUEST_URI}">{$page->header|escape}</a>
 				</div>
 				<div class="icons cell">
-					<a class="preview" title="Предпросмотр в новом окне" href="../{$page->url}" target="_blank"></a>
+					<a class="preview" title="Предосмотр в новом окне" href="../{$page->url}" target="_blank"></a>
 					<a class="enable" title="Активна" href="#"></a>
 					<a class="delete" title="Удалить" href="#"></a>
 				</div>

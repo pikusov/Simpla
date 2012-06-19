@@ -2,7 +2,6 @@
 {capture name=tabs}
 	<li><a href="index.php?module=UsersAdmin">Покупатели</a></li>
 	<li class="active"><a href="index.php?module=GroupsAdmin">Группы</a></li>		
-	<li><a href="index.php?module=CouponsAdmin">Купоны</a></li>
 {/capture}
 
 {* Title *}

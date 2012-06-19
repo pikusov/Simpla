@@ -48,8 +48,8 @@
 
 	<div id="expand">
 	<!-- Свернуть/развернуть варианты -->
-	<a href="#" class="dash_link" id="expand_all">Развернуть все варианты ↓</a>
-	<a href="#" class="dash_link" id="roll_up_all" style="display:none;">Свернуть все варианты ↑</a>
+	<a href="#" class="dash_link" id="expand_all">Развернуть все варинаты ↓</a>
+	<a href="#" class="dash_link" id="roll_up_all" style="display:none;">Свернуть все варинаты ↑</a>
 	<!-- Свернуть/развернуть варианты (The End) -->
 	</div>
 
@@ -97,7 +97,7 @@
 	 			
 			</div>
 			<div class="icons cell">
-				<a class="preview"   title="Предпросмотр в новом окне" href="../products/{$product->url}" target="_blank"></a>			
+				<a class="preview"   title="Предосмотр в новом окне" href="../products/{$product->url}" target="_blank"></a>			
 				<a class="enable"    title="Активен"                 href="#"></a>
 				<a class="featured"  title="Рекомендуемый"           href="#"></a>
 				<a class="duplicate" title="Дублировать"             href="#"></a>
@@ -155,7 +155,7 @@
 			<span id="move_to_brand">
 			<select name="target_brand">
 				<option value="0">Не указан</option>
-				{foreach $all_brands as $b}
+				{foreach $brands as $b}
 				<option value="{$b->id}">{$b->name}</option>
 				{/foreach}
 			</select> 

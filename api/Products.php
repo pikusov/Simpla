@@ -129,7 +129,6 @@ class Products extends Simpla
 					$discounted_filter
 					$in_stock_filter
 					$visible_filter
-				GROUP BY p.id
 				ORDER BY $order
 					$sql_limit";
 

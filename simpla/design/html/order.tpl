@@ -173,7 +173,7 @@
 				<div class='purchase_variant'>				
 				<span class=edit_purchase style='display:none;'>
 				<select name=purchases[variant_id][{$purchase->id}] {if $purchase->product->variants|count==1 && $purchase->variant_name == '' && $purchase->variant->sku == ''}style='display:none;'{/if}>					
-		    	{if !$purchase->variant}<option price='{$purchase->price}' amount='{$purchase->amount}' value=''>{$purchase->variant_name} {if $purchase->sku}(арт. {$purchase->sku}){/if}</option>{/if}
+		    	{if !$purchase->variant}<option price='{$purchase->price}' amount='{$purchase->amount}' value=''>{$purchase->variant_name}</option>{/if}
 				{foreach $purchase->product->variants as $v}
 					{if $v->stock>0 || $v->id == $purchase->variant->id}
 					<option price='{$v->price}' amount='{$v->stock}' value='{$v->id}' {if $v->id == $purchase->variant_id}selected{/if} >
@@ -185,7 +185,7 @@
 				</select>
 				</span>
 				<span class=view_purchase>
-					{$purchase->variant_name} {if $purchase->sku}(арт. {$purchase->sku}){/if}			
+					{$purchase->variant_name} {if $purchase->variant->sku}(арт. {$purchase->variant->sku}){/if}			
 				</span>
 				</div>
 		
@@ -278,16 +278,7 @@
 	</div>
 
 	<div class="subtotal layer">
-	С учетом скидки<b> {($subtotal-$subtotal*$order->discount/100)|round:2} {$currency->sign}</b>
-	</div> 
-	
-	<div class="block discount layer">
-		<h2>Купон{if $order->coupon_code} ({$order->coupon_code}){/if}</h2>
-		<input type=text name=coupon_discount value='{$order->coupon_discount}'> <span class=currency>{$currency->sign}</span>		
-	</div>
-
-	<div class="subtotal layer">
-	С учетом купона<b> {($subtotal-$subtotal*$order->discount/100-$order->coupon_discount)|round:2} {$currency->sign}</b>
+	С учетом скидки<b> {$subtotal-$subtotal*$order->discount/100} {$currency->sign}</b>
 	</div> 
 	
 	<div class="block delivery">

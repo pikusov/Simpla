@@ -21,13 +21,9 @@ class ProductsAdmin extends Simpla
 		if($category_id && $category = $this->categories->get_category($category_id))
 	  		$filter['category_id'] = $category->children;
 		      
-		// Бренды категории
+		// Бренды
 		$brands = $this->brands->get_brands(array('category_id'=>$category_id));
 		$this->design->assign('brands', $brands);
-		
-		// Все бренды
-		$all_brands = $this->brands->get_brands();
-		$this->design->assign('all_brands', $all_brands);
 		
 		// Текущий бренд
 		$brand_id = $this->request->get('brand_id', 'integer'); 
@@ -187,12 +183,7 @@ class ProductsAdmin extends Simpla
 			    	$filter['page'] = 1;
 	  				$filter['brand_id'] = $brand_id;
 			    	$query = $this->db->placehold("UPDATE __products set brand_id=? WHERE id in (?@)", $brand_id, $ids);	
-			    	$this->db->query($query);	
-
-					// Заново выберем бренды категории
-					$brands = $this->brands->get_brands(array('category_id'=>$category_id));
-					$this->design->assign('brands', $brands);
-			    	      			    	
+			    	$this->db->query($query);	      			    	
 			        break;
 				}
 			}			

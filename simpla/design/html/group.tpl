@@ -1,7 +1,6 @@
 {capture name=tabs}
-	<li><a href="index.php?module=UsersAdmin">Покупатели</a></li>
-	<li class="active"><a href="index.php?module=GroupsAdmin">Группы</a></li>		
-	<li><a href="index.php?module=CouponsAdmin">Купоны</a></li>
+		<li><a href="index.php?module=UsersAdmin">Покупатели</a></li>
+		<li class="active"><a href="index.php?module=GroupsAdmin">Группы</a></li>		
 {/capture}
 
 {if $group->id}
@@ -43,7 +42,8 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success=='added'}Группа добавлена{elseif $message_success=='updated'}Группа изменена{else}{$message_success|escape}{/if}</span>
+	<span>{$message_success}</span>
+	<a class="link" target="_blank" href="../products/{$page->url}">Открыть страницу на сайте</a>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -55,6 +55,7 @@ $(function() {
 <!-- Системное сообщение -->
 <div class="message message_error">
 	<span>{$message_error}</span>
+	<a class="link" href="../products/{$product->url}">Открыть товар на сайте</a>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

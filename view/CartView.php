@@ -50,23 +50,8 @@ class CartView extends View
     	$order->phone       = $this->request->post('phone');
     	$order->comment     = $this->request->post('comment');
     	
-		$this->design->assign('delivery_id', $order->delivery_id);
-		$this->design->assign('name', $order->name);
-		$this->design->assign('email', $order->email);
-		$this->design->assign('phone', $order->phone);
-		$this->design->assign('address', $order->address);
-
-
 		// Скидка
-		$cart = $this->cart->get_cart();
-		$order->discount = $cart->discount;
-		
-		if($cart->coupon)
-		{
-			$order->coupon_discount = $cart->coupon_discount;
-			$order->coupon_code = $cart->coupon->code;
-		}
-		//
+		$order->discount = empty($this->user->discount)?0:$this->user->discount;
     	
     	if(!empty($this->user->id))
 	    	$order->user_id = $this->user->id;
@@ -84,10 +69,6 @@ class CartView extends View
 	    	// Добавляем заказ в базу
 	    	$order_id = $this->orders->add_order($order);
 	    	$_SESSION['order_id'] = $order_id;
-	    	
-	    	// Если использовали купон, увеличим количество его использований
-	    	if($cart->coupon)
-	    		$this->coupons->update_coupon($cart->coupon->id, array('usages'=>$cart->coupon->usages+1));
 	    	
 	    	// Добавляем товары к заказу
 	    	foreach($this->request->post('amounts') as $variant_id=>$amount)
@@ -116,41 +97,15 @@ class CartView extends View
 			header('Location: '.$this->config->root_url.'/order/'.$order->url);
 		}
     }   
-    else
+    // Если нам запостили amounts, обновляем их
+    elseif($amounts = $this->request->post('amounts'))
     {
-
-	    // Если нам запостили amounts, обновляем их
-	    if($amounts = $this->request->post('amounts'))
-	    {
-			foreach($amounts as $variant_id=>$amount)
-			{
-				$this->cart->update_item($variant_id, $amount);         
-			}
-
-	    	$coupon_code = trim($this->request->post('coupon_code', 'string'));
-	    	if(empty($coupon_code))
-	    	{
-	    		$this->cart->apply_coupon('');
-				header('location: '.$this->config->root_url.'/cart/');	    		
-	    	}
-	    	else
-	    	{
-				$coupon = $this->coupons->get_coupon((string)$coupon_code);
-
-				if(empty($coupon) || !$coupon->valid)
-				{
-		    		$this->cart->apply_coupon($coupon_code);
-					$this->design->assign('coupon_error', 'invalid');
-				}
-				else
-				{
-					$this->cart->apply_coupon($coupon_code);
-					header('location: '.$this->config->root_url.'/cart/');
-				}
-	    	}
+		foreach($amounts as $variant_id=>$amount)
+		{
+			$this->cart->update_item($variant_id, $amount);         
 		}
-	    
-	}
+		header('location: '.$this->config->root_url.'/cart/');
+    }
               
   }
 
@@ -182,10 +137,6 @@ class CartView extends View
 			}
 		}
 		
-		// Если существуют валидные купоны, нужно вывести инпут для купона
-		if($this->coupons->count_coupons(array('valid'=>1))>0)
-			$this->design->assign('coupon_request', true);
-
 		// Выводим корзину
 		return $this->design->fetch('cart.tpl');
 	}

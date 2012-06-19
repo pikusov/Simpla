@@ -15,12 +15,12 @@ class GroupAdmin extends Simpla
 			if(empty($group->id))
 			{
   				$group->id = $this->users->add_group($group);
-  				$this->design->assign('message_success', 'added');
+  				$this->design->assign('message_success', 'Добавлено');
   			}
 	    	else
 	    	{
 	    		$group->id = $this->users->update_group($group->id, $group);
-  				$this->design->assign('message_success', 'updated');
+  				$this->design->assign('message_success', 'Обновлено');
   			}
 	    	$group = $this->users->get_group(intval($group->id));
 		}
