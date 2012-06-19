@@ -123,7 +123,10 @@ class Money extends Simpla
 	{
 		if(isset($currency_id))
 		{
-			$currency = $this->get_currency((integer)$currency_id);
+			if(is_numeric($currency_id))
+				$currency = $this->get_currency((integer)$currency_id);
+			else
+				$currency = $this->get_currency((string)$currency_id);
 		}
 		elseif(isset($_SESSION['currency_id']))
 			$currency = $this->get_currency($_SESSION['currency_id']);

@@ -65,13 +65,13 @@ $(function() {
 	<ul class="theme_images">
 		{foreach item=image from=$images}
 			<li name='{$image->name|escape}'>
-			<a href='#' class='delete'><img src='design/images/delete.png'></a>
-			<a href='#' class='edit'><img src='design/images/pencil.png'></a>
+			<a href='#' class='delete' title="Удалить"><img src='design/images/delete.png'></a>
+			<a href='#' class='edit' title="Переименовать"><img src='design/images/pencil.png'></a>
 			<p class="name">{$image->name|escape|truncate:16:'...'}</p>
 			<div class="theme_image">
 			<a class='preview' href='../{$images_dir}{$image->name|escape}'><img src='../{$images_dir}{$image->name|escape}'></a>
 			</div>
-			<p class=size>{if $image->size>1024*1024}{$image->size/1024/1024|round:'2'} МБ{elseif $image->size>1024}{$image->size/1024|round:'2'} КБ{else}{$image->size} байт{/if}, {$image->width}&times;{$image->height} px</p>
+			<p class=size>{if $image->size>1024*1024}{($image->size/1024/1024)|round:2} МБ{elseif $image->size>1024}{($image->size/1024)|round:2} КБ{else}{$image->size} Байт{/if}, {$image->width}&times;{$image->height} px</p>
 			</li>
 		{/foreach}
 	</ul>
@@ -85,4 +85,5 @@ $(function() {
 <div class="block">
 <input class="button_green button_save" type="submit" name="save" value="Сохранить" />
 </div>
+
 </form>

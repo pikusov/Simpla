@@ -57,7 +57,7 @@
 						</div>
 					</div>
 					<div class="icons cell">
-						<a href='#' class="delete"></a>
+						<a href='#' title='Удалить' class="delete"></a>
 					</div>
 					<div class="clear"></div>
 				</div>

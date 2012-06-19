@@ -43,9 +43,10 @@
 	<a href="catalog/{$category->url}" {if !$brand->id}class="selected"{/if}>Все бренды</a>
 	{foreach name=brands item=b from=$category->brands}
 		{if $b->image}
-		<img src="{$config->brands_images_dir}{$b->image}" alt="{$b->name|escape}">
-		{/if}
+		<a data-brand="{$b->id}" href="catalog/{$category->url}/{$b->url}"><img src="{$config->brands_images_dir}{$b->image}" alt="{$b->name|escape}"></a>
+		{else}
 		<a data-brand="{$b->id}" href="catalog/{$category->url}/{$b->url}" {if $b->id == $brand->id}class="selected"{/if}>{$b->name|escape}</a>
+		{/if}
 	{/foreach}
 </div>
 {/if}

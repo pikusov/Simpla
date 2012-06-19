@@ -46,6 +46,9 @@ class CurrencyAdmin extends Simpla
 					$this->db->query("UPDATE __orders SET delivery_price=delivery_price*?", $coef);        
 					$this->db->query("UPDATE __orders SET total_price=total_price*?", $coef);        
 					$this->db->query("UPDATE __purchases SET price=price*?", $coef);
+					$this->db->query("UPDATE __coupons SET value=value*? WHERE type='absolute'", $coef);
+					$this->db->query("UPDATE __coupons SET min_order_price=min_order_price*?", $coef);
+					$this->db->query("UPDATE __orders SET coupon_discount=coupon_discount*?", $coef);
 				}          
 		
 				$this->db->query("UPDATE __currencies SET rate_from=1.0*rate_from*$new_currency->rate_to/$old_currency->rate_to");

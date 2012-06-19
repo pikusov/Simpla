@@ -65,7 +65,7 @@ class Image extends Simpla
 		else
 			$watermark = null;
 
-		if(class_exists('Imagick'))
+		if(class_exists('Imagick') && $this->config->use_imagick)
 			$this->image_constrain_imagick($originals_dir.$original_file, $preview_dir.$resized_file, $width, $height, $watermark, $watermark_offet_x, $watermark_offet_y, $watermark_transparency, $sharpen);
 		else
 			$this->image_constrain_gd($originals_dir.$original_file, $preview_dir.$resized_file, $width, $height, $watermark, $watermark_offet_x, $watermark_offet_y, $watermark_transparency);

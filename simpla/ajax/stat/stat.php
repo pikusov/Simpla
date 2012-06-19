@@ -7,7 +7,7 @@ class StatAjax extends Simpla
 {	
 	public function fetch()
 	{
-		$query = $this->db->placehold('SELECT SUM( o.total_price ) AS total_price, DAY(date) AS day, MONTH(date) as month, YEAR(date) as year FROM s_orders o GROUP BY DATE( o.date ) DESC  LIMIT 30');
+		$query = $this->db->placehold('SELECT SUM( o.total_price ) AS total_price, DAY(date) AS day, MONTH(date) as month, YEAR(date) as year FROM __orders o GROUP BY DATE( o.date ) DESC  LIMIT 30');
 		$this->db->query($query);
 		$data = $this->db->results();
 

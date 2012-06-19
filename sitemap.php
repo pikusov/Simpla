@@ -69,9 +69,6 @@ foreach($simpla->db->results() as $p)
 
 print '</urlset>'."\n";
 
-$simpla->body = $map;
-return $map;
-
 function esc($s)
 {
 	return(htmlspecialchars($s, ENT_QUOTES, 'UTF-8'));	

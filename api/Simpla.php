@@ -32,6 +32,7 @@ class Simpla
 		'payment'    => 'Payment',
 		'orders'     => 'Orders',
 		'users'      => 'Users',
+		'coupons'    => 'Coupons',
 		'comments'   => 'Comments',
 		'feedbacks'  => 'Feedbacks',
 		'notify'     => 'Notify'

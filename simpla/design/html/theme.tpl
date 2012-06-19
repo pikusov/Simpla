@@ -82,7 +82,7 @@ $(function() {
 		{if $t->locked}<img class="tick" src='design/images/lock_small.png'> {/if}
 		{if $theme->name != $t->name && !$t->locked}
 		<a href='#' title="Удалить" class='delete'><img src='design/images/delete.png'></a>
-		<a href='#' title="Изменить название" class='edit'><img src='design/images/pencil.png'></a>
+		<a href='#' title="Переименовать" class='edit'><img src='design/images/pencil.png'></a>
 		{elseif $theme->name != $t->name}
 		{*<a href='#' title="Выбрать" class='select set_main_theme'><img src='design/images/tick.png'></a>*}
 		{elseif !$t->locked}

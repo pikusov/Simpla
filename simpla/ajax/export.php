@@ -82,23 +82,24 @@ class ExportAjax extends Simpla
  			return false;
  		
  		// Категории товаров
- 		$categories = $this->categories->get_product_categories(array_keys($products));
- 		foreach($categories as $category)
+ 		foreach($products as $p_id=>&$product)
  		{
- 			// Если категория у товара уже есть - не добавляем (то есть, экспортируется только первая)
- 			if(isset($products[$category->product_id]) && empty($products[$category->product_id]['category']))
- 			{
- 				$path = array();
- 				$cat = $this->categories->get_category((int)$category->category_id);
- 				if(!empty($cat))
+	 		$categories = array();
+	 		$cats = $this->categories->get_product_categories($p_id);
+	 		foreach($cats as $category)
+	 		{
+	 			$path = array();
+	 			$cat = $this->categories->get_category((int)$category->category_id);
+	 			if(!empty($cat))
  				{
 	 				// Вычисляем составляющие категории
 	 				foreach($cat->path as $p)
 	 					$path[] = str_replace($this->subcategory_delimiter, '\\'.$this->subcategory_delimiter, $p->name);
 	 				// Добавляем категорию к товару 
-	 				$products[$category->product_id]['category'] = implode('/', $path);
+	 				$categories[] = implode('/', $path);
  				}
- 			}
+	 		}
+	 		$product['category'] = implode(', ', $categories);
  		}
  		
  		// Изображения товаров
@@ -116,26 +117,42 @@ class ExportAjax extends Simpla
 
 		foreach($variants as $variant)
  		{
- 			$result = null;
  			if(isset($products[$variant->product_id]))
  			{
-	 			$p                    = $products[$variant->product_id];
-	 			$p['variant']         = $variant->name;
-	 			$p['price']           = $variant->price;
-	 			$p['compare_price']   = $variant->compare_price;
-	 			$p['sku']             = $variant->sku;
-	 			$p['stock']           = $variant->stock;
+	 			$v                    = array();
+	 			$v['variant']         = $variant->name;
+	 			$v['price']           = $variant->price;
+	 			$v['compare_price']   = $variant->compare_price;
+	 			$v['sku']             = $variant->sku;
+	 			$v['stock']           = $variant->stock;
 	 			if($variant->infinity)
-	 				$p['stock']           = '';
-	 			
+	 				$v['stock']           = '';
+				$products[$variant->product_id]['variants'][] = $v;
+	 		}
+		}
+		
+		foreach($products as $product)
+ 		{
+ 			$variants = $product['variants'];
+ 			unset($product['variants']);
+ 			
+ 			if(isset($variants))
+ 			foreach($variants as $variant)
+ 			{
+ 				$result = array();
+ 				$result = $product;
+ 				foreach($variant as $name=>$value)
+ 					$result[$name]=$value;
+
 	 			foreach($this->columns_names as $internal_name=>$column_name)
 	 			{
-	 				if(isset($p[$internal_name]))
-		 				$result[$internal_name] = $p[$internal_name];
-		 			else
-		 				$result[$internal_name] = '';
+	 				if(isset($result[$internal_name]))
+		 				$res[$internal_name] = $result[$internal_name];
+	 				else
+		 				$res[$internal_name] = '';
 	 			}
-	 			fputcsv($f, $result, $this->column_delimiter);
+	 			fputcsv($f, $res, $this->column_delimiter);
+
 	 		}
 		}
 		

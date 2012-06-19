@@ -15,7 +15,7 @@ require_once('Simpla.php');
 
 class Config
 {
-	public $version = '2.1.0';
+	public $version = '2.1.1';
 	
 	// Файл для хранения настроек
 	public $config_file = 'config/config.php';
@@ -34,7 +34,12 @@ class Config
 		// Записываем настройку как переменную класса
 		foreach($ini as $var=>$value)
 			$this->vars[$var] = $value;
-			
+		
+		// Вычисляем DOCUMENT_ROOT вручную, так как иногда в нем находится что-то левое
+		$localpath=getenv("SCRIPT_NAME");
+		$absolutepath=getenv("SCRIPT_FILENAME");
+		$_SERVER['DOCUMENT_ROOT']=substr($absolutepath,0,strpos($absolutepath,$localpath));
+
 		// Адрес сайта - тоже одна из настроек, но вычисляем его автоматически, а не берем из файла
 		$script_dir1 = realpath(dirname(dirname(__FILE__)));
 		$script_dir2 = realpath($_SERVER['DOCUMENT_ROOT']);

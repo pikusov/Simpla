@@ -295,6 +295,7 @@ class Orders extends Simpla
 			}
 			foreach($purchases as $purchase)
 			{	
+				$variant = $this->variants->get_variant($purchase->variant_id);
 				if(!$variant->infinity)
 				{
 					$new_stock = $variant->stock-$purchase->amount;
@@ -318,8 +319,7 @@ class Orders extends Simpla
 			$purchases = $this->get_purchases(array('order_id'=>$order->id));
 			foreach($purchases as $purchase)
 			{
-				$variant = $this->variants->get_variant($purchase->variant_id);
-				
+				$variant = $this->variants->get_variant($purchase->variant_id);				
 				if($variant && !$variant->infinity)
 				{
 					$new_stock = $variant->stock+$purchase->amount;
@@ -353,7 +353,7 @@ class Orders extends Simpla
 		if(empty($order))
 			return false;
 		
-		$query = $this->db->placehold("UPDATE __orders o SET o.total_price=IFNULL((SELECT SUM(p.price*p.amount)*(100-o.discount)/100 FROM __purchases p WHERE p.order_id=o.id), 0)+o.delivery_price*(1-o.separate_delivery), modified=NOW() WHERE o.id=? LIMIT 1", $order->id);
+		$query = $this->db->placehold("UPDATE __orders o SET o.total_price=IFNULL((SELECT SUM(p.price*p.amount)*(100-o.discount)/100 FROM __purchases p WHERE p.order_id=o.id), 0)+o.delivery_price*(1-o.separate_delivery)-o.coupon_discount, modified=NOW() WHERE o.id=? LIMIT 1", $order->id);
 		$this->db->query($query);
 		return $order->id;
 	}

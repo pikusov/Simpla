@@ -44,6 +44,8 @@ smarty_cache_lifetime = 0;
 smarty_debugging = false;
  
 [images]
+;Использовать imagemagick для обработки изображений (вместо gd)
+use_imagick = true
 
 ;Директория оригиналов изображений
 original_images_dir = files/originals/;

@@ -20,36 +20,7 @@ Header("Pragma: no-cache");
 // Установим переменную сессии, чтоб фронтенд нас узнал как админа
 $_SESSION['admin'] = 'admin';
 
-/*
-if ($_SESSION["logout"]) {
-	
-	if($_SESSION["PHP_AUTH_USER"] == $_SERVER['PHP_AUTH_USER'] && $_SESSION["PHP_AUTH_PW"] == $_SERVER['PHP_AUTH_PW'])
- 		$_SESSION["logout"] = false;
- 	else
- 	{
-		header('HTTP/1.0 401 Unauthorised');
-		header('WWW-Authenticate: Invalid'); // Change MyRealm to be the same as AuthName in .htaccess
-		exit();
-	}
-}
-
-// Если попросили разлогинится - убиваем сессию и переходим на сайт
-if(isset($_GET['action']) && $_GET['action']=='logout')
-{
-	$_SESSION["logout"] = true;
-	$_SESSION["PHP_AUTH_USER"] = $_SERVER['PHP_AUTH_USER'];
-	$_SESSION["PHP_AUTH_PW"] = $_SERVER['PHP_AUTH_PW'];
-    session_unregister('admin');
-	$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
-	$url = $protocol.'://x:x@'.rtrim($_SERVER['HTTP_HOST']).'/simpla';
-	Header('Location: '.$url);
-    exit();
-}
-*/
-
 $backend = new IndexAdmin();
-//$backend->design->set_templates_dir('admin/design/html');
-//$backend->design->set_compiled_dir('admin/design/compiled');
 
 // Проверка сессии для защиты от xss
 if(!$backend->request->check_session())
@@ -60,7 +31,6 @@ if(!$backend->request->check_session())
 
 
 print $backend->fetch();
-
 
 // Отладочная информация
 if($backend->config->debug)

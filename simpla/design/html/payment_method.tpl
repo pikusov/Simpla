@@ -51,7 +51,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{$message_error}</span>
+	<span>{if $message_success == 'added'}Способ оплаты добавлен{elseif $message_success == 'updated'}Способ оплаты изменен{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

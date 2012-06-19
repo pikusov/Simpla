@@ -19,6 +19,7 @@ class OrderAdmin extends Simpla
 			$order->comment = $this->request->post('comment');
 			$order->note = $this->request->post('note');
 			$order->discount = $this->request->post('discount', 'floatr');
+			$order->coupon_discount = $this->request->post('coupon_discount', 'floatr');
 			$order->delivery_id = $this->request->post('delivery_id', 'integer');
 			$order->delivery_price = $this->request->post('delivery_price', 'float');
 			$order->payment_method_id = $this->request->post('payment_method_id', 'integer');
@@ -51,11 +52,12 @@ class OrderAdmin extends Simpla
 				foreach($purchases as $purchase)
 				{
 					$variant = $this->variants->get_variant($purchase->variant_id);
-					if(empty($variant))
-						$variant->name = '';
-	
+
 					if(!empty($purchase->id))
-						$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
+						if(!empty($variant))
+							$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
+						else
+							$this->orders->update_purchase($purchase->id, array('price'=>$purchase->price, 'amount'=>$purchase->amount));
 					else
 						$purchase->id = $this->orders->add_purchase(array('order_id'=>$order->id, 'variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
 						

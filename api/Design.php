@@ -265,6 +265,8 @@ class Design extends Simpla
 	
 	public function date_modifier($date, $format = null)
 	{
+		if(empty($date))
+			$date = date("Y-m-d");
 	    return date(empty($format)?$this->settings->date_format:$format, strtotime($date));
 	}
 	

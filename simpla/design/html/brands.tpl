@@ -31,7 +31,7 @@
 					<a href="{url module=BrandAdmin id=$brand->id return=$smarty.server.REQUEST_URI}">{$brand->name|escape}</a> 	 			
 				</div>
 				<div class="icons cell">
-					<a class="preview" title="Предосмотр в новом окне" href="../brands/{$brand->url}" target="_blank"></a>				
+					<a class="preview" title="Предпросмотр в новом окне" href="../brands/{$brand->url}" target="_blank"></a>				
 					<a class="delete"  title="Удалить" href="#"></a>
 				</div>
 				<div class="clear"></div>

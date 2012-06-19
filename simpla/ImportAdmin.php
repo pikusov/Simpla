@@ -6,7 +6,7 @@ class ImportAdmin extends Simpla
 	public $import_files_dir = 'simpla/files/import/';
 	public $import_file = 'import.csv';
 	public $allowed_extensions = array('csv', 'txt');
-	private $locale = 'ru_RU.CP1251';
+	private $locale = 'ru_RU.UTF-8';
 
 	public function fetch()
 	{

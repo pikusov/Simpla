@@ -1,10 +1,30 @@
 <?php
 
+$use_curl = true; // Использовать CURL
+
 $keyword = $_GET['keyword'];
 $keyword = str_replace(' ', '+', $keyword);
 
 $url = "http://market.yandex.ru/search.xml?text=$keyword&cvredirect=1";
-$page = file_get_contents($url);
+
+if($use_curl)
+{
+	$ch = curl_init(); 
+	curl_setopt($ch, CURLOPT_URL, $url); 
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+
+	// Для использования прокси используйте строки:
+	//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1); 
+	//curl_setopt($ch, CURLOPT_PROXY, '88.85.108.16:8080'); 
+	//curl_setopt($ch, CURLOPT_PROXYUSERPWD, 'user:password'); 
+	
+	print $page = curl_exec($ch);
+	curl_close($ch); 
+}
+else
+{
+	$page = file_get_contents($url);
+}
 
 $result = false;
 if(preg_match_all('/<ul class="b-vlist b-vlist_type_mdash b-vlist_type_friendly">(.*)<\/ul>/ui', $page, $matches))

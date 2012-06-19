@@ -86,7 +86,7 @@
 	
 		<!-- Меню -->
 		<ul id="menu">
-			{foreach name=page from=$pages item=p}
+			{foreach $pages as $p}
 				{* Выводим только страницы из первого меню *}
 				{if $p->menu_id == 1}
 				<li {if $page && $page->id == $p->id}class="selected"{/if}>

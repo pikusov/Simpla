@@ -43,7 +43,7 @@ class Feedbacks extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.text LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.message LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
 		}
 			
 		if($new_on_top)
@@ -66,7 +66,7 @@ class Feedbacks extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.text LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.message LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
 		}
 
 		$query = $this->db->placehold("SELECT count(distinct f.id) as count

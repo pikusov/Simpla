@@ -39,7 +39,7 @@ $('select[name=module]').change(function(){
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{$message_success}</span>
+	<span>{if $message_success == 'added'}Способ доставки добавлен{elseif $message_success == 'updated'}Способ доставки изменен{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}

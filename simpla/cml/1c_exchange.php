@@ -403,7 +403,7 @@ function import_products($xml)
 			$values[] = $xml_property->Значение;
 		if(!empty($values))
 			$variant->name = implode(', ', $values);
-		$variant->sku = $xml_product->Артикул;
+		$variant->sku = (string)$xml_product->Артикул;
 		$variant->external_id = $variant_1c_id;
 		
 		// Ищем товар
@@ -421,7 +421,10 @@ function import_products($xml)
 		if(empty($product_id))
 		{
 			// Добавляем товар
-			$product_id = $simpla->products->add_product(array('external_id'=>$product_1c_id, 'name'=>$xml_product->Наименование));
+			$description = '';
+			if(!empty($xml_product->Описание))
+				$description = $xml_product->Описание;
+			$product_id = $simpla->products->add_product(array('external_id'=>$product_1c_id, 'name'=>$xml_product->Наименование, 'annotation'=>$description, 'body'=>$description));
 			
 			// Добавляем товар в категории
 			if(isset($category_id))
