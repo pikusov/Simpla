@@ -721,7 +721,7 @@ input[type="password"]
 	width: 250px;
 	margin-top: 15px;
 }
-.comment_form .input_captcha {
+.comment_form .input_captcha, .cart_form .input_captcha{
 	float: left;
 	width: 150px;
 	font-size: 24px;
@@ -730,7 +730,7 @@ input[type="password"]
 	margin-top: 15px;
 	height: 36px;
 }
-.comment_form .captcha {
+.comment_form .captcha, .cart_form .captcha {
 	float: left;
 	display: block;
 	margin-top: 15px;

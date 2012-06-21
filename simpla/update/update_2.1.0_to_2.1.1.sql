@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `s_coupons` (
   `type` enum('absolute','percentage') NOT NULL default 'absolute',
   `value` float(10,2) NOT NULL,
   `min_order_price` float(10,2) default NULL,
-  `single` int(1) NULL,
+  `single` int(1) NOT NULL default '0',
   `usages` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;

@@ -155,6 +155,7 @@ $("input[name='coupon_code']").keypress(function(event){
 	<div class="message_error">
 		{if $error == 'empty_name'}Введите имя{/if}
 		{if $error == 'empty_email'}Введите email{/if}
+		{if $error == 'captcha'}Капча введена неверно{/if}
 	</div>
 	{/if}
 	<label>Имя, фамилия</label>
@@ -171,6 +172,10 @@ $("input[name='coupon_code']").keypress(function(event){
 
 	<label>Комментарий к&nbsp;заказу</label>
 	<textarea name="comment" id="order_comment">{$comment|escape}</textarea>
+	
+	<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}" alt='captcha'/></div> 
+	<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" data-format="\d\d\d\d" data-notice="Введите капчу"/>
+	
 	<input type="submit" name="checkout" class="button" value="Оформить заказ">
 	</div>
    

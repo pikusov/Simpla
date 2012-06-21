@@ -48,4 +48,4 @@
   </tr>
 </table>
 <br><br>
-Приятной работы с <a href="http://simplaсms.ru">Simpla</a>!
+Приятной работы с <a href='http://simp.la'>Simpla</a>!

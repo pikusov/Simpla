@@ -56,6 +56,7 @@ class CartView extends View
 		$this->design->assign('phone', $order->phone);
 		$this->design->assign('address', $order->address);
 
+    	$captcha_code =  $this->request->post('captcha_code', 'string');
 
 		// Скидка
 		$cart = $this->cart->get_cart();
@@ -78,6 +79,10 @@ class CartView extends View
     	elseif(empty($order->email))
     	{
     		$this->design->assign('error', 'empty_email');
+    	}
+    	elseif($_SESSION['captcha_code'] != $captcha_code || empty($captcha_code))
+    	{
+    		$this->design->assign('error', 'captcha');
     	}
     	else
     	{

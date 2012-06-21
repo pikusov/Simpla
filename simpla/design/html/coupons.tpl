@@ -5,26 +5,12 @@
 	<li class="active"><a href="index.php?module=CouponsAdmin">Купоны</a></li>
 {/capture}
 
-
 {* Title *}
 {$meta_title='Купоны' scope=parent}
-
-{* Поиск *}
-{if $posts || $keyword}
-<form method="get">
-<div id="search">
-	<input type="hidden" name="module" value='BlogAdmin'>
-	<input class="search" type="text" name="keyword" value="{$keyword|escape}" />
-	<input class="search_button" type="submit" value=""/>
-</div>
-</form>
-{/if}
 		
 {* Заголовок *}
 <div id="header">
-	{if $keyword && $coupons_count}
-	<h1>{$posts_count|plural:'Нашлась':'Нашлись':'Нашлись'} {$coupons_count} {$coupons_count|plural:'запись':'записей':'записи'}</h1>
-	{elseif $coupons_count}
+	{if $coupons_count}
 	<h1>{$coupons_count} {$coupons_count|plural:'купон':'купонов':'купона'}</h1>
 	{else}
 	<h1>Нет купонов</h1>
@@ -67,7 +53,7 @@
 	 				{/if}
 	 				{if $coupon->usages>0}
 	 				<div class="detail">
-	 				Использован {$coupon->usages|escape} раз{$coupon->usages|plural:'':'':'а'}
+	 				Использован {$coupon->usages|escape} {$coupon->usages|plural:'раз':'раз':'раза'}
 	 				</div>
 	 				{/if}
 	 				{if $coupon->expire}
