@@ -121,7 +121,7 @@ class Orders extends Simpla
 	{
 		if(!empty($id))
 		{
-			$query = $this->db->placehold("DELETE FROM __purchases WHERE order_id=? LIMIT 1", $id);
+			$query = $this->db->placehold("DELETE FROM __purchases WHERE order_id=?", $id);
 			$this->db->query($query);
 			
 			$query = $this->db->placehold("DELETE FROM __orders WHERE id=? LIMIT 1", $id);

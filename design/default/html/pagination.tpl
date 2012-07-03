@@ -28,7 +28,7 @@
 	{$page_to = min($page_from+$visible_pages, $total_pages_num-1)}
 
 	{* Ссылка на 1 страницу отображается всегда *}
-	<a {if $current_page_num==1}class="selected"{/if} href="{url page=1}">1</a>
+	<a {if $current_page_num==1}class="selected"{/if} href="{url page=null}">1</a>
 	
 	{* Выводим страницы нашего "окна" *}	
 	{section name=pages loop=$page_to start=$page_from}
@@ -45,7 +45,8 @@
 	{* Ссылка на последнююю страницу отображается всегда *}
 	<a {if $current_page_num==$total_pages_num}class="selected"{/if}  href="{url page=$total_pages_num}">{$total_pages_num}</a>
 	
-	{if $current_page_num>1}<a class="prev_page_link" href="{url page=$current_page_num-1}">←назад</a>{/if}
+	{if $current_page_num==2}<a class="prev_page_link" href="{url page=null}">←назад</a>{/if}
+	{if $current_page_num>2}<a class="prev_page_link" href="{url page=$current_page_num-1}">←назад</a>{/if}
 	{if $current_page_num<$total_pages_num}<a class="next_page_link" href="{url page=$current_page_num+1}">вперед→</a>{/if}
 	
 </div>
