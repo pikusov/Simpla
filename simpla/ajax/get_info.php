@@ -65,13 +65,26 @@ function get_page($url, $use_curl=true)
 		$ch = curl_init(); 
 		curl_setopt($ch, CURLOPT_URL, $url); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_HEADER, 1);
 	    curl_setopt($ch, CURLOPT_REFERER, 'http://google.com');
 	    curl_setopt($ch, CURLOPT_USERAGENT, "Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51");
 	    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);	
-	
+
+		// Яндекс может нас отправить в редирект, так что нужно следовать за редиректом
+		do{
+			curl_setopt($ch, CURLOPT_URL, $url);
+			$header = curl_exec($ch);
+			$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			if($code == 301 || $code == 302)
+			{
+				preg_match('/Location:(.*?)\n/', $header, $matches);
+				$url = trim(array_pop($matches));
+			}
+			else
+				$code = 0;			
+		}while($code);
+		    	
 		// Для использования прокси используйте строки:
 		//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1); 
 		//curl_setopt($ch, CURLOPT_PROXY, '88.85.108.16:8080'); 
