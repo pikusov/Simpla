@@ -71,6 +71,11 @@ function get_page($url, $use_curl=true)
 	    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
+		// Для использования прокси используйте строки:
+		//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1); 
+		//curl_setopt($ch, CURLOPT_PROXY, '88.85.108.16:8080'); 
+		//curl_setopt($ch, CURLOPT_PROXYUSERPWD, 'user:password'); 
+
 		// Яндекс может нас отправить в редирект, так что нужно следовать за редиректом
 		do{
 			curl_setopt($ch, CURLOPT_URL, $url);
@@ -84,12 +89,7 @@ function get_page($url, $use_curl=true)
 			else
 				$code = 0;			
 		}while($code);
-		    	
-		// Для использования прокси используйте строки:
-		//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1); 
-		//curl_setopt($ch, CURLOPT_PROXY, '88.85.108.16:8080'); 
-		//curl_setopt($ch, CURLOPT_PROXYUSERPWD, 'user:password'); 
-		
+		    			
 		$page = curl_exec($ch);
 		curl_close($ch); 
 	}
