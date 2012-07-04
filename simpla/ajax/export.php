@@ -131,7 +131,7 @@ class ExportAjax extends Simpla
 	 		}
 		}
 		
-		foreach($products as $product)
+		foreach($products as &$product)
  		{
  			$variants = $product['variants'];
  			unset($product['variants']);
@@ -140,7 +140,7 @@ class ExportAjax extends Simpla
  			foreach($variants as $variant)
  			{
  				$result = array();
- 				$result = $product;
+ 				$result =  $product;
  				foreach($variant as $name=>$value)
  					$result[$name]=$value;
 
