@@ -756,7 +756,7 @@ input[type="password"]
 	width: 90%;
 	overflow: hidden;
 }
-.feedback_form .input_captcha {
+.feedback_form .input_captcha, .register_form .input_captcha{
 	float: left;
 	width: 150px;
 	font-size: 24px;
@@ -765,7 +765,7 @@ input[type="password"]
 	margin-top: 15px;
 	height: 36px;
 }
-.feedback_form .captcha {
+.feedback_form .captcha, .register_form .captcha{
 	float: left;
 	display: block;
 	margin-top: 15px;

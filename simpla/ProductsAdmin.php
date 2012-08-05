@@ -45,7 +45,7 @@ class ProductsAdmin extends Simpla
 		}
 	
 		// Поиск
-		$keyword = $this->request->get('keyword', 'string');
+		$keyword = $this->request->get('keyword');
 		if(!empty($keyword))
 		{
 	  		$filter['keyword'] = $keyword;

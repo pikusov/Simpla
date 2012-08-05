@@ -89,6 +89,15 @@ class Categories extends Simpla
 			$category['url'] = strtolower(preg_replace("/[^0-9a-zа-я_]+/ui", '', $category['url']));
 		}	
 
+		// Если есть категория с таким URL, добавляем к нему число
+		while($this->get_category((string)$category['url']))
+		{
+			if(preg_match('/(.+)_([0-9]+)$/', $category['url'], $parts))
+				$category['url'] = $parts[1].'_'.($parts[2]+1);
+			else
+				$category['url'] = $category['url'].'_2';
+		}
+
 		$this->db->query("INSERT INTO __categories SET ?%", $category);
 		$id = $this->db->insert_id();
 		$this->db->query("UPDATE __categories SET position=id WHERE id=?", $id);		

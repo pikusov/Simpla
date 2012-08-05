@@ -47,16 +47,16 @@
 	 				{$order->date|date} в {$order->date|time}
 				</div>
 				<div class="order_name cell">			 	
-	 				<a href="{url module=OrderAdmin id=$order->id return=$smarty.server.REQUEST_URI}">Заказ №{$order->id}</a> {$order->name}
+	 				<a href="{url module=OrderAdmin id=$order->id return=$smarty.server.REQUEST_URI}">Заказ №{$order->id}</a> {$order->name|escape}
 	 				{if $order->note}
-	 				<div class="note">{$order->note}</div>
+	 				<div class="note">{$order->note|escape}</div>
 	 				{/if} 	 			
 				</div>
 				<div class="icons cell">
 					<a href='#' class=delete></a>
 				</div>
 				<div class="name cell" style='white-space:nowrap;'>
-	 				{$order->total_price} {$currency->sign}
+	 				{$order->total_price|escape} {$currency->sign}
 				</div>
 				<div class="icons cell">
 					{if $order->paid}

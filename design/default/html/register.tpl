@@ -8,6 +8,7 @@
 	{elseif $error == 'empty_email'}Введите email
 	{elseif $error == 'empty_password'}Введите пароль
 	{elseif $error == 'user_exists'}Пользователь с таким email уже зарегистрирован
+	{elseif $error == 'captcha'}Неверно введена капча
 	{else}{$error}{/if}
 </div>
 {/if}
@@ -22,5 +23,9 @@
     <label>Пароль</label>
     <input type="password" name="password" data-format=".+" data-notice="Введите пароль" value="" />
 
-	<input type=submit class="button" name="register" value="Зарегистрироваться">
+	<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}"/></div> 
+	<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" data-format="\d\d\d\d" data-notice="Введите капчу"/>
+
+	<input type="submit" class="button" name="register" value="Зарегистрироваться">
+
 </form>

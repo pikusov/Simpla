@@ -13,6 +13,7 @@ class RegisterView extends View
 			$name			= $this->request->post('name');
 			$email			= $this->request->post('email');
 			$password		= $this->request->post('password');
+			$captcha_code           = $this->request->post('captcha_code');
 			
 			$this->design->assign('name', $name);
 			$this->design->assign('email', $email);
@@ -28,6 +29,10 @@ class RegisterView extends View
 				$this->design->assign('error', 'empty_email');
 			elseif(empty($password))
 				$this->design->assign('error', 'empty_password');		
+			elseif(empty($_SESSION['captcha_code']) || $_SESSION['captcha_code'] != $captcha_code || empty($captcha_code))
+			{
+				$this->design->assign('error', 'captcha');
+			}
 			elseif($user_id = $this->users->add_user(array('name'=>$name, 'email'=>$email, 'password'=>$password, 'enabled'=>$default_status)))
 			{
 				$_SESSION['user_id'] = $user_id;

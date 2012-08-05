@@ -20,7 +20,7 @@ class BlogAdmin extends Simpla
 		{
 			// Действия с выбранными
 			$ids = $this->request->post('check');
-			if(is_array($ids));
+			if(is_array($ids))
 			switch($this->request->post('action'))
 			{
 			    case 'disable':

@@ -13,18 +13,19 @@
 {/if}
 
 <form class="form" method="post">
-	<label>Имя, фамилия</label>
+	<label>Имя</label>
 	<input data-format=".+" data-notice="Введите имя" value="{$name|escape}" name="name" maxlength="255" type="text"/>
  
 	<label>Email</label>
 	<input data-format="email" data-notice="Введите email" value="{$email|escape}" name="email" maxlength="255" type="text"/></td>
 	
-	<label> <a href='#' onclick="$('#password').show();return false;">Изменить пароль</a></label>
+	<label><a href='#' onclick="$('#password').show();return false;">Изменить пароль</a></label>
 	<input id="password" value="" name="password" type="password" style="display:none;"/>
-	<input type="submit" class="button_submit" value="Сохранить">
+	<input type="submit" class="button" value="Сохранить">
 </form>
 
 {if $orders}
+<p></p>
 <h2>Ваши заказы</h2>
 <ul id="orders_history">
 {foreach name=orders item=order from=$orders}

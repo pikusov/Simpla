@@ -160,12 +160,30 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 			
 
 			// Контрагенты
-				$k1 = $doc->addChild ( 'Контрагенты' );
-				$k1_1 = $k1->addChild ( 'Контрагент' );
-				$k1_2 = $k1_1->addChild ( "Ид", $order->name);
-				$k1_2 = $k1_1->addChild ( "Наименование", $order->name);
-				$k1_2 = $k1_1->addChild ( "Роль", "Покупатель" );
-				$k1_2 = $k1_1->addChild ( "ПолноеНаименование", $order->name );
+			$k1 = $doc->addChild ( 'Контрагенты' );
+			$k1_1 = $k1->addChild ( 'Контрагент' );
+			$k1_2 = $k1_1->addChild ( "Ид", $order->name);
+			$k1_2 = $k1_1->addChild ( "Наименование", $order->name);
+			$k1_2 = $k1_1->addChild ( "Роль", "Покупатель" );
+			$k1_2 = $k1_1->addChild ( "ПолноеНаименование", $order->name );
+			
+			// Доп параметры
+			$addr = $k1_1->addChild ('АдресРегистрации');
+			$addr->addChild ( 'Представление', $order->address );
+			$addrField = $addr->addChild ( 'АдресноеПоле' );
+			$addrField->addChild ( 'Тип', 'Страна' );
+			$addrField->addChild ( 'Значение', 'RU' );
+			$addrField = $addr->addChild ( 'АдресноеПоле' );
+			$addrField->addChild ( 'Тип', 'Регион' );
+			$addrField->addChild ( 'Значение', $order->address );
+
+			$contacts = $k1_1->addChild ( 'Контакты' );
+			$cont = $contacts->addChild ( 'Контакт' );
+			$cont->addChild ( 'Тип', 'Телефон' );
+			$cont->addChild ( 'Значение', $order->phone );
+			$cont = $contacts->addChild ( 'Контакт' );
+			$cont->addChild ( 'Тип', 'Почта' );
+			$cont->addChild ( 'Значение', $order->email );
 
 
 			$purchases = $simpla->orders->get_purchases(array('order_id'=>intval($order->id)));
@@ -454,7 +472,7 @@ function import_products($xml)
 			if(isset($xml_product->Картинка))
 			{
 				$image = basename($xml_product->Картинка);
-				if(!empty($image))
+				if(!empty($image) && is_file($dir.$image) && is_writable($simpla->config->original_images_dir))
 				{
 					$simpla->db->query('SELECT id FROM __images WHERE product_id=? ORDER BY position LIMIT 1', $product_id);
 					$img_id = $simpla->db->result('id');

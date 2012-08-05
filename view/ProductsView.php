@@ -50,7 +50,7 @@ class ProductsView extends View
 		}
 
 		// Если задано ключевое слово
-		$keyword = $this->request->get('keyword', 'string');
+		$keyword = $this->request->get('keyword');
 		if (!empty($keyword))
 		{
 			$this->design->assign('keyword', $keyword);

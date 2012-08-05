@@ -255,6 +255,15 @@ class Products extends Simpla
 			$product['url'] = strtolower(preg_replace("/[^0-9a-zа-я_]+/ui", '', $product['url']));
 		}
 
+		// Если есть товар с таким URL, добавляем к нему число
+		while($this->get_product((string)$product['url']))
+		{
+			if(preg_match('/(.+)_([0-9]+)$/', $product['url'], $parts))
+				$product['url'] = $parts[1].'_'.($parts[2]+1);
+			else
+				$product['url'] = $product['url'].'_2';
+		}
+
 		if($this->db->query("INSERT INTO __products SET ?%", $product))
 		{
 			$id = $this->db->insert_id();

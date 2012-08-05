@@ -6,7 +6,7 @@ class LicenseAdmin extends Simpla
 	public function fetch()
 	{
 
-		if(isset($_POST))
+		if($this->request->method('POST'))
 		{
 			$license = $this->request->post('license');
 			$this->config->license = trim($license);

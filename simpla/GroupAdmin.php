@@ -6,7 +6,7 @@ class GroupAdmin extends Simpla
 	public function fetch()
 	{
 
-		if(isset($_POST))
+		if($this->request->method('post'))
 		{
 			$group->id = $this->request->post('id', 'integer');
 			$group->name = $this->request->post('name');
