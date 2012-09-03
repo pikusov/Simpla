@@ -535,6 +535,18 @@ div#expand a
 }
 /* @end */
 
+/* @group Ссылки для сортировки */
+div#sort_links
+{
+	margin-bottom: 10px;
+	float: right;
+}
+div#sort_links a
+{
+	color: #008fe9;
+	border-bottom-color: #008fe9;
+}
+/* @end */
 
 /* @group Список */
 #main_list.brands{ width:600px; }
@@ -779,6 +791,9 @@ div#expand a
 }
 .icons a.delete {
 	background-image: url(../images/delete.png);
+}
+.icons a.print {
+	background-image: url(../images/printer_small.png);
 }
 .icons a.featured {
 	background-image: url(../images/star_gray.png);

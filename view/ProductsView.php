@@ -114,11 +114,17 @@ class ProductsView extends View
 		$this->design->assign('current_page_num', $current_page);
 		// Вычисляем количество страниц
 		$products_count = $this->products->count_products($filter);
+		
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$items_per_page = $products_count;	
+		
 		$pages_num = ceil($products_count/$items_per_page);
 		$this->design->assign('total_pages_num', $pages_num);
 
 		$filter['page'] = $current_page;
 		$filter['limit'] = $items_per_page;
+		
 		///////////////////////////////////////////////
 		// Постраничная навигация END
 		///////////////////////////////////////////////

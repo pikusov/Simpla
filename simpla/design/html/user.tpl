@@ -65,6 +65,8 @@
 				</li>
 				{/if}
 				<li><label class=property>Email</label><input name="email" class="simpla_inp" type="text" value="{$user->email|escape}" /></li>
+				<li><label class=property>Дата регистрации</label><input name="email" class="simpla_inp" type="text" disabled value="{$user->created|date}" /></li>
+				<li><label class=property>Последний IP</label><input name="email" class="simpla_inp" type="text" disabled value="{$user->last_ip|escape}" /></li>
 			</ul>
 		</div>
 

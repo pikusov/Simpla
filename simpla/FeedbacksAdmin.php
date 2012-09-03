@@ -40,7 +40,7 @@ class FeedbacksAdmin extends Simpla
   	// Отображение
 	$filter = array();
 	$filter['page'] = max(1, $this->request->get('page', 'integer')); 		
-	$filter['limit'] = 20;
+	$filter['limit'] = 40;
 
 	// Поиск
 	$keyword = $this->request->get('keyword', 'string');
@@ -50,9 +50,13 @@ class FeedbacksAdmin extends Simpla
 		$this->design->assign('keyword', $keyword);
 	}		
 
-  	$feedbacks = $this->feedbacks->get_feedbacks($filter, true);
   	$feedbacks_count = $this->feedbacks->count_feedbacks($filter);
+	// Показать все страницы сразу
+	if($this->request->get('page') == 'all')
+		$filter['limit'] = $feedbacks_count;	
   	
+  	$feedbacks = $this->feedbacks->get_feedbacks($filter, true);
+
  	$this->design->assign('pages_count', ceil($feedbacks_count/$filter['limit']));
  	$this->design->assign('current_page', $filter['page']);
 

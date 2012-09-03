@@ -13,7 +13,7 @@ class CommentsAdmin extends Simpla
  	$filter = array();
   	$filter['page'] = max(1, $this->request->get('page', 'integer'));
   		
-  	$filter['limit'] = 20;
+  	$filter['limit'] = 40;
  
     // Тип
     $type = $this->request->get('type', 'string');
@@ -60,8 +60,11 @@ class CommentsAdmin extends Simpla
   
 
 	// Отображение
-  	$comments = $this->comments->get_comments($filter, true);
   	$comments_count = $this->comments->count_comments($filter);
+	// Показать все страницы сразу
+	if($this->request->get('page') == 'all')
+		$filter['limit'] = $comments_count;	
+  	$comments = $this->comments->get_comments($filter, true);
   	
   	// Выбирает объекты, которые прокомментированы:
   	$products_ids = array();

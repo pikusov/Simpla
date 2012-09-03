@@ -15,7 +15,7 @@ require_once('Simpla.php');
 
 class Config
 {
-	public $version = '2.1.4';
+	public $version = '2.1.5';
 	
 	// Файл для хранения настроек
 	public $config_file = 'config/config.php';
@@ -26,9 +26,6 @@ class Config
 	// для удобного доступа к ним. Например: $simpla->config->db_user
 	public function __construct()
 	{		
-		// Временная зона
-		date_default_timezone_set('CET');
-
 		// Читаем настройки из дефолтного файла
 		$ini = parse_ini_file($this->config_file);
 		// Записываем настройку как переменную класса

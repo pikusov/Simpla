@@ -91,18 +91,7 @@ class Database extends Simpla
 		$q = call_user_func_array(array($this, 'placehold'), $args);
  		if($this->link)
 		{
-			// В отладочном режиме ведем лог
-			if($this->config->debug)
-			{
-				$start = microtime(true);			
-				$this->res_id = mysql_query($q, $this->link);			
-				$end = microtime(true);
-				$this->log->write('Executing query: '.$q."\r\nExecution time: ".($end-$start).' seconds'); 
-			}
-			else
-			{
-				$this->res_id = mysql_query($q, $this->link);
-			}
+			$this->res_id = mysql_query($q, $this->link);
 		}
 		else
 		{

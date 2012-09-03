@@ -9,7 +9,7 @@
 <div class="pagination">
 	
 	{* Количество выводимых ссылок на страницы *}
-	{$visible_pages = 13}
+	{$visible_pages = 11}
 
 	{* По умолчанию начинаем вывод со страницы 1 *}
 	{$page_from = 1}
@@ -45,6 +45,7 @@
 	{* Ссылка на последнююю страницу отображается всегда *}
 	<a {if $current_page_num==$total_pages_num}class="selected"{/if}  href="{url page=$total_pages_num}">{$total_pages_num}</a>
 	
+	<a href="{url page=all}">все сразу</a>
 	{if $current_page_num==2}<a class="prev_page_link" href="{url page=null}">←назад</a>{/if}
 	{if $current_page_num>2}<a class="prev_page_link" href="{url page=$current_page_num-1}">←назад</a>{/if}
 	{if $current_page_num<$total_pages_num}<a class="next_page_link" href="{url page=$current_page_num+1}">вперед→</a>{/if}

@@ -55,11 +55,14 @@ class OrdersAdmin extends Simpla
 			$filter['status'] = $status;
 		 	$this->design->assign('status', $status);
 		}
-			
+				  	
+	  	$orders_count = $this->orders->count_orders($filter);
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$filter['limit'] = $orders_count;	
+
 		// Отображение
 	  	$orders = $this->orders->get_orders($filter);
-	  	
-	  	$orders_count = $this->orders->count_orders($filter);
 	  	
 	 	$this->design->assign('pages_count', ceil($orders_count/$filter['limit']));
 	 	$this->design->assign('current_page', $filter['page']);

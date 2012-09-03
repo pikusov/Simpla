@@ -237,16 +237,21 @@ class ImportAjax extends Simpla
 		// Если на прошлом шаге товар не нашелся, и задано хотя бы название товара
 		if((empty($product_id) || empty($variant_id)) && isset($item['name']))
 		{
-			if(isset($item['variant']))
+			if(!empty($variant['sku']) && empty($variant['name']))
+				$this->db->query('SELECT v.id as variant_id, p.id as product_id FROM __products p LEFT JOIN __variants v ON v.product_id=p.id WHERE v.sku=? LIMIT 1', $variant['sku']);			
+			elseif(isset($item['variant']))
 				$this->db->query('SELECT v.id as variant_id, p.id as product_id FROM __products p LEFT JOIN __variants v ON v.product_id=p.id AND v.name=? WHERE p.name=? LIMIT 1', $item['variant'], $item['name']);
 			else
 				$this->db->query('SELECT v.id as variant_id, p.id as product_id FROM __products p LEFT JOIN __variants v ON v.product_id=p.id WHERE p.name=? LIMIT 1', $item['name']);			
 			
 			$r =  $this->db->result();
-			$product_id = $r->product_id;
-			$variant_id = $r->variant_id;
+			if($r)
+			{
+				$product_id = $r->product_id;
+				$variant_id = $r->variant_id;
+			}
 			// Если товар найден - обноаляем,
-			if($variant_id)
+			if(!empty($variant_id))
 			{
 				$this->variants->update_variant($variant_id, $variant);
 				$this->products->update_product($product_id, $product);				

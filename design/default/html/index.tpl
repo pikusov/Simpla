@@ -151,7 +151,7 @@
 			<!-- Поиск-->
 			<div id="search">
 				<form action="products">
-					<input class="input_search" type="text" name="keyword" value="{$keyword}" placeholder="Поиск товара"/>
+					<input class="input_search" type="text" name="keyword" value="{$keyword|escape}" placeholder="Поиск товара"/>
 					<input class="button_search" value="" type="submit" />
 				</form>
 			</div>

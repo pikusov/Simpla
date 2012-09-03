@@ -36,14 +36,27 @@ class Users extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND u.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR u.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%"');
+				$keyword_filter .= $this->db->placehold('AND (u.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR u.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%"  OR u.last_ip LIKE "%'.mysql_real_escape_string(trim($keyword)).'%")');
 		}
+		
+		$order = 'u.name';
+		if(!empty($filter['sort']))
+			switch ($filter['sort'])
+			{
+				case 'date':
+				$order = 'u.created DESC';
+				break;
+				case 'name':
+				$order = 'u.name';
+				break;
+			}
+		
 
 		$sql_limit = $this->db->placehold(' LIMIT ?, ? ', ($page-1)*$limit, $limit);
 		// Выбираем пользователей
-		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, g.discount FROM __users u
+		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name FROM __users u
 		                                LEFT JOIN __groups g ON u.group_id=g.id 
-										WHERE 1 $group_id_filter $keyword_filter ORDER BY u.name $sql_limit");
+										WHERE 1 $group_id_filter $keyword_filter ORDER BY $order $sql_limit");
 		$this->db->query($query);
 		return $this->db->results();
 	}
@@ -79,7 +92,7 @@ class Users extends Simpla
 			$where = $this->db->placehold(' WHERE u.id=? ', intval($id));
 	
 		// Выбираем пользователя
-		$query = $this->db->placehold("SELECT u.*, g.discount FROM __users u LEFT JOIN __groups g ON u.group_id=g.id $where LIMIT 1", $id);
+		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name FROM __users u LEFT JOIN __groups g ON u.group_id=g.id $where LIMIT 1", $id);
 		$this->db->query($query);
 		$user = $this->db->result();
 		if(empty($user))

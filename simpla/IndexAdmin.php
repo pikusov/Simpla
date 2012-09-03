@@ -77,8 +77,15 @@ class IndexAdmin extends Simpla
 		
 		$new_comments_counter = $this->comments->count_comments(array('approved'=>0));
 		$this->design->assign("new_comments_counter", $new_comments_counter);
-				
-	
-		return $this->body = $this->design->fetch('index.tpl');
+		
+		// Создаем текущую обертку сайта (обычно index.tpl)
+		$wrapper = $this->design->smarty->getTemplateVars('wrapper');
+		if(is_null($wrapper))
+			$wrapper = 'index.tpl';
+			
+		if(!empty($wrapper))
+			return $this->body = $this->design->fetch($wrapper);
+		else
+			return $this->body = $content;
 	}
 }

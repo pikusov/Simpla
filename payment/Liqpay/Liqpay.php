@@ -31,7 +31,7 @@ class Liqpay extends Simpla
 			$payway[] = 'delayed';
 		$payway = implode(',', $payway);
 		
-		$result_url = $this->config->root_url.'/order/';
+		$result_url = $this->config->root_url.'/payment/Liqpay/callback.php';
 		$server_url = $this->config->root_url.'/payment/Liqpay/callback.php';		
 		
 		$xml = '<request>      
@@ -50,7 +50,7 @@ class Liqpay extends Simpla
 		$merc_sign = $settings['liqpay_sign'];
 		$sign = base64_encode(sha1($merc_sign.$xml.$merc_sign, 1));
 					
-		$button =	'<form action="https://www.liqpay.com/?do=clickNbuy" method="POST" />'.
+		$button =	'<form action="https://www.liqpay.com/?do=clickNbuy" method="POST"/>'.
 					'<input type="hidden" name="operation_xml" value="'.$xml_encoded.'" />'.
 					'<input type="hidden" name="signature" value="'.$sign.'" />'.
 					'<input type=submit class=checkout_button value="'.$button_text.'">'.

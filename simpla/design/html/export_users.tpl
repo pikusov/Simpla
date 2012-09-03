@@ -1,13 +1,14 @@
 {capture name=tabs}
-	<li><a href="index.php?module=ImportAdmin">Импорт</a></li>
-	<li class="active"><a href="index.php?module=ExportAdmin">Экспорт</a></li>
-	<li><a href="index.php?module=BackupAdmin">Бекап</a></li>			
 {/capture}
-{$meta_title='Экспорт товаров' scope=parent}
+{$meta_title='Экспорт покупателей' scope=parent}
 
 <script>
-{literal}
-	
+var in_process=false;
+var group_id='{$group_id|escape}';
+var keyword='{$keyword|escape}';
+var sort='{$sort|escape}';
+
+{literal}	
 var in_process=false;
 
 $(function() {
@@ -27,31 +28,30 @@ $(function() {
 		page = typeof(page) != 'undefined' ? page : 1;
 
 		$.ajax({
- 			 url: "ajax/export.php",
- 			 	data: {page:page},
- 			 	dataType: 'json',
-  				success: function(data){
-  				
-    				if(data && !data.end)
-    				{
-    					$("#progressbar").progressbar({ value: 100*data.page/data.totalpages });
-    					do_export(data.page*1+1);
-    				}
-    				else
-    				{	
-    					$("#progressbar").hide('fast');
-    					window.location.href = 'files/export/export.csv';
- 
-    				}
-  				},
-				error:function(xhr, status, errorThrown) {
-					alert(errorThrown+'\n'+xhr.responseText);
-        		}  				
+				url: "ajax/export_users.php",
+				data: {page:page, group_id:group_id, keyword:keyword, sort:sort},
+				dataType: 'json',
+				success: function(data){
+				
+				if(data && !data.end)
+				{
+					$("#progressbar").progressbar({ value: 100*data.page/data.totalpages });
+					do_export(data.page*1+1);
+				}
+				else
+				{	
+					$("#progressbar").hide('fast');
+					window.location.href = 'files/export_users/users.csv';
+
+				}
+				},
+				error:function(xhr, status, errorThrown) {	
+				alert(errorThrown+'\n'+xhr.responseText);
+			}  				
   				
 		});
 	
-	} 
-	
+	}
 });
 {/literal}
 </script>
@@ -77,10 +77,10 @@ $(function() {
 
 
 <div>
-	<h1>Экспорт товаров</h1>
+	<h1>Экспорт покупателей</h1>
 	{if $message_error != 'no_permission'}
 	<div id='progressbar'></div>
-	<input class="button_green" id="start" type="button" name="" value="Экспортировать" />	
+	<input class="button_green" id="start" type="button" name="" value="Экспортировать" />
 	{/if}
 </div>
  

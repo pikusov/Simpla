@@ -54,9 +54,12 @@ class BlogAdmin extends Simpla
 			$this->design->assign('keyword', $keyword);
 		}		
 		
-		$posts = $this->blog->get_posts($filter);
 		$posts_count = $this->blog->count_posts($filter);
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$filter['limit'] = $posts_count;	
 		
+		$posts = $this->blog->get_posts($filter);
 		$this->design->assign('posts_count', $posts_count);
 		
 		$this->design->assign('pages_count', ceil($posts_count/$filter['limit']));

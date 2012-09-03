@@ -75,10 +75,13 @@ class IndexView extends View
 				
 		// Создаем текущую обертку сайта (обычно index.tpl)
 		$wrapper = $this->design->smarty->getTemplateVars('wrapper');
-		if(empty($wrapper))
+		if(is_null($wrapper))
 			$wrapper = 'index.tpl';
 			
-		$this->body = $this->design->fetch($wrapper);
-		return $this->body;
+		if(!empty($wrapper))
+			return $this->body = $this->design->fetch($wrapper);
+		else
+			return $this->body = $content;
+
 	}
 }

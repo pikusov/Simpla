@@ -48,8 +48,14 @@ class Paypal extends Simpla
 					<input type='hidden' name='cancel_return' value='$fail_url'>
 					";
 					
-		if($order->discount)
+		if($order->discount>0)
 			$button .= "<input type='hidden' name='discount_rate_cart' value='".$order->discount."'>";
+					
+		if($order->coupon_discount>0)
+		{
+			$coupon_discount = $this->money->convert($order->coupon_discount, $payment_method->currency_id, false);
+			$button .= "<input type='hidden' name='discount_amount_cart' value='".$coupon_discount."'>";
+		}
 					
 		$i = 1;
 		foreach($purchases as $purchase)
