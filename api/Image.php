@@ -338,8 +338,7 @@ class Image extends Simpla
 		{
 			$overlay = new Imagick($watermark);
 			//$overlay->setImageOpacity(0.9);
-			$overlay->setImageOpacity($watermark_opacity);
-			$overlay_compose = $overlay->getImageCompose();
+			$overlay->evaluateImage(Imagick::EVALUATE_MULTIPLY, $watermark_opacity, Imagick::CHANNEL_ALPHA);
 			
 			// Get the size of overlay 
 			$owidth = $overlay->getImageWidth(); 
@@ -366,7 +365,7 @@ class Image extends Simpla
 				
 			if(isset($overlay) && is_object($overlay))
 			{
-				$frame->compositeImage($overlay, $overlay_compose, $watermark_x, $watermark_y, imagick::COLOR_ALPHA);
+				$frame->compositeImage($overlay, imagick::COMPOSITE_OVER, $watermark_x, $watermark_y, imagick::COLOR_ALPHA);
 			}
 				
 		}	
