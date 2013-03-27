@@ -43,6 +43,9 @@ class Config
 		$subdir = trim(substr($script_dir1, strlen($script_dir2)), "/\\");
 
 		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
+		$protocol = $_SERVER["SERVER_PORT"] == 443 ? 'https' : 'http';
+		$this->vars['protocol'] = $protocol;
+		
 		$this->vars['root_url'] = $protocol.'://'.rtrim($_SERVER['HTTP_HOST']);
 		if(!empty($subdir))
 			$this->vars['root_url'] .= '/'.$subdir;
