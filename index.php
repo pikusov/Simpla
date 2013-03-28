@@ -15,6 +15,13 @@ $time_start = microtime(true);
 
 session_start();
 
+// Определяем реальный IP адрес посетителя
+if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+	$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CLIENT_IP'];
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+	$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+}
+
 require_once('view/IndexView.php');
 
 $view = new IndexView();
