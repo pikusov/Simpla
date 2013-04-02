@@ -340,9 +340,6 @@ class Products extends Simpla
     	$new_id = $this->products->add_product($product);
     	$this->db->query('UPDATE __products SET position=? WHERE id=?', $product->position+1, $new_id);
     	
-    	// Очищаем url
-    	$this->db->query('UPDATE __products SET url="" WHERE id=?', $new_id);
-    	
 		// Дублируем категории
 		$categories = $this->categories->get_product_categories($id);
 		foreach($categories as $c)
