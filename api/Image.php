@@ -61,7 +61,7 @@ class Image extends Simpla
 	
 	
 		if($set_watermark && is_file($this->config->watermark_file))
-			$watermark = $this->config->watermark_file;
+			$watermark = $this->config->root_dir.$this->config->watermark_file;
 		else
 			$watermark = null;
 
