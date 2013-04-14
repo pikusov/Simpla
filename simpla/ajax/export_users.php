@@ -22,6 +22,9 @@ class ExportAjax extends Simpla
 
 	public function fetch()
 	{
+		if(!$this->managers->access('users'))
+			return false;
+	
 		// Ёксель кушает только 1251
 		setlocale(LC_ALL, 'ru_RU.1251');
 		$this->db->query('SET NAMES cp1251');
@@ -48,7 +51,8 @@ class ExportAjax extends Simpla
 		$filter = array();
 		$filter['page'] = $page;
 		$filter['limit'] = $this->users_count;
-		$filter['group_id'] = intval($this->request->get('group_id'));
+		if($this->request->get('group_id'))
+			$filter['group_id'] = intval($this->request->get('group_id'));
 		$filter['sort'] = $this->request->get('sort');
 		$filter['keyword'] = $this->request->get('keyword');
 		

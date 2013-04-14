@@ -2,6 +2,7 @@
 {/capture}
 {$meta_title='Экспорт покупателей' scope=parent}
 
+<script src="{$config->root_url}/simpla/design/js/piecon/piecon.js"></script>
 <script>
 var in_process=false;
 var group_id='{$group_id|escape}';
@@ -16,6 +17,8 @@ $(function() {
 	// On document load
 	$('input#start').click(function() {
  
+ 		Piecon.setOptions({fallback: 'force'});
+ 		Piecon.setProgress(0);
     	$("#progressbar").progressbar({ value: 0 });
  		
     	$("#start").hide('fast');
@@ -35,11 +38,13 @@ $(function() {
 				
 				if(data && !data.end)
 				{
+    				Piecon.setProgress(Math.round(100*data.page/data.totalpages));
 					$("#progressbar").progressbar({ value: 100*data.page/data.totalpages });
 					do_export(data.page*1+1);
 				}
 				else
 				{	
+    				Piecon.setProgress(100);
 					$("#progressbar").hide('fast');
 					window.location.href = 'files/export_users/users.csv';
 

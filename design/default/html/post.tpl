@@ -72,7 +72,7 @@
 		<textarea class="comment_textarea" id="comment_text" name="text" data-format=".+" data-notice="Введите комментарий">{$comment_text}</textarea><br />
 		<div>
 		<label for="comment_name">Имя</label>
-		<input class="input_name" type="text" id="comment_name" name="name" value="{$comment_name}" data-format=".+" data-notice="Введите имя"/><br />
+		<input class="input_name" type="text" id="comment_name" name="name" value="{$comment_name|escape}" data-format=".+" data-notice="Введите имя"/><br />
 
 		<input class="button" type="submit" name="comment" value="Отправить" />
 		

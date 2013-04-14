@@ -1,9 +1,9 @@
 {* Вкладки *}
 {capture name=tabs}
-	<li><a href="index.php?module=ProductsAdmin">Товары</a></li>
-	<li><a href="index.php?module=CategoriesAdmin">Категории</a></li>
+	{if in_array('products', $manager->permissions)}<li><a href="index.php?module=ProductsAdmin">Товары</a></li>{/if}
+	{if in_array('categories', $manager->permissions)}<li><a href="index.php?module=CategoriesAdmin">Категории</a></li>{/if}
 	<li class="active"><a href="index.php?module=BrandsAdmin">Бренды</a></li>
-	<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>
+	{if in_array('features', $manager->permissions)}<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>{/if}
 {/capture}
 
 {* Title *}
@@ -71,7 +71,7 @@ $(function() {
 	
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить

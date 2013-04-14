@@ -15,6 +15,8 @@ $(function() {
 
 var options = {
       chart: {
+      	 zoomType: 'x',
+      	  type: 'column',
          renderTo: 'container',
          defaultSeriesType: 'line'
       },
@@ -55,18 +57,15 @@ var options = {
 	    series.name = 'Сумма заказов, {/literal}{$currency->sign}{literal}';
 	    
 	    d = new Date();
-		for(i=0; i<31; i++)
+		for(i=0; i<365; i++)
 		{	
- 			series.data.push([Date.UTC(1900+d.getYear(), d.getMonth(), d.getDate()), 0]);
+ 			//series.data.push([Date.UTC(1900+d.getYear(), d.getMonth(), d.getDate()), 0]);
 			d.setDate(d.getDate()-1);
  		}
 	    
 	    // Iterate over the lines and add categories or series
 	    $.each(data, function(lineNo, line) {
-
-   	                    series.data.push([Date.UTC(line.year, line.month-1, line.day), parseInt(line.y)]);
-
-	  
+			series.data.push([Date.UTC(line.year, line.month-1, line.day), parseInt(line.y)]);
 	    });
 	    options.series.push(series);
 	    

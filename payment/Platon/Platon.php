@@ -19,20 +19,16 @@ class Platon extends Simpla
 		
 		// описание заказа
 		// order description
-		$desc = 'Оплата заказа №'.$order->id;
+		$data = base64_encode( serialize( array('amount'=>$price, 'currency'=>$payment_currency->code, 'name'=>'Оплата заказа №'.$order->id)));
 		
-		$return_url = $this->config->root_url.'/payment/Platon/callback.php';
-		$callback_url = $this->config->root_url.'/payment/Platon/callback.php';		
+		$return_url = $this->config->root_url.'/order/'.$order->url;
 		
-
-		
-		$merc_sign = $settings['liqpay_sign'];
-		$sign = md5(strtoupper(strrev($_SERVER["REMOTE_ADDR"]).strrev($settings['platon_key']).strrev($desc).strrev($return_url).strrev($settings['platon_password'])));
+		$sign = md5(strtoupper(strrev($_SERVER["REMOTE_ADDR"]).strrev($settings['platon_key']).strrev($data).strrev($return_url).strrev($settings['platon_password'])));
 					
-		$button =	'<form action="https://secure.platononline.com/pcc.php?a=auth" method="POST"/>'.
+		$button =	'<form action="https://secure.platononline.com/webpaygw/pcc.php?a=auth" method="POST"/>'.
 					'<input type="hidden" name="key" value="'.$settings['platon_key'].'" />'.
 					'<input type="hidden" name="order" value="'.$order->id.'" />'.
-					'<input type="hidden" name="data" value="'.$desc.'" />'.
+					'<input type="hidden" name="data" value="'.$data.'" />'.
 					'<input type="hidden" name="url" value="'.$return_url.'" />'.
 					'<input type="hidden" name="sign" value="'.$sign.'" />'.
 					'<input type=submit class=checkout_button value="'.$button_text.'">'.

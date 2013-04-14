@@ -1,6 +1,6 @@
 {* Вкладки *}
 {capture name=tabs}
-		<li><a href="index.php?module=CommentsAdmin">Комментарии</a></li>
+		{if in_array('comments', $manager->permissions)}<li><a href="index.php?module=CommentsAdmin">Комментарии</a></li>{/if}
 		<li class="active"><a href="index.php?module=FeedbacksAdmin">Обратная связь</a></li>
 {/capture}
 
@@ -110,7 +110,7 @@ $(function() {
 	
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить 

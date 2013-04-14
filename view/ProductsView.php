@@ -73,7 +73,7 @@ class ProductsView extends View
 			foreach($this->features->get_features(array('category_id'=>$category->id, 'in_filter'=>1)) as $feature)
 			{ 
 				$features[$feature->id] = $feature;
-				if(($val = $this->request->get($feature->id))!='')
+				if(($val = strval($this->request->get($feature->id)))!='')
 					$filter['features'][$feature->id] = $val;	
 			}
 			

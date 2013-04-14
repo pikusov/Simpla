@@ -4,6 +4,9 @@
 	$simpla = new Simpla();
 	$limit = 100;
 	
+	if(!$simpla->managers->access('orders'))
+		return false;
+	
 	$keyword = $simpla->request->get('query', 'string');
 	
 	$simpla->db->query('SELECT p.id, p.name, i.filename as image FROM __products p

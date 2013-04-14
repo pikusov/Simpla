@@ -103,7 +103,7 @@ $(function() {
 
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить 

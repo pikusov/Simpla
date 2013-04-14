@@ -101,7 +101,7 @@ class Categories extends Simpla
 		$this->db->query("INSERT INTO __categories SET ?%", $category);
 		$id = $this->db->insert_id();
 		$this->db->query("UPDATE __categories SET position=id WHERE id=?", $id);		
-		$this->init_categories();		
+		unset($this->categories_tree);	
 		return $id;
 	}
 	
@@ -128,7 +128,7 @@ class Categories extends Simpla
 				$this->db->query($query);
 				$query = $this->db->placehold("DELETE FROM __products_categories WHERE category_id=?", $id);
 				$this->db->query($query);
-				$this->init_categories();			
+				unset($this->categories_tree);			
 			}
 		}
 		return true;
@@ -165,7 +165,7 @@ class Categories extends Simpla
 			{			
 				@unlink($this->config->root_dir.$this->config->categories_images_dir.$filename);		
 			}
-			$this->init_categories();
+			unset($this->categories_tree);
 		}
 	}
 

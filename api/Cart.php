@@ -21,6 +21,7 @@ class Cart extends Simpla
 	*/
 	public function get_cart()
 	{
+		$cart = new stdClass();
 		$cart->purchases = array();
 		$cart->total_price = 0;
 		$cart->total_products = 0;
@@ -39,6 +40,7 @@ class Cart extends Simpla
  
 				foreach($variants as $variant)
 				{
+					$items[$variant->id] = new stdClass();
 					$items[$variant->id]->variant = $variant;
 					$items[$variant->id]->amount = $session_items[$variant->id];
 					$products_ids[] = $variant->product_id;
@@ -58,12 +60,11 @@ class Cart extends Simpla
 					$purchase = null;
 					if(!empty($products[$item->variant->product_id]))
 					{
-						$purchase->product = $products[$item->variant->product_id];
-						
+						$purchase = new stdClass();
+						$purchase->product = $products[$item->variant->product_id];						
 						$purchase->variant = $item->variant;
-						
 						$purchase->amount = $item->amount;
-			
+
 						$cart->purchases[] = $purchase;
 						$cart->total_price += $item->variant->price*$item->amount;
 						$cart->total_products += $item->amount;

@@ -33,6 +33,10 @@ class ExportAjax extends Simpla
 
 	public function fetch()
 	{
+
+		if(!$this->managers->access('export'))
+			return false;
+
 		// Ёксель кушает только 1251
 		setlocale(LC_ALL, 'ru_RU.1251');
 		$this->db->query('SET NAMES cp1251');
@@ -170,9 +174,13 @@ class ExportAjax extends Simpla
 }
 
 $export_ajax = new ExportAjax();
-$json = json_encode($export_ajax->fetch());
-header("Content-type: application/json; charset=utf-8");
-header("Cache-Control: must-revalidate");
-header("Pragma: no-cache");
-header("Expires: -1");		
-print $json;
+$data = $export_ajax->fetch();
+if($data)
+{
+	header("Content-type: application/json; charset=utf-8");
+	header("Cache-Control: must-revalidate");
+	header("Pragma: no-cache");
+	header("Expires: -1");
+	$json = json_encode($data);
+	print $json;
+}

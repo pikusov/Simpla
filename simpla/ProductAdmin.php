@@ -74,13 +74,15 @@ class ProductAdmin extends Simpla
 			if(empty($product->name))
 			{			
 				$this->design->assign('message_error', 'empty_name');
-				$images = $this->products->get_images(array('product_id'=>$product->id));
+				if(!empty($product->id))
+					$images = $this->products->get_images(array('product_id'=>$product->id));
 			}
 			// Не допустить одинаковые URL разделов.
 			elseif(($p = $this->products->get_product($product->url)) && $p->id!=$product->id)
 			{			
 				$this->design->assign('message_error', 'url_exists');
-				$images = $this->products->get_images(array('product_id'=>$product->id));
+				if(!empty($product->id))
+					$images = $this->products->get_images(array('product_id'=>$product->id));
 			}
 			else
 			{
@@ -118,7 +120,7 @@ class ProductAdmin extends Simpla
 								$variant->stock = null;
 								
 							// Удалить файл
-							if(!empty($_POST['delete_attachment'][$variant->id]))
+							if(!empty($_POST['delete_attachment'][$index]))
 							{
 								$this->variants->delete_attachment($variant->id);
 							}
@@ -234,15 +236,15 @@ class ProductAdmin extends Simpla
 					{
 						foreach($new_features_names as $i=>$name)
 						{
-							$value = $new_features_values[$i];
+							$value = trim($new_features_values[$i]);
 							if(!empty($name) && !empty($value))
 							{
-								$query = $this->db->placehold("SELECT * FROM __features WHERE name=? LIMIT 1", $name);
+								$query = $this->db->placehold("SELECT * FROM __features WHERE name=? LIMIT 1", trim($name));
 								$this->db->query($query);
 								$feature_id = $this->db->result('id');
 								if(empty($feature_id))
 								{
-									$feature_id = $this->features->add_feature(array('name'=>$name));
+									$feature_id = $this->features->add_feature(array('name'=>trim($name)));
 								}
 								$this->features->add_feature_category($feature_id, reset($product_categories)->id);
 								$this->features->update_option($product->id, $feature_id, $value);

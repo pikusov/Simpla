@@ -39,6 +39,9 @@ class ImportAjax extends Simpla
 
 	public function import()
 	{
+		if(!$this->managers->access('import'))
+			return false;
+
 		// Для корректной работы установим локаль UTF-8
 		setlocale(LC_ALL, 'ru_RU.UTF-8');
 		
@@ -174,9 +177,10 @@ class ImportAjax extends Simpla
 			$product['url'] = $this->translit($item['name']);
 	
 		// Если задан бренд
-		$item['brand'] = trim($item['brand']);	
+		$item['brand'] = '';	
 		if(!empty($item['brand']))
 		{
+			$item['brand'] = trim($item['brand']);
 			// Найдем его по имени
 			$this->db->query('SELECT id FROM __brands WHERE name=?', $item['brand']);
 			if(!$product['brand_id'] = $this->db->result('id'))
@@ -362,6 +366,7 @@ class ImportAjax extends Simpla
 
 	 	$res = str_replace($ru, $en, $text);
 		$res = preg_replace("/[\s]+/ui", '-', $res);
+		$res = preg_replace('/[^\p{L}\p{Nd}\d-]/ui', '', $res);
 	 	$res = strtolower($res);
 	    return $res;  
 	}

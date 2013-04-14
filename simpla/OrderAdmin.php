@@ -26,7 +26,9 @@ class OrderAdmin extends Simpla
 			$order->paid = $this->request->post('paid', 'integer');
 			$order->user_id = $this->request->post('user_id', 'integer');
 			$order->separate_delivery = $this->request->post('separate_delivery', 'integer');
-
+	 
+	 		if(!$order_labels = $this->request->post('order_labels'))
+	 			$order_labels = array();
 
 			if(empty($order->id))
 			{
@@ -38,6 +40,8 @@ class OrderAdmin extends Simpla
     			$this->orders->update_order($order->id, $order);
 				$this->design->assign('message_success', 'updated');
     		}	
+
+	    	$this->orders->update_order_labels($order->id, $order_labels);
 			
 			if($order->id)
 			{
@@ -122,6 +126,11 @@ class OrderAdmin extends Simpla
 		{
 			$order->id = $this->request->get('id', 'integer');
 			$order = $this->orders->get_order(intval($order->id));
+			// Метки заказа
+			$order_labels = array();
+			if(isset($order->id))
+			foreach($this->orders->get_order_labels($order->id) as $ol)
+				$order_labels[] = $ol->id;			
 		}
 
 
@@ -209,6 +218,12 @@ class OrderAdmin extends Simpla
 		// Все способы оплаты
 		$payment_methods = $this->payment->get_payment_methods();
 		$this->design->assign('payment_methods', $payment_methods);
+
+		// Метки заказов
+	  	$labels = $this->orders->get_labels();
+	 	$this->design->assign('labels', $labels);
+	  	
+	 	$this->design->assign('order_labels', $order_labels);	  	
 		
 		if($this->request->get('view') == 'print')
  		  	return $this->design->fetch('order_print.tpl');

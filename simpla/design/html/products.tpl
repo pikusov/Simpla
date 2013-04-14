@@ -1,9 +1,9 @@
 {* Вкладки *}
 {capture name=tabs}
 	<li class="active"><a href="{url module=ProductsAdmin keyword=null category_id=null brand_id=null filter=null page=null}">Товары</a></li>
-	<li><a href="index.php?module=CategoriesAdmin">Категории</a></li>
-	<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>
-	<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>
+	{if in_array('categories', $manager->permissions)}<li><a href="index.php?module=CategoriesAdmin">Категории</a></li>{/if}
+	{if in_array('brands', $manager->permissions)}<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>{/if}
+	{if in_array('features', $manager->permissions)}<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>{/if}
 {/capture}
 
 {* Title *}
@@ -87,8 +87,8 @@
 				{$variants_num = $product->variants|count}
 				{if $variants_num>1}
 				<div class="expand_variant">
-				<a class="dash_link expand_variant" href="#">{$variants_num} {$variants_num|plural:'вариант':'вариатов':'варианта'} ↓</a>
-				<a class="dash_link roll_up_variant" style="display:none;" href="#">{$variants_num} {$variants_num|plural:'вариант':'вариатов':'варианта'} ↑</a>
+				<a class="dash_link expand_variant" href="#">{$variants_num} {$variants_num|plural:'вариант':'вариантов':'варианта'} ↓</a>
+				<a class="dash_link roll_up_variant" style="display:none;" href="#">{$variants_num} {$variants_num|plural:'вариант':'вариантов':'варианта'} ↑</a>
 				</div>
 				{/if}
 				</div>
@@ -387,7 +387,7 @@ $(function() {
 
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить товар

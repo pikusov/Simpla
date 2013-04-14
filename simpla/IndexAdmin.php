@@ -6,6 +6,52 @@ require_once('api/Simpla.php');
 // Этот класс выбирает модуль в зависимости от параметра Section и выводит его на экран
 class IndexAdmin extends Simpla
 {
+	// Соответсвие модулей и названий соответствующих прав
+	private $modules_permissions = array(
+		'ProductsAdmin'       => 'products',
+		'ProductAdmin'        => 'products',
+		'CategoriesAdmin'     => 'categories',
+		'CategoryAdmin'       => 'categories',
+		'BrandsAdmin'         => 'brands',
+		'BrandAdmin'          => 'brands',
+		'FeaturesAdmin'       => 'features',
+		'FeatureAdmin'        => 'features',
+		'OrdersAdmin'         => 'orders',
+		'OrderAdmin'          => 'orders',
+		'OrdersLabelsAdmin'   => 'labels',
+		'OrdersLabelAdmin'    => 'labels',
+		'UsersAdmin'          => 'users',
+		'UserAdmin'           => 'users',
+		'ExportUsersAdmin'    => 'users',
+		'GroupsAdmin'         => 'groups',
+		'GroupAdmin'          => 'groups',
+		'CouponsAdmin'        => 'coupons',
+		'CouponAdmin'         => 'coupons',
+		'PagesAdmin'          => 'pages',
+		'PageAdmin'           => 'pages',
+		'BlogAdmin'           => 'blog',
+		'PostAdmin'           => 'blog',
+		'CommentsAdmin'       => 'comments',
+		'FeedbacksAdmin'      => 'feedbacks',
+		'ImportAdmin'         => 'import',
+		'ExportAdmin'         => 'export',
+		'BackupAdmin'         => 'backup',
+		'StatsAdmin'          => 'stats',
+		'ThemeAdmin'          => 'design',
+		'StylesAdmin'         => 'design',
+		'TemplatesAdmin'      => 'design',
+		'ImagesAdmin'         => 'design',
+		'SettingsAdmin'       => 'settings',
+		'CurrencyAdmin'       => 'currency',
+		'DeliveriesAdmin'     => 'delivery',
+		'DeliveryAdmin'       => 'delivery',
+		'PaymentMethodAdmin'  => 'payment',
+		'PaymentMethodsAdmin' => 'payment',
+		'ManagersAdmin'       => 'managers',
+		'ManagerAdmin'        => 'managers',
+		'LicenseAdmin'        => 'license'
+	);
+
 	// Конструктор
 	public function __construct()
 	{
@@ -43,13 +89,28 @@ class IndexAdmin extends Simpla
 		
 		$this->design->assign('settings',	$this->settings);
 		$this->design->assign('config',	$this->config);
+		
+		// Администратор
+		$this->manager = $this->managers->get_manager();
+		$this->design->assign('manager', $this->manager);
 
  		// Берем название модуля из get-запроса
 		$module = $this->request->get('module', 'string');
 		$module = preg_replace("/[^A-Za-z0-9]+/", "", $module);
 		
-		// Если не запросили модуль - используем модуль ProductsAdmin
+		// Если не запросили модуль - используем модуль первый из разрешенных
 		if(empty($module) || !is_file('simpla/'.$module.'.php'))
+		{
+			foreach($this->modules_permissions as $m=>$p)
+			{
+				if($this->managers->access($p))
+				{
+					$module = $m;
+					break;
+				}
+			}
+		}
+		if(empty($module))
 			$module = 'ProductsAdmin';
 
 		// Подключаем файл с необходимым модулем
@@ -67,10 +128,19 @@ class IndexAdmin extends Simpla
 	{
 		$currency = $this->money->get_currency();
 		$this->design->assign("currency", $currency);
-
-		$content = $this->module->fetch();
-		$this->design->assign("content", $content);
 		
+		// Проверка прав доступа к модулю
+		if(isset($this->modules_permissions[get_class($this->module)])
+		&& $this->managers->access($this->modules_permissions[get_class($this->module)]))
+		{
+			$content = $this->module->fetch();
+			$this->design->assign("content", $content);
+		}
+		else
+		{
+			$this->design->assign("content", "Permission denied");
+		}
+
 		// Счетчики для верхнего меню
 		$new_orders_counter = $this->orders->count_orders(array('status'=>0));
 		$this->design->assign("new_orders_counter", $new_orders_counter);

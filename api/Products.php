@@ -216,7 +216,7 @@ class Products extends Simpla
 		else
 			$filter = $this->db->placehold('p.url = ?', $id);
 			
-		$query = $this->db->placehold("SELECT DISTINCT
+		$query = "SELECT DISTINCT
 					p.id,
 					p.url,
 					p.brand_id,
@@ -234,7 +234,7 @@ class Products extends Simpla
                 LEFT JOIN __brands b ON p.brand_id = b.id
                 WHERE $filter
                 GROUP BY p.id
-                LIMIT 1", intval($id));
+                LIMIT 1";
 		$this->db->query($query);
 		$product = $this->db->result();
 		return $product;

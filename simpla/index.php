@@ -14,6 +14,7 @@ require_once('simpla/IndexAdmin.php');
 
 // Кеширование в админке нам не нужно
 Header("Cache-Control: no-cache, must-revalidate");
+header("Expires: -1");
 Header("Pragma: no-cache");
 
 

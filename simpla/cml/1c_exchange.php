@@ -3,11 +3,14 @@
 // Папка для хранения временных файлов синхронизации
 $dir = 'simpla/cml/temp/';
 
+// Обновлять все данные при каждой синхронизации
+$full_update = true;
+
 // Название параметра товара, используемого как бренд
 $brand_option_name = 'Производитель';
 
 $start_time = microtime(true);
-$max_exec_time = @ini_get("max_execution_time");
+$max_exec_time = min(30, @ini_get("max_execution_time"));
 if(empty($max_exec_time))
 	$max_exec_time = 30;
 
@@ -111,7 +114,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 			$purchase->sku = $xml_product->Артикул;			
 			$purchase->product_name = $xml_product->Наименование;
 			$purchase->amount = $xml_product->Количество;
-			$purchase->price = $xml_product->ЦенаЗаЕдиницу;
+			$purchase->price = floatval($xml_product->ЦенаЗаЕдиницу);
 			
 			if(isset($xml_product->Скидки->Скидка))
 			{
@@ -134,7 +137,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 				$simpla->orders->delete_purchase($purchase->id);
 		}
 		
-		$simpla->db->query('UPDATE __orders SET total_price=? WHERE id=? LIMIT 1', $xml_order->Сумма, $order->id);
+		$simpla->db->query('UPDATE __orders SET discount=0, total_price=? WHERE id=? LIMIT 1', $xml_order->Сумма, $order->id);
 		
 	}
 	
@@ -239,15 +242,16 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 					if($purchase->variant_name)
 						$name .= " $purchase->variant_name $id";
 					$t1_2 = $t1_1->addChild ( "Наименование", $name);
-					$t1_2 = $t1_1->addChild ( "ЦенаЗаЕдиницу", $purchase->price );
+					$t1_2 = $t1_1->addChild ( "ЦенаЗаЕдиницу", $purchase->price*(100-$order->discount)/100);
 					$t1_2 = $t1_1->addChild ( "Количество", $purchase->amount );
-					$t1_2 = $t1_1->addChild ( "Сумма", $purchase->amount*$purchase->price);
+					$t1_2 = $t1_1->addChild ( "Сумма", $purchase->amount*$purchase->price*(100-$order->discount)/100);
 					
+					/*
 					$t1_2 = $t1_1->addChild ( "Скидки" );
 					$t1_3 = $t1_2->addChild ( "Скидка" );
-					$t1_4 = $t1_3->addChild ( "Сумма", $purchase->price*$order->discount/100);
-					$t1_4 = $t1_3->addChild ( "УчтеноВСумме", "false" );
-					
+					$t1_4 = $t1_3->addChild ( "Сумма", $purchase->amount*$purchase->price*(100-$order->discount)/100);
+					$t1_4 = $t1_3->addChild ( "УчтеноВСумме", "true" );
+					*/
 					
 					$t1_2 = $t1_1->addChild ( "ЗначенияРеквизитов" );
 					$t1_3 = $t1_2->addChild ( "ЗначениеРеквизита" );
@@ -520,6 +524,7 @@ function import_product($xml_product)
 	global $simpla;
 	global $dir;
 	global $brand_option_name;
+	global $full_update;
 	// Товары
 
 
@@ -597,6 +602,24 @@ function import_product($xml_product)
 		{
 			$simpla->db->query('SELECT id FROM __variants WHERE product_id=?', $product_id);
 			$variant_id = $simpla->db->result('id');		
+		}
+		
+		// Обновляем товар
+		if($full_update)
+		{
+			$description = '';
+			if(!empty($xml_product->Описание))
+				$description = $xml_product->Описание;
+			$product_id = $simpla->products->update_product($product_id, array('external_id'=>$product_1c_id, 'url'=>translit($xml_product->Наименование), 'name'=>$xml_product->Наименование, 'meta_title'=>$xml_product->Наименование, 'meta_keywords'=>$xml_product->Наименование, 'meta_description'=>$xml_product->$description,  'annotation'=>$description, 'body'=>$description));
+			
+			// Обновляем категорию товара
+			if(isset($category_id) && !empty($product_id))
+			{
+   	    		$query = $simpla->db->placehold('DELETE FROM __products_categories WHERE product_id=?', $product_id);
+   	    		$simpla->db->query($query);
+				$simpla->categories->add_product_category($product_id, $category_id);
+			}
+			
 		}
 		
 		// Обновляем изображение товара

@@ -1,8 +1,10 @@
 {* Вкладки *}
 {capture name=tabs}
+	{if in_array('pages', $manager->permissions)}
 	{foreach from=$menus item=m}
 		<li {if $m->id == $menu->id}class="active"{/if}><a href="{url module=PagesAdmin menu_id=$m->id}">{$m->name}</a></li>
 	{/foreach}
+	{/if}
 {/capture}
 
 {* Title *}
@@ -126,7 +128,7 @@ $(function() {
 
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить 

@@ -11,7 +11,7 @@ db_server = localhost;
 db_user = root;
 
 ;Пароль к базе
-db_password =;
+db_password = root;
 
 ;Имя базы
 db_name = simpla;

@@ -274,6 +274,9 @@
 	background-image: url('../images/gradient.jpg');
 	background-position: top;	
 }
+.layer ul{
+	margin-bottom: 20px;	
+}
 #product .block {
 	margin-bottom: 20px;
 	width: 100%;
@@ -768,6 +771,55 @@ div#sort_links a
 	font-size: 11px;
 }
 
+span.order_label_big
+{
+	float:left; 
+	display: block;
+	padding:0px;
+	width:32px;
+	height:32px;
+	margin-right:5px;
+	background-color: #e0e0e0;
+	background-image:url(../images/label_big.png);
+}
+
+span.order_label
+{
+	float:left; 
+	display: block;
+	padding:0px;
+	width:16px;
+	height:16px;
+	margin-right:5px;
+	background-color: #e0e0e0;
+	background-image:url(../images/label.png);
+}
+.order_name span.order_label{margin-right:0px;float:right;}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0),
+       only screen and (min--moz-device-pixel-ratio: 2.0),
+       only screen and (-o-min-device-pixel-ratio: 200/100),
+       only screen and (min-device-pixel-ratio: 2.0) {
+           span.order_label {
+              background-image:url('../images/label@2x.png');
+              -webkit-background-size: 64px 16px;
+              -moz-background-size: 64px 16px;
+              background-size: 64px 16px;
+          }
+      }
+#list span.order_label
+{
+	background-position:-16px;
+}
+#list .even span.order_label
+{
+	background-position:-32px;
+}
+#list .green span.order_label
+{
+	background-position:-48px;
+}
+
 
 .icons a
 {
@@ -779,54 +831,46 @@ div#sort_links a
 	background-repeat: no-repeat;
 	
 }
-.icons  a.enable {
-	background-image: url(../images/lightbulb.png);
-}
-.invisible .icons a.enable {
-	background-image: url(../images/lightbulb_off.png);
-}
+.icons  a.enable				{ background-image: url(../images/lightbulb.png); }
+.invisible .icons a.enable		{ background-image: url(../images/lightbulb_off.png); }
+.icons a.preview				{ background-image: url(../images/monitor.png); }
+.icons a.delete 				{ background-image: url(../images/delete.png); }
+.icons a.print					{ background-image: url(../images/printer_small.png); }
+.icons a.featured 				{ background-image: url(../images/star_gray.png); }
+.icons a.in_filter				{ background-image: url(../images/filter_gray.png); }
+.in_filter .icons a.in_filter	{ background-image: url(../images/filter.png); }
+.icons a.duplicate				{ background-image: url(../images/page_copy.png); }
+.featured .icons a.featured		{ background-image: url(../images/star.png); }
+.icons a.cents					{ background-image: url(../images/coin_stack_gold_off.png); }
+.cents  .icons a.cents			{ background-image: url(../images/coin_stack_gold.png); }
+.icons a.loading_icon			{ background-image: url(../images/loader.gif); }
+.icons a.restore				{ background-image: url(../images/clock_history_frame.png); }
 
-.icons a.preview {
-	background-image: url(../images/monitor.png);
-}
-.icons a.delete {
-	background-image: url(../images/delete.png);
-}
-.icons a.print {
-	background-image: url(../images/printer_small.png);
-}
-.icons a.featured {
-	background-image: url(../images/star_gray.png);
-}
-.icons a.in_filter {
-	background-image: url(../images/filter_gray.png);
-}
-.in_filter .icons a.in_filter {
-	background-image: url(../images/filter.png);
-}
-.icons a.duplicate {
-	background-image: url(../images/page_copy.png);
-}
+@media only screen and (-webkit-min-device-pixel-ratio: 2.0),
+       only screen and (min--moz-device-pixel-ratio: 2.0),
+       only screen and (-o-min-device-pixel-ratio: 200/100),
+       only screen and (min-device-pixel-ratio: 2.0) {
+			.icons  a.enable				{ background-image: url(../images/lightbulb@2x.png); }
+			.invisible .icons a.enable		{ background-image: url(../images/lightbulb_off@2x.png); }
+			.icons a.preview				{ background-image: url(../images/monitor@2x.png); }
+			.icons a.delete 				{ background-image: url(../images/delete@2x.png); }
+			.icons a.print					{ background-image: url(../images/printer_small@2x.png); }
+			.icons a.featured 				{ background-image: url(../images/star_gray@2x.png); }
+			.icons a.in_filter				{ background-image: url(../images/filter_gray@2x.png); }
+			.in_filter .icons a.in_filter	{ background-image: url(../images/filter@2x.png); }
+			.icons a.duplicate				{ background-image: url(../images/page_copy@2x.png); }
+			.featured .icons a.featured		{ background-image: url(../images/star@2x.png); }
+			.icons a.cents					{ background-image: url(../images/coin_stack_gold_off@2x.png); }
+			.cents  .icons a.cents			{ background-image: url(../images/coin_stack_gold@2x.png); }
+			.icons a.loading_icon			{ background-image: url(../images/loader@2x.gif); }
+			.icons a.restore				{ background-image: url(../images/clock_history_frame@2x.png); }
+			.icons a{
+              -webkit-background-size: 16px 16px;
+              -moz-background-size: 16px 16px;
+              background-size: 16px 16px;
+             }
+      }
 
-
-#list .featured a.featured {
-	background-image: url(../images/star.png);
-}
-
-.icons a.cents {
-	background-image: url(../images/coin_stack_gold_off.png);
-}
- .cents  .icons a.cents {
-	background-image: url(../images/coin_stack_gold.png);
-}
-
-.icons a.loading_icon  {
-	background-image: url(../images/loader.gif);
-}
-
-.icons a.restore  {
-	background-image: url(../images/clock_history_frame.png);
-}
 
 #list .action select{
 	width: 250px;

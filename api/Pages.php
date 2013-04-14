@@ -71,7 +71,6 @@ class Pages extends Simpla
 	public function add_page($page)
 	{	
 		$query = $this->db->placehold('INSERT INTO __pages SET ?%', $page);
-
 		if(!$this->db->query($query))
 			return false;
 

@@ -35,7 +35,8 @@ class Simpla
 		'coupons'    => 'Coupons',
 		'comments'   => 'Comments',
 		'feedbacks'  => 'Feedbacks',
-		'notify'     => 'Notify'
+		'notify'     => 'Notify',
+		'managers'   => 'Managers'
 	);
 	
 	// Созданные объекты
@@ -46,6 +47,7 @@ class Simpla
 	 */
 	public function __construct()
 	{
+		//error_reporting(E_ALL & !E_STRICT);
 	}
 
 	/**

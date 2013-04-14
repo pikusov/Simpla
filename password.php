@@ -28,17 +28,22 @@ if($c = $simpla->request->get('code'))
 {
 	// Код не совпадает - прекращяем работу
 	if(empty($_SESSION['admin_password_recovery_code']) || empty($c) || $_SESSION['admin_password_recovery_code'] !== $c)
+	{
+		header('Location:password.php');
 		exit();
+	}
 	
 	// IP не совпадает - прекращяем работу
 	if(empty($_SESSION['admin_password_recovery_ip'])|| empty($_SERVER['REMOTE_ADDR']) || $_SESSION['admin_password_recovery_ip'] !== $_SERVER['REMOTE_ADDR'])
+	{
+		header('Location:password.php');
 		exit();
+	}
 	
 	// Если запостили пароль
 	if($new_password = $simpla->request->post('new_password'))
 	{
-		// Файлы, отвечающие за авторизацию
-		$htaccess_file = $simpla->config->root_dir.'simpla/.htaccess';
+		// Файл с паролями
 		$passwd_file = $simpla->config->root_dir.'simpla/.passwd';
 		
 		// Удаляем из сесси код, чтобы больше никто не воспользовался ссылкой
@@ -46,28 +51,23 @@ if($c = $simpla->request->get('code'))
 		unset($_SESSION['admin_password_recovery_ip']);
 
 		// Если в файлы запрещена запись - предупреждаем об этом
-		if(!is_writable($htaccess_file) || !is_writable($passwd_file))
+		if(!is_writable($passwd_file))
 		{
 			print "
 				<h1>Восстановление пароля администратора</h1>
 				<p class='error'>
-				Следующие файлы недоступны для записи:
+				Файл /simpla/.passwd недоступен для записи.
 				</p>
-				<p>/simpla/.htaccess<br>
-				/simpla/.passwd</p>
-				<p>Вам нужно зайти по FTP и изменить права доступа к этим файлам, после чего повторить процедуру восстановления пароля.</p>
+				<p>Вам нужно зайти по FTP и изменить права доступа к этому файлу, после чего повторить процедуру восстановления пароля.</p>
 			";
 		}
 		else
 		{
 			// Новый логин и пароль
 			$new_login = $simpla->request->post('new_login');
-			$simpla->config->set_admin_password($new_login, $new_password);
-			
-			// На всякий случай укажем заново путь к файлу .passwd
-			$htaccess = file_get_contents($htaccess_file); 
-			$htaccess = preg_replace('/AuthUserFile[\s]+[^\r\n]+/', 'AuthUserFile '.$simpla->config->root_dir.'simpla/.passwd', $htaccess);
-			file_put_contents($htaccess_file, $htaccess);
+			$new_password = $simpla->request->post('new_password');
+			if(!$simpla->managers->update_manager($new_login, array('password'=>$new_password)))
+				$simpla->managers->add_manager(array('login'=>$new_login, 'password'=>$new_password));
 			
 			print "
 				<h1>Восстановление пароля администратора</h1>
@@ -75,7 +75,7 @@ if($c = $simpla->request->get('code'))
 				Новый пароль установлен
 				</p>
 				<p>
-				<a href='".$simpla->root_url."/simpla'>Перейти в панель управления</a>
+				<a href='".$simpla->root_url."/simpla/index.php?module=ManagersAdmin'>Перейти в панель управления</a>
 				</p>
 			";
 		}

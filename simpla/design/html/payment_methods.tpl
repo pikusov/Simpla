@@ -1,8 +1,10 @@
+{* Вкладки *}
 {capture name=tabs}
-	<li><a href="index.php?module=SettingsAdmin">Настройки</a></li>
-	<li><a href="index.php?module=CurrencyAdmin">Валюты</a></li>
-	<li><a href="index.php?module=DeliveriesAdmin">Доставка</a></li>
+	{if in_array('settings', $manager->permissions)}<li><a href="index.php?module=SettingsAdmin">Настройки</a></li>{/if}
+	{if in_array('currency', $manager->permissions)}<li><a href="index.php?module=CurrencyAdmin">Валюты</a></li>{/if}
+	{if in_array('delivery', $manager->permissions)}<li><a href="index.php?module=DeliveriesAdmin">Доставка</a></li>{/if}
 	<li class="active"><a href="index.php?module=PaymentMethodsAdmin">Оплата</a></li>
+	{if in_array('managers', $manager->permissions)}<li><a href="index.php?module=ManagersAdmin">Менеджеры</a></li>{/if}
 {/capture}
 
 {* Title *}
@@ -121,7 +123,7 @@ $(function() {
 
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить 

@@ -7,6 +7,9 @@ require_once('api/Simpla.php');
 
 $simpla = new Simpla();
 
+if(!$simpla->managers->access('design'))
+	return false;
+
 // Проверка сессии для защиты от xss
 if(!$simpla->request->check_session())
 {

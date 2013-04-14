@@ -131,7 +131,7 @@ class Money extends Simpla
 		elseif(isset($_SESSION['currency_id']))
 			$currency = $this->get_currency($_SESSION['currency_id']);
 		else
-			$currency = reset($this->get_currencies(array('enabled'=>1)));
+			$currency = current($this->get_currencies(array('enabled'=>1)));
 								
 		$result = $price;
 		
