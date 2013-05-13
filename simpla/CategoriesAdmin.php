@@ -28,8 +28,7 @@ class CategoriesAdmin extends Simpla
 			    }
 			    case 'delete':
 			    {
-			    	foreach($ids as $id)
-						$this->categories->delete_category($id);    
+					$this->categories->delete_category($ids);    
 			        break;
 			    }
 			}		

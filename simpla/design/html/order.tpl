@@ -240,12 +240,12 @@
 				</span>
 				<span class=edit_purchase style='display:none;'>
 					{if $purchase->variant}
-					{math equation="max(x,y)" x=$purchase->variant->stock y=$purchase->amount assign="loop"}
+					{math equation="min(max(x,y),z)" x=$purchase->variant->stock+$purchase->amount*($order->closed) y=$purchase->amount z=$settings->max_order_amount assign="loop"}
 					{else}
 					{math equation="x" x=$purchase->amount assign="loop"}
 					{/if}
 			        <select name=purchases[amount][{$purchase->id}]>
-						{section name=amounts start=1 loop=$loop+1 step=1 max=$settings->max_order_amount}
+						{section name=amounts start=1 loop=$loop+1 step=1}
 							<option value="{$smarty.section.amounts.index}" {if $purchase->amount==$smarty.section.amounts.index}selected{/if}>{$smarty.section.amounts.index} {$settings->units}</option>
 						{/section}
 			        </select>

@@ -155,7 +155,7 @@ class Request extends Simpla
 		$url = parse_url($_SERVER["REQUEST_URI"]);
 		parse_str($url['query'], $query);
 		
-		if(get_magic_quotes_gpc())
+		if(0 && get_magic_quotes_gpc())
 			foreach($query as &$v)
 			{
 				if(!is_array($v))

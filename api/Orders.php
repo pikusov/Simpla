@@ -22,8 +22,8 @@ class Orders extends Simpla
 			$where = $this->db->placehold(' WHERE o.url=? ', $id);
 		
 		$query = $this->db->placehold("SELECT  o.id, o.delivery_id, o.delivery_price, o.separate_delivery,
-										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.date,
-										o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
+										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.coupon_code, o.coupon_discount,
+										o.date, o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
 										o.url, o.total_price, o.note
 										FROM __orders o $where LIMIT 1");
 
@@ -78,8 +78,8 @@ class Orders extends Simpla
 		
 		// Выбираем заказы
 		$query = $this->db->placehold("SELECT o.id, o.delivery_id, o.delivery_price, o.separate_delivery,
-										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.date,
-										o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
+										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.coupon_code, o.coupon_discount,
+										o.date, o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
 										o.url, o.total_price, o.note
 									FROM __orders AS o 
 									LEFT JOIN __orders_labels AS ol ON o.id=ol.order_id 
