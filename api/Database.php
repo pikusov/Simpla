@@ -91,18 +91,7 @@ class Database extends Simpla
 		$q = call_user_func_array(array($this, 'placehold'), $args);
  		if($this->link)
 		{
-			// В отладочном режиме ведем лог
-			if($this->config->debug)
-			{
-				$start = microtime(true);			
-				$this->res_id = mysql_query($q, $this->link);			
-				$end = microtime(true);
-				$this->log->write('Executing query: '.$q."\r\nExecution time: ".($end-$start).' seconds'); 
-			}
-			else
-			{
-				$this->res_id = mysql_query($q, $this->link);
-			}
+			$this->res_id = mysql_query($q, $this->link);
 		}
 		else
 		{
@@ -133,7 +122,7 @@ class Database extends Simpla
 		$args = func_get_args();	
 		$tmpl = array_shift($args);
 		// Заменяем все __ на префикс, но только необрамленные кавычками
-		$tmpl = preg_replace('/([^"\'a-z_])__([a-z_]+[^"\'])/ui', "\$1".$this->config->db_prefix."\$2", $tmpl);
+		$tmpl = preg_replace('/([^"\'0-9a-z_])__([a-z_]+[^"\'])/ui', "\$1".$this->config->db_prefix."\$2", $tmpl);
 		if(!empty($args))
 		{
 			$result = $this->sql_placeholder_ex($tmpl, $args, $error); 

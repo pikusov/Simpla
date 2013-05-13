@@ -17,11 +17,15 @@ class Orders extends Simpla
 	public function get_order($id)
 	{
 		if(is_int($id))
-			$where = $this->db->placehold(' WHERE id=? ', intval($id));
+			$where = $this->db->placehold(' WHERE o.id=? ', intval($id));
 		else
-			$where = $this->db->placehold(' WHERE url=? ', $id);
+			$where = $this->db->placehold(' WHERE o.url=? ', $id);
 		
-		$query = $this->db->placehold("SELECT * FROM __orders $where LIMIT 1");
+		$query = $this->db->placehold("SELECT  o.id, o.delivery_id, o.delivery_price, o.separate_delivery,
+										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.date,
+										o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
+										o.url, o.total_price, o.note
+										FROM __orders o $where LIMIT 1");
 
 		if($this->db->query($query))
 			return $this->db->result();
@@ -35,6 +39,7 @@ class Orders extends Simpla
 		$limit = 100;
 		$page = 1;
 		$keyword_filter = '';	
+		$label_filter = '';	
 		$status_filter = '';
 		$user_filter = '';	
 		$modified_from_filter = '';	
@@ -61,6 +66,9 @@ class Orders extends Simpla
 		if(isset($filter['modified_from']))
 			$modified_from_filter = $this->db->placehold('AND o.modified > ?', $filter['modified_from']);
 		
+		if(isset($filter['label']))
+			$label_filter = $this->db->placehold('AND ol.label_id = ?', $filter['label']);
+		
 		if(!empty($filter['keyword']))
 		{
 			$keywords = explode(' ', $filter['keyword']);
@@ -69,11 +77,14 @@ class Orders extends Simpla
 		}
 		
 		// Выбираем заказы
-		$query = $this->db->placehold("SELECT id, delivery_id, delivery_price, separate_delivery, payment_method_id, paid, payment_date, closed, discount, date,
-									user_id, name, address, phone, email, comment, status, url, total_price, note
+		$query = $this->db->placehold("SELECT o.id, o.delivery_id, o.delivery_price, o.separate_delivery,
+										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.date,
+										o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
+										o.url, o.total_price, o.note
 									FROM __orders AS o 
+									LEFT JOIN __orders_labels AS ol ON o.id=ol.order_id 
 									WHERE 1
-									$id_filter $status_filter $user_filter $keyword_filter $modified_from_filter ORDER BY status, id DESC $sql_limit", "%Y-%m-%d");
+									$id_filter $status_filter $user_filter $keyword_filter $label_filter $modified_from_filter ORDER BY status, id DESC $sql_limit", "%Y-%m-%d");
 		$this->db->query($query);
 		$orders = array();
 		foreach($this->db->results() as $order)
@@ -84,6 +95,7 @@ class Orders extends Simpla
 	function count_orders($filter = array())
 	{
 		$keyword_filter = '';	
+		$label_filter = '';	
 		$status_filter = '';
 		$user_filter = '';	
 		
@@ -92,6 +104,9 @@ class Orders extends Simpla
 		
 		if(isset($filter['user_id']))
 			$user_filter = $this->db->placehold('AND o.user_id = ?', intval($filter['user_id']));
+
+		if(isset($filter['label']))
+			$label_filter = $this->db->placehold('AND ol.label_id = ?', $filter['label']);
 		
 		if(!empty($filter['keyword']))
 		{
@@ -103,8 +118,9 @@ class Orders extends Simpla
 		// Выбираем заказы
 		$query = $this->db->placehold("SELECT COUNT(DISTINCT id) as count
 									FROM __orders AS o 
+									LEFT JOIN __orders_labels AS ol ON o.id=ol.order_id 
 									WHERE 1
-									$status_filter $user_filter $keyword_filter");
+									$status_filter $user_filter $label_filter $keyword_filter");
 		$this->db->query($query);
 		return $this->db->result('count');
 	}
@@ -121,7 +137,7 @@ class Orders extends Simpla
 	{
 		if(!empty($id))
 		{
-			$query = $this->db->placehold("DELETE FROM __purchases WHERE order_id=? LIMIT 1", $id);
+			$query = $this->db->placehold("DELETE FROM __purchases WHERE order_id=?", $id);
 			$this->db->query($query);
 			
 			$query = $this->db->placehold("DELETE FROM __orders WHERE id=? LIMIT 1", $id);
@@ -142,10 +158,125 @@ class Orders extends Simpla
 		return $id;
 	}
 
+	public function get_label($id)
+	{
+		$query = $this->db->placehold("SELECT * FROM __labels WHERE id=? LIMIT 1", intval($id));
+		$this->db->query($query);
+		return $this->db->result();
+	}
+
+	public function get_labels()
+	{
+		$query = $this->db->placehold("SELECT * FROM __labels ORDER BY position");
+		$this->db->query($query);
+		return $this->db->results();
+	}
+
+	/*
+	*
+	* Создание метки заказов
+	* @param $label
+	*
+	*/	
+	public function add_label($label)
+	{	
+		$query = $this->db->placehold('INSERT INTO __labels SET ?%', $label);
+		if(!$this->db->query($query))
+			return false;
+
+		$id = $this->db->insert_id();
+		$this->db->query("UPDATE __labels SET position=id WHERE id=?", $id);	
+		return $id;
+	}
+	
+	
+	/*
+	*
+	* Обновить метку
+	* @param $id, $label
+	*
+	*/	
+	public function update_label($id, $label)
+	{
+		$query = $this->db->placehold("UPDATE __labels SET ?% WHERE id in(?@) LIMIT ?", $label, (array)$id, count((array)$id));
+		$this->db->query($query);
+		return $id;
+	}
+
+	/*
+	*
+	* Удалить метку
+	* @param $id
+	*
+	*/	
+	public function delete_label($id)
+	{
+		if(!empty($id))
+		{
+			$query = $this->db->placehold("DELETE FROM __orders_labels WHERE label_id=?", intval($id));
+			if($this->db->query($query))
+			{
+				$query = $this->db->placehold("DELETE FROM __labels WHERE id=? LIMIT 1", intval($id));
+				return $this->db->query($query);
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}	
+	
+	function get_order_labels($order_id = array())
+	{
+		if(empty($order_id))
+			return array();
+
+		$label_id_filter = $this->db->placehold('AND order_id in(?@)', (array)$order_id);
+				
+		$query = $this->db->placehold("SELECT ol.order_id, l.id, l.name, l.color, l.position
+					FROM __labels l LEFT JOIN __orders_labels ol ON ol.label_id = l.id
+					WHERE 
+					1
+					$label_id_filter   
+					ORDER BY position       
+					");
+		
+		$this->db->query($query);
+		return $this->db->results();
+	}
+	
+	public function update_order_labels($id, $labels_ids)
+	{
+		$labels_ids = (array)$labels_ids;
+		$query = $this->db->placehold("DELETE FROM __orders_labels WHERE order_id=?", intval($id));
+		$this->db->query($query);
+		if(is_array($labels_ids))
+		foreach($labels_ids as $l_id)
+			$this->db->query("INSERT INTO __orders_labels SET order_id=?, label_id=?", $id, $l_id);
+	}
+
+	public function add_order_labels($id, $labels_ids)
+	{
+		$labels_ids = (array)$labels_ids;
+		if(is_array($labels_ids))
+		foreach($labels_ids as $l_id)
+		{
+			$this->db->query("INSERT IGNORE INTO __orders_labels SET order_id=?, label_id=?", $id, $l_id);
+		}
+	}
+
+	public function delete_order_labels($id, $labels_ids)
+	{
+		$labels_ids = (array)$labels_ids;
+		if(is_array($labels_ids))
+		foreach($labels_ids as $l_id)
+			$this->db->query("DELETE FROM __orders_labels WHERE order_id=? AND label_id=?", $id, $l_id);
+	}
+
 
 	public function get_purchase($id)
 	{
-		$query = $this->db->placehold("SELECT * FROM __purchases WHERE id=? LIMIT 1", $id);
+		$query = $this->db->placehold("SELECT * FROM __purchases WHERE id=? LIMIT 1", intval($id));
 		$this->db->query($query);
 		return $this->db->result();
 	}
@@ -286,15 +417,25 @@ class Orders extends Simpla
 		
 		if(!$order->closed)
 		{
+			$variants_amounts = array();
 			$purchases = $this->get_purchases(array('order_id'=>$order->id));
 			foreach($purchases as $purchase)
 			{
-				$variant = $this->variants->get_variant($purchase->variant_id);
-				if(empty($variant) || ($variant->stock<$purchase->amount))
+				if(isset($variants_amounts[$purchase->variant_id]))
+					$variants_amounts[$purchase->variant_id] += $purchase->amount;
+				else
+					$variants_amounts[$purchase->variant_id] = $purchase->amount;
+			}
+
+			foreach($variants_amounts as $id=>$amount)
+			{
+				$variant = $this->variants->get_variant($id);
+				if(empty($variant) || ($variant->stock<$amount))
 					return false;
 			}
 			foreach($purchases as $purchase)
 			{	
+				$variant = $this->variants->get_variant($purchase->variant_id);
 				if(!$variant->infinity)
 				{
 					$new_stock = $variant->stock-$purchase->amount;
@@ -306,7 +447,7 @@ class Orders extends Simpla
 		}
 		return $order->id;
 	}
-	
+
 	public function open($order_id)
 	{
 		$order = $this->get_order(intval($order_id));
@@ -318,8 +459,7 @@ class Orders extends Simpla
 			$purchases = $this->get_purchases(array('order_id'=>$order->id));
 			foreach($purchases as $purchase)
 			{
-				$variant = $this->variants->get_variant($purchase->variant_id);
-				
+				$variant = $this->variants->get_variant($purchase->variant_id);				
 				if($variant && !$variant->infinity)
 				{
 					$new_stock = $variant->stock+$purchase->amount;
@@ -353,7 +493,7 @@ class Orders extends Simpla
 		if(empty($order))
 			return false;
 		
-		$query = $this->db->placehold("UPDATE __orders o SET o.total_price=IFNULL((SELECT SUM(p.price*p.amount)*(100-o.discount)/100 FROM __purchases p WHERE p.order_id=o.id), 0)+o.delivery_price*(1-o.separate_delivery), modified=NOW() WHERE o.id=? LIMIT 1", $order->id);
+		$query = $this->db->placehold("UPDATE __orders o SET o.total_price=IFNULL((SELECT SUM(p.price*p.amount)*(100-o.discount)/100 FROM __purchases p WHERE p.order_id=o.id), 0)+o.delivery_price*(1-o.separate_delivery)-o.coupon_discount, modified=NOW() WHERE o.id=? LIMIT 1", $order->id);
 		$this->db->query($query);
 		return $order->id;
 	}

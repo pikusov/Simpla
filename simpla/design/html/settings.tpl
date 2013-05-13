@@ -1,8 +1,9 @@
 {capture name=tabs}
-		<li class="active"><a href="index.php?module=SettingsAdmin">Настройки</a></li>
-		<li><a href="index.php?module=CurrencyAdmin">Валюты</a></li>
-		<li><a href="index.php?module=DeliveriesAdmin">Доставка</a></li>
-		<li><a href="index.php?module=PaymentMethodsAdmin">Оплата</a></li>
+	<li class="active"><a href="index.php?module=SettingsAdmin">Настройки</a></li>
+	{if in_array('currency', $manager->permissions)}<li><a href="index.php?module=CurrencyAdmin">Валюты</a></li>{/if}
+	{if in_array('delivery', $manager->permissions)}<li><a href="index.php?module=DeliveriesAdmin">Доставка</a></li>{/if}
+	{if in_array('payment', $manager->permissions)}<li><a href="index.php?module=PaymentMethodsAdmin">Оплата</a></li>{/if}
+	{if in_array('managers', $manager->permissions)}<li><a href="index.php?module=ManagersAdmin">Менеджеры</a></li>{/if}
 {/capture}
  
 {$meta_title = "Настройки" scope=parent}
@@ -101,16 +102,6 @@
 				<li><label class=property>Вертикальное положение водяного знака</label><input name="watermark_offset_y" class="simpla_inp" type="text" value="{$settings->watermark_offset_y|escape}" /> %</li>
 				<li><label class=property>Прозрачность знака (больше &mdash; прозрачней)</label><input name="watermark_transparency" class="simpla_inp" type="text" value="{$settings->watermark_transparency|escape}" /> %</li>
 				<li><label class=property>Резкость изображений (рекомендуется 20%)</label><input name="images_sharpen" class="simpla_inp" type="text" value="{$settings->images_sharpen|escape}" /> %</li>
-			</ul>
-		</div>
-		<!-- Параметры (The End)-->
-		
-		<!-- Параметры -->
-		<div class="block layer">
-			<h2><a class="dash_link"id="change_password">Изменить пароль администратора</a></h2>
-			<ul id="change_password_form">
-				<li><label class=property>Новый логин</label><input name="new_login" class="simpla_inp" type="text" value="{$current_login|escape}" /></li>
-				<li><label class=property>Новый пароль</label><input name="new_password" class="simpla_inp" type="text" value="" /></li>
 			</ul>
 		</div>
 		<!-- Параметры (The End)-->

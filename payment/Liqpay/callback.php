@@ -72,6 +72,9 @@ $simpla->notify->email_order_admin(intval($order->id));
 // Спишем товары  
 $simpla->orders->close(intval($order->id));
 
+// Перенаправим пользователя на страницу заказа
+header('Location: '.$simpla->request->root_url.'/order/'.$order->url);
+
 exit();
 
 function get_tag_val($xml, $name)

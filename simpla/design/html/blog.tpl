@@ -52,7 +52,7 @@
 					{$post->date|date}
 				</div>
 				<div class="icons cell">
-					<a class="preview" title="Предосмотр в новом окне" href="../blog/{$post->url}" target="_blank"></a>
+					<a class="preview" title="Предпросмотр в новом окне" href="../blog/{$post->url}" target="_blank"></a>
 					<a class="enable" title="Активна" href="#"></a>
 					<a class="delete" title="Удалить" href="#"></a>
 				</div>
@@ -103,7 +103,7 @@ $(function() {
 
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить 

@@ -131,6 +131,11 @@ class BlogView extends View
 
 		// Вычисляем количество страниц
 		$posts_count = $this->blog->count_posts($filter);
+
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$items_per_page = $posts_count;	
+
 		$pages_num = ceil($posts_count/$items_per_page);
 		$this->design->assign('total_pages_num', $pages_num);
 

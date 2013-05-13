@@ -11,7 +11,7 @@ db_server = localhost;
 db_user = root;
 
 ;Пароль к базе
-db_password =;
+db_password = root;
 
 ;Имя базы
 db_name = simpla;
@@ -44,6 +44,8 @@ smarty_cache_lifetime = 0;
 smarty_debugging = false;
  
 [images]
+;Использовать imagemagick для обработки изображений (вместо gd)
+use_imagick = true
 
 ;Директория оригиналов изображений
 original_images_dir = files/originals/;

@@ -7,7 +7,6 @@ class OrdersAdmin extends Simpla
 {
 	public function fetch()
 	{
-
 	 	$filter = array();
 	  	$filter['page'] = max(1, $this->request->get('page', 'integer'));
 	  		
@@ -19,6 +18,14 @@ class OrdersAdmin extends Simpla
 	  	{
 		  	$filter['keyword'] = $keyword;
 	 		$this->design->assign('keyword', $keyword);
+		}
+
+		// Фильтр по метке
+	  	$label = $this->orders->get_label($this->request->get('label'));	  	
+	  	if(!empty($label))
+	  	{
+		  	$filter['label'] = $label->id;
+		 	$this->design->assign('label', $label);
 		}
 
 
@@ -46,6 +53,26 @@ class OrdersAdmin extends Simpla
 					}
 					break;
 				}
+				case(preg_match('/^set_label_([0-9]+)/', $this->request->post('action'), $a) ? true : false):
+				{
+					$l_id = intval($a[1]);
+					if($l_id>0)
+					foreach($ids as $id)
+					{
+						$this->orders->add_order_labels($id, $l_id);
+					}
+					break;
+				}
+				case(preg_match('/^unset_label_([0-9]+)/', $this->request->post('action'), $a) ? true : false):
+				{
+					$l_id = intval($a[1]);
+					if($l_id>0)
+					foreach($ids as $id)
+					{
+						$this->orders->delete_order_labels($id, $l_id);
+					}
+					break;
+				}
 			}
 		}		
 
@@ -55,11 +82,21 @@ class OrdersAdmin extends Simpla
 			$filter['status'] = $status;
 		 	$this->design->assign('status', $status);
 		}
-			
-		// Отображение
-	  	$orders = $this->orders->get_orders($filter);
-	  	
+				  	
 	  	$orders_count = $this->orders->count_orders($filter);
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$filter['limit'] = $orders_count;	
+
+		// Отображение
+		$orders = array();
+		foreach($this->orders->get_orders($filter) as $o)
+			$orders[$o->id] = $o;
+	 	
+		// Метки заказов
+		$orders_labels = array();
+	  	foreach($this->orders->get_order_labels(array_keys($orders)) as $ol)
+	  		$orders[$ol->order_id]->labels[] = $ol;
 	  	
 	 	$this->design->assign('pages_count', ceil($orders_count/$filter['limit']));
 	 	$this->design->assign('current_page', $filter['page']);
@@ -67,6 +104,11 @@ class OrdersAdmin extends Simpla
 	 	$this->design->assign('orders_count', $orders_count);
 	
 	 	$this->design->assign('orders', $orders);
+	
+		// Метки заказов
+	  	$labels = $this->orders->get_labels();
+	 	$this->design->assign('labels', $labels);
+	  	
 		return $this->design->fetch('orders.tpl');
 	}
 }

@@ -1,7 +1,7 @@
 {* Вкладки *}
 {capture name=tabs}
-	<li><a href="index.php?module=ImportAdmin">Импорт</a></li>
-	<li><a href="index.php?module=ExportAdmin">Экспорт</a></li>		
+	{if in_array('import', $manager->permissions)}<li><a href="index.php?module=ImportAdmin">Импорт</a></li>{/if}
+	{if in_array('export', $manager->permissions)}<li><a href="index.php?module=ExportAdmin">Экспорт</a></li>{/if}
 	<li class="active"><a href="index.php?module=BackupAdmin">Бекап</a></li>		
 {/capture}
 
@@ -108,7 +108,7 @@ $(function() {
 	
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Удалить 

@@ -6,7 +6,7 @@ class ImportAdmin extends Simpla
 	public $import_files_dir = 'simpla/files/import/';
 	public $import_file = 'import.csv';
 	public $allowed_extensions = array('csv', 'txt');
-	private $locale = 'ru_RU.CP1251';
+	private $locale = 'ru_RU.UTF-8';
 
 	public function fetch()
 	{
@@ -88,8 +88,8 @@ class ImportAdmin extends Simpla
 				if ($c>=192 && $c<=207)    {$t.=chr(208).chr($c-48); continue; }
 				if ($c>=208 && $c<=239) {$t.=chr(208).chr($c-48); continue; }
 				if ($c>=240 && $c<=255) {$t.=chr(209).chr($c-112); continue; }
-				if ($c==184) { $t.=chr(209).chr(209); continue; };
-				if ($c==168) { $t.=chr(208).chr(129);  continue; };
+//				if ($c==184) { $t.=chr(209).chr(209); continue; };
+//				if ($c==168) { $t.=chr(208).chr(129);  continue; };
 				if ($c==184) { $t.=chr(209).chr(145); continue; }; #ё
 				if ($c==168) { $t.=chr(208).chr(129); continue; }; #Ё
 				if ($c==179) { $t.=chr(209).chr(150); continue; }; #і

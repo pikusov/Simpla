@@ -1,9 +1,9 @@
 {* Вкладки *}
 {capture name=tabs}
-	<li><a href="index.php?module=ProductsAdmin">Товары</a></li>
+	{if in_array('products', $manager->permissions)}<li><a href="index.php?module=ProductsAdmin">Товары</a></li>{/if}
 	<li class="active"><a href="index.php?module=CategoriesAdmin">Категории</a></li>
-	<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>
-	<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>
+	{if in_array('brands', $manager->permissions)}<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>{/if}
+	{if in_array('features', $manager->permissions)}<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>{/if}
 {/capture}
 
 {* Title *}
@@ -38,7 +38,7 @@
 						<a href="{url module=CategoryAdmin id=$category->id return=$smarty.server.REQUEST_URI}">{$category->name|escape}</a> 	 			
 					</div>
 					<div class="icons cell">
-						<a class="preview" title="Предосмотр в новом окне" href="../catalog/{$category->url}" target="_blank"></a>				
+						<a class="preview" title="Предпросмотр в новом окне" href="../catalog/{$category->url}" target="_blank"></a>				
 						<a class="enable" title="Активна" href="#"></a>
 						<a class="delete" title="Удалить" href="#"></a>
 					</div>
@@ -95,7 +95,7 @@ $(function() {
  
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]:not(:disabled)').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:disabled):not(:checked)').length>0);
 	});	
 
 	// Показать категорию

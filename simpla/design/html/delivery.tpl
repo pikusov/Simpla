@@ -1,8 +1,10 @@
+{* Вкладки *}
 {capture name=tabs}
-	<li><a href="index.php?module=SettingsAdmin">Настройки</a></li>
-	<li><a href="index.php?module=CurrencyAdmin">Валюты</a></li>
+	{if in_array('settings', $manager->permissions)}<li><a href="index.php?module=SettingsAdmin">Настройки</a></li>{/if}
+	{if in_array('currency', $manager->permissions)}<li><a href="index.php?module=CurrencyAdmin">Валюты</a></li>{/if}
 	<li class="active"><a href="index.php?module=DeliveriesAdmin">Доставка</a></li>
-	<li><a href="index.php?module=PaymentMethodsAdmin">Оплата</a></li>
+	{if in_array('payment', $manager->permissions)}<li><a href="index.php?module=PaymentMethodsAdmin">Оплата</a></li>{/if}
+	{if in_array('managers', $manager->permissions)}<li><a href="index.php?module=ManagersAdmin">Менеджеры</a></li>{/if}
 {/capture}
 
 {if $delivery->id}
@@ -39,7 +41,7 @@ $('select[name=module]').change(function(){
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{$message_success}</span>
+	<span>{if $message_success == 'added'}Способ доставки добавлен{elseif $message_success == 'updated'}Способ доставки изменен{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}

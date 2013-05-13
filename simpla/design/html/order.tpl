@@ -1,9 +1,19 @@
+{* Вкладки *}
 {capture name=tabs}
+	{if in_array('orders', $manager->permissions)}
 		<li {if $order->status==0}class="active"{/if}><a href="{url module=OrdersAdmin status=0 id=null}">Новые</a></li>
 		<li {if $order->status==1}class="active"{/if}><a href="{url module=OrdersAdmin status=1 id=null}">Приняты</a></li>
 		<li {if $order->status==2}class="active"{/if}><a href="{url module=OrdersAdmin status=2 id=null}">Выполнены</a></li>
 		<li {if $order->status==3}class="active"{/if}><a href="{url module=OrdersAdmin status=3 id=null}">Удалены</a></li>
+	{if $keyword}
+	<li class="active"><a href="{url module=OrdersAdmin keyword=$keyword id=null label=null}">Поиск</a></li>
+	{/if}
+	{/if}
+	{if in_array('labels', $manager->permissions)}
+	<li><a href="{url module=OrdersLabelsAdmin keyword=null id=null page=null label=null}">Метки</a></li>
+	{/if}
 {/capture}
+
 
 {if $order->id}
 {$meta_title = "Заказ №`$order->id`" scope=parent}
@@ -25,6 +35,7 @@
 		<option value='3' {if $order->status == 3}selected{/if}>Удален</option>
 	</select>
 	</h1>
+	<a href="{url view=print}" target="_blank"><img src="./design/images/printer.png" name="export" title="Печать заказа"></a>
 
 
 	<div id=next_order>
@@ -121,8 +132,28 @@
 	</div>
 
 	
+	{if $labels}
 	<div class='layer'>
-	<h2>Пользователь <a href='#' class="edit_user"><img src='design/images/pencil.png' alt='Редактировать' title='Редактировать'></a> {if $user}<a href="#" class='delete_user'><img src='design/images/delete.png' alt='Удалить' title='Удалить'></a>{/if}</h2>
+	<h2>Метка</h2>
+	<!-- Метки -->
+	<ul>
+		{foreach $labels as $l}
+		<li>
+		<label for="label_{$l->id}">
+		<input id="label_{$l->id}" type="checkbox" name="order_labels[]" value="{$l->id}" {if in_array($l->id, $order_labels)}checked{/if}>
+		<span style="background-color:#{$l->color};" class="order_label"></span>
+		{$l->name}
+		</label>
+		</li>
+		{/foreach}
+	</ul>
+	<!-- Метки -->
+	</div>
+	{/if}
+
+	
+	<div class='layer'>
+	<h2>Покупатель <a href='#' class="edit_user"><img src='design/images/pencil.png' alt='Редактировать' title='Редактировать'></a> {if $user}<a href="#" class='delete_user'><img src='design/images/delete.png' alt='Удалить' title='Удалить'></a>{/if}</h2>
 		<div class='view_user'>
 		{if !$user}
 			Не зарегистрирован
@@ -153,6 +184,7 @@
 		</li>
 	</ul>
 	</div>
+		
 </div>
 
 
@@ -173,7 +205,7 @@
 				<div class='purchase_variant'>				
 				<span class=edit_purchase style='display:none;'>
 				<select name=purchases[variant_id][{$purchase->id}] {if $purchase->product->variants|count==1 && $purchase->variant_name == '' && $purchase->variant->sku == ''}style='display:none;'{/if}>					
-		    	{if !$purchase->variant}<option price='{$purchase->price}' amount='{$purchase->amount}' value=''>{$purchase->variant_name}</option>{/if}
+		    	{if !$purchase->variant}<option price='{$purchase->price}' amount='{$purchase->amount}' value=''>{$purchase->variant_name|escape} {if $purchase->sku}(арт. {$purchase->sku}){/if}</option>{/if}
 				{foreach $purchase->product->variants as $v}
 					{if $v->stock>0 || $v->id == $purchase->variant->id}
 					<option price='{$v->price}' amount='{$v->stock}' value='{$v->id}' {if $v->id == $purchase->variant_id}selected{/if} >
@@ -185,7 +217,7 @@
 				</select>
 				</span>
 				<span class=view_purchase>
-					{$purchase->variant_name} {if $purchase->variant->sku}(арт. {$purchase->variant->sku}){/if}			
+					{$purchase->variant_name} {if $purchase->sku}(арт. {$purchase->sku}){/if}			
 				</span>
 				</div>
 		
@@ -278,7 +310,16 @@
 	</div>
 
 	<div class="subtotal layer">
-	С учетом скидки<b> {$subtotal-$subtotal*$order->discount/100} {$currency->sign}</b>
+	С учетом скидки<b> {($subtotal-$subtotal*$order->discount/100)|round:2} {$currency->sign}</b>
+	</div> 
+	
+	<div class="block discount layer">
+		<h2>Купон{if $order->coupon_code} ({$order->coupon_code}){/if}</h2>
+		<input type=text name=coupon_discount value='{$order->coupon_discount}'> <span class=currency>{$currency->sign}</span>		
+	</div>
+
+	<div class="subtotal layer">
+	С учетом купона<b> {($subtotal-$subtotal*$order->discount/100-$order->coupon_discount)|round:2} {$currency->sign}</b>
 	</div> 
 	
 	<div class="block delivery">

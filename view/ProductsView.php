@@ -50,7 +50,7 @@ class ProductsView extends View
 		}
 
 		// Если задано ключевое слово
-		$keyword = $this->request->get('keyword', 'string');
+		$keyword = $this->request->get('keyword');
 		if (!empty($keyword))
 		{
 			$this->design->assign('keyword', $keyword);
@@ -73,10 +73,12 @@ class ProductsView extends View
 			foreach($this->features->get_features(array('category_id'=>$category->id, 'in_filter'=>1)) as $feature)
 			{ 
 				$features[$feature->id] = $feature;
-				if($val = $this->request->get($feature->id))
+				if(($val = strval($this->request->get($feature->id)))!='')
 					$filter['features'][$feature->id] = $val;	
 			}
-				
+			
+			$options_filter['visible'] = 1;
+			
 			$features_ids = array_keys($features);
 			if(!empty($features_ids))
 				$options_filter['feature_id'] = $features_ids;
@@ -112,11 +114,17 @@ class ProductsView extends View
 		$this->design->assign('current_page_num', $current_page);
 		// Вычисляем количество страниц
 		$products_count = $this->products->count_products($filter);
+		
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$items_per_page = $products_count;	
+		
 		$pages_num = ceil($products_count/$items_per_page);
 		$this->design->assign('total_pages_num', $pages_num);
 
 		$filter['page'] = $current_page;
 		$filter['limit'] = $items_per_page;
+		
 		///////////////////////////////////////////////
 		// Постраничная навигация END
 		///////////////////////////////////////////////

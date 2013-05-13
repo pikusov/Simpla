@@ -10,10 +10,10 @@
 <!-- Соседние записи /-->
 <div id="back_forward">
 	{if $prev_post}
-		←&nbsp;<a class="back" id="PrevLink" href="blog/{$prev_post->url}">{$prev_post->name}</a>
+		←&nbsp;<a class="prev_page_link" href="blog/{$prev_post->url}">{$prev_post->name}</a>
 	{/if}
 	{if $next_post}
-		<a class="forward" id="NextLink" href="blog/{$next_post->url}">{$next_post->name}</a>&nbsp;→
+		<a class="next_page_link" href="blog/{$next_post->url}">{$next_post->name}</a>&nbsp;→
 	{/if}
 </div>
 
@@ -69,16 +69,16 @@
 			{/if}
 		</div>
 		{/if}
-		<textarea class="comment_textarea" id="comment_text" name="text" format=".+" notice="Введите комментарий">{$comment_text}</textarea><br />
+		<textarea class="comment_textarea" id="comment_text" name="text" data-format=".+" data-notice="Введите комментарий">{$comment_text}</textarea><br />
 		<div>
 		<label for="comment_name">Имя</label>
-		<input class="input_name" type="text" id="comment_name" name="name" value="{$comment_name}" format=".+" notice="Введите имя"/><br />
+		<input class="input_name" type="text" id="comment_name" name="name" value="{$comment_name|escape}" data-format=".+" data-notice="Введите имя"/><br />
 
 		<input class="button" type="submit" name="comment" value="Отправить" />
 		
 		<label for="comment_captcha">Число</label>
 		<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}"/></div> 
-		<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" format="\d\d\d\d" notice="Введите капчу"/>
+		<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" data-format="\d\d\d\d" data-notice="Введите капчу"/>
 		
 		</div>
 	</form>
@@ -86,7 +86,3 @@
 	
 </div>
 <!-- Комментарии (The End) -->
-
-{* Скрипт для листания через ctrl → *}
-{* Ссылки на соседние страницы должны иметь id PrevLink и NextLink *}
-<script type="text/javascript" src="js/ctrlnavigate.js"></script>           

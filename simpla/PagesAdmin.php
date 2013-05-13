@@ -54,52 +54,6 @@ class PagesAdmin extends Simpla
 					$this->pages->delete_page($id);    
 		        break;
 		    }
-		    case 'rmove':
-		    {
-		    
-		    	// целевая страница является текущей
-		    	$target_page = $this->request->post('target_page', 'integer');
-		    	
-		    	$filter['page'] = $target_page;
-
-			    // До какого товара перемещать
-			    $limit = $filter['limit']*($target_page-1);
-			    if($target_page > $this->request->get('page', 'integer'))
-			    	$limit += count($ids)-1;
-			    else
-			    	$ids = array_reverse($ids, true);
-
-				$category_id_filter = '';
-				if(isset($filter['category_id']))
-					$category_id_filter = $this->db->placehold('AND pc.category_id in(?@)', (array)$filter['category_id']);
-
-				$brand_id_filter = '';
-				if(isset($filter['brand_id']))
-					$brand_id_filter = $this->db->placehold('AND p.brand_id in(?@)', (array)$filter['brand_id']);
-			    
-			    $query = $this->db->placehold("SELECT distinct p.position AS target FROM __products p LEFT JOIN __products_categories AS pc ON pc.product_id = p.id WHERE 1 $category_id_filter $brand_id_filter ORDER BY p.position LIMIT ? ,1", $limit);	
-			   	$this->db->query($query);
-			   	$target_position = $this->db->result('target');     
-			   		 
-		    	foreach($ids as $id)
-		    	{		    	
-			    	$query = $this->db->placehold("SELECT position FROM __products WHERE id=? LIMIT 1", $id);	
-			    	$this->db->query($query);	      
-			    	$initial_position = $this->db->result('position');
-
-			    	if($target_position > $initial_position)
-			    		$query = $this->db->placehold("	UPDATE __products p set p.position= p.position-1 WHERE p.position>? AND p.position<=?", $initial_position, $target_position);	
-			    	else
-			    		$query = $this->db->placehold("	UPDATE __products p set p.position= p.position+1 WHERE p.position<? AND p.position>=?", $initial_position, $target_position);	
-			    		
-		    		$this->db->query($query);	      			    	
-		    		$query = $this->db->placehold("UPDATE __products SET __products.position = ? WHERE __products.id = ?", $target_position, $id);	
-		    		$this->db->query($query);	
-		    		     
-
-			    }
-		        break;
-			}
 		}		
 		
  	}

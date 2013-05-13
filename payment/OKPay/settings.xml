@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		OKPay
+	</name>
+	<settings>
+		<variable>okpay_reciever</variable>
+		<name>Получатель платежей (email, телефон или id)</name>
+	</settings>
+</module>

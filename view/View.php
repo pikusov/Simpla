@@ -49,9 +49,10 @@ class View extends Simpla
 	
 			// Выбор текущей валюты
 			if($currency_id = $this->request->get('currency_id', 'integer'))
+			{
 				$_SESSION['currency_id'] = $currency_id;
-			if($currency_id = $this->request->post('currency_id', 'integer'))
-				$_SESSION['currency_id'] = $currency_id;
+				header("Location: ".$this->request->url(array('currency_id'=>null)));
+			}
 			
 			// Берем валюту из сессии
 			if(isset($_SESSION['currency_id']))

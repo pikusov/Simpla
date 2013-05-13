@@ -69,6 +69,46 @@
 	<th class="remove"></th>
 </tr>
 {/if}
+{if $coupon_request}
+<tr class="coupon">
+	<th class="image"></th>
+	<th class="name" colspan="3">Код купона или подарочного ваучера
+		{if $coupon_error}
+		<div class="message_error">
+			{if $coupon_error == 'invalid'}Купон недействителен{/if}
+		</div>
+		{/if}
+	
+		<div>
+		<input type="text" name="coupon_code" value="{$cart->coupon->code|escape}" class="coupon_code">
+		</div>
+		{if $cart->coupon->min_order_price>0}(купон {$cart->coupon->code|escape} действует для заказов от {$cart->coupon->min_order_price|convert} {$currency->sign}){/if}
+		<div>
+		<input type="button" name="apply_coupon"  value="Применить купон" onclick="document.cart.submit();">
+		</div>
+	</th>
+	<th class="price">
+		{if $cart->coupon_discount>0}
+		&minus;{$cart->coupon_discount|convert}&nbsp;{$currency->sign}
+		{/if}
+	</th>
+	<th class="remove"></th>
+</tr>
+
+{literal}
+<script>
+$("input[name='coupon_code']").keypress(function(event){
+	if(event.keyCode == 13){
+		$("input[name='name']").attr('data-format', '');
+		$("input[name='email']").attr('data-format', '');
+		document.cart.submit();
+	}
+});
+</script>
+{/literal}
+
+{/if}
+
 <tr>
 	<th class="image"></th>
 	<th class="name"></th>
@@ -87,7 +127,7 @@
 	{foreach $deliveries as $delivery}
 	<li>
 		<div class="checkbox">
-			<input type="radio" name="delivery_id" value="{$delivery->id}" {if $delivery@first}checked{/if} id="deliveries_{$delivery->id}">
+			<input type="radio" name="delivery_id" value="{$delivery->id}" {if $delivery_id==$delivery->id}checked{elseif $delivery@first}checked{/if} id="deliveries_{$delivery->id}">
 		</div>
 		
 			<h3>
@@ -115,6 +155,7 @@
 	<div class="message_error">
 		{if $error == 'empty_name'}Введите имя{/if}
 		{if $error == 'empty_email'}Введите email{/if}
+		{if $error == 'captcha'}Капча введена неверно{/if}
 	</div>
 	{/if}
 	<label>Имя, фамилия</label>
@@ -131,6 +172,10 @@
 
 	<label>Комментарий к&nbsp;заказу</label>
 	<textarea name="comment" id="order_comment">{$comment|escape}</textarea>
+	
+	<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}" alt='captcha'/></div> 
+	<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" data-format="\d\d\d\d" data-notice="Введите капчу"/>
+	
 	<input type="submit" name="checkout" class="button" value="Оформить заказ">
 	</div>
    

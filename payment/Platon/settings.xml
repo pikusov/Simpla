@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Platon
+	</name>
+	<settings>
+		<variable>platon_key</variable>
+		<name>Ключ</name>
+	</settings>
+	<settings>
+		<variable>platon_password</variable>
+		<name>Пароль</name>
+	</settings>
+</module>

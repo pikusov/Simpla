@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		PaySto
+	</name>
+	<settings>
+		<variable>paysto_shop_id</variable>
+		<name>ID магазина в системе PaySto</name>
+	</settings>
+	<settings>
+		<variable>paysto_secret_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+</module>

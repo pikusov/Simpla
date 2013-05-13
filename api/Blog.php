@@ -30,8 +30,7 @@ class Blog extends Simpla
 		
 		$query = $this->db->placehold("SELECT b.id, b.url, b.name, b.annotation, b.text, b.meta_title,
 		                               b.meta_keywords, b.meta_description, b.visible, b.date
-		                               FROM __blog b $where LIMIT 1",
-		                               $this->settings->date_format);
+		                               FROM __blog b $where LIMIT 1");
 		if($this->db->query($query))
 			return $this->db->result();
 		else
@@ -79,8 +78,7 @@ class Blog extends Simpla
 		                                      b.meta_title, b.meta_keywords, b.meta_description, b.visible,
 		                                      b.date
 		                                      FROM __blog b WHERE 1 $post_id_filter $visible_filter $keyword_filter
-		                                      ORDER BY date DESC, id DESC $sql_limit",
-		                                      $this->settings->date_format);
+		                                      ORDER BY date DESC, id DESC $sql_limit");
 		
 		$this->db->query($query);
 		return $this->db->results();

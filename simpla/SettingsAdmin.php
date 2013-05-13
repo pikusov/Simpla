@@ -3,10 +3,6 @@ require_once('api/Simpla.php');
 
 class SettingsAdmin extends Simpla
 {	
-	
-	private $passwd_file;
-	private $htaccess_file;
-	
 	private $allowed_image_extentions = array('png', 'gif', 'jpg', 'jpeg', 'ico');
 	
 	public function fetch()
@@ -14,7 +10,7 @@ class SettingsAdmin extends Simpla
 		$this->passwd_file = $this->config->root_dir.'/simpla/.passwd';
 		$this->htaccess_file = $this->config->root_dir.'/simpla/.htaccess';
 		
-		if(isset($_POST))
+		if($this->request->method('POST'))
 		{
 			$this->settings->site_name = $this->request->post('site_name');
 			$this->settings->company_name = $this->request->post('company_name');
@@ -83,18 +79,7 @@ class SettingsAdmin extends Simpla
 				}			
 			}			
 			$this->design->assign('message_success', 'saved');
-			
-			// Изменение пароля
-			if($new_pass = $this->request->post('new_password'))
-			{
-				$this->config->set_admin_password($this->request->post('new_login'), $new_pass);
-			}
 		}
-		
-		// Текущий логин администратора
-		$current_login = $this->config->get_admin_login();
-		$this->design->assign('current_login', $current_login);
-		
  	  	return $this->design->fetch('settings.tpl');
 	}
 	

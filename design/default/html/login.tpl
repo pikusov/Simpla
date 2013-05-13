@@ -1,12 +1,6 @@
 {* Страница входа пользователя *}
-
-{* Подключаем js-проверку формы *}
-<script src="/js/baloon/js/default.js" language="JavaScript" type="text/javascript"></script>
-<script src="/js/baloon/js/validate.js" language="JavaScript" type="text/javascript"></script>
-<script src="/js/baloon/js/baloon.js" language="JavaScript" type="text/javascript"></script>
-<link  href="/js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
-
-    
+{$meta_title = "Вход" scope=parent}
+   
 <h1>Вход</h1>
 
 {if $error}

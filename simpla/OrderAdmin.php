@@ -19,13 +19,16 @@ class OrderAdmin extends Simpla
 			$order->comment = $this->request->post('comment');
 			$order->note = $this->request->post('note');
 			$order->discount = $this->request->post('discount', 'floatr');
+			$order->coupon_discount = $this->request->post('coupon_discount', 'floatr');
 			$order->delivery_id = $this->request->post('delivery_id', 'integer');
 			$order->delivery_price = $this->request->post('delivery_price', 'float');
 			$order->payment_method_id = $this->request->post('payment_method_id', 'integer');
 			$order->paid = $this->request->post('paid', 'integer');
 			$order->user_id = $this->request->post('user_id', 'integer');
 			$order->separate_delivery = $this->request->post('separate_delivery', 'integer');
-
+	 
+	 		if(!$order_labels = $this->request->post('order_labels'))
+	 			$order_labels = array();
 
 			if(empty($order->id))
 			{
@@ -37,6 +40,8 @@ class OrderAdmin extends Simpla
     			$this->orders->update_order($order->id, $order);
 				$this->design->assign('message_success', 'updated');
     		}	
+
+	    	$this->orders->update_order_labels($order->id, $order_labels);
 			
 			if($order->id)
 			{
@@ -51,11 +56,12 @@ class OrderAdmin extends Simpla
 				foreach($purchases as $purchase)
 				{
 					$variant = $this->variants->get_variant($purchase->variant_id);
-					if(empty($variant))
-						$variant->name = '';
-	
+
 					if(!empty($purchase->id))
-						$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
+						if(!empty($variant))
+							$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
+						else
+							$this->orders->update_purchase($purchase->id, array('price'=>$purchase->price, 'amount'=>$purchase->amount));
 					else
 						$purchase->id = $this->orders->add_purchase(array('order_id'=>$order->id, 'variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
 						
@@ -120,6 +126,11 @@ class OrderAdmin extends Simpla
 		{
 			$order->id = $this->request->get('id', 'integer');
 			$order = $this->orders->get_order(intval($order->id));
+			// Метки заказа
+			$order_labels = array();
+			if(isset($order->id))
+			foreach($this->orders->get_order_labels($order->id) as $ol)
+				$order_labels[] = $ol->id;			
 		}
 
 
@@ -207,8 +218,16 @@ class OrderAdmin extends Simpla
 		// Все способы оплаты
 		$payment_methods = $this->payment->get_payment_methods();
 		$this->design->assign('payment_methods', $payment_methods);
-		
 
- 	  	return $this->design->fetch('order.tpl');
+		// Метки заказов
+	  	$labels = $this->orders->get_labels();
+	 	$this->design->assign('labels', $labels);
+	  	
+	 	$this->design->assign('order_labels', $order_labels);	  	
+		
+		if($this->request->get('view') == 'print')
+ 		  	return $this->design->fetch('order_print.tpl');
+ 	  	else
+	 	  	return $this->design->fetch('order.tpl');
 	}
 }

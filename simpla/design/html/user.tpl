@@ -1,6 +1,8 @@
+{* Вкладки *}
 {capture name=tabs}
-		<li class="active"><a href="index.php?module=UsersAdmin">Покупатели</a></li>
-		<li><a href="index.php?module=GroupsAdmin">Группы</a></li>
+	<li class="active"><a href="index.php?module=UsersAdmin">Покупатели</a></li>
+	{if in_array('groups', $manager->permissions)}<li><a href="index.php?module=GroupsAdmin">Группы</a></li>{/if}
+	{if in_array('coupons', $manager->permissions)}<li><a href="index.php?module=CouponsAdmin">Купоны</a></li>{/if}
 {/capture}
 
 {if $user->id}
@@ -64,6 +66,8 @@
 				</li>
 				{/if}
 				<li><label class=property>Email</label><input name="email" class="simpla_inp" type="text" value="{$user->email|escape}" /></li>
+				<li><label class=property>Дата регистрации</label><input name="email" class="simpla_inp" type="text" disabled value="{$user->created|date}" /></li>
+				<li><label class=property>Последний IP</label><input name="email" class="simpla_inp" type="text" disabled value="{$user->last_ip|escape}" /></li>
 			</ul>
 		</div>
 

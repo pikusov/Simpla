@@ -1,9 +1,11 @@
+{* Вкладки *}
 {capture name=tabs}
-		<li><a href="index.php?module=ProductsAdmin">Товары</a></li>
-		<li class="active"><a href="index.php?module=CategoriesAdmin">Категории</a></li>
-		<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>
-		<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>
+	{if in_array('products', $manager->permissions)}<li><a href="index.php?module=ProductsAdmin">Товары</a></li>{/if}
+	<li class="active"><a href="index.php?module=CategoriesAdmin">Категории</a></li>
+	{if in_array('brands', $manager->permissions)}<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>{/if}
+	{if in_array('features', $manager->permissions)}<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>{/if}
 {/capture}
+
 {if $category->id}
 {$meta_title = $category->name scope=parent}
 {else}
@@ -99,9 +101,9 @@ function generate_meta_description()
 function generate_url()
 {
 	url = $('input[name="name"]').val();
-	url = url.replace(/[\s]+/gi, '_');
+	url = url.replace(/[\s]+/gi, '-');
 	url = translit(url);
-	url = url.replace(/[^0-9a-z_]+/gi, '').toLowerCase();	
+	url = url.replace(/[^0-9a-z_\-]+/gi, '').toLowerCase();	
 	return url;
 }
 

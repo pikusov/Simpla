@@ -86,7 +86,7 @@
 	
 		<!-- Меню -->
 		<ul id="menu">
-			{foreach name=page from=$pages item=p}
+			{foreach $pages as $p}
 				{* Выводим только страницы из первого меню *}
 				{if $p->menu_id == 1}
 				<li {if $page && $page->id == $p->id}class="selected"{/if}>
@@ -151,7 +151,7 @@
 			<!-- Поиск-->
 			<div id="search">
 				<form action="products">
-					<input class="input_search" type="text" name="keyword" value="{$keyword}" placeholder="Поиск товара"/>
+					<input class="input_search" type="text" name="keyword" value="{$keyword|escape}" placeholder="Поиск товара"/>
 					<input class="button_search" value="" type="submit" />
 				</form>
 			</div>
@@ -246,7 +246,7 @@
 				{/foreach}
 			</div>
 			{/if}
-			<!-- Просмотренные товары -->
+			<!-- Меню блога  (The End) -->
 			
 		</div>			
 

@@ -32,14 +32,9 @@ class ProductView extends View
 		$product->images = $this->products->get_images(array('product_id'=>$product->id));
 		$product->image = &$product->images[0];
 
-		$variants = $this->variants->get_variants(array('product_id'=>$product->id, 'in_stock'=>true));		
-		// Скидка
-		$discount = 0;
-		if(isset($_SESSION['user_id']) && $user = $this->users->get_user(intval($_SESSION['user_id'])))
-			$discount = $user->discount;
-		
-		//foreach($variants as &$variant)
-			//$variant->price *= (100-$discount)/100;
+		$variants = array();
+		foreach($this->variants->get_variants(array('product_id'=>$product->id, 'in_stock'=>true)) as $v)
+			$variants[$v->id] = $v;
 		
 		$product->variants = $variants;
 		
@@ -48,7 +43,7 @@ class ProductView extends View
 			$product->variant = $variants[$v_id];
 		else
 			$product->variant = reset($variants);
-		
+					
 		$product->features = $this->features->get_product_options(array('product_id'=>$product->id));
 	
 		// Автозаполнение имени для формы комментария
@@ -109,11 +104,14 @@ class ProductView extends View
 		
 		
 		// Связанные товары
+		$related_ids = array();
 		$related_products = array();
 		foreach($this->products->get_related_products($product->id) as $p)
-			$related_products[$p->related_id] = $p;
-		$related_ids = array_keys($related_products);
-		if(!empty($related_products))
+		{
+			$related_ids[] = $p->related_id;
+			$related_products[$p->related_id] = null;
+		}
+		if(!empty($related_ids))
 		{
 			foreach($this->products->get_products(array('id'=>$related_ids, 'in_stock'=>1, 'visible'=>1)) as $p)
 				$related_products[$p->id] = $p;
@@ -130,10 +128,17 @@ class ProductView extends View
 					$related_products[$related_product_variant->product_id]->variants[] = $related_product_variant;
 				}
 			}
-			foreach($related_products as $r)
+			foreach($related_products as $id=>$r)
 			{
-				$r->image = &$r->images[0];
-				$r->variant = &$r->variants[0];
+				if(is_object($r))
+				{
+					$r->image = &$r->images[0];
+					$r->variant = &$r->variants[0];
+				}
+				else
+				{
+					unset($related_products[$id]);
+				}
 			}
 			$this->design->assign('related_products', $related_products);
 		}

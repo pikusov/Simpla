@@ -11,7 +11,7 @@ if(isset($_GET['start']))
 
 $url = "http://images.google.com/search?tbm=isch&tbs=isz:lt,islt:qsvga,itp:photo&start=$start&q=$keyword";
 
-if($use_curl)
+if($use_curl && function_exists('curl_init'))
 {
 	$ch = curl_init(); 
 	curl_setopt($ch, CURLOPT_URL, $url); 

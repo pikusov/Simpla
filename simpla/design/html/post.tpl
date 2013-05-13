@@ -90,9 +90,9 @@ function generate_meta_description()
 function generate_url()
 {
 	url = $('input[name="name"]').val();
-	url = url.replace(/[\s]+/gi, '_');
+	url = url.replace(/[\s]+/gi, '-');
 	url = translit(url);
-	url = url.replace(/[^0-9a-z_]+/gi, '').toLowerCase();	
+	url = url.replace(/[^0-9a-z_\-]+/gi, '').toLowerCase();	
 	return url;
 }
 

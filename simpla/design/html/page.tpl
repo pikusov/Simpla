@@ -1,7 +1,9 @@
 {capture name=tabs}
+	{if in_array('pages', $manager->permissions)}
 	{foreach from=$menus item=m}
 		<li {if $m->id == $menu->id}class="active"{/if}><a href='index.php?module=PagesAdmin&menu_id={$m->id}'>{$m->name}</a></li>
 	{/foreach}
+	{/if}
 {/capture}
 
 {if $page->id}
@@ -99,9 +101,9 @@ function generate_meta_description()
 function generate_url()
 {
 	url = $('input[name="header"]').val();
-	url = url.replace(/[\s]+/gi, '_');
+	url = url.replace(/[\s]+/gi, '-');
 	url = translit(url);
-	url = url.replace(/[^0-9a-z_]+/gi, '').toLowerCase();	
+	url = url.replace(/[^0-9a-z_\-]+/gi, '').toLowerCase();	
 	return url;
 }
 

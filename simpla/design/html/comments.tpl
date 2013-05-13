@@ -1,7 +1,7 @@
 {* Вкладки *}
 {capture name=tabs}
 	<li class="active"><a href="index.php?module=CommentsAdmin">Комментарии</a></li>
-	<li><a href="index.php?module=FeedbacksAdmin">Обратная связь</a></li>
+	{if in_array('feedbacks', $manager->permissions)}<li><a href="index.php?module=FeedbacksAdmin">Обратная связь</a></li>{/if}
 {/capture}
 
 
@@ -23,7 +23,7 @@
 {* Заголовок *}
 <div id="header">
 	{if $keyword && $comments_count}
-	<h1>{$comments_count|plural:'Нашелся':'Нашлось':'Нашлись'} {$comments_count} {$comments_count|plural:'комментирий':'комментариев':'комментария'}</h1> 
+	<h1>{$comments_count|plural:'Нашелся':'Нашлось':'Нашлись'} {$comments_count} {$comments_count|plural:'комментарий':'комментариев':'комментария'}</h1> 
 	{elseif !$type}
 	<h1>{$comments_count} {$comments_count|plural:'комментарий':'комментариев':'комментария'}</h1> 
 	{elseif $type=='product'}
@@ -130,12 +130,13 @@ $(function() {
 	
 	// Выделить все
 	$("#check_all").click(function() {
-		$('#list input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', $('#list input[type="checkbox"][name*="check"]:not(:checked)').length>0);
 	});	
 
 	// Выделить ожидающие
 	$("#check_unapproved").click(function() {
-		$('#list .unapproved input[type="checkbox"][name*="check"]').attr('checked', 1-$('#list .unapproved input[type="checkbox"][name*="check"]').attr('checked'));
+		$('#list input[type="checkbox"][name*="check"]').attr('checked', false);
+		$('#list .unapproved input[type="checkbox"][name*="check"]').attr('checked', true);
 	});	
 
 	// Удалить 

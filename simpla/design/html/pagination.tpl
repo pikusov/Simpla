@@ -8,7 +8,7 @@
 <div id="pagination">
 	
 	{* Количество выводимых ссылок на страницы *}
-	{$visible_pages = 13}
+	{$visible_pages = 11}
 
 	{* По умолчанию начинаем вывод со страницы 1 *}
 	{$page_from = 1}
@@ -44,8 +44,9 @@
 	{* Ссылка на последнююю страницу отображается всегда *}
 	<a class="{if $current_page==$pages_count}selected{else}droppable{/if}"  href="{url page=$pages_count}">{$pages_count}</a>
 	
+	<a href="{url page=all}">все сразу</a>
 	{if $current_page>1}<a id="PrevLink" href="{url page=$current_page-1}">←назад</a>{/if}
-	{if $current_page<$pages_count}<a id="NextLink" href="{url page=$current_page+1}">вперед→</a>{/if}
+	{if $current_page<$pages_count}<a id="NextLink" href="{url page=$current_page+1}">вперед→</a>{/if}	
 	
 </div>
 <!-- Листалка страниц (The End) -->

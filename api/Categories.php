@@ -89,10 +89,20 @@ class Categories extends Simpla
 			$category['url'] = strtolower(preg_replace("/[^0-9a-zа-я_]+/ui", '', $category['url']));
 		}	
 
+		// Если есть категория с таким URL, добавляем к нему число
+		while($this->get_category((string)$category['url']))
+		{
+			if(preg_match('/(.+)_([0-9]+)$/', $category['url'], $parts))
+				$category['url'] = $parts[1].'_'.($parts[2]+1);
+			else
+				$category['url'] = $category['url'].'_2';
+		}
+
 		$this->db->query("INSERT INTO __categories SET ?%", $category);
 		$id = $this->db->insert_id();
 		$this->db->query("UPDATE __categories SET position=id WHERE id=?", $id);		
-		$this->init_categories();		
+		unset($this->categories_tree);	
+		unset($this->all_categories);	
 		return $id;
 	}
 	
@@ -114,11 +124,13 @@ class Categories extends Simpla
 		{
 			if(!empty($id))
 			{
+				$this->delete_image($id);
 				$query = $this->db->placehold("DELETE FROM __categories WHERE id=? LIMIT 1", $id);
 				$this->db->query($query);
 				$query = $this->db->placehold("DELETE FROM __products_categories WHERE category_id=?", $id);
 				$this->db->query($query);
-				$this->init_categories();			
+				unset($this->categories_tree);			
+				unset($this->all_categories);	
 			}
 		}
 		return true;
@@ -155,7 +167,8 @@ class Categories extends Simpla
 			{			
 				@unlink($this->config->root_dir.$this->config->categories_images_dir.$filename);		
 			}
-			$this->init_categories();
+			unset($this->categories_tree);
+			unset($this->all_categories);	
 		}
 	}
 
@@ -173,11 +186,17 @@ class Categories extends Simpla
 		$pointers[0]->path = array();
 		
 		// Выбираем все категории
-		$query = $this->db->placehold("SELECT id, parent_id, name, description, url, meta_title, meta_keywords, meta_description, image, visible, position
-								 FROM __categories ORDER BY parent_id, position");
+		$query = $this->db->placehold("SELECT c.id, c.parent_id, c.name, c.description, c.url, c.meta_title, c.meta_keywords, c.meta_description, c.image, c.visible, c.position
+										FROM __categories c ORDER BY c.parent_id, c.position");
+											
+		// Выбор категорий с подсчетом количества товаров для каждой. Может тормозить при большом количестве товаров.
+		// $query = $this->db->placehold("SELECT c.id, c.parent_id, c.name, c.description, c.url, c.meta_title, c.meta_keywords, c.meta_description, c.image, c.visible, c.position, COUNT(p.id) as products_count
+		//                               FROM __categories c LEFT JOIN __products_categories pc ON pc.category_id=c.id LEFT JOIN __products p ON p.id=pc.product_id AND p.visible GROUP BY c.id ORDER BY c.parent_id, c.position");
+		
+		
 		$this->db->query($query);
 		$categories = $this->db->results();
-		
+				
 		$finish = false;
 		// Не кончаем, пока не кончатся категории, или пока ниодну из оставшихся некуда приткнуть
 		while(!empty($categories)  && !$finish)
@@ -192,7 +211,7 @@ class Categories extends Simpla
 					$pointers[$category->id] = $pointers[$category->parent_id]->subcategories[] = $category;
 					
 					// Путь к текущей категории
-					$curr = clone($pointers[$category->id]);
+					$curr = $pointers[$category->id];
 					$pointers[$category->id]->path = array_merge((array)$pointers[$category->parent_id]->path, array($curr));
 					
 					// Убираем использованную категорию из массива категорий
@@ -215,9 +234,14 @@ class Categories extends Simpla
 					$pointers[$pointers[$id]->parent_id]->children = array_merge($pointers[$id]->children, $pointers[$pointers[$id]->parent_id]->children);
 				else
 					$pointers[$pointers[$id]->parent_id]->children = $pointers[$id]->children;
+					
+				// Добавляем количество товаров к родительской категории, если текущая видима
+				// if(isset($pointers[$pointers[$id]->parent_id]) && $pointers[$id]->visible)
+				//		$pointers[$pointers[$id]->parent_id]->products_count += $pointers[$id]->products_count;
 			}
 		}
 		unset($pointers[0]);
+		unset($ids);
 
 		$this->categories_tree = $tree->subcategories;
 		$this->all_categories = $pointers;	

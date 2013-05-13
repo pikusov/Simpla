@@ -1,10 +1,11 @@
 {capture name=tabs}
-	<li><a href="index.php?module=ImportAdmin">Импорт</a></li>
+	{if in_array('import', $manager->permissions)}<li><a href="index.php?module=ImportAdmin">Импорт</a></li>{/if}
 	<li class="active"><a href="index.php?module=ExportAdmin">Экспорт</a></li>
-	<li><a href="index.php?module=BackupAdmin">Бекап</a></li>			
+	{if in_array('backup', $manager->permissions)}<li><a href="index.php?module=BackupAdmin">Бекап</a></li>{/if}
 {/capture}
 {$meta_title='Экспорт товаров' scope=parent}
 
+<script src="{$config->root_url}/simpla/design/js/piecon/piecon.js"></script>
 <script>
 {literal}
 	
@@ -15,8 +16,10 @@ $(function() {
 	// On document load
 	$('input#start').click(function() {
  
+ 		Piecon.setOptions({fallback: 'force'});
+ 		Piecon.setProgress(0);
     	$("#progressbar").progressbar({ value: 0 });
- 		
+
     	$("#start").hide('fast');
 		do_export();
     
@@ -34,18 +37,22 @@ $(function() {
   				
     				if(data && !data.end)
     				{
+    					Piecon.setProgress(Math.round(100*data.page/data.totalpages));
     					$("#progressbar").progressbar({ value: 100*data.page/data.totalpages });
     					do_export(data.page*1+1);
     				}
     				else
     				{	
-    					$("#progressbar").hide('fast');
-    					window.location.href = 'files/export/export.csv';
- 
+	    				if(data && data.end)
+	    				{
+	    					Piecon.setProgress(100);
+	    					$("#progressbar").hide('fast');
+	    					window.location.href = 'files/export/export.csv';
+    					}
     				}
   				},
 				error:function(xhr, status, errorThrown) {
-                	alert(errorThrown+'\n'+status+'\n'+xhr.statusText);
+					alert(errorThrown+'\n'+xhr.responseText);
         		}  				
   				
 		});

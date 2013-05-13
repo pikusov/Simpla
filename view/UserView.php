@@ -19,7 +19,10 @@ class UserView extends View
 	function fetch()
 	{
 		if(empty($this->user))
-			return false;
+		{
+			header('Location: '.$this->config->root_url.'/user/login');
+			exit();
+		}
 	
 		if($this->request->method('post') && $this->request->post('name'))
 		{

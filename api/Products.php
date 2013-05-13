@@ -40,6 +40,7 @@ class Products extends Simpla
 		$is_featured_filter = '';
 		$discounted_filter = '';
 		$in_stock_filter = '';
+		$group_by = '';
 		$order = 'p.position DESC';
 
 		if(isset($filter['limit']))
@@ -54,7 +55,10 @@ class Products extends Simpla
 			$product_id_filter = $this->db->placehold('AND p.id in(?@)', (array)$filter['id']);
 
 		if(!empty($filter['category_id']))
+		{
 			$category_id_filter = $this->db->placehold('INNER JOIN __products_categories pc ON pc.product_id = p.id AND pc.category_id in(?@)', (array)$filter['category_id']);
+			$group_by = "GROUP BY p.id";
+		}
 
 		if(!empty($filter['brand_id']))
 			$brand_id_filter = $this->db->placehold('AND p.brand_id in(?@)', (array)$filter['brand_id']);
@@ -129,6 +133,7 @@ class Products extends Simpla
 					$discounted_filter
 					$in_stock_filter
 					$visible_filter
+				$group_by
 				ORDER BY $order
 					$sql_limit";
 
@@ -211,7 +216,7 @@ class Products extends Simpla
 		else
 			$filter = $this->db->placehold('p.url = ?', $id);
 			
-		$query = $this->db->placehold("SELECT DISTINCT
+		$query = "SELECT DISTINCT
 					p.id,
 					p.url,
 					p.brand_id,
@@ -229,7 +234,7 @@ class Products extends Simpla
                 LEFT JOIN __brands b ON p.brand_id = b.id
                 WHERE $filter
                 GROUP BY p.id
-                LIMIT 1", intval($id));
+                LIMIT 1";
 		$this->db->query($query);
 		$product = $this->db->result();
 		return $product;
@@ -250,8 +255,17 @@ class Products extends Simpla
 		
 		if(empty($product['url']))
 		{
-			$product['url'] = preg_replace("/[\s]+/ui", '_', $product['name']);
-			$product['url'] = strtolower(preg_replace("/[^0-9a-zа-я_]+/ui", '', $product['url']));
+			$product['url'] = preg_replace("/[\s]+/ui", '-', $product['name']);
+			$product['url'] = strtolower(preg_replace("/[^0-9a-zа-я\-]+/ui", '', $product['url']));
+		}
+
+		// Если есть товар с таким URL, добавляем к нему число
+		while($this->get_product((string)$product['url']))
+		{
+			if(preg_match('/(.+)_([0-9]+)$/', $product['url'], $parts))
+				$product['url'] = $parts[1].'_'.($parts[2]+1);
+			else
+				$product['url'] = $product['url'].'_2';
 		}
 
 		if($this->db->query("INSERT INTO __products SET ?%", $product))

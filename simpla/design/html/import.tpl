@@ -1,10 +1,11 @@
 {capture name=tabs}
 	<li class="active"><a href="index.php?module=ImportAdmin">Импорт</a></li>
-	<li><a href="index.php?module=ExportAdmin">Экспорт</a></li>		
-	<li><a href="index.php?module=BackupAdmin">Бекап</a></li>		
+	{if in_array('export', $manager->permissions)}<li><a href="index.php?module=ExportAdmin">Экспорт</a></li>{/if}
+	{if in_array('backup', $manager->permissions)}<li><a href="index.php?module=BackupAdmin">Бекап</a></li>{/if}
 {/capture}
 {$meta_title='Импорт товаров' scope=parent}
 
+<script src="{$config->root_url}/simpla/design/js/piecon/piecon.js"></script>
 <script>
 {if $filename}
 {literal}
@@ -14,6 +15,8 @@
 
 	// On document load
 	$(function(){
+ 		Piecon.setOptions({fallback: 'force'});
+ 		Piecon.setProgress(0);
     	$("#progressbar").progressbar({ value: 1 });
 		in_process=true;
 		do_import();	    
@@ -33,6 +36,7 @@
     					count++;
     				}
 
+    				Piecon.setProgress(Math.round(100*data.from/data.totalsize));
    					$("#progressbar").progressbar({ value: 100*data.from/data.totalsize });
   				
     				if(data != false && !data.end)
@@ -41,12 +45,13 @@
     				}
     				else
     				{
+    					Piecon.setProgress(100);
     					$("#progressbar").hide('fast');
     					in_process = false;
     				}
   				},
 				error: function(xhr, status, errorThrown) {
-                	alert(errorThrown+'\n'+status+'\n'+xhr.statusText);
+					alert(errorThrown+'\n'+xhr.responseText);
         		}  				
 		});
 	
@@ -114,7 +119,7 @@
 				<li><label>Категория</label> категория товара</li>
 				<li><label>Бренд</label> бренд товара</li>
 				<li><label>Вариант</label> название варианта</li>
-				<li><label>Цена</label> цена товара товара</li>
+				<li><label>Цена</label> цена товара</li>
 				<li><label>Старая цена</label> старая цена товара</li>
 				<li><label>Склад</label> количество товара на складе</li>
 				<li><label>Артикул</label> артикул товара</li>

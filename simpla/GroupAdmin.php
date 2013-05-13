@@ -6,7 +6,7 @@ class GroupAdmin extends Simpla
 	public function fetch()
 	{
 
-		if(isset($_POST))
+		if($this->request->method('post'))
 		{
 			$group->id = $this->request->post('id', 'integer');
 			$group->name = $this->request->post('name');
@@ -15,12 +15,12 @@ class GroupAdmin extends Simpla
 			if(empty($group->id))
 			{
   				$group->id = $this->users->add_group($group);
-  				$this->design->assign('message_success', 'Добавлено');
+  				$this->design->assign('message_success', 'added');
   			}
 	    	else
 	    	{
 	    		$group->id = $this->users->update_group($group->id, $group);
-  				$this->design->assign('message_success', 'Обновлено');
+  				$this->design->assign('message_success', 'updated');
   			}
 	    	$group = $this->users->get_group(intval($group->id));
 		}

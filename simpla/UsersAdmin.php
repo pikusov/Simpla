@@ -62,10 +62,21 @@ class UsersAdmin extends Simpla
 			$this->design->assign('keyword', $keyword);
 		}		
 		
+		// Сортировка пользователей, сохраняем в сессии, чтобы текущая сортировка не сбрасывалась
+		if($sort = $this->request->get('sort', 'string'))
+			$_SESSION['users_admin_sort'] = $sort;		
+		if (!empty($_SESSION['users_admin_sort']))
+			$filter['sort'] = $_SESSION['users_admin_sort'];			
+		else
+			$filter['sort'] = 'name';			
+		$this->design->assign('sort', $filter['sort']);
 		
-		$users = $this->users->get_users($filter);
 		$users_count = $this->users->count_users($filter);
+		// Показать все страницы сразу
+		if($this->request->get('page') == 'all')
+			$filter['limit'] = $users_count;	
 
+		$users = $this->users->get_users($filter);
 		$this->design->assign('pages_count', ceil($users_count/$filter['limit']));
 		$this->design->assign('current_page', $filter['page']);
 		$this->design->assign('groups', $groups);		

@@ -53,12 +53,6 @@ class FeedbackView extends View
 				unset($_SESSION['captcha_code']);
 								
 			}
-			
-			if(!empty($password))
-			{
-				$this->users->update_user($this->user->id, array('password'=>$password));
-			}
-	
 		}
 
 		if($this->page)

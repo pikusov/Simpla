@@ -1,9 +1,10 @@
 {capture name=tabs}
-		<li class="active"><a href="{url module=ProductsAdmin category_id=$product->category_id return=null brand_id=null id=null}">Товары</a></li>
-		<li><a href="index.php?module=CategoriesAdmin">Категории</a></li>
-		<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>
-		<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>
+	<li class="active"><a href="{url module=ProductsAdmin category_id=$product->category_id return=null brand_id=null id=null}">Товары</a></li>
+	{if in_array('categories', $manager->permissions)}<li><a href="index.php?module=CategoriesAdmin">Категории</a></li>{/if}
+	{if in_array('brands', $manager->permissions)}<li><a href="index.php?module=BrandsAdmin">Бренды</a></li>{/if}
+	{if in_array('features', $manager->permissions)}<li><a href="index.php?module=FeaturesAdmin">Свойства</a></li>{/if}
 {/capture}
+
 {if $product->id}
 {$meta_title = $product->name scope=parent}
 {else}
@@ -67,7 +68,7 @@ $(function() {
 	});
 	// Загрузить изображение с компьютера
 	$('#upload_image').click(function() {
-		$("<input class='upload_image' name=images[] type=file>").appendTo('div#add_image').focus().click();
+		$("<input class='upload_image' name=images[] type=file multiple>").appendTo('div#add_image').focus().click();
 	});
 	// Или с URL
 	$('#add_image_url').click(function() {
@@ -365,9 +366,9 @@ function generate_meta_description()
 function generate_url()
 {
 	url = $('input[name="name"]').val();
-	url = url.replace(/[\s]+/gi, '_');
+	url = url.replace(/[\s]+/gi, '-');
 	url = translit(url);
-	url = url.replace(/[^0-9a-z_]+/gi, '').toLowerCase();	
+	url = url.replace(/[^0-9a-z_\-]+/gi, '').toLowerCase();	
 	return url;
 }
 
@@ -497,23 +498,23 @@ display: block;
 		{foreach from=$product_variants item=variant}
 		<ul>
 			<li class="variant_move"><div class="move_zone"></div></li>
-			<li class="variant_name">      <input name="variants[id][{$variant->id}]"            type="hidden" value="{$variant->id|escape}" /><input name="variants[name][{$variant->id}]" type="" value="{$variant->name|escape}" /> <a class="del_variant" href=""><img src="design/images/cross-circle-frame.png" alt="" /></a></li>
-			<li class="variant_sku">       <input name="variants[sku][{$variant->id}]"           type="text"   value="{$variant->sku|escape}" /></li>
-			<li class="variant_price">     <input name="variants[price][{$variant->id}]"         type="text"   value="{$variant->price|escape}" /></li>
-			<li class="variant_discount">  <input name="variants[compare_price][{$variant->id}]" type="text"   value="{$variant->compare_price|escape}" /></li>
-			<li class="variant_amount">    <input name="variants[stock][{$variant->id}]"         type="text"   value="{if $variant->infinity || $variant->stock == ''}∞{else}{$variant->stock|escape}{/if}" />{$settings->units}</li>
+			<li class="variant_name">      <input name="variants[id][]"            type="hidden" value="{$variant->id|escape}" /><input name="variants[name][]" type="" value="{$variant->name|escape}" /> <a class="del_variant" href=""><img src="design/images/cross-circle-frame.png" alt="" /></a></li>
+			<li class="variant_sku">       <input name="variants[sku][]"           type="text"   value="{$variant->sku|escape}" /></li>
+			<li class="variant_price">     <input name="variants[price][]"         type="text"   value="{$variant->price|escape}" /></li>
+			<li class="variant_discount">  <input name="variants[compare_price][]" type="text"   value="{$variant->compare_price|escape}" /></li>
+			<li class="variant_amount">    <input name="variants[stock][]"         type="text"   value="{if $variant->infinity || $variant->stock == ''}∞{else}{$variant->stock|escape}{/if}" />{$settings->units}</li>
 			<li class="variant_download">
 			
 				{if $variant->attachment}
 					<span class=attachment_name>{$variant->attachment|truncate:25:'...':false:true}</span>
 					<a href='#' class=remove_attachment><img src='design/images/bullet_delete.png'  title="Удалить цифровой товар"></a>
-					<input type=hidden name="delete_attachment[{$variant->id}]" value=''>
 					<a href='#' class=add_attachment style='display:none;'><img src="design/images/cd_add.png" title="Добавить цифровой товар" /></a>
 				{else}
 					<a href='#' class=add_attachment><img src="design/images/cd_add.png"  title="Добавить цифровой товар" /></a>
 				{/if}
 				<div class=browse_attachment style='display:none;'>
-					<input disabled type=file name=attachment[{$variant->id}]>
+					<input type=file name=attachment[]>
+					<input type=hidden name=delete_attachment[]>
 				</div>
 			
 			</li>
@@ -531,6 +532,7 @@ display: block;
 				<a href='#' class=add_attachment><img src="design/images/cd_add.png" alt="" /></a>
 				<div class=browse_attachment style='display:none;'>
 					<input type=file name=attachment[]>
+					<input type=hidden name=delete_attachment[]>
 				</div>
 			</li>
 		</ul>

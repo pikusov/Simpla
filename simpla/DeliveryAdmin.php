@@ -22,12 +22,12 @@ class DeliveryAdmin extends Simpla
 			if(empty($delivery->id))
 			{
   				$delivery->id = $this->delivery->add_delivery($delivery);
-  				$this->design->assign('message_success', 'Добавлено');
+  				$this->design->assign('message_success', 'added');
 	    	}
 	    	else
 	    	{
 	    		$this->delivery->update_delivery($delivery->id, $delivery);
-  				$this->design->assign('message_success', 'Обновлено');
+  				$this->design->assign('message_success', 'updated');
 	    	}
 	    	
 	    	$this->delivery->update_delivery_payments($delivery->id, $delivery_payments);

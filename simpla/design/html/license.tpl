@@ -2,30 +2,6 @@
 		<li class="active"><a href="index.php?module=LicenseAdmin">Лицензия</a></li>
 {/capture}
 
-
-{if $message_success}
-<!-- Системное сообщение -->
-<div class="message message_success">
-	<span>{$message_success}</span>
-	<a class="link" target="_blank" href="../products/{$page->url}">Открыть страницу на сайте</a>
-	{if $smarty.get.return}
-	<a class="button" href="{$smarty.get.return}">Вернуться</a>
-	{/if}
-</div>
-<!-- Системное сообщение (The End)-->
-{/if}
-
-{if $message_error}
-<!-- Системное сообщение -->
-<div class="message message_error">
-	<span>{$message_error}</span>
-	<a class="link" href="../products/{$product->url}">Открыть товар на сайте</a>
-	<a class="button" href="">Вернуться</a>
-</div>
-<!-- Системное сообщение (The End)-->
-{/if}
-
-
 <!-- Основная форма -->
 <form method=post id=product enctype="multipart/form-data">
 <input type=hidden name="session_id" value="{$smarty.session.id}">
@@ -38,7 +14,7 @@
 		{else}
 		<h2 style='color:red;'>Лицензия недействительна</h2>
 		{/if}
-		<textarea name=license style='width:420px; height:100px;'>{$config->license}</textarea>
+		<textarea name=license style='width:420px; height:100px;'>{$config->license|escape}</textarea>
 		</div>
 		<div class=block>	
 		<input class="button_green button_save" type="submit" name="" value="Сохранить" />

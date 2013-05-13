@@ -35,7 +35,7 @@
 	<input class="button" type="submit" name="feedback" value="Отправить" />
 
 	<div class="captcha"><img src="captcha/image.php?{math equation='rand(10,10000)'}"/></div> 
-	<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" format="\d\d\d\d" notice="Введите капчу"/>
+	<input class="input_captcha" id="comment_captcha" type="text" name="captcha_code" value="" data-format="\d\d\d\d" data-notice="Введите капчу"/>
 	
 </form>
 {/if}
