@@ -24,6 +24,9 @@ class PageView extends View
 		if(empty($page) || (!$page->visible && empty($_SESSION['admin'])))
 			return false;
 		
+		if($page->url == '404')
+			header("http/1.0 404 not found");
+		
 		$this->design->assign('page', $page);
 		$this->design->assign('meta_title', $page->meta_title);
 		$this->design->assign('meta_keywords', $page->meta_keywords);
