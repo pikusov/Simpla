@@ -142,7 +142,7 @@ class Money extends Simpla
 		}
 		
 		// Точность отображения, знаков после запятой
-		$precision = isset($currency) && isset($currency->cents) && $currency->cents
+		$precision = (isset($currency) && isset($currency->cents) && $currency->cents)
 			? intval($currency->cents)
 			: strlen(substr(strrchr($result, '.'), 1));
 		
