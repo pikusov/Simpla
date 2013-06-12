@@ -9,7 +9,7 @@ header("Content-type: text/xml; charset=UTF-8");
 print
 "<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM 'shops.dtd'>
-<yml_catalog date='".date('Y-m-d H:m')."'>
+<yml_catalog date='".date('Y-m-d H:i')."'>
 <shop>
 <name>".$simpla->settings->site_name."</name>
 <company>".$simpla->settings->company_name."</company>
