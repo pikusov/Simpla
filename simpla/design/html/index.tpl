@@ -22,7 +22,6 @@
 
 <!-- Вся страница --> 
 <div id="main">
-
 	<!-- Главное меню -->
 	<ul id="main_menu">
 		
@@ -133,11 +132,98 @@
 </body>
 </html>
 
-{literal}
+{* Интеграция с ПростымиЗвонками *}
+{if $settings->pz_server && $settings->pz_phones[$manager->login]}
+<script src="design/js/prostiezvonki/prostiezvonki.min.js"></script>
 <script>
+var pz_type = 'simpla';
+var pz_password = '{$settings->pz_password}';
+var pz_server = '{$settings->pz_server}';
+var pz_phone = '{$settings->pz_phones[$manager->login]}';
+{literal}
+function NotificationBar(message)
+{
+	ttop = $('body').height()-110;
+	var HTMLmessage = "<div class='notification-message' style='  text-align:center; line-height: 40px;'> " + message + " </div>";
+	if ($('#notification-bar').size() == 0)
+	{
+		$('body').prepend("<div id='notification-bar' style='-moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; display:none;  height: 40px; padding: 20px; background-color: #fff; position: fixed; top:"+ttop+"px; right:30px; z-index: 100; color: #000;border: 1px solid #cccccc;'>" + HTMLmessage + "</div>");
+	}
+	else
+    {
+    	$('#notification-bar').html(HTMLmessage);
+    }
+    $('#notification-bar').slideDown();
+}
 
+$(window).on("blur focus", function (e) {
+    if ($(this).data('prevType') !== e.type) {
+        $(this).data('prevType', e.type);
+
+        switch (e.type) {
+        case 'focus':
+            if (!pz.isConnected()) {
+				pz.connect({
+				            client_id: pz_password,
+				            client_type: pz_type,
+				            host: pz_server
+				});
+            }
+            break;
+        }
+    }
+});
 
 $(function() {
+	// Простые звонки
+	pz.setUserPhone(pz_phone);
+	pz.connect({
+                client_id: pz_password,
+                client_type: pz_type,
+                host: pz_server
+	});
+    pz.onConnect(function () {
+        $(".ip_call").addClass('phone');
+    });
+    pz.onDisconnect(function () {
+        $(".ip_call").removeClass('phone');
+    });
+	
+    $(".ip_call").click( function() {
+        var phone = $(this).attr('data-phone').trim();
+        pz.call(phone);
+        return false;
+    });
+
+    pz.onEvent(function (event) {
+        if (event.isIncoming()) {
+			$.ajax({
+				type: "GET",
+				url: "ajax/search_orders.php",
+				data: { keyword: event.from, limit:"1"},
+				dataType: 'json'
+			}).success(function(data){
+				if(event.to == pz_phone)
+				if(data.length>0)
+				{
+					NotificationBar('<img src="design/images/phone_sound.png" align=absmiddle> Звонит <a href="index.php?module=OrderAdmin&id='+data[0].id+'">'+data[0].name+'</a>');
+				}
+				else
+				{
+					NotificationBar('<img src="design/images/phone_sound.png" align=absmiddle> Звонок с '+event.from+'. <a href="index.php?module=OrderAdmin&phone='+event.from+'">Создать заказ</a>');
+				}
+			});        	     
+        }
+    });
+{/literal}
+});
+</script>
+{/if}
+
+{literal}
+<script>
+$(function() {
+
 	if($.browser.opera)
 		$("#logout").hide();
 	
@@ -165,6 +251,7 @@ $(function() {
 			});
 		}
 	});
+{/literal}
+
 });
 </script>
-{/literal}

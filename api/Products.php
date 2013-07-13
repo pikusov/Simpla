@@ -158,6 +158,7 @@ class Products extends Simpla
 		$keyword_filter = '';
 		$visible_filter = '';
 		$is_featured_filter = '';
+		$in_stock_filter = '';
 		$discounted_filter = '';
 		$features_filter = '';
 		
@@ -177,6 +178,9 @@ class Products extends Simpla
 		if(!empty($filter['featured']))
 			$is_featured_filter = $this->db->placehold('AND p.featured=?', intval($filter['featured']));
 
+		if(!empty($filter['in_stock']))
+			$in_stock_filter = $this->db->placehold('AND (SELECT 1 FROM __variants pv WHERE pv.product_id=p.id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
+
 		if(!empty($filter['discounted']))
 			$discounted_filter = $this->db->placehold('AND (SELECT 1 FROM __variants pv WHERE pv.product_id=p.id AND pv.compare_price>0 LIMIT 1) = ?', intval($filter['discounted']));
 
@@ -195,6 +199,7 @@ class Products extends Simpla
 					$brand_id_filter
 					$keyword_filter
 					$is_featured_filter
+					$in_stock_filter
 					$discounted_filter
 					$visible_filter
 					$features_filter ";

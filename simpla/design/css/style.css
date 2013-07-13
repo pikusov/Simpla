@@ -846,6 +846,14 @@ span.order_label
 .icons a.loading_icon			{ background-image: url(../images/loader.gif); }
 .icons a.restore				{ background-image: url(../images/clock_history_frame.png); }
 
+.phone	{
+	padding-right:20px;
+	background-position: right center;
+	background-repeat: no-repeat;
+	background-image: url(../images/phone.png);
+	cursor: pointer;
+}
+
 @media only screen and (-webkit-min-device-pixel-ratio: 2.0),
        only screen and (min--moz-device-pixel-ratio: 2.0),
        only screen and (-o-min-device-pixel-ratio: 200/100),

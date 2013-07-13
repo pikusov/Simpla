@@ -179,13 +179,26 @@ class OrderAdmin extends Simpla
 		{
 			$purchases = array();
 		}
+		
+		// Если новый заказ и передали get параметры
+		if(empty($order->id))
+		{
+			if(empty($order->phone))
+				$order->phone = $this->request->get('phone', 'string');
+			if(empty($order->name))
+				$order->name = $this->request->get('name', 'string');
+			if(empty($order->address))
+				$order->address = $this->request->get('address', 'string');
+			if(empty($order->email))
+				$order->email = $this->request->get('email', 'string');
+		}
 
 		$this->design->assign('purchases', $purchases);
 		$this->design->assign('purchases_count', $purchases_count);
 		$this->design->assign('subtotal', $subtotal);
 		$this->design->assign('order', $order);
 
-		if($order)
+		if(!empty($order->id))
 		{
 			// Способ доставки
 			$delivery = $this->delivery->get_delivery($order->delivery_id);

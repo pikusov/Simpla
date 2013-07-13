@@ -73,7 +73,7 @@ class Orders extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND o.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.mysql_real_escape_string(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" )');
 		}
 		
 		// Выбираем заказы
@@ -84,7 +84,7 @@ class Orders extends Simpla
 									FROM __orders AS o 
 									LEFT JOIN __orders_labels AS ol ON o.id=ol.order_id 
 									WHERE 1
-									$id_filter $status_filter $user_filter $keyword_filter $label_filter $modified_from_filter ORDER BY status, id DESC $sql_limit", "%Y-%m-%d");
+									$id_filter $status_filter $user_filter $keyword_filter $label_filter $modified_from_filter GROUP BY o.id ORDER BY status, id DESC $sql_limit", "%Y-%m-%d");
 		$this->db->query($query);
 		$orders = array();
 		foreach($this->db->results() as $order)
@@ -112,7 +112,7 @@ class Orders extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND o.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.mysql_real_escape_string(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" )');
 		}
 		
 		// Выбираем заказы

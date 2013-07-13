@@ -177,7 +177,6 @@ class ImportAjax extends Simpla
 			$product['url'] = $this->translit($item['name']);
 	
 		// Если задан бренд
-		$item['brand'] = '';	
 		if(!empty($item['brand']))
 		{
 			$item['brand'] = trim($item['brand']);

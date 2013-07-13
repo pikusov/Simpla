@@ -119,6 +119,58 @@ $("input[name='coupon_code']").keypress(function(event){
 </tr>
 </table>
 
+{* Связанные товары *}
+{*
+{if $related_products}
+<h2>Так же советуем посмотреть</h2>
+<!-- Список каталога товаров-->
+<ul class="tiny_products">
+	{foreach $related_products as $product}
+	<!-- Товар-->
+	<li class="product">
+		
+		<!-- Фото товара -->
+		{if $product->image}
+		<div class="image">
+			<a href="products/{$product->url}"><img src="{$product->image->filename|resize:200:200}" alt="{$product->name|escape}"/></a>
+		</div>
+		{/if}
+		<!-- Фото товара (The End) -->
+
+		<!-- Название товара -->
+		<h3><a data-product="{$product->id}" href="products/{$product->url}">{$product->name|escape}</a></h3>
+		<!-- Название товара (The End) -->
+
+		{if $product->variants|count > 0}
+		<!-- Выбор варианта товара -->
+			<table>
+			{foreach $product->variants as $v}
+			<tr class="variant">
+				<td>
+					{if $v->name}<label class="variant_name" for="related_{$v->id}">{$v->name}</label>{/if}
+				</td>
+				<td>
+					{if $v->compare_price > 0}<span class="compare_price">{$v->compare_price|convert}</span>{/if}
+					<span class="price">{$v->price|convert} <span class="currency">{$currency->sign|escape}</span></span>
+				</td>
+				<td>
+					<a href="cart?variant={$v->id}">в корзину</a>
+				</td>
+			</tr>
+			{/foreach}
+			</table>
+		<!-- Выбор варианта товара (The End) -->
+		{else}
+			Нет в наличии
+		{/if}
+
+
+	</li>
+	<!-- Товар (The End)-->
+	{/foreach}
+</ul>
+{/if}
+*}
 
 {* Доставка *}
 {if $deliveries}

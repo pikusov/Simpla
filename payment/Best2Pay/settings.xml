@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Best2Pay
+	</name>
+	<settings>
+		<variable>sector</variable>
+		<name>Sector ID</name>
+	</settings>
+	<settings>
+		<variable>password</variable>
+		<name>Пароль</name>
+	</settings>
+</module>

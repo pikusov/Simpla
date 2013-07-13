@@ -727,7 +727,7 @@ function import_variant($xml_variant)
 		// Если нашли валюту - конвертируем из нее в базовую
 		if($variant_currency && $variant_currency->rate_from>0 && $variant_currency->rate_to>0)
 		{
-			$variant->price = $variant->price*$variant_currency->rate_to/$variant_currency->rate_from;
+			$variant->price = floatval($variant->price)*$variant_currency->rate_to/$variant_currency->rate_from;
 		}	
 	}
 	

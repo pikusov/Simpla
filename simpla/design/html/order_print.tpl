@@ -52,7 +52,7 @@
     }
     div#map{
     	margin-left: 50px;
-    	height: 350px;
+    	height: 400px;
     	width: 500px;
     	float: left;
     }
@@ -173,6 +173,7 @@
 		</tr>
 	</table>
 	
+	{*
 	{if $order->note}
 	<table>		
 		<tr>
@@ -180,10 +181,11 @@
 		</tr>
 	</table>
 	{/if}
+	*}
 </div>
 
 <div id="map">
-	<iframe width="500" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?ie=UTF8&iwloc=near&hl=ru&t=m&z=15&mrt=loc&geocode=&q={$order->address|escape|urlencode}&output=embed"></iframe>
+	<iframe width="550" height="370" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?ie=UTF8&iwloc=near&hl=ru&t=m&z=16&mrt=loc&geocode=&q={$order->address|escape|urlencode}&output=embed"></iframe>
 </div>
 
 <div id="purchases">
@@ -215,9 +217,9 @@
 		</tr>
 		{/foreach}
 		{* Если стоимость доставки входит в сумму заказа *}
-		{if !$order->separate_delivery && $order->delivery_price>0}
+		{if $order->delivery_price>0}
 		<tr>
-			<td colspan=3>{$delivery->name|escape}</td>
+			<td colspan=3>{$delivery->name|escape}{if $order->separate_delivery} (оплачивается отдельно){/if}</td>
 			<td class="align_right">{$order->delivery_price|convert}&nbsp;{$currency->sign}</td>
 		</tr>
 		{/if}

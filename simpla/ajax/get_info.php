@@ -20,7 +20,7 @@ else
 
 $page = get_page($product_url);
 
-if(preg_match_all('/<ul class="b-vlist b-vlist_type_mdash b-vlist_type_friendly">(.*?)<\/ul>/ui', $page, $matches))
+if(preg_match_all('/<ul class="b-vlist b-vlist_type_mdash b-vlist_type_friendly">(.*?)/ui', $page, $matches))
 {
 	// Описание товара
 	$description = '<ul>'.reset($matches[1]).'</ul>';

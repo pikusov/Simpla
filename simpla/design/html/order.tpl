@@ -1,10 +1,10 @@
 {* Вкладки *}
 {capture name=tabs}
 	{if in_array('orders', $manager->permissions)}
-		<li {if $order->status==0}class="active"{/if}><a href="{url module=OrdersAdmin status=0 id=null}">Новые</a></li>
-		<li {if $order->status==1}class="active"{/if}><a href="{url module=OrdersAdmin status=1 id=null}">Приняты</a></li>
-		<li {if $order->status==2}class="active"{/if}><a href="{url module=OrdersAdmin status=2 id=null}">Выполнены</a></li>
-		<li {if $order->status==3}class="active"{/if}><a href="{url module=OrdersAdmin status=3 id=null}">Удалены</a></li>
+		<li {if $order->status==0}class="active"{/if}><a href="index.php?module=OrdersAdmin&status=0">Новые</a></li>
+		<li {if $order->status==1}class="active"{/if}><a href="index.php?module=OrdersAdmin&status=1">Приняты</a></li>
+		<li {if $order->status==2}class="active"{/if}><a href="index.php?module=OrdersAdmin&status=2">Выполнены</a></li>
+		<li {if $order->status==3}class="active"{/if}><a href="index.php?module=OrdersAdmin&status=3">Удалены</a></li>
 	{if $keyword}
 	<li class="active"><a href="{url module=OrdersAdmin keyword=$keyword id=null label=null}">Поиск</a></li>
 	{/if}
@@ -35,7 +35,7 @@
 		<option value='3' {if $order->status == 3}selected{/if}>Удален</option>
 	</select>
 	</h1>
-	<a href="{url view=print}" target="_blank"><img src="./design/images/printer.png" name="export" title="Печать заказа"></a>
+	<a href="{url view=print id=$order->id}" target="_blank"><img src="./design/images/printer.png" name="export" title="Печать заказа"></a>
 
 
 	<div id=next_order>
@@ -104,10 +104,11 @@
 		<li>
 			<label class=property>Телефон</label>
 			<div class="edit_order_detail" style='display:none;'>
-				<input name="phone" class="simpla_inp" type="text" value="{$order->phone|escape}" />
+				<input name="phone" class="simpla_inp " type="text" value="{$order->phone|escape}" />
 			</div>
 			<div class="view_order_detail">
-				{$order->phone|escape}
+				{if $order->phone}
+				<span class="ip_call" data-phone="{$order->phone|escape}" target="_blank">{$order->phone|escape}</span>{else}{$order->phone|escape}{/if}
 			</div>
 		</li>
 		<li>

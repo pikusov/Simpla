@@ -105,6 +105,21 @@
 			</ul>
 		</div>
 		<!-- Параметры (The End)-->
+
+		
+		<!-- Параметры -->
+		<div class="block layer">
+			<h2>Интеграция с <a href="http://prostiezvonki.ru">простыми звонками</a></h2>
+			<ul>
+				<li><label class=property>Сервер</label><input name="pz_server" class="simpla_inp" type="text" value="{$settings->pz_server|escape}" /></li>
+				<li><label class=property>Пароль</label><input name="pz_password" class="simpla_inp" type="text" value="{$settings->pz_password|escape}" /></li>
+				<li><label class=property>Телефоны менеджеров:</label></li>
+				{foreach $managers as $manager}
+				<li><label class=property>{$manager->login}</label><input name="pz_phones[{$manager->login}]" class="simpla_inp" type="text" value="{$settings->pz_phones[$manager->login]|escape}" /></li>
+				{/foreach}
+			</ul>
+		</div>
+		<!-- Параметры (The End)-->
 		
 		<input class="button_green button_save" type="submit" name="save" value="Сохранить" />
 			

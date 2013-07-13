@@ -120,7 +120,7 @@ class ProductView extends View
 			foreach($related_products_images as $related_product_image)
 				if(isset($related_products[$related_product_image->product_id]))
 					$related_products[$related_product_image->product_id]->images[] = $related_product_image;
-			$related_products_variants = $this->variants->get_variants(array('product_id'=>array_keys($related_products), 'instock'=>true));
+			$related_products_variants = $this->variants->get_variants(array('product_id'=>array_keys($related_products), 'in_stock'=>1));
 			foreach($related_products_variants as $related_product_variant)
 			{
 				if(isset($related_products[$related_product_variant->product_id]))

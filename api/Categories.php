@@ -123,16 +123,13 @@ class Categories extends Simpla
 		foreach($ids as $id)
 		{
 			if($category = $this->get_category(intval($id)))
-			foreach($category->children as $id)
+			$this->delete_image($category->children);
+			if(!empty($category->children))
 			{
-				if(!empty($id))
-				{
-					$this->delete_image($id);
-					$query = $this->db->placehold("DELETE FROM __categories WHERE id=? LIMIT 1", $id);
-					$this->db->query($query);
-					$query = $this->db->placehold("DELETE FROM __products_categories WHERE category_id=?", $id);
-					$this->db->query($query);
-				}
+				$query = $this->db->placehold("DELETE FROM __categories WHERE id in(?@)", $category->children);
+				$this->db->query($query);
+				$query = $this->db->placehold("DELETE FROM __products_categories WHERE category_id in(?@)", $category->children);
+				$this->db->query($query);
 			}
 		}
 		unset($this->categories_tree);			
@@ -155,21 +152,25 @@ class Categories extends Simpla
 	}
 	
 	// Удалить изображение категории
-	public function delete_image($category_id)
+	public function delete_image($categories_ids)
 	{
-		$query = $this->db->placehold("SELECT image FROM __categories WHERE id=?", $category_id);
+		$categories_ids = (array) $categories_ids;
+		$query = $this->db->placehold("SELECT image FROM __categories WHERE id in(?@)", $categories_ids);
 		$this->db->query($query);
-		$filename = $this->db->result('image');
-		if(!empty($filename))
+		$filenames = $this->db->results('image');
+		if(!empty($filenames))
 		{
-			$query = $this->db->placehold("UPDATE __categories SET image=NULL WHERE id=?", $category_id);
+			$query = $this->db->placehold("UPDATE __categories SET image=NULL WHERE id in(?@)", $categories_ids);
 			$this->db->query($query);
-			$query = $this->db->placehold("SELECT count(*) as count FROM __categories WHERE image=? LIMIT 1", $filename);
-			$this->db->query($query);
-			$count = $this->db->result('count');
-			if($count == 0)
-			{			
-				@unlink($this->config->root_dir.$this->config->categories_images_dir.$filename);		
+			foreach($filenames as $filename)
+			{
+				$query = $this->db->placehold("SELECT count(*) as count FROM __categories WHERE image=?", $filename);
+				$this->db->query($query);
+				$count = $this->db->result('count');
+				if($count == 0)
+				{			
+					@unlink($this->config->root_dir.$this->config->categories_images_dir.$filename);		
+				}
 			}
 			unset($this->categories_tree);
 			unset($this->all_categories);	

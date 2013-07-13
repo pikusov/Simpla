@@ -9,6 +9,9 @@ class SettingsAdmin extends Simpla
 	{	
 		$this->passwd_file = $this->config->root_dir.'/simpla/.passwd';
 		$this->htaccess_file = $this->config->root_dir.'/simpla/.htaccess';
+	
+		$managers = $this->managers->get_managers();
+		$this->design->assign('managers', $managers);
 		
 		if($this->request->method('POST'))
 		{
@@ -28,6 +31,12 @@ class SettingsAdmin extends Simpla
 			$this->settings->products_num_admin = $this->request->post('products_num_admin');
 			$this->settings->max_order_amount = $this->request->post('max_order_amount');	
 			$this->settings->units = $this->request->post('units');	
+			
+			// Простые звонки
+			$this->settings->pz_server = $this->request->post('pz_server');
+			$this->settings->pz_password = $this->request->post('pz_password');
+			$this->settings->pz_phones = $this->request->post('pz_phones');
+			
 			
 			// Водяной знак
 			$clear_image_cache = false;
