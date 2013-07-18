@@ -25,6 +25,10 @@ class Managers extends Simpla
 		if (isset($_SERVER['REDIRECT_REMOTE_USER']) && empty($_SERVER['PHP_AUTH_USER']))
 		{
 		    $_SERVER['PHP_AUTH_USER'] = $_SERVER['REDIRECT_REMOTE_USER'];
+		}
+		elseif(isset($_SERVER['REMOTE_USER']) && empty($_SERVER['PHP_AUTH_USER']))
+		{
+			$_SERVER['PHP_AUTH_USER'] = $_SERVER['REMOTE_USER'];
 		}	
 	}
 
