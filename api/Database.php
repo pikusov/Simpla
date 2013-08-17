@@ -61,7 +61,7 @@ class Database extends Simpla
 		if($this->config->db_sql_mode)		
 			mysql_query('SET SESSION SQL_MODE = "'.$this->config->db_sql_mode.'"', $this->link);
 		if($this->config->timezone)		
-			mysql_query('SET SESSION time_zone = "'.$this->config->db_timezone.'"', $this->link);			
+			mysql_query('SET SESSION time_zone = "'.$this->config->timezone.'"', $this->link);			
 		
 		return $this->link;
 	}
