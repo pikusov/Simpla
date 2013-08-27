@@ -49,6 +49,7 @@ class CartView extends View
     	$order->address     = $this->request->post('address');
     	$order->phone       = $this->request->post('phone');
     	$order->comment     = $this->request->post('comment');
+    	$order->ip	    = $_SERVER['REMOTE_ADDR'];
     	
 		$this->design->assign('delivery_id', $order->delivery_id);
 		$this->design->assign('name', $order->name);
