@@ -42,7 +42,7 @@ class CartView extends View
     // Если нажали оформить заказ
     if(isset($_POST['checkout']))
     {
-    
+    	$order		    = new stdClass();
     	$order->delivery_id = $this->request->post('delivery_id', 'integer');
     	$order->name        = $this->request->post('name');
     	$order->email       = $this->request->post('email');
@@ -191,54 +191,6 @@ class CartView extends View
 		if($this->coupons->count_coupons(array('valid'=>1))>0)
 			$this->design->assign('coupon_request', true);
 		
-		/*
-		// Связанные товары
-		$related_ids = array();
-		$cart = $this->cart->get_cart();
-		$purchases_ids = array();
-		foreach($cart->purchases as $purchase)
-		{
-			$purchases_ids[] = $purchase->product->id;
-		}
-		foreach($cart->purchases as $purchase)
-		{
-			$related = $this->products->get_related_products($purchase->product->id);
-			foreach($related as $r)
-				if(!in_array($r->related_id, $related_ids) && !in_array($r->related_id, $purchases_ids))
-					$related_ids[] = $r->related_id;
-		}
-		if(!empty($related_ids))
-		{
-			foreach($this->products->get_products(array('id'=>$related_ids, 'in_stock'=>1, 'visible'=>1)) as $p)
-				$related_products[$p->id] = $p;
-			
-			$related_products_images = $this->products->get_images(array('product_id'=>array_keys($related_products)));
-			foreach($related_products_images as $related_product_image)
-				if(isset($related_products[$related_product_image->product_id]))
-					$related_products[$related_product_image->product_id]->images[] = $related_product_image;
-			$related_products_variants = $this->variants->get_variants(array('product_id'=>array_keys($related_products), 'in_stock'=>1));
-			foreach($related_products_variants as $related_product_variant)
-			{
-				if(isset($related_products[$related_product_variant->product_id]))
-				{
-					$related_products[$related_product_variant->product_id]->variants[] = $related_product_variant;
-				}
-			}
-			foreach($related_products as $id=>$r)
-			{
-				if(is_object($r))
-				{
-					$r->image = &$r->images[0];
-					$r->variant = &$r->variants[0];
-				}
-				else
-				{
-					unset($related_products[$id]);
-				}
-			}
-			$this->design->assign('related_products', $related_products);
-		}
-		*/
 		
 		// Выводим корзину
 		return $this->design->fetch('cart.tpl');
