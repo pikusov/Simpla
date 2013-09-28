@@ -24,7 +24,7 @@ class Orders extends Simpla
 		$query = $this->db->placehold("SELECT  o.id, o.delivery_id, o.delivery_price, o.separate_delivery,
 										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.coupon_code, o.coupon_discount,
 										o.date, o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
-										o.url, o.total_price, o.note
+										o.url, o.total_price, o.note, o.ip
 										FROM __orders o $where LIMIT 1");
 
 		if($this->db->query($query))
