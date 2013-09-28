@@ -9,9 +9,6 @@ class SettingsAdmin extends Simpla
 	{	
 		$this->passwd_file = $this->config->root_dir.'/simpla/.passwd';
 		$this->htaccess_file = $this->config->root_dir.'/simpla/.htaccess';
-	
-		$managers = $this->managers->get_managers();
-		$this->design->assign('managers', $managers);
 		
 		if($this->request->method('POST'))
 		{
