@@ -15,6 +15,8 @@ class Database extends Simpla
 {
 	private $link;
 	private $res_id;
+	public $queries = array();
+	public $count_queries = 0;
 
 	/**
 	 * В конструкторе подключаем базу
@@ -84,7 +86,8 @@ class Database extends Simpla
 	 */
 	public function query()
 	{
-		$time_start = microtime(true);
+		if($this->config->debug)
+			$time_start = microtime(true);
 		
 		$args = func_get_args();
 
@@ -105,11 +108,15 @@ class Database extends Simpla
 			trigger_error($error_msg, E_USER_WARNING);
 			return false;
 		}
-		
-		$time_end = microtime(true);
-		$exec_time = round(($time_end-$time_start)*1000, 0);
-		//print "$exec_time ms <br>$q<br><br>";
-		
+		if($this->config->debug)
+		{
+			$time_end = microtime(true);
+			$exec_time = round(($time_end-$time_start)*1000, 0);
+			$this->queries[$this->count_queries] = new stdClass();
+			$this->queries[$this->count_queries]->exec_time = $exec_time;
+			$this->queries[$this->count_queries]->sql = preg_replace('/[\s]{2,}/', ' ', $q);
+			$this->count_queries++;
+		}
 		return $this->res_id;
 	}
 	
