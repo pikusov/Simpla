@@ -297,7 +297,10 @@ class ImportAjax extends Simpla
 					$this->db->query('SELECT filename FROM __images WHERE product_id=? AND (filename=? OR filename=?) LIMIT 1', $product_id, $image_filename, $image);
 					if(!$this->db->result('filename'))
 					{
-						$this->products->add_image($product_id, $image);
+						if(substr($image, 0, 7) == 'http://')
+							@copy($image, $this->config->root_dir.$this->config->original_images_dir.$image_filename);
+							
+						$this->products->add_image($product_id, $image_filename);
 					}
 				}
  			}
