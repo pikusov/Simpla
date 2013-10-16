@@ -44,7 +44,7 @@ class Config
 
 		// Протокол
 		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
-		if($_SERVER["SERVER_PORT"] == 443)
+		if($_SERVER["SERVER_PORT"] == 443 || $_SERVER["HTTP_X_HTTPS"])
 			$protocol = 'https';
 
 		$this->vars['protocol'] = $protocol;		
