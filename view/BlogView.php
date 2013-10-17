@@ -28,7 +28,7 @@ class BlogView extends View
 		else
 		{
 			// Иначе выводим ленту блога
-			return $this->fetch_blog($url);
+			return $this->fetch_blog();
 		}
 	}
 	
