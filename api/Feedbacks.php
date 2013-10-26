@@ -96,7 +96,7 @@ class Feedbacks extends Simpla
 	public function update_feedback($id, $feedback)
 	{
 		$date_query = '';
-		if(isset($fedback->date))
+		if(isset($feedback->date))
 		{
 			$date = $feedback->date;
 			unset($feedback->date);
