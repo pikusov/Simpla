@@ -30,7 +30,7 @@
       Сообщение:
     </td>
     <td style='padding:6px; width:330; background-color:#ffffff; border:1px solid #e0e0e0;font-family:arial;'>
-       {$feedback->message|escape|nl2br}</a>
+       {$feedback->message|escape|nl2br}
     </td>
   </tr>
 </table>
