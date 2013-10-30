@@ -30,7 +30,7 @@ class ProductView extends View
 			return false;
 		
 		$product->images = $this->products->get_images(array('product_id'=>$product->id));
-		$product->image = &$product->images[0];
+		$product->image = reset($product->images);
 
 		$variants = array();
 		foreach($this->variants->get_variants(array('product_id'=>$product->id, 'in_stock'=>true)) as $v)
