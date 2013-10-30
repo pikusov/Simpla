@@ -48,7 +48,10 @@ class Design extends Simpla
 		$this->smarty->registerPlugin('modifier', 'first', array($this, 'first_modifier'));		
 		$this->smarty->registerPlugin('modifier', 'cut', array($this, 'cut_modifier'));		
 		$this->smarty->registerPlugin('modifier', 'date', array($this, 'date_modifier'));		
-		$this->smarty->registerPlugin('modifier', 'time', array($this, 'time_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'time', array($this, 'time_modifier'));
+
+		if ( $this->config->smarty_html_minify )
+			$this->smarty->loadFilter( 'output', 'trimwhitespace' );
 	}
 	
 	public function assign($var, $value)
