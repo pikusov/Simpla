@@ -299,7 +299,7 @@ class ImportAjax extends Simpla
 					{
 						$this->products->add_image($product_id, $image);
 						if(substr($image, 0, 7) == 'http://')
-							if(!$original_file = $this->image->download_image($image));
+							if(! $original_file = $this->image->download_image($image));
 					}
 				}
  			}
