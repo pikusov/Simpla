@@ -73,7 +73,7 @@
 {* Если стоимость доставки входит в сумму заказа *}
 {if !$order->separate_delivery && $order->delivery_price>0}
 <tr>
-	<td class="image>"</td>
+	<td class="image"></td>
 	<td class="name">{$delivery->name|escape}</td>
 	<td class="price"></td>
 	<td class="amount"></td>
@@ -95,7 +95,7 @@
 {* Если стоимость доставки не входит в сумму заказа *}
 {if $order->separate_delivery}
 <tr>
-	<td class="image>"</td>
+	<td class="image"></td>
 	<td class="name">{$delivery->name|escape}</td>
 	<td class="price"></td>
 	<td class="amount"></td>

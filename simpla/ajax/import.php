@@ -298,6 +298,8 @@ class ImportAjax extends Simpla
 					if(!$this->db->result('filename'))
 					{
 						$this->products->add_image($product_id, $image);
+						if(substr($image, 0, 7) == 'http://')
+							if(! $original_file = $this->image->download_image($image));
 					}
 				}
  			}
