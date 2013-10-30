@@ -7,7 +7,7 @@ require_once('api/Simpla.php');
 $filename = $_GET['file'];
 $token = $_GET['token'];
 
-$filename = str_replace('%2F', '/', $filename);
+$filename = rawurldecode($filename);
 
 //if(substr($filename, 0, 6) == 'http:/')
 //	$filename = 'http://'.substr($filename, 6);
