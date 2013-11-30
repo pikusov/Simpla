@@ -5,17 +5,20 @@ $use_curl = true; // Использовать CURL
 $keyword = $_GET['keyword'];
 $keyword = str_replace(' ', '+', $keyword);
 
-$start='';
+$start=0;
 if(isset($_GET['start']))
 	$start = intval($_GET['start']);
 
-$url = "http://images.google.com/search?tbm=isch&tbs=isz:lt,islt:qsvga,itp:photo&start=$start&q=$keyword";
-
+$url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q='.urlencode($keyword).'&start='.$start.'&rsz=8';
 if($use_curl && function_exists('curl_init'))
 {
 	$ch = curl_init(); 
 	curl_setopt($ch, CURLOPT_URL, $url); 
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+	//curl_setopt($ch, CURLOPT_HEADER, 1);
+	curl_setopt($ch, CURLOPT_REFERER, 'http://google.com');
+	curl_setopt($ch, CURLOPT_USERAGENT, "Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51");
+	curl_setopt($ch, CURLOPT_TIMEOUT, 20);
 
 	// Для использования прокси используйте строки:
 	//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1); 
@@ -29,14 +32,11 @@ else
 {
 	$page = file_get_contents($url);
 }
-
-preg_match_all('/imgurl=(http:\/\/[^\\\]*(jpg|png|gif|jpeg))/U', $page, $matches, PREG_SET_ORDER);
+$data = json_decode($page);
 $images = array();
-foreach($matches as $m)
-{
-	$image = str_replace('%2520', '%20', $m[1]);
-		$images[] = urldecode($image);
-}
+if($data)
+	foreach ($data->responseData->results as $result)
+		$images[] = urldecode(str_replace('%2520', '%20', $result->url));
 
 header("Content-type: application/json; charset=UTF-8");
 header("Cache-Control: must-revalidate");
