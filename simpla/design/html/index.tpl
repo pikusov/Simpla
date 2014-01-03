@@ -36,12 +36,14 @@
 	{/if}
 		
 	{if in_array('orders', $manager->permissions)}
-		<li><a href="index.php?module=OrdersAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a>
-		{if $new_orders_counter}<div class='counter'><span>{$new_orders_counter}</span></div>{/if}
+		<li>
+			<a href="index.php?module=OrdersAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a>
+			{if $new_orders_counter}<div class='counter'><span>{$new_orders_counter}</span></div>{/if}
+		</li>
 	{elseif in_array('labels', $manager->permissions)}
-		<li><a href="index.php?module=OrdersLabelsAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a>
+		<li><a href="index.php?module=OrdersLabelsAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a></li>
 	{/if}
-	</li>
+	
 		
 	{if in_array('users', $manager->permissions)}
 		<li><a href="index.php?module=UsersAdmin"><img src="design/images/menu/users.png"><b>Покупатели</b></a></li>
