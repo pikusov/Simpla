@@ -23,8 +23,13 @@ class Brands extends Simpla
 	{
 		$brands = array();
 		$category_id_filter = '';
+		$products_visible_filter = '';
+		
+		if(!empty($filter['products_visible']))
+			$products_visible_filter = $this->db->placehold('AND p.visible=?', intval($filter['products_visible']));
+		
 		if(!empty($filter['category_id']))
-			$category_id_filter = $this->db->placehold('LEFT JOIN __products p ON p.brand_id=b.id LEFT JOIN __products_categories pc ON p.id = pc.product_id WHERE pc.category_id in(?@)', (array)$filter['category_id']);
+			$category_id_filter = $this->db->placehold("LEFT JOIN __products p ON p.brand_id=b.id $products_visible_filter LEFT JOIN __products_categories pc ON p.id = pc.product_id WHERE pc.category_id in(?@)", (array)$filter['category_id']);
 
 		// Выбираем все бренды
 		$query = $this->db->placehold("SELECT DISTINCT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
