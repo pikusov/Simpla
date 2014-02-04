@@ -74,6 +74,7 @@ class ThemeAdmin extends Simpla
 			$this->design->assign('message_error', 'permissions');
 		}
 		
+		$current_theme = new stdClass();
 		$current_theme->name = $this->settings->theme;
 		$current_theme->locked = is_file($this->themes_dir.$current_theme->name.'/locked');
 		$this->design->assign('theme', $current_theme);
@@ -122,10 +123,11 @@ class ThemeAdmin extends Simpla
 			{ 
 				if(is_dir($this->themes_dir.'/'.$file) && $file[0] != '.')
 				{
-					unset($theme);
+					$theme = new stdClass();
 					$theme->name = $file;
 					$theme->locked = is_file($this->themes_dir.$file.'/locked');
 					$themes[] = $theme; 
+					unset($theme);
         		} 
 		    }
 			closedir($handle); 
