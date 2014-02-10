@@ -125,7 +125,7 @@ $(function() {
 <!-- Системное сообщение -->
 <div class="message message_error">
 	<span>{if $message_error=='url_exists'}Бренд с таким адресом уже существует{else}{$message_error}{/if}</span>
-	<a class="button" href="">Вернуться</a>
+	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
 {/if}
