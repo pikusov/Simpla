@@ -47,7 +47,7 @@ class Cart extends Simpla
 				}
 	
 				$products = array();
-				foreach($this->products->get_products(array('id'=>$products_ids)) as $p)
+				foreach($this->products->get_products(array('id'=>$products_ids, 'limit' => count($products_ids))) as $p)
 					$products[$p->id]=$p;
 				
 				$images = $this->products->get_images(array('product_id'=>$products_ids));
