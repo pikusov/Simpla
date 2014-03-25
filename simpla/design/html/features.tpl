@@ -70,7 +70,7 @@
 	{if $categories}
 	<ul>
 		{if $categories[0]->parent_id == 0}
-		<li {if !$category->id}class="selected"{/if}><a href="{url category_id=null brand_id=null}">Все категории</a></li>	
+		<li {if !$category->id}class="selected"{/if}><a href="{url category_id=null}">Все категории</a></li>	
 		{/if}
 		{foreach item=c from=$categories}
 		<li {if $category->id == $c->id}class="selected"{/if}><a href="index.php?module=FeaturesAdmin&category_id={$c->id}">{$c->name}</a></li>

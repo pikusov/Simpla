@@ -189,6 +189,7 @@ class Categories extends Simpla
 		$pointers = array();
 		$pointers[0] = &$tree;
 		$pointers[0]->path = array();
+		$pointers[0]->level = 0;
 		
 		// Выбираем все категории
 		$query = $this->db->placehold("SELECT c.id, c.parent_id, c.name, c.description, c.url, c.meta_title, c.meta_keywords, c.meta_description, c.image, c.visible, c.position
@@ -219,6 +220,9 @@ class Categories extends Simpla
 					$curr = $pointers[$category->id];
 					$pointers[$category->id]->path = array_merge((array)$pointers[$category->parent_id]->path, array($curr));
 					
+					// Уровень вложенности категории
+					$pointers[$category->id]->level = 1+$pointers[$category->parent_id]->level;
+
 					// Убираем использованную категорию из массива категорий
 					unset($categories[$k]);
 					$flag = true;

@@ -1,5 +1,8 @@
 {* Страница товара *}
 
+{* Канонический адрес страницы *}
+{$canonical="/products/{$product->url}" scope=parent}
+
 <!-- Хлебные крошки /-->
 <div id="path">
 	<a href="./">Главная</a>
@@ -20,7 +23,7 @@
 	<!-- Большое фото -->
 	{if $product->image}
 	<div class="image">
-		<a href="{$product->image->filename|resize:800:600:w}" class="zoom" data-rel="group"><img src="{$product->image->filename|resize:300:300}" alt="{$product->product->name|escape}" /></a>
+		<a href="{$product->image->filename|resize:800:600:w}" class="zoom" rel="group"><img src="{$product->image->filename|resize:300:300}" alt="{$product->product->name|escape}" /></a>
 	</div>
 	{/if}
 	<!-- Большое фото (The End)-->
@@ -64,7 +67,7 @@
 	<div class="images">
 		{* cut удаляет первую фотографию, если нужно начать 2-й - пишем cut:2 и тд *}
 		{foreach $product->images|cut as $i=>$image}
-			<a href="{$image->filename|resize:800:600:w}" class="zoom" data-rel="group"><img src="{$image->filename|resize:95:95}" alt="{$product->name|escape}" /></a>
+			<a href="{$image->filename|resize:800:600:w}" class="zoom" rel="group"><img src="{$image->filename|resize:95:95}" alt="{$product->name|escape}" /></a>
 		{/foreach}
 	</div>
 	{/if}
@@ -103,30 +106,30 @@
 <h2>Так же советуем посмотреть</h2>
 <!-- Список каталога товаров-->
 <ul class="tiny_products">
-	{foreach $related_products as $product}
+	{foreach $related_products as $related_product}
 	<!-- Товар-->
 	<li class="product">
 		
 		<!-- Фото товара -->
-		{if $product->image}
+		{if $related_product->image}
 		<div class="image">
-			<a href="products/{$product->url}"><img src="{$product->image->filename|resize:200:200}" alt="{$product->name|escape}"/></a>
+			<a href="products/{$related_product->url}"><img src="{$related_product->image->filename|resize:200:200}" alt="{$related_product->name|escape}"/></a>
 		</div>
 		{/if}
 		<!-- Фото товара (The End) -->
 
 		<!-- Название товара -->
-		<h3><a data-product="{$product->id}" href="products/{$product->url}">{$product->name|escape}</a></h3>
+		<h3><a data-product="{$related_product->id}" href="products/{$related_product->url}">{$related_product->name|escape}</a></h3>
 		<!-- Название товара (The End) -->
 
-		{if $product->variants|count > 0}
+		{if $related_product->variants|count > 0}
 		<!-- Выбор варианта товара -->
 		<form class="variants" action="/cart">
 			<table>
-			{foreach $product->variants as $v}
+			{foreach $related_product->variants as $v}
 			<tr class="variant">
 				<td>
-					<input id="related_{$v->id}" name="variant" value="{$v->id}" type="radio" class="variant_radiobutton"  {if $v@first}checked{/if} {if $product->variants|count<2} style="display:none;"{/if}/>
+					<input id="related_{$v->id}" name="variant" value="{$v->id}" type="radio" class="variant_radiobutton"  {if $v@first}checked{/if} {if $related_product->variants|count<2} style="display:none;"{/if}/>
 				</td>
 				<td>
 					{if $v->name}<label class="variant_name" for="related_{$v->id}">{$v->name}</label>{/if}
@@ -215,14 +218,20 @@
 </div>
 <!-- Комментарии (The End) -->
 
+{* Увеличитель картинок *}
 {literal}
+<script type="text/javascript" src="js/fancybox/jquery.fancybox.pack.js"></script>
+<link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+
 <script>
 $(function() {
 	// Раскраска строк характеристик
 	$(".features li:even").addClass('even');
 
 	// Зум картинок
-	$("a.zoom").fancybox({ 'hideOnContentClick' : true });
-});
+	$("a.zoom").fancybox({
+		prevEffect	: 'fade',
+		nextEffect	: 'fade'});
+	});
 </script>
 {/literal}

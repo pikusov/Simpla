@@ -1,4 +1,8 @@
 {* Страница входа пользователя *}
+
+{* Канонический адрес страницы *}
+{$canonical="/user/login" scope=parent}
+
 {$meta_title = "Вход" scope=parent}
    
 <h1>Вход</h1>

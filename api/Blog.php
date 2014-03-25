@@ -69,7 +69,7 @@ class Blog extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (b.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR b.meta_keywords LIKE "%'.mysql_real_escape_string(trim($keyword)).'%") ');
+				$keyword_filter .= $this->db->placehold('AND (b.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR b.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 
 		$sql_limit = $this->db->placehold(' LIMIT ?, ? ', ($page-1)*$limit, $limit);
@@ -107,7 +107,7 @@ class Blog extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (b.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR b.meta_keywords LIKE "%'.mysql_real_escape_string(trim($keyword)).'%") ');
+				$keyword_filter .= $this->db->placehold('AND (b.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR b.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 		
 		$query = "SELECT COUNT(distinct b.id) as count
@@ -127,12 +127,10 @@ class Blog extends Simpla
 	*/	
 	public function add_post($post)
 	{	
-		if(isset($post->date))
-		{
-			$date = $post->date;
-			unset($post->date);
-			$date_query = $this->db->placehold(', date=STR_TO_DATE(?, ?)', $date, $this->settings->date_format);
-		}
+		if(!isset($post->date))
+			$date_query = ', date=NOW()';
+		else
+			$date_query = '';
 		$query = $this->db->placehold("INSERT INTO __blog SET ?% $date_query", $post);
 		
 		if(!$this->db->query($query))
@@ -169,11 +167,10 @@ class Blog extends Simpla
 			$query = $this->db->placehold("DELETE FROM __blog WHERE id=? LIMIT 1", intval($id));
 			if($this->db->query($query))
 			{
-				$query = $this->db->placehold("DELETE FROM __comments WHERE type='blog' AND object_id=? LIMIT 1", intval($id));
+				$query = $this->db->placehold("DELETE FROM __comments WHERE type='blog' AND object_id=?", intval($id));
 				if($this->db->query($query))
 					return true;
-			}
-							
+			}							
 		}
 		return false;
 	}	

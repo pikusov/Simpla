@@ -380,13 +380,6 @@
 {* On document load *}
 {literal}
 <script src="design/js/autocomplete/jquery.autocomplete-min.js"></script>
-<style>
-.autocomplete-w1 { background:url(img/shadow.png) no-repeat bottom right; position:absolute; top:0px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; }
-.autocomplete { border:1px solid #999; background:#FFF; cursor:default; text-align:left; overflow-x:auto; min-width: 300px; overflow-y: auto; margin:-6px 6px 6px -6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
-.autocomplete .selected { background:#F0F0F0; }
-.autocomplete div { padding:2px 5px; white-space:nowrap; }
-.autocomplete strong { font-weight:normal; color:#3399FF; }
-</style>
 
 <script>
 $(function() {
@@ -416,36 +409,36 @@ $(function() {
   	minChars:0,
   	noCache: false, 
   	onSelect:
-  		function(value, data){
+  		function(suggestion){
   			new_item = new_purchase.clone().appendTo('.purchases');
   			new_item.removeAttr('id');
-  			new_item.find('a.purchase_name').html(data.name);
-  			new_item.find('a.purchase_name').attr('href', 'index.php?module=ProductAdmin&id='+data.id);
+  			new_item.find('a.purchase_name').html(suggestion.data.name);
+  			new_item.find('a.purchase_name').attr('href', 'index.php?module=ProductAdmin&id='+suggestion.data.id);
   			
   			// Добавляем варианты нового товара
   			var variants_select = new_item.find('select[name*=purchases][name*=variant_id]');
-			for(var i in data.variants)
-  				variants_select.append("<option value='"+data.variants[i].id+"' price='"+data.variants[i].price+"' amount='"+data.variants[i].stock+"'>"+data.variants[i].name+"</option>");
+			for(var i in suggestion.data.variants)
+  				variants_select.append("<option value='"+suggestion.data.variants[i].id+"' price='"+suggestion.data.variants[i].price+"' amount='"+suggestion.data.variants[i].stock+"'>"+suggestion.data.variants[i].name+"</option>");
   			
-  			if(data.variants.length>1 || data.variants[0].name != '')
+  			if(suggestion.data.variants.length>1 || suggestion.data.variants[0].name != '')
   				variants_select.show();
   				  				
 			variants_select.bind('change', function(){change_variant(variants_select);});
 				change_variant(variants_select);
   			
-  			if(data.image)
-  				new_item.find('img.product_icon').attr("src", data.image);
+  			if(suggestion.data.image)
+  				new_item.find('img.product_icon').attr("src", suggestion.data.image);
   			else
   				new_item.find('img.product_icon').remove();
 
-			$("input#add_purchase").val(''); 
+			$("input#add_purchase").val('').focus().blur(); 
   			new_item.show();
   		},
-		fnFormatResult:
-			function(value, data, currentValue){
+		formatResult:
+			function(suggestion, currentValue){
 				var reEscape = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'].join('|\\') + ')', 'g');
 				var pattern = '(' + currentValue.replace(reEscape, '\\$1') + ')';
-  				return (data.image?"<img align=absmiddle src='"+data.image+"'> ":'') + value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+  				return (suggestion.data.image?"<img align=absmiddle src='"+suggestion.data.image+"'> ":'') + suggestion.value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
 			}
   		
   });
@@ -504,8 +497,8 @@ $(function() {
 		minChars:0,
 		noCache: false, 
 		onSelect:
-			function(value, data){
-				$('input[name="user_id"]').val(data.id);
+			function(suggestion){
+				$('input[name="user_id"]').val(suggestion.data.id);
 			}
 	});
   
@@ -532,21 +525,15 @@ $(function() {
 </script>
 
 <style>
-.ui-autocomplete{
+.autocomplete-suggestions{
 background-color: #ffffff; width: 100px; overflow: hidden;
 border: 1px solid #e0e0e0;
 padding: 5px;
 }
-.ui-autocomplete li.ui-menu-item{
-overflow: hidden;
-white-space:nowrap;
-display: block;
-}
-.ui-autocomplete a.ui-corner-all{
-overflow: hidden;
-white-space:nowrap;
-display: block;
-}
+.autocomplete-suggestions .autocomplete-suggestion{cursor: default;}
+.autocomplete-suggestions .selected { background:#F0F0F0; }
+.autocomplete-suggestions div { padding:2px 5px; white-space:nowrap; }
+.autocomplete-suggestions strong { font-weight:normal; color:#3399FF; }
 </style>
 {/literal}
 

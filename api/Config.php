@@ -15,7 +15,7 @@ require_once('Simpla.php');
 
 class Config
 {
-	public $version = '2.2.4';
+	public $version = '2.3.2';
 	
 	// Файл для хранения настроек
 	public $config_file = 'config/config.php';
@@ -67,6 +67,10 @@ class Config
 		// Соль (разная для каждой копии сайта, изменяющаяся при изменении config-файла)
 		$s = stat($this->config_file);
 		$this->vars['salt'] = md5(md5_file($this->config_file).$s['dev'].$s['ino'].$s['uid'].$s['mtime']);
+		
+		// Часовой пояс
+		if(!empty($this->vars['php_timezone']))
+			date_default_timezone_set($this->vars['php_timezone']);
 	}
 
 	// Магическим методов возвращаем нужную переменную

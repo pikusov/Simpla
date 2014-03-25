@@ -5,7 +5,7 @@ class GroupAdmin extends Simpla
 {	
 	public function fetch()
 	{
-
+		$group = new stdClass;
 		if($this->request->method('post'))
 		{
 			$group->id = $this->request->post('id', 'integer');

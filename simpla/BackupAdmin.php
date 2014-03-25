@@ -80,7 +80,7 @@ class BackupAdmin extends Simpla
 		{
 			foreach($backup_files as $backup_file)
 			{	
-				$backup = null;
+				$backup = new stdClass;
 				$backup->name = basename($backup_file);
 				$backup->size = filesize($backup_file);
 				$backups[] = $backup;

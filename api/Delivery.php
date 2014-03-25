@@ -56,7 +56,7 @@ class Delivery extends Simpla
 			return false;
 
 		$id = $this->db->insert_id();
-		$this->db->query("UPDATE __delivery SET position=id WHERE id=?", $id);	
+		$this->db->query("UPDATE __delivery SET position=id WHERE id=?", intval($id));
 		return $id;
 	}
 

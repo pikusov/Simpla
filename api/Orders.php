@@ -24,7 +24,7 @@ class Orders extends Simpla
 		$query = $this->db->placehold("SELECT  o.id, o.delivery_id, o.delivery_price, o.separate_delivery,
 										o.payment_method_id, o.paid, o.payment_date, o.closed, o.discount, o.coupon_code, o.coupon_discount,
 										o.date, o.user_id, o.name, o.address, o.phone, o.email, o.comment, o.status,
-										o.url, o.total_price, o.note
+										o.url, o.total_price, o.note, o.ip
 										FROM __orders o $where LIMIT 1");
 
 		if($this->db->query($query))
@@ -73,7 +73,7 @@ class Orders extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.mysql_real_escape_string(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" )');
+				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.$this->db->escape(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.$this->db->escape(trim($keyword)).'%" )');
 		}
 		
 		// Выбираем заказы
@@ -112,7 +112,7 @@ class Orders extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.mysql_real_escape_string(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" )');
+				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.$this->db->escape(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.$this->db->escape(trim($keyword)).'%" )');
 		}
 		
 		// Выбираем заказы

@@ -1,5 +1,8 @@
 {* Страница регистрации *}
 
+{* Канонический адрес страницы *}
+{$canonical="/user/register" scope=parent}
+
 {$meta_title = "Регистрация" scope=parent}
 
 <h1>Регистрация</h1>

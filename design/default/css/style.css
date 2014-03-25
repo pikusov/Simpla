@@ -367,7 +367,7 @@ e[type="button"] {
 	width: 30%;
 	float: left;
 }
-.product .features p {
+.product .features span {
 	float: left;
 	display: block;
 	width: 70%;

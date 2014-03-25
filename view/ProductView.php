@@ -30,7 +30,7 @@ class ProductView extends View
 			return false;
 		
 		$product->images = $this->products->get_images(array('product_id'=>$product->id));
-		$product->image = &$product->images[0];
+		$product->image = reset($product->images);
 
 		$variants = array();
 		foreach($this->variants->get_variants(array('product_id'=>$product->id, 'in_stock'=>true)) as $v)
@@ -53,6 +53,7 @@ class ProductView extends View
 		// Принимаем комментарий
 		if ($this->request->method('post') && $this->request->post('comment'))
 		{
+			$comment = new stdClass;
 			$comment->name = $this->request->post('name');
 			$comment->text = $this->request->post('text');
 			$captcha_code =  $this->request->post('captcha_code', 'string');
@@ -97,12 +98,7 @@ class ProductView extends View
 				header('location: '.$_SERVER['REQUEST_URI'].'#comment_'.$comment_id);
 			}			
 		}
-		
-		// Комментарии к товару
-		$comments = $this->comments->get_comments(array('type'=>'product', 'object_id'=>$product->id, 'approved'=>1, 'ip'=>$_SERVER['REMOTE_ADDR']));
-		$this->design->assign('comments', $comments);
-		
-		
+				
 		// Связанные товары
 		$related_ids = array();
 		$related_products = array();

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Яндекс Деньги
+	</name>
+	<settings>
+		<variable>yandex_id</variable>
+		<name>Кошелек получателя</name>
+	</settings>
+	<settings>
+		<variable>yandex_secret</variable>
+		<name>Секретный ключ</name>
+	</settings>
+</module>

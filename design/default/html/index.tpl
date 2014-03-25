@@ -14,6 +14,9 @@
 	<meta name="keywords"    content="{$meta_keywords|escape}" />
 	<meta name="viewport" content="width=1024"/>
 	
+	{* Канонический адрес страницы *}
+	{if isset($canonical)}<link rel="canonical" href="{$config->root_url}{$canonical}"/>{/if}
+	
 	{* Стили *}
 	<link href="design/{$settings->theme|escape}/css/style.css" rel="stylesheet" type="text/css" media="screen"/>
 	<link href="design/{$settings->theme|escape}/images/favicon.ico" rel="icon"          type="image/x-icon"/>
@@ -28,10 +31,6 @@
 	<link   href="js/admintooltip/css/admintooltip.css" rel="stylesheet" type="text/css" /> 
 	{/if}
 	
-	{* Увеличитель картинок *}
-	<script type="text/javascript" src="js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-	<link rel="stylesheet" href="js/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-	
 	{* Ctrl-навигация на соседние товары *}
 	<script type="text/javascript" src="js/ctrlnavigate.js"></script>           
 	
@@ -40,18 +39,22 @@
 	<script src="design/{$settings->theme}/js/ajax_cart.js"></script>
 	
 	{* js-проверка форм *}
-	<script src="/js/baloon/js/baloon.js" type="text/javascript"></script>
-	<link   href="/js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
+	<script src="js/baloon/js/baloon.js" type="text/javascript"></script>
+	<link   href="js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
 	
 	{* Автозаполнитель поиска *}
 	{literal}
 	<script src="js/autocomplete/jquery.autocomplete-min.js" type="text/javascript"></script>
 	<style>
-	.autocomplete-w1 { position:absolute; top:0px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; }
-	.autocomplete { border:1px solid #999; background:#FFF; cursor:default; text-align:left; overflow-x:auto;  overflow-y: auto; margin:-6px 6px 6px -6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
-	.autocomplete .selected { background:#F0F0F0; }
-	.autocomplete div { padding:2px 5px; white-space:nowrap; }
-	.autocomplete strong { font-weight:normal; color:#3399FF; }
+		.autocomplete-suggestions{
+		background-color: #ffffff; width: 100px; overflow: hidden;
+		border: 1px solid #e0e0e0;
+		padding: 5px;
+		}
+		.autocomplete-suggestions .autocomplete-suggestion{cursor: default;}
+		.autocomplete-suggestions .selected { background:#F0F0F0; }
+		.autocomplete-suggestions div { padding:2px 5px; white-space:nowrap; }
+		.autocomplete-suggestions strong { font-weight:normal; color:#3399FF; }
 	</style>	
 	<script>
 	$(function() {
@@ -61,14 +64,14 @@
 			minChars:1,
 			noCache: false, 
 			onSelect:
-				function(value, data){
+				function(suggestion){
 					 $(".input_search").closest('form').submit();
 				},
-			fnFormatResult:
-				function(value, data, currentValue){
+			formatResult:
+				function(suggestion, currentValue){
 					var reEscape = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'].join('|\\') + ')', 'g');
 					var pattern = '(' + currentValue.replace(reEscape, '\\$1') + ')';
-	  				return (data.image?"<img align=absmiddle src='"+data.image+"'> ":'') + value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+	  				return (suggestion.data.image?"<img align=absmiddle src='"+suggestion.data.image+"'> ":'') + suggestion.value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
 				}	
 		});
 	});
@@ -78,7 +81,6 @@
 			
 </head>
 <body>
-
 
 	<!-- Верхняя строка -->
 	<div id="top_background">
@@ -169,8 +171,8 @@
 				{* Показываем только видимые категории *}
 				{if $c->visible}
 					<li>
-						{if $c->image}<img src="{$config->categories_images_dir}{$c->image}" alt="{$c->name}">{/if}
-						<a {if $category->id == $c->id}class="selected"{/if} href="catalog/{$c->url}" data-category="{$c->id}">{$c->name}</a>
+						{if $c->image}<img src="{$config->categories_images_dir}{$c->image}" alt="{$c->name|escape}">{/if}
+						<a {if $category->id == $c->id}class="selected"{/if} href="catalog/{$c->url}" data-category="{$c->id}">{$c->name|escape}</a>
 						{categories_tree categories=$c->subcategories}
 					</li>
 				{/if}
@@ -225,7 +227,7 @@
 				<ul id="browsed_products">
 				{foreach $browsed_products as $browsed_product}
 					<li>
-					<a href="products/{$browsed_product->url}"><img src="{$browsed_product->image->filename|resize:50:50}" alt="{$browsed_product->name}" title="{$browsed_product->name}"></a>
+					<a href="products/{$browsed_product->url}"><img src="{$browsed_product->image->filename|resize:50:50}" alt="{$browsed_product->name|escape}" title="{$browsed_product->name|escape}"></a>
 					</li>
 				{/foreach}
 				</ul>

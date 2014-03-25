@@ -17,13 +17,6 @@
 {* On document load *}
 {literal}
 <script src="design/js/autocomplete/jquery.autocomplete-min.js"></script>
-<style>
-.autocomplete-w1 {position:absolute; top:0px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; }
-.autocomplete { border:1px solid #999; background:#FFF; cursor:default; text-align:left; overflow-x:auto; min-width: 300px; overflow-y: auto; margin:-6px 6px 6px -6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
-.autocomplete .selected { background:#F0F0F0; }
-.autocomplete div { padding:2px 5px; white-space:nowrap; }
-.autocomplete strong { font-weight:normal; color:#3399FF; }
-</style>
 
 <script>
 $(function() {
@@ -68,14 +61,54 @@ $(function() {
 	});
 	// Загрузить изображение с компьютера
 	$('#upload_image').click(function() {
-		$("<input class='upload_image' name=images[] type=file multiple>").appendTo('div#add_image').focus().click();
+		$("<input class='upload_image' name=images[] type=file multiple  accept='image/jpeg,image/png,image/gif'>").appendTo('div#add_image').focus().click();
 	});
 	// Или с URL
 	$('#add_image_url').click(function() {
 		$("<input class='remote_image' name=images_urls[] type=text value='http://'>").appendTo('div#add_image').focus().select();
 	});
+	// Или перетаскиванием
+	if(window.File && window.FileReader && window.FileList)
+	{
+		$("#dropZone").show();
+		$("#dropZone").on('dragover', function (e){
+			$(this).css('border', '1px solid #8cbf32');
+		});
+		$(document).on('dragenter', function (e){
+			$("#dropZone").css('border', '1px dotted #8cbf32').css('background-color', '#c5ff8d');
+		});
 	
- 
+		dropInput = $('.dropInput').last().clone();
+		
+		function handleFileSelect(evt){
+			var files = evt.target.files; // FileList object
+			// Loop through the FileList and render image files as thumbnails.
+		    for (var i = 0, f; f = files[i]; i++) {
+				// Only process image files.
+				if (!f.type.match('image.*')) {
+					continue;
+				}
+			var reader = new FileReader();
+			// Closure to capture the file information.
+			reader.onload = (function(theFile) {
+				return function(e) {
+					// Render thumbnail.
+					$("<li class=wizard><a href='' class='delete'><img src='design/images/cross-circle-frame.png'></a><img onerror='$(this).closest(\"li\").remove();' src='"+e.target.result+"' /><input name=images_urls[] type=hidden value='"+theFile.name+"'></li>").appendTo('div .images ul');
+					temp_input =  dropInput.clone();
+					$('.dropInput').hide();
+					$('#dropZone').append(temp_input);
+					$("#dropZone").css('border', '1px solid #d0d0d0').css('background-color', '#ffffff');
+					clone_input.show();
+		        };
+		      })(f);
+		
+		      // Read in the image file as a data URL.
+		      reader.readAsDataURL(f);
+		    }
+		}
+		$('.dropInput').live("change", handleFileSelect);
+	};
+
 	// Удаление варианта
 	$('a.del_variant').click(function() {
 		if($("#variants ul").size()>1)
@@ -129,38 +162,58 @@ $(function() {
 	
 	function show_category_features(category_id)
 	{
-		$('ul.prop_ul li').hide(); 
-		if(categories_features[category_id] !== undefined)
-		{
-			$('ul.prop_ul li').filter(function(){return jQuery.inArray($(this).attr("feature_id"), categories_features[category_id])>-1;}).show();	
-		}
+		$('ul.prop_ul').empty();
+		$.ajax({
+			url: "ajax/get_features.php",
+			data: {category_id: category_id, product_id: $("input[name=id]").val()},
+			dataType: 'json',
+			success: function(data){
+				for(i=0; i<data.length; i++)
+				{
+					feature = data[i];
+					
+					line = $("<li><label class=property></label><input class='simpla_inp' type='text'/></li>");
+					var new_line = line.clone(true);
+					new_line.find("label.property").text(feature.name);
+					new_line.find("input").attr('name', "options["+feature.id+"]").val(feature.value);
+					new_line.appendTo('ul.prop_ul').find("input")
+					.autocomplete({
+						serviceUrl:'ajax/options_autocomplete.php',
+						minChars:0,
+						params: {feature_id:feature.id},
+						noCache: false
+					});
+				}
+			}
+		});
+		return false;
 	}
+	
 	// Изменение набора свойств при изменении категории
 	$('select[name="categories[]"]:first').change(function() {
 		show_category_features($("option:selected",this).val());
 	});
-	show_category_features($('select[name="categories[]"]:first option:selected').val());
-	
-	
-	// Добавление нового свойства товара
-	var feature = $('#new_feature').clone(true);
-	$('#new_feature').remove().removeAttr('id');
-	$('#add_new_feature').click(function() {
-		$(feature).clone(true).appendTo('ul.new_features').fadeIn('slow').find("input[name*=new_feature_name]").focus();
-		return false;		
-	});
-	
-	// Подсказки для свойств
-	$('input[name*="options"]').each(function(index) {
-		f_id = $(this).closest('li').attr('feature_id');
-		ac = $(this).autocomplete({
+
+	// Автодополнение свойств
+	$('ul.prop_ul input[name*=options]').each(function(index) {
+		feature_id = $(this).closest('li').attr('feature_id');
+		$(this).autocomplete({
 			serviceUrl:'ajax/options_autocomplete.php',
 			minChars:0,
-			params: {feature_id:f_id},
+			params: {feature_id:feature_id},
 			noCache: false
 		});
+	}); 	
+	
+	// Добавление нового свойства товара
+	var new_feature = $('#new_feature').clone(true);
+	$('#new_feature').remove().removeAttr('id');
+	$('#add_new_feature').click(function() {
+		$(new_feature).clone(true).appendTo('ul.new_features').fadeIn('slow').find("input[name*=new_feature_name]").focus();
+		return false;		
 	});
-		
+
+	
 	// Удаление связанного товара
 	$(".related_products a.delete").live('click', function() {
 		 $(this).closest("div.row").fadeOut(200, function() { $(this).remove(); });
@@ -177,24 +230,24 @@ $(function() {
 		minChars:0,
 		noCache: false, 
 		onSelect:
-			function(value, data){
+			function(suggestion){
+				$("input#related_products").val('').focus().blur(); 
 				new_item = new_related_product.clone().appendTo('.related_products');
 				new_item.removeAttr('id');
-				new_item.find('a.related_product_name').html(data.name);
-				new_item.find('a.related_product_name').attr('href', 'index.php?module=ProductAdmin&id='+data.id);
-				new_item.find('input[name*="related_products"]').val(data.id);
-				if(data.image)
-					new_item.find('img.product_icon').attr("src", data.image);
+				new_item.find('a.related_product_name').html(suggestion.data.name);
+				new_item.find('a.related_product_name').attr('href', 'index.php?module=ProductAdmin&id='+suggestion.data.id);
+				new_item.find('input[name*="related_products"]').val(suggestion.data.id);
+				if(suggestion.data.image)
+					new_item.find('img.product_icon').attr("src", suggestion.data.image);
 				else
 					new_item.find('img.product_icon').remove();
-				$("#related_products").val(''); 
 				new_item.show();
 			},
-		fnFormatResult:
-			function(value, data, currentValue){
+		formatResult:
+			function(suggestions, currentValue){
 				var reEscape = new RegExp('(\\' + ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'].join('|\\') + ')', 'g');
 				var pattern = '(' + currentValue.replace(reEscape, '\\$1') + ')';
-  				return (data.image?"<img align=absmiddle src='"+data.image+"'> ":'') + value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
+  				return (suggestions.data.image?"<img align=absmiddle src='"+suggestions.data.image+"'> ":'') + suggestions.value.replace(new RegExp(pattern, 'gi'), '<strong>$1<\/strong>');
 			}
 
 	});
@@ -236,7 +289,7 @@ $(function() {
     				for(i=0; i<Math.min(data.length, images_num); i++)
     				{
 	    				image_url = data[i];
-						$("<li class=wizard><a href='' class='delete'><img src='design/images/cross-circle-frame.png'></a><a href='"+image_url+"' target=_blank><img onerror='$(this).closest(\"li\").remove();' width=100 src='"+image_url+"' /><input name=images_urls[] type=hidden value='"+image_url+"'></a></li>").appendTo('div .images ul');
+						$("<li class=wizard><a href='' class='delete'><img src='design/images/cross-circle-frame.png'></a><a href='"+image_url+"' target=_blank><img onerror='$(this).closest(\"li\").remove();' src='"+image_url+"' /><input name=images_urls[] type=hidden value='"+image_url+"'></a></li>").appendTo('div .images ul');
     				}
 					$('#images_wizard img').attr('src', old_wizar_dicon_src);
 					images_loaded += images_num;
@@ -263,6 +316,7 @@ $(function() {
  			 	data: {keyword: key},
  			 	dataType: 'json',
   				success: function(data){
+					$('#properties_wizard img').attr('src', old_prop_wizard_icon_src);
   					if(data)
   					{
   						$('li#new_feature').remove();
@@ -281,9 +335,7 @@ $(function() {
 							}
 	   					}
 	   					
-   					}
-					$('#properties_wizard img').attr('src', old_prop_wizard_icon_src);
-					
+   					}					
 				},
 				error: function(xhr, textStatus, errorThrown){
                 	alert("Error: " +textStatus);
@@ -389,22 +441,15 @@ function translit(str)
 </script>
 
 <style>
-.ui-autocomplete{
+.autocomplete-suggestions{
 background-color: #ffffff; width: 100px; overflow: hidden;
 border: 1px solid #e0e0e0;
 padding: 5px;
 }
-.ui-autocomplete li.ui-menu-item{
-overflow: hidden;
-white-space:nowrap;
-display: block;
-}
-.ui-autocomplete a.ui-corner-all{
-overflow: hidden;
-white-space:nowrap;
-display: block;
-}
-
+.autocomplete-suggestions .autocomplete-suggestion{cursor: default;}
+.autocomplete-suggestions .selected { background:#F0F0F0; }
+.autocomplete-suggestions div { padding:2px 5px; white-space:nowrap; }
+.autocomplete-suggestions strong { font-weight:normal; color:#3399FF; }
 </style>
 {/literal}
 
@@ -556,15 +601,7 @@ display: block;
 			</ul>
 		</div>
 		<!-- Параметры страницы (The End)-->
-		
-		<!-- Свойства товара -->
-		<script>
-		var categories_features = new Array();
-		{foreach from=$categories_features key=c item=fs}
-		categories_features[{$c}]  = Array({foreach from=$fs item=f}'{$f}', {/foreach}0);
-		{/foreach}
-		</script>
-		
+				
 		<div class="block layer" {if !$categories}style='display:none;'{/if}>
 			<h2>Свойства товара
 			<a href="#" id=properties_wizard><img src="design/images/wand.png" alt="Подобрать автоматически" title="Подобрать автоматически"/></a>
@@ -573,7 +610,7 @@ display: block;
 			<ul class="prop_ul">
 				{foreach $features as $feature}
 					{assign var=feature_id value=$feature->id}
-					<li feature_id={$feature_id} style='display:none;'><label class=property>{$feature->name}</label><input class="simpla_inp" type="text" name=options[{$feature_id}] value="{$options.$feature_id->value|escape}" /></li>
+					<li feature_id={$feature_id}><label class=property>{$feature->name}</label><input class="simpla_inp" type="text" name=options[{$feature_id}] value="{$options.$feature_id->value|escape}" /></li>
 				{/foreach}
 			</ul>
 			<!-- Новые свойства -->
@@ -608,18 +645,19 @@ display: block;
 		<div class="block layer images">
 			<h2>Изображения товара
 			<a href="#" id=images_wizard><img src="design/images/wand.png" alt="Подобрать автоматически" title="Подобрать автоматически"/></a>
-			
 			</h2>
 			<ul>{foreach from=$product_images item=image}<li>
 					<a href='#' class="delete"><img src='design/images/cross-circle-frame.png'></a>
 					<img src="{$image->filename|resize:100:100}" alt="" />
 					<input type=hidden name='images[]' value='{$image->id}'>
 				</li>{/foreach}</ul>
+			<div id=dropZone>
+				<div id=dropMessage>Перетащите файлы сюда</div>
+				<input type="file" name="dropped_images[]" multiple class="dropInput">
+			</div>
+			<div id="add_image"></div>
 			<span class=upload_image><i class="dash_link" id="upload_image">Добавить изображение</i></span> или <span class=add_image_url><i class="dash_link" id="add_image_url">загрузить из интернета</i></span>
-			<div id=add_image></div>
-			
 		</div>
-		
 
 		<div class="block layer">
 			<h2>Связанные товары</h2>

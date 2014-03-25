@@ -1,5 +1,5 @@
 {capture name=tabs}
-	<li class="active"><a href="{url module=BlogAdmin id=null page=null}">Блог</a></li>
+	<li class="active"><a href="index.php?module=BlogAdmin">Блог</a></li>
 {/capture}
 
 {if $post->id}

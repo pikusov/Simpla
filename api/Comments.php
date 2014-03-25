@@ -62,13 +62,13 @@ class Comments extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND c.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR c.text LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND c.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR c.text LIKE "%'.$this->db->escape(trim($keyword)).'%" ');
 		}
 
 			
 		$sort='DESC';
 		
-		$query = $this->db->placehold("SELECT c.id, c.object_id, c.ip, c.name, c.text, c.type, c.date, c.text, c.approved
+		$query = $this->db->placehold("SELECT c.id, c.object_id, c.ip, c.name, c.text, c.type, c.date, c.approved
 										FROM __comments c WHERE 1 $object_id_filter $type_filter $keyword_filter $approved_filter ORDER BY id $sort $sql_limit");
 	
 		$this->db->query($query);
@@ -96,7 +96,7 @@ class Comments extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND c.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR c.text LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND c.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR c.text LIKE "%'.$this->db->escape(trim($keyword)).'%" ');
 		}
 
 		$query = $this->db->placehold("SELECT count(distinct c.id) as count

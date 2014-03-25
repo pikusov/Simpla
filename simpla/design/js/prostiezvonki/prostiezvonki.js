@@ -1,9 +1,9 @@
 /*jslint browser: true*/
-/*global WebSocket, DOMParser, ActiveXObject*/
-(function () {
+/*global WebSocket, DOMParser, ActiveXObject, jQuery*/
+(function ($) {
     "use strict";
 
-    var ProstieZvonki, prostiezvonki, pz, Event, Message;
+    var ProstieZvonki, Event, Message;
 
     /**
      * Parse xml string to xml document
@@ -37,6 +37,18 @@
 
     Event.prototype.isHistory = function () {
         return this.type === '4';
+    };
+
+    Event.prototype.isOutcoming = function () {
+        return this.type === '8';
+    };
+
+    Event.prototype.isOutcomingAnswer = function () {
+        return this.type === '16';
+    };
+
+    Event.prototype.isIncomingAnswer = function () {
+        return this.type === '32';
     };
 
     Message = function (string, use_ssl) {
@@ -76,20 +88,65 @@
     ProstieZvonki = function () {
         var user_phone = '',
             websocket  = null,
+            host       = null,
             use_ssl    = false,
-            callbacks  = {};
+            callbacks  = {},
+            max_password_length = 32;
 
+        function normalizeHost(host) {
+            var defaults = {
+                port: '10150',
+                prefix: 'wss'
+            };
+
+            if (host.match(/:\d+$/) === null) {
+                host = host + ':' + defaults.port;
+            }
+
+            if (host.match(/^wss?p?:\/\//) === null) {
+                host = defaults.prefix + '://' + host;
+            }
+
+            return host;
+        }
+
+        function normalizePassword(password) {
+            return btoa(password || '');
+        }
+
+        this.version = '1.0.2';
+
+        /**
+         * Set user phone
+         * 
+         * @deprecated user phone should be set via params in connect method
+         * @param string phone
+         */
         this.setUserPhone = function (phone) {
             user_phone = phone;
         };
 
         this.connect = function (params) {
-            var connection_url = params.host
-                                 + '?CID=' + (params.client_id || 0)
-                                 + '&CT=' + params.client_type
-                                 + '&GID=' + user_phone;
+            host    = normalizeHost(params.host);
+            use_ssl = host.indexOf('wss') === 0;
 
-            use_ssl = params.host.indexOf('wss') === 0;
+            if (params.client_id && params.client_id.length > max_password_length) {
+                return {
+                    result: 'error',
+                    text: 'Password exceeds max length of ' + max_password_length
+                };
+            }
+
+            user_phone = params.user_phone || user_phone;
+
+            var connection_url = host
+                                 + '?CID=' + normalizePassword(params.client_id)
+                                 + '&CT=' + params.client_type
+                                 + '&GID=' + user_phone
+                                 + '&PhoneNumber=' + user_phone
+                                 + '&BroadcastEventsMask=0'
+                                 + '&BroadcastGroup=' + (params.broadcast_group || '')
+                                 + '&PzProtocolVersion=1';
 
             websocket = new WebSocket(connection_url);
 
@@ -108,7 +165,7 @@
             websocket.onmessage = function (e) {
                 var i, message, events;
 
-                if (typeof (e.data) === 'undefined') {
+                if (e.data === undefined) {
                     return false;
                 }
 
@@ -121,6 +178,10 @@
                     }
                 }
             };
+
+            return {
+                result: 'ok'
+            };
         };
 
         this.disconnect = function () {
@@ -130,7 +191,7 @@
         this.isConnected = function () {
             return websocket && websocket.readyState === 1;
         };
- 
+
         this.onConnect = function (callback) {
             callbacks.onConnect = callback;
         };
@@ -149,20 +210,16 @@
                 '<From>' + user_phone + '</From><To>' + number + '</To>',
                 use_ssl
             ));
-        }
+        };
 
         this.transfer = function (call_id, number) {
-            number = number || 0;
-
             websocket.send(Message.prepareRequest(
                 'Transfer',
-                '<CallID>' + call_id + '</CallID><To>' + user_phone + '</To>',
+                '<CallID>' + call_id + '</CallID><To>' + (number || '') + '</To>',
                 use_ssl
             ));
-        }
+        };
     };
 
-    prostiezvonki = window.prostiezvonki = new ProstieZvonki();
-
-    pz = window.pz = prostiezvonki;
-}());
+    window.pz = window.prostiezvonki = new ProstieZvonki();
+}(jQuery));

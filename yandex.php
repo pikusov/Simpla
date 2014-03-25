@@ -4,12 +4,12 @@ require_once('api/Simpla.php');
 $simpla = new Simpla();
 
 header("Content-type: text/xml; charset=UTF-8");
-
+print (pack('CCC', 0xef, 0xbb, 0xbf));
 // Заголовок
 print
 "<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE yml_catalog SYSTEM 'shops.dtd'>
-<yml_catalog date='".date('Y-m-d H:m')."'>
+<yml_catalog date='".date('Y-m-d H:i')."'>
 <shop>
 <name>".$simpla->settings->site_name."</name>
 <company>".$simpla->settings->company_name."</company>

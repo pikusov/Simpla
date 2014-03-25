@@ -24,10 +24,11 @@ if(preg_match_all('/<ul class="b-vlist b-vlist_type_mdash b-vlist_type_friendly"
 {
 	// Описание товара
 	$description = '<ul>'.reset($matches[1]).'</ul>';
+	$result = new stdClass;
 	$result->description = $description;
 	
 	// Страница характеристик
-	if(preg_match_all('/<p class="b-model-friendly__title"><a href="(.*?)">все характеристики<\/a><\/p>/ui', $page, $matches))
+	if(preg_match_all('/<p class="b-model-friendly__title"><a href="(.*?)">/ui', $page, $matches))
 	{
 		$options_url = 'http://market.yandex.ru'.reset($matches[1]);
 		
@@ -37,7 +38,7 @@ if(preg_match_all('/<ul class="b-vlist b-vlist_type_mdash b-vlist_type_friendly"
 		$options = array();
 		foreach($matches as $m)
 		{
-			$option = null;
+			$option = new stdClass;
 			$option->name = $m[1];
 			$option->value = $m[2];
 			$options[] = $option;

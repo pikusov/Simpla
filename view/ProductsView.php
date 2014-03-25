@@ -121,6 +121,7 @@ class ProductsView extends View
 		
 		$pages_num = ceil($products_count/$items_per_page);
 		$this->design->assign('total_pages_num', $pages_num);
+		$this->design->assign('total_products_num', $products_count);
 
 		$filter['page'] = $current_page;
 		$filter['limit'] = $items_per_page;

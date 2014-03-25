@@ -89,7 +89,7 @@ class Products extends Simpla
 				break;
 				case 'price':
 				//$order = 'pv.price IS NULL, pv.price=0, pv.price';
-				$order = '(SELECT pv.price FROM __variants pv WHERE (pv.stock IS NULL OR pv.stock>0) AND p.id = pv.product_id AND pv.position=(SELECT MIN(position) FROM __variants WHERE (stock>0 OR stock IS NULL) AND product_id=p.id LIMIT 1) LIMIT 1)';
+				$order = '(SELECT -pv.price FROM __variants pv WHERE (pv.stock IS NULL OR pv.stock>0) AND p.id = pv.product_id AND pv.position=(SELECT MIN(position) FROM __variants WHERE (stock>0 OR stock IS NULL) AND product_id=p.id LIMIT 1) LIMIT 1) DESC';
 				break;
 			}
 
@@ -97,7 +97,7 @@ class Products extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.mysql_real_escape_string(trim($keyword)).'%") ');
+				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 
 		if(!empty($filter['features']) && !empty($filter['features']))
@@ -155,6 +155,7 @@ class Products extends Simpla
 	{		
 		$category_id_filter = '';
 		$brand_id_filter = '';
+		$product_id_filter = '';
 		$keyword_filter = '';
 		$visible_filter = '';
 		$is_featured_filter = '';
@@ -167,12 +168,15 @@ class Products extends Simpla
 
 		if(!empty($filter['brand_id']))
 			$brand_id_filter = $this->db->placehold('AND p.brand_id in(?@)', (array)$filter['brand_id']);
+
+		if(!empty($filter['id']))
+			$product_id_filter = $this->db->placehold('AND p.id in(?@)', (array)$filter['id']);
 		
 		if(isset($filter['keyword']))
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.mysql_real_escape_string(trim($keyword)).'%") ');
+				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 
 		if(!empty($filter['featured']))
@@ -197,6 +201,7 @@ class Products extends Simpla
 				$category_id_filter
 				WHERE 1
 					$brand_id_filter
+					$product_id_filter
 					$keyword_filter
 					$is_featured_filter
 					$in_stock_filter
@@ -477,9 +482,9 @@ class Products extends Simpla
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			
 			// Удалить все ресайзы
-			$rezised_images = glob($this->config->root_dir.$this->config->resized_images_dir.$file."*.".$ext);
+			$rezised_images = glob($this->config->root_dir.$this->config->resized_images_dir.$file.".*x*.".$ext);
 			if(is_array($rezised_images))
-			foreach (glob($this->config->root_dir.$this->config->resized_images_dir.$file."*.".$ext) as $f)
+			foreach (glob($this->config->root_dir.$this->config->resized_images_dir.$file.".*x*.".$ext) as $f)
 				@unlink($f);
 
 			@unlink($this->config->root_dir.$this->config->original_images_dir.$filename);		

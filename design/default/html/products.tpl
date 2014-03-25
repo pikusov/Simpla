@@ -1,5 +1,18 @@
 {* Список товаров *}
 
+{* Канонический адрес страницы *}
+{if $category && $brand}
+{$canonical="/catalog/{$category->url}/{$brand->url}" scope=parent}
+{elseif $category}
+{$canonical="/catalog/{$category->url}" scope=parent}
+{elseif $brand}
+{$canonical="/brands/{$brand->url}" scope=parent}
+{elseif $keyword}
+{$canonical="/products?keyword={$keyword|escape}" scope=parent}
+{else}
+{$canonical="/products" scope=parent}
+{/if}
+
 <!-- Хлебные крошки /-->
 <div id="path">
 	<a href="/">Главная</a>
@@ -17,7 +30,6 @@
 	{/if}
 </div>
 <!-- Хлебные крошки #End /-->
-
 
 {* Заголовок страницы *}
 {if $keyword}
@@ -51,8 +63,10 @@
 </div>
 {/if}
 
+{if $current_page_num==1}
 {* Описание бренда *}
 {$brand->description}
+{/if}
 
 {* Фильтр по свойствам *}
 {if $features}
@@ -154,5 +168,5 @@
 
 {else}
 Товары не найдены
-{/if}	
+{/if}
 <!--Каталог товаров (The End)-->

@@ -7,7 +7,7 @@ class Best2Pay extends Simpla
 	public function checkout_form($order_id, $button_text = null)
 	{
 		// Код валюты в Best2Pay
-		$currency = '643'
+		$currency = '643';
 
 		if(empty($button_text))
 			$button_text = 'Перейти к оплате';
@@ -29,6 +29,13 @@ class Best2Pay extends Simpla
 		$id = $order->id;
 		$password = $payment_settings['password'];
 		
+		// адрес api
+		if($payment_settings['mode'] == 'test')
+			$best2pay_url = "https://test.best2pay.net";
+		else
+			$best2pay_url = "https://pay.best2pay.net";
+		
+			
 		// описание заказа
 		// order description
 		$desc = 'Оплата заказа №'.$id;
@@ -38,7 +45,9 @@ class Best2Pay extends Simpla
 		$signature  = base64_encode(md5($sector.($price*100).$currency.$password));
 		
 		// Регистрируем заказ
-		$url = 'https://test.best2pay.net/webapi/Register';
+		$url = $best2pay_url.'/webapi/Register';
+		
+		
 		$data = array(
 			'sector' => $sector,
 			'reference' => $id,
@@ -63,7 +72,7 @@ class Best2Pay extends Simpla
 			$button_text = $best2pay_id;
 				 
 		$signature  = base64_encode(md5($sector.$best2pay_id.$password));
-		$button =	"<form accept-charset='utf8' action='https://test.best2pay.net/webapi/Purchase' method=POST>".
+		$button =	"<form accept-charset='utf8' action='".$best2pay_url."/webapi/Purchase' method=POST>".
 					"<input type=hidden name=sector value='$sector'>".
 					"<input type=hidden name=id value='$best2pay_id'>".
 					"<input type=hidden name=signature value='$signature'>".

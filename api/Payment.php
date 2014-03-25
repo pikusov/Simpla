@@ -62,18 +62,20 @@ class Payment extends Simpla
 				
 				if(is_readable($modules_dir.$dir.'/settings.xml') && $xml = simplexml_load_file($modules_dir.$dir.'/settings.xml'))
 				{
-					$module = null;
+					$module = new stdClass;
 					
 					$module->name = (string)$xml->name;
 					$module->settings = array();
 	
 					foreach($xml->settings as $setting)
 					{
+						$module->settings[(string)$setting->variable] = new stdClass;
 						$module->settings[(string)$setting->variable]->name = (string)$setting->name;
 						$module->settings[(string)$setting->variable]->variable = (string)$setting->variable;
 					 	$module->settings[(string)$setting->variable]->variable_options = array();
 					 	foreach($setting->options as $option)
 					 	{
+					 		$module->settings[(string)$setting->variable]->options[(string)$option->value] = new stdClass;
 					 		$module->settings[(string)$setting->variable]->options[(string)$option->value]->name = (string)$option->name;
 					 		$module->settings[(string)$setting->variable]->options[(string)$option->value]->value = (string)$option->value;
 					 	}

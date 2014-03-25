@@ -1,4 +1,124 @@
 =========================================
+Версия 2.3.2 от 20.03.2014
+=========================================
+В модуле оплаты Яндекс для юр. лиц добавлена настройка способов оплаты
+Исправлена ошибка с удалением комментариев при удалении поста в блоге
+Исправлена опечатка в product.tpl
+Исправлена ошибка с дублированием файла simpla.sql
+
+
+
+=========================================
+Версия 2.3.1 от 16.03.2014
+=========================================
+Указание канонических адресов страниц
+Добавлен модуль оплаты Яндекс Деньги для юридических лиц
+Fancybox обновлен до второй версии
+Исправлена ошибка с автодополнением свойств товара
+Исправлена ошибка с дублированием вариантов при синхронизации с Моимскладом
+
+
+
+=========================================
+Версия 2.3.0 от 12.03.2014
+=========================================
+Синхронизация модификаций товаров с МоимСкладом
+Исправлен автоподбор картинок
+Добавление изображений товара перетаскиванием
+Платежный модуль Яндекс Деньги
+Платежный модуль Интеркасса 2.0
+Полный переход на mysqli
+Поддержка строгого режима PHP
+Поддержка PHP 5.4
+Ссылка на товар/запись в письме админу о комментарии к товару/записи
+При сортировке по цене товары не в наличии - в конце списка
+Исправлена ошибка с падением google chrome при редактировании товара
+Ускорена работа и уменьшено потребление памяти со свойствами товара в редактировании товара (при большом количестве свойств)
+Исправлена работа с русскими именами файлов изображений товаров
+
+Последовательность добавления варинтов при импорте
+http://forum.simplacms.ru/topic/6829-%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C-%D0%B4%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2%D0%B0%D1%80%D0%B8%D0%BD%D1%82%D0%BE%D0%B2-%D0%BF%D1%80%D0%B8-%D0%B8%D0%BC/
+
+github pull requests:
+Баг с лимитом по умолчанию #55
+https://github.com/pikusov/Simpla/pull/55
+
+Ссылка вернутся при ошибке не работала #53
+https://github.com/pikusov/Simpla/pull/53
+
+Опечатка в стандартном css #52
+https://github.com/pikusov/Simpla/pull/52
+
+Мелкие опечатки в html #51
+https://github.com/pikusov/Simpla/pull/51
+
+копия кода #50
+https://github.com/pikusov/Simpla/pull/50
+
+опечатка #48
+https://github.com/pikusov/Simpla/pull/48
+
+Опечатка в запросе #47
+https://github.com/pikusov/Simpla/pull/47
+
+Опечатка #46
+https://github.com/pikusov/Simpla/pull/46
+
+Smarty: настраиваемая в конфиге HTML-минификация шаблонов #45
+https://github.com/pikusov/Simpla/pull/45
+
+фикс разбора пути файла для пережатия #44
+https://github.com/pikusov/Simpla/pull/44
+
+фикс массива $product->images на странице товара, когда нет картинок #43
+https://github.com/pikusov/Simpla/pull/43
+
+вывод количества товаров в шаблоне products.tpl #41
+https://github.com/pikusov/Simpla/pull/41
+
+опечатка #38
+https://github.com/pikusov/Simpla/pull/38
+
+опечатка email_feedback_admin.tpl #37
+https://github.com/pikusov/Simpla/pull/37/files
+
+Опечатка Feedbacks.php #36
+https://github.com/pikusov/Simpla/pull/36
+
+Update post.tpl #35
+https://github.com/pikusov/Simpla/pull/35
+
+Update blog.tpl
+https://github.com/pikusov/Simpla/pull/34
+
+Неправильно обрабатываются адреса /?query #33
+https://github.com/pikusov/Simpla/pull/33
+
+Update BlogView.php #32
+https://github.com/pikusov/Simpla/pull/32
+
+Update Products.php #29
+https://github.com/pikusov/Simpla/pull/29
+
+Update Orders.php #27
+https://github.com/pikusov/Simpla/pull/27
+
+Update SettingsAdmin.php #26
+https://github.com/pikusov/Simpla/pull/26
+
+Update CartView.php #25
+https://github.com/pikusov/Simpla/pull/25
+
+Update yandex.php #17
+https://github.com/pikusov/Simpla/pull/17
+
+Update ProductsView.php #15
+https://github.com/pikusov/Simpla/pull/15
+
+Update Categories.php #14
+https://github.com/pikusov/Simpla/pull/14
+
+=========================================
 Версия 2.2.4 от 12.07.2013
 =========================================
 Интеграция с офисными АТС через сервис "Простые звонки" 

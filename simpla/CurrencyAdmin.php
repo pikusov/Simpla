@@ -16,7 +16,11 @@ class CurrencyAdmin extends Simpla
 	  	
 			foreach($this->request->post('currency') as $n=>$va)
 				foreach($va as $i=>$v)
-					$currencies[$i]->$n = $v;	
+					{	
+						if(empty($currencies[$i]))
+							$currencies[$i] = new stdClass;
+						$currencies[$i]->$n = $v;
+					}
   		    
 			$currencies_ids = array();
 			foreach($currencies as $currency)

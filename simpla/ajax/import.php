@@ -45,6 +45,8 @@ class ImportAjax extends Simpla
 		// Для корректной работы установим локаль UTF-8
 		setlocale(LC_ALL, 'ru_RU.UTF-8');
 		
+		$result = new stdClass;
+		
 		// Определяем колонки из первой строки файла
 		$f = fopen($this->import_files_dir.$this->import_file, 'r');
 		$this->columns = fgetcsv($f, null, $this->column_delimiter);
@@ -92,35 +94,6 @@ class ImportAjax extends Simpla
 	 		if($imported_item = $this->import_item($product))
 				$imported_items[] = $imported_item;
 		}
-
-		/*
-		if(count($variants_ids)>0)
-		{
-			// Для отчета выбираем импортированные товары
-	 		$variants = (array)$this->variants->get_variants(array('id'=>$variants_ids));
-	 		$products_ids = array();
-
-	 		foreach($variants as $v)
-	 			$products_ids[] = $v->product_id;
-	 		
-	 		$products = array();	
-	 		foreach($this->products->get_products(array('id'=>$products_ids)) as $p)
-	 			$products[$p->id] = $p;
-	 		
-
-	 		foreach($variants as $v)
-	 		{
-	 			$imported_items[$v->id]->variant_id = $v->id;
-	 			$imported_items[$v->id]->product_id = $v->product_id;
-	 			$imported_items[$v->id]->variant_name = $v->name;
-	 			$imported_items[$v->id]->product_name = $products[$v->product_id]->name;
-	 		}
- 		}
- 		else
- 		{
- 			$imported_items = null;
- 		}
-		*/
 		
 		// Запоминаем на каком месте закончили импорт
  		$from = ftell($f);
@@ -142,6 +115,8 @@ class ImportAjax extends Simpla
 	// Импорт одного товара $item[column_name] = value;
 	private function import_item($item)
 	{
+		$imported_item = new stdClass;
+		
 		// Проверим не пустое ли название и артинкул (должно быть хоть что-то из них)
 		if(empty($item['name']) && empty($item['sku']))
 			return false;
@@ -253,7 +228,7 @@ class ImportAjax extends Simpla
 				$product_id = $r->product_id;
 				$variant_id = $r->variant_id;
 			}
-			// Если товар найден - обноаляем,
+			// Если вариант найден - обновляем,
 			if(!empty($variant_id))
 			{
 				$this->variants->update_variant($variant_id, $variant);
@@ -265,9 +240,14 @@ class ImportAjax extends Simpla
 			{
 				if(empty($product_id))
 					$product_id = $this->products->add_product($product);
+
+                $this->db->query('SELECT max(v.position) as pos FROM __variants v WHERE v.product_id=? LIMIT 1', $product_id);
+                $pos =  $this->db->result('pos');
+
+				$variant['position'] = $pos+1;
 				$variant['product_id'] = $product_id;
 				$variant_id = $this->variants->add_variant($variant);
-				$imported_item->status = 'added';		
+				$imported_item->status = 'added';
 			}
 		}
 		

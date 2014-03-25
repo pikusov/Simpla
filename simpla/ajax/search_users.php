@@ -6,18 +6,21 @@
 	
 	$keyword = $simpla->request->get('query', 'string');
 	
-	$simpla->db->query('SELECT u.id, u.name, u.email FROM __users u WHERE u.name LIKE "%'.mysql_real_escape_string($keyword).'%" OR u.email LIKE "%'.mysql_real_escape_string($keyword).'%"ORDER BY u.name LIMIT ?', $limit);
+	$simpla->db->query('SELECT u.id, u.name, u.email FROM __users u WHERE u.name LIKE "%'.$simpla->db->escape($keyword).'%" OR u.email LIKE "%'.$simpla->db->escape($keyword).'%"ORDER BY u.name LIMIT ?', $limit);
 	$users = $simpla->db->results();
 	
+	$suggestions = array();
 	foreach($users as $user)
 	{
-		$names[] = $user->name." ($user->email)";			
-		$data[] = $user;		
+		$suggestion = new stdClass();
+		$suggestion->value = $user->name." ($user->email)";			
+		$suggestion->data = $user;
+		$suggestions[] = $suggestion;
 	}
 
+	$res = new stdClass;
 	$res->query = $keyword;
-	$res->suggestions = $names;
-	$res->data = $data;
+	$res->suggestions = $suggestions;
 	header("Content-type: application/json; charset=UTF-8");
 	header("Cache-Control: must-revalidate");
 	header("Pragma: no-cache");

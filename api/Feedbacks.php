@@ -3,7 +3,7 @@
 /**
  * Simpla CMS
  *
- * @copyright	2011 Denis Pikusov
+ * @copyright	2013 Denis Pikusov
  * @link		http://simplacms.ru
  * @author		Denis Pikusov
  *
@@ -43,7 +43,7 @@ class Feedbacks extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.message LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR f.message LIKE "%'.$this->db->escape(trim($keyword)).'%" OR f.email LIKE "%'.$this->db->escape(trim($keyword)).'%" ');
 		}
 			
 		if($new_on_top)
@@ -66,7 +66,7 @@ class Feedbacks extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.message LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR f.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" ');
+				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR f.message LIKE "%'.$this->db->escape(trim($keyword)).'%" OR f.email LIKE "%'.$this->db->escape(trim($keyword)).'%" ');
 		}
 
 		$query = $this->db->placehold("SELECT count(distinct f.id) as count
@@ -96,7 +96,7 @@ class Feedbacks extends Simpla
 	public function update_feedback($id, $feedback)
 	{
 		$date_query = '';
-		if(isset($fedback->date))
+		if(isset($feedback->date))
 		{
 			$date = $feedback->date;
 			unset($feedback->date);

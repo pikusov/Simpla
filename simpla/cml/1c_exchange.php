@@ -51,7 +51,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 
 	foreach($xml->Документ as $xml_order)
 	{
-		$order = null;
+		$order = new stdClass;
 
 		$order->id = $xml_order->Номер;
 		$existed_order = $simpla->orders->get_order(intval($order->id));
@@ -106,7 +106,8 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 			$product_id = $simpla->db->result('id');
 			$simpla->db->query('SELECT id FROM __variants WHERE external_id=? AND product_id=?', $variant_1c_id, $product_id);
 			$variant_id = $simpla->db->result('id');
-						
+				
+			$purchase = new stdClass;		
 			$purchase->order_id = $order->id;
 			$purchase->product_id = $product_id;
 			$purchase->variant_id = $variant_id;
@@ -540,7 +541,7 @@ function import_product($xml_product)
 	
 	// Подгатавливаем вариант
 	$variant_id = null;
-	$variant = null;
+	$variant = new stdClass;
 	$values = array();
 	if(isset($xml_product->ХарактеристикиТовара->ХарактеристикаТовара))
 	foreach($xml_product->ХарактеристикиТовара->ХарактеристикаТовара as $xml_property)
@@ -557,8 +558,11 @@ function import_product($xml_product)
 	{
 		$simpla->db->query('SELECT product_id, id FROM __variants WHERE sku=?', $variant->sku);
 		$res = $simpla->db->result();
-		$product_id = $res->product_id;
-		$variant_id = $res->id;
+		if(!empty($res))
+		{
+			$product_id = $res->product_id;
+			$variant_id = $res->id;
+		}
 	}
 	
 	// Если такого товара не нашлось		
@@ -643,13 +647,13 @@ function import_product($xml_product)
 	}
 	
 	// Если не найден вариант, добавляем вариант один к товару
-	if(empty($variant_id))
+	if(empty($variant_id) && !empty($variant->external_id))
 	{
 		$variant->product_id = $product_id;
 		$variant->stock = 0;
 		$variant_id = $simpla->variants->add_variant($variant);
 	}
-	else
+	elseif(!empty($variant->external_id))
 	{
 		$simpla->variants->update_variant($variant_id, $variant);
 	}
@@ -702,16 +706,35 @@ function import_variant($xml_variant)
 {
 	global $simpla;
 	global $dir;
-	$variant = null;
+	$variant = new stdClass;
 	//  Id товара и варианта (если есть) по 1С
 	@list($product_1c_id, $variant_1c_id) = explode('#', $xml_variant->Ид);
 	if(empty($variant_1c_id))
 		$variant_1c_id = '';
+	if(empty($product_1c_id))
+		return false;
 
 	$simpla->db->query('SELECT v.id FROM __variants v WHERE v.external_id=? AND product_id=(SELECT p.id FROM __products p WHERE p.external_id=? LIMIT 1)', $variant_1c_id, $product_1c_id);
 	$variant_id = $simpla->db->result('id');
 	
+	$simpla->db->query('SELECT p.id FROM __products p WHERE p.external_id=?', $product_1c_id);
+	$variant->external_id = $variant_1c_id;
+	$variant->product_id = $simpla->db->result('id');
+	if(empty($variant->product_id))
+		return false;
+
 	$variant->price = $xml_variant->Цены->Цена->ЦенаЗаЕдиницу;	
+	
+	if(isset($xml_variant->ХарактеристикиТовара->ХарактеристикаТовара))
+	foreach($xml_variant->ХарактеристикиТовара->ХарактеристикаТовара as $xml_property)
+		$values[] = $xml_property->Значение;
+	if(!empty($values))
+		$variant->name = implode(', ', $values);
+	$sku = (string)$xml_variant->Артикул;
+	if(!empty($sku))
+		$variant->sku = $sku;
+	
+	
 	// Конвертируем цену из валюты 1С в базовую валюту магазина
 	if(!empty($xml_variant->Цены->Цена->Валюта))
 	{
@@ -732,7 +755,11 @@ function import_variant($xml_variant)
 	}
 	
 	$variant->stock = $xml_variant->Количество;
-	$simpla->variants->update_variant($variant_id, $variant);
+
+	if(empty($variant_id))
+		$simpla->variants->add_variant($variant);
+	else	
+		$simpla->variants->update_variant($variant_id, $variant);
 }
 
 function translit($text)

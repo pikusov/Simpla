@@ -5,6 +5,7 @@ class UserAdmin extends Simpla
 {	
 	public function fetch()
 	{
+		$user = new stdClass;
 		if(!empty($_POST['user_info']))
 		{
 			$user->id = $this->request->post('id', 'integer');

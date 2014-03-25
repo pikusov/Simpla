@@ -28,7 +28,7 @@ class BlogView extends View
 		else
 		{
 			// Иначе выводим ленту блога
-			return $this->fetch_blog($url);
+			return $this->fetch_blog();
 		}
 	}
 	
@@ -49,6 +49,7 @@ class BlogView extends View
 		// Принимаем комментарий
 		if ($this->request->method('post') && $this->request->post('comment'))
 		{
+			$comment = new stdClass;
 			$comment->name = $this->request->post('name');
 			$comment->text = $this->request->post('text');
 			$captcha_code =  $this->request->post('captcha_code', 'string');

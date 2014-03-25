@@ -6,6 +6,7 @@ class PostAdmin extends Simpla
 {
 	public function fetch()
 	{
+		$post = new stdClass;
 		if($this->request->method('post'))
 		{
 			$post->id = $this->request->post('id', 'integer');
@@ -51,8 +52,11 @@ class PostAdmin extends Simpla
 			$post = $this->blog->get_post(intval($post->id));
 		}
 
-		if(empty($post->date))
+		if(empty($post))
+		{
+			$post = new stdClass;
 			$post->date = date($this->settings->date_format, time());
+		}
  		
 		$this->design->assign('post', $post);
 		

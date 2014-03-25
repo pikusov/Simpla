@@ -6,6 +6,7 @@ class PaymentMethodAdmin extends Simpla
 
 	public function fetch()
 	{	
+		$payment_method = new stdClass;
 		if($this->request->method('post'))
 		{
 			$payment_method->id 			= $this->request->post('id', 'intgeger');

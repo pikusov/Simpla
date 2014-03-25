@@ -149,6 +149,11 @@ class Notify extends Simpla
 	{ 
 			if(!($comment = $this->comments->get_comment(intval($comment_id))))
 				return false;
+			
+			if($comment->type == 'product')
+				$comment->product = $this->products->get_product(intval($comment->object_id));
+			if($comment->type == 'blog')
+				$comment->post = $this->blog->get_post(intval($comment->object_id));
 
 			$this->design->assign('comment', $comment);
 

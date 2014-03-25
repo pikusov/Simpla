@@ -5,6 +5,7 @@ class OrdersLabelAdmin extends Simpla
 {	
 	public function fetch()
 	{	
+		$label = new stdClass;
 		$label->color = 'ffffff';
 		if($this->request->method('POST'))
 		{

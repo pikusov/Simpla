@@ -6,7 +6,7 @@
 
 // image config
 
-	$code = rand(1000,9999);
+	$code = rand(10000,99999);
 	$color_r = rand(50, 170);
 	$color_g = rand(50, 170);
 	$color_b = rand(170, 250);
@@ -16,7 +16,7 @@
 	$bg_image = "blank.jpg";
 	$font = "./maturasc.ttf";
 
-	$size = 26;
+	$size = 23;
 	$rotation = rand(-5,10);
 	$pad_x = 10;
 	$pad_y = 35;

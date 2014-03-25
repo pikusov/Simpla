@@ -36,12 +36,13 @@
 	{/if}
 		
 	{if in_array('orders', $manager->permissions)}
-		<li><a href="index.php?module=OrdersAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a>
-		{if $new_orders_counter}<div class='counter'><span>{$new_orders_counter}</span></div>{/if}
+		<li>
+			<a href="index.php?module=OrdersAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a>
+			{if $new_orders_counter}<div class='counter'><span>{$new_orders_counter}</span></div>{/if}
+		</li>
 	{elseif in_array('labels', $manager->permissions)}
-		<li><a href="index.php?module=OrdersLabelsAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a>
+		<li><a href="index.php?module=OrdersLabelsAdmin"><img src="design/images/menu/orders.png"><b>Заказы</b></a></li>
 	{/if}
-	</li>
 		
 	{if in_array('users', $manager->permissions)}
 		<li><a href="index.php?module=UsersAdmin"><img src="design/images/menu/users.png"><b>Покупатели</b></a></li>
@@ -112,7 +113,7 @@
 	
 	<!-- Подвал сайта -->
 	<div id="footer">
-	&copy; 2013 <a href='http://simplacms.ru'>Simpla {$config->version}</a>
+	&copy; 2014 <a href='http://simplacms.ru'>Simpla {$config->version}</a>
 	{if in_array('license', $manager->permissions)}
 		{if $license->valid}
 		Лицензия действительна {if $license->expiration != '*'}до {$license->expiration}{/if} для домен{$license->domains|count|plural:'а':'ов'} {foreach $license->domains as $d}{$d}{if !$d@last}, {/if}{/foreach}.

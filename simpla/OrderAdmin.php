@@ -9,6 +9,7 @@ class OrderAdmin extends Simpla
 {
 	public function fetch()
 	{
+		$order = new stdClass;
 		if($this->request->method('post'))
 		{
 			$order->id = $this->request->post('id', 'integer');
@@ -50,7 +51,11 @@ class OrderAdmin extends Simpla
 				if($this->request->post('purchases'))
 				{
 					foreach($this->request->post('purchases') as $n=>$va) foreach($va as $i=>$v)
+					{
+						if(empty($purchases[$i]))
+							$purchases[$i] = new stdClass;
 						$purchases[$i]->$n = $v;
+					}
 				}		
 				$posted_purchases_ids = array();
 				foreach($purchases as $purchase)
@@ -183,6 +188,7 @@ class OrderAdmin extends Simpla
 		// Если новый заказ и передали get параметры
 		if(empty($order->id))
 		{
+			$order = new stdClass;
 			if(empty($order->phone))
 				$order->phone = $this->request->get('phone', 'string');
 			if(empty($order->name))

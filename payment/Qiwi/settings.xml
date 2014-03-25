@@ -5,10 +5,10 @@
 	</name>
 	<settings>
 		<variable>qiwi_login</variable>
-		<name>Логин в Qiwi</name>
+		<name>Идентификатор магазина</name>
 	</settings>
 	<settings>
 		<variable>qiwi_password</variable>
-		<name>Пароль в Qiwi</name>
+		<name>Пароль</name>
 	</settings>
 </module>

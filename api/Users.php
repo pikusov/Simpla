@@ -36,7 +36,7 @@ class Users extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (u.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR u.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%"  OR u.last_ip LIKE "%'.mysql_real_escape_string(trim($keyword)).'%")');
+				$keyword_filter .= $this->db->placehold('AND (u.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR u.email LIKE "%'.$this->db->escape(trim($keyword)).'%"  OR u.last_ip LIKE "%'.$this->db->escape(trim($keyword)).'%")');
 		}
 		
 		$order = 'u.name';
@@ -73,7 +73,7 @@ class Users extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND u.name LIKE "%'.mysql_real_escape_string(trim($keyword)).'%" OR u.email LIKE "%'.mysql_real_escape_string(trim($keyword)).'%"');
+				$keyword_filter .= $this->db->placehold('AND u.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR u.email LIKE "%'.$this->db->escape(trim($keyword)).'%"');
 		}
 
 		// Выбираем пользователей

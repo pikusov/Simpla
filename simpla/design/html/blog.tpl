@@ -1,6 +1,6 @@
 {* Вкладки *}
 {capture name=tabs}
-	<li class="active"><a href="{url module=BlogAdmin page=null keyword=null}">Блог</a></li>
+	<li class="active"><a href="index.php?module=BlogAdmin">Блог</a></li>
 {/capture}
 
 {* Title *}

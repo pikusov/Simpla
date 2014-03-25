@@ -3,7 +3,7 @@
 /**
  * Класс для доступа к базе данных
  *
- * @copyright 	2011 Denis Pikusov
+ * @copyright 	2013 Denis Pikusov
  * @link 		http://simplacms.ru
  * @author 		Denis Pikusov
  *
@@ -13,8 +13,8 @@ require_once('Simpla.php');
 
 class Database extends Simpla
 {
-	private $link;
-	private $res_id;
+	private $mysqli;
+	private $res;
 
 	/**
 	 * В конструкторе подключаем базу
@@ -22,7 +22,6 @@ class Database extends Simpla
 	public function __construct()
 	{
 		parent::__construct();
-		
 		$this->connect();
 	}
 
@@ -40,30 +39,29 @@ class Database extends Simpla
 	public function connect()
 	{
 		// При повторном вызове возвращаем существующий линк
-		if(!empty($this->link))
-			return $this->link;
+		if(!empty($this->mysqli))
+			return $this->mysqli;
+		// Иначе устанавливаем соединение
+		else
+			$this->mysqli = new mysqli($this->config->db_server, $this->config->db_user, $this->config->db_password, $this->config->db_name);
 		
-		// Иначе пытаемся подключиться
-		if(!$this->link = mysql_connect($this->config->db_server, $this->config->db_user, $this->config->db_password))
+		// Выводим сообщение, в случае ошибки
+		if($this->mysqli->connect_error)
 		{
-			trigger_error("Could not connect to the database. Check the config file.", E_USER_WARNING);
+			trigger_error("Could not connect to the database: ".$mysqli->connect_error, E_USER_WARNING);
 			return false;
 		}
-		if(!mysql_select_db($this->config->db_name, $this->link))
+		// Или настраиваем соединение
+		else
 		{
-			trigger_error("Could not select the database.", E_USER_WARNING);
-			return false;
+			if($this->config->db_charset)
+				$this->mysqli->query('SET NAMES '.$this->config->db_charset);		
+			if($this->config->db_sql_mode)		
+				$this->mysqli->query('SET SESSION SQL_MODE = "'.$this->config->db_sql_mode.'"');
+			if($this->config->db_timezone)
+				$this->mysqli->query('SET time_zone = "'.$this->config->db_timezone.'"');
 		}
-		
-		// Настраиваем соединение
-		if($this->config->db_charset)
-			mysql_query('SET NAMES '.$this->config->db_charset, $this->link);		
-		if($this->config->db_sql_mode)		
-			mysql_query('SET SESSION SQL_MODE = "'.$this->config->db_sql_mode.'"', $this->link);
-		if($this->config->timezone)		
-			mysql_query('SET SESSION time_zone = "'.$this->config->db_timezone.'"', $this->link);			
-		
-		return $this->link;
+		return $this->mysqli;
 	}
 
 	/**
@@ -71,7 +69,7 @@ class Database extends Simpla
 	 */
 	public function disconnect()
 	{
-		if(!@mysql_close($this->link))
+		if(!@$this->mysqli->close())
 			return true;
 		else
 			return false;
@@ -84,35 +82,23 @@ class Database extends Simpla
 	 */
 	public function query()
 	{
-		$time_start = microtime(true);
-		
+		if(is_object($this->res))
+			$this->res->free();
+			
 		$args = func_get_args();
-
-		$q = call_user_func_array(array($this, 'placehold'), $args);
- 		if($this->link)
-		{
-			$this->res_id = mysql_query($q, $this->link);
-		}
-		else
-		{
-			$error_msg = "Could not execute query to database, wrong database link. [$q]";
-			trigger_error($error_msg, E_USER_WARNING);
-			return false;
-		}
-		if(!$this->res_id)
-		{
-			$error_msg = mysql_error($this->link).' ['.$q.']';
-			trigger_error($error_msg, E_USER_WARNING);
-			return false;
-		}
-		
-		$time_end = microtime(true);
-		$exec_time = round(($time_end-$time_start)*1000, 0);
-		//print "$exec_time ms <br>$q<br><br>";
-		
-		return $this->res_id;
+		$q = call_user_func_array(array($this, 'placehold'), $args);		
+ 		return $this->res = $this->mysqli->query($q);
 	}
 	
+
+	/**
+	 *  Экранирование
+	 */
+	public function escape($str)
+	{
+		return $this->mysqli->real_escape_string($str);
+	}
+
 	
 	/**
 	 * Плейсхолдер для запросов. Пример работы: $query = $db->placehold('SELECT name FROM products WHERE id=?', $id);
@@ -145,16 +131,16 @@ class Database extends Simpla
 	public function results($field = null)
 	{
 		$results = array();
-		if(!$this->res_id)
+		if(!$this->res)
 		{
-			trigger_error(mysql_error($this->link), E_USER_WARNING); 
+			trigger_error($this->mysqli->error, E_USER_WARNING); 
 			return false;
 		}
 
-		if($this->num_rows() == 0)
+		if($this->res->num_rows == 0)
 			return array();
 
-		while($row = mysql_fetch_object($this->res_id))
+		while($row = $this->res->fetch_object())
 		{
 			if(!empty($field) && isset($row->$field))
 				array_push($results, $row->$field);				
@@ -170,12 +156,12 @@ class Database extends Simpla
 	public function result($field = null)
 	{
 		$result = array();
-		if(!$this->res_id)
+		if(!$this->res)
 		{
-			$this->error_msg = "Could not execute query to database, wrong result id";
+			$this->error_msg = "Could not execute query to database";
 			return 0;
 		}
-		$row = mysql_fetch_object($this->res_id);
+		$row = $this->res->fetch_object();
 		if(!empty($field) && isset($row->$field))
 			return $row->$field;
 		elseif(!empty($field) && !isset($row->$field))
@@ -189,7 +175,7 @@ class Database extends Simpla
 	 */
 	public function insert_id()
 	{
-		return mysql_insert_id($this->link);
+		return $this->mysqli->insert_id;
 	}
 
 	/**
@@ -197,7 +183,7 @@ class Database extends Simpla
 	 */
 	public function num_rows()
 	{
-		return mysql_num_rows($this->res_id);
+		return $this->res->num_rows;
 	}
 
 	/**
@@ -205,7 +191,7 @@ class Database extends Simpla
 	 */
 	public function affected_rows()
 	{
-		return mysql_affected_rows($this->link);
+		return $this->mysqli->affected_rows;
 	}
 	
 	/**
@@ -410,8 +396,8 @@ class Database extends Simpla
 	{
 		$h = fopen($filename, 'w');
 		$q = $this->placehold("SHOW FULL TABLES LIKE '__%';");		
-		$result = mysql_query($q, $this->link);
-		while($row = mysql_fetch_row($result))
+		$result = $this->mysqli->query($q);
+		while($row = $result->fetch_row())
 		{
 			if($row[1] == 'BASE TABLE')
 				$this->dump_table($row[0], $h);
@@ -439,7 +425,7 @@ class Database extends Simpla
 					if (substr(trim($line), -1, 1) == ';')
 					{
 						// Perform the query
-						mysql_query($templine, $this->link) or print('Error performing query \'<b>' . $templine . '</b>\': ' . mysql_error() . '<br /><br />');
+						$this->mysqli->query($templine) or print('Error performing query \'<b>'.$templine.'</b>\': '.$this->mysqli->error.'<br/><br/>');
 						// Reset temp variable to empty
 						$templine = '';
 					}
@@ -453,31 +439,29 @@ class Database extends Simpla
 	private function dump_table($table, $h)
 	{
 		$sql = "SELECT * FROM `$table`;";
-		$result = mysql_query($sql, $this->link);
+		$result = $this->mysqli->query($sql);
 		if($result)
 		{
 			fwrite($h, "/* Data for table $table */\n");
 			fwrite($h, "TRUNCATE TABLE `$table`;\n");
 			
-			$num_rows = mysql_num_rows($result);
-			$num_fields = mysql_num_fields($result);
+			$num_rows = $result->num_rows;
+			$num_fields = $this->mysqli->field_count;
 	
 			if($num_rows > 0)
 			{
 				$field_type=array();
 				$field_name = array();
-				$i=0;
-				while( $i < $num_fields)
+				$meta = $result->fetch_fields();
+				foreach($meta as $m)
 				{
-					$meta= mysql_fetch_field($result, $i);
-					array_push($field_type, $meta->type);
-					array_push($field_name, $meta->name);
-					$i++;
+					array_push($field_type, $m->type);
+					array_push($field_name, $m->name);
 				}
 				$fields = implode('`, `', $field_name);
 				fwrite($h,  "INSERT INTO `$table` (`$fields`) VALUES\n");
 				$index=0;
-				while( $row= mysql_fetch_row($result))
+				while( $row = $result->fetch_row())
 				{
 					fwrite($h, "(");
 					for( $i=0; $i < $num_fields; $i++)
@@ -494,7 +478,7 @@ class Database extends Simpla
 								case 'string':
 								case 'blob' :
 								default:
-									fwrite($h, "'".mysql_real_escape_string($row[$i])."'");
+									fwrite($h, "'". $this->mysqli->real_escape_string($row[$i])."'");
 	
 							}
 						}
@@ -513,7 +497,7 @@ class Database extends Simpla
 				}
 			}
 		}
-		mysql_free_result($result);
+		$result->free();
 		fwrite($h, "\n");
 	}
 }

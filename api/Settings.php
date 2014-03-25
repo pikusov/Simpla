@@ -47,6 +47,8 @@ class Settings extends Simpla
 
 		if(is_array($value))
 			$value = serialize($value);
+		else
+			$value = (string) $value;
 			
 		$this->db->query('SELECT count(*) as count FROM __settings WHERE name=?', $name);
 		if($this->db->result('count')>0)

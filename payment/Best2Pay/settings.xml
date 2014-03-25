@@ -11,4 +11,17 @@
 		<variable>password</variable>
 		<name>Пароль</name>
 	</settings>
+	<settings>
+		<variable>mode</variable>
+		<name>Режим оплаты</name>
+		<options>
+			<name>Тестовый режим</name>
+			<value>test</value>
+		</options>
+		<options>
+			<name>Рабочий режим</name>
+			<value>0</value>
+		</options>
+	</settings>
+
 </module>

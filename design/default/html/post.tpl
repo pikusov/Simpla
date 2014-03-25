@@ -1,5 +1,8 @@
 {* Страница отдельной записи блога *}
 
+{* Канонический адрес страницы *}
+{$canonical="/blog/{$post->url}" scope=parent}
+
 <!-- Заголовок /-->
 <h1 data-post="{$post->id}">{$post->name|escape}</h1>
 <p>{$post->date|date}</p>

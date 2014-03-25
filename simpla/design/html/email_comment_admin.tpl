@@ -46,6 +46,16 @@
       {/if}
     </td>
   </tr>
+  <tr>
+    <td style="padding:6px; width:170; background-color:#f0f0f0; border:1px solid #e0e0e0;font-family:arial;">
+      {if $comment->type == 'product'}К товару{/if}
+      {if $comment->type == 'blog'}К записи{/if}
+    </td>
+    <td style="padding:6px; width:330; background-color:#ffffff; border:1px solid #e0e0e0;font-family:arial;">
+      {if $comment->type == 'product'}<a target="_blank" href="{$config->root_url}/products/{$comment->product->url}#comment_{$comment->id}">{$comment->product->name}</a>{/if}
+      {if $comment->type == 'blog'}<a target="_blank" href="{$config->root_url}/blog/{$comment->post->url}#comment_{$comment->id}">{$comment->post->name}</a>{/if}
+    </td>
+  </tr>
 </table>
 <br><br>
 Приятной работы с <a href='http://simp.la'>Simpla</a>!

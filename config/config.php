@@ -25,6 +25,10 @@ db_charset = UTF8;
 ;Режим SQL
 db_sql_mode =;
 
+;Смещение часового пояса
+;db_timezone = '+04:00';
+
+
 [php]
 error_reporting = E_ALL;
 php_charset = UTF8;
@@ -33,6 +37,7 @@ php_locale_ctype = ru_RU;
 php_locale_monetary = ru_RU;
 php_locale_numeric = ru_RU;
 php_locale_time = ru_RU;
+;php_timezone = 'Europe/Moscow';
 
 logfile = admin/log/log.txt;
 
@@ -42,10 +47,11 @@ smarty_compile_check = true;
 smarty_caching = false;
 smarty_cache_lifetime = 0;
 smarty_debugging = false;
+smarty_html_minify = false;
  
 [images]
 ;Использовать imagemagick для обработки изображений (вместо gd)
-use_imagick = true
+use_imagick = true;
 
 ;Директория оригиналов изображений
 original_images_dir = files/originals/;

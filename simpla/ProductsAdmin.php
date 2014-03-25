@@ -207,9 +207,12 @@ class ProductsAdmin extends Simpla
 	  	$products_count = $this->products->count_products($filter);
 		// Показать все страницы сразу
 		if($this->request->get('page') == 'all')
-			$filter['limit'] = $products_count;	
-	  	
-	  	$pages_count = ceil($products_count/$filter['limit']);
+			$filter['limit'] = $products_count;
+		
+		if($filter['limit']>0)	  	
+		  	$pages_count = ceil($products_count/$filter['limit']);
+		else
+		  	$pages_count = 0;
 	  	$filter['page'] = min($filter['page'], $pages_count);
 	 	$this->design->assign('products_count', $products_count);
 	 	$this->design->assign('pages_count', $pages_count);

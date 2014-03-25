@@ -12,6 +12,7 @@ class BrandAdmin extends Simpla
 
   function fetch()
   {
+	  	$brand = new stdClass;
 		if($this->request->method('post'))
 		{
 			$brand->id = $this->request->post('id', 'integer');
