@@ -34,7 +34,7 @@
 			<!-- Имя и дата комментария-->
 			<div class="comment_header">	
 				{$comment->name|escape} <i>{$comment->date|date}, {$comment->date|time}</i>
-				{if !$comment->approved}ожидает модерации</b>{/if}
+				{if !$comment->approved}<b>ожидает модерации</b>{/if}
 			</div>
 			<!-- Имя и дата комментария (The End)-->
 			
