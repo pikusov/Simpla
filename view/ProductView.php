@@ -109,7 +109,7 @@ class ProductView extends View
 		}
 		if(!empty($related_ids))
 		{
-			foreach($this->products->get_products(array('id'=>$related_ids, 'in_stock'=>1, 'visible'=>1)) as $p)
+			foreach($this->products->get_products(array('id'=>$related_ids, 'in_stock'=>1, 'visible'=>1, 'limit'=>count($related_ids))) as $p)
 				$related_products[$p->id] = $p;
 			
 			$related_products_images = $this->products->get_images(array('product_id'=>array_keys($related_products)));
