@@ -36,7 +36,6 @@ class Products extends Simpla
 		$features_filter = '';
 		$keyword_filter = '';
 		$visible_filter = '';
-		$visible_filter = '';
 		$is_featured_filter = '';
 		$discounted_filter = '';
 		$in_stock_filter = '';
