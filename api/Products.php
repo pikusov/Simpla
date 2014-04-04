@@ -391,7 +391,7 @@ class Products extends Simpla
 	
 
 	
-	function get_related_products($product_id = array())
+	public function get_related_products($product_id = array())
 	{
 		if(empty($product_id))
 			return array();
