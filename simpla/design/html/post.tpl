@@ -129,7 +129,9 @@ function translit(str)
 <!-- Системное сообщение -->
 <div class="message message_error">
 	<span>{if $message_error == 'url_exists'}Запись с таким адресом уже существует{/if}</span>
-	<a class="button" href="">Вернуться</a>
+	{if $smarty.get.return}
+	<a class="button" href="{$smarty.get.return}">Вернуться</a>
+	{/if}
 </div>
 <!-- Системное сообщение (The End)-->
 {/if}
