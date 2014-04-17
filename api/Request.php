@@ -152,7 +152,7 @@ class Request extends Simpla
 	*/
     public function url($params = array())
     {
-		$url = parse_url($_SERVER["REQUEST_URI"]);
+		$url = @parse_url($_SERVER["REQUEST_URI"]);
 		parse_str($url['query'], $query);
 		
 		if(get_magic_quotes_gpc())

@@ -4,35 +4,11 @@
 		Liqpay
 	</name>
 	<settings>
-		<variable>liqpay_id</variable>
-		<name>ID мерчанта</name>
+		<variable>liqpay_public_key</variable>
+		<name>Публичный ключ</name>
 	</settings>
 	<settings>
-		<variable>liqpay_sign</variable>
-		<name>Подпись мерчанта</name>
-	</settings>
-	<settings>
-		<variable>pay_way_card</variable>
-		<name>Оплата с карты</name>
-		<options>
-			<name>Можно оплатить картой</name>
-			<value>1</value>
-		</options>
-	</settings>
-	<settings>
-		<variable>pay_way_liqpay</variable>
-		<name>Оплата со счета liqpay</name>
-		<options>
-			<name>Можно оплатить со счета liqpay</name>
-			<value>1</value>
-		</options>
-	</settings>
-	<settings>
-		<variable>pay_way_delayed</variable>
-		<name>Оплата через терминал</name>
-		<options>
-			<name>Можно оплатить через терминал</name>
-			<value>1</value>
-		</options>
+		<variable>liqpay_private_key</variable>
+		<name>Приватный ключ</name>
 	</settings>
 </module>

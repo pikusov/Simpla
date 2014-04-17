@@ -326,12 +326,13 @@ $(function() {
 	    					option_value = data.options[i].value;
 							// Добавление нового свойства товара
 							exists = false;
-							if(!$('label.property:visible:contains('+option_name+')').closest('li').find('input[name*=options]').val(option_value).length)
+														
+							if(!$('label.property:visible').filter(function(){ return $(this).text().toLowerCase() === option_name.toLowerCase();}).closest('li').find('input[name*=options]').val(option_value).length)
 							{
-								f = $(feature).clone(true);
+								f = $(new_feature).clone(true);
 								f.find('input[name*=new_features_names]').val(option_name);
 								f.find('input[name*=new_features_values]').val(option_value);
-								f.appendTo('ul.new_features').fadeIn('slow');
+								f.appendTo('ul.new_features').fadeIn('slow').find("input[name*=new_feature_name]");
 							}
 	   					}
 	   					

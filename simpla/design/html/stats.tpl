@@ -14,63 +14,81 @@ $(function() {
 
 
 var options = {
-      chart: {
-      	 zoomType: 'x',
-      	  type: 'column',
-         renderTo: 'container',
-         defaultSeriesType: 'line'
-      },
-      title: {
-         text: 'Статистика заказов'
-      },
-      subtitle: {
-         text: ''
-      },
-      xAxis: {
-         type: 'datetime'
-      },
-      yAxis: {
+	chart: {
+		zoomType: 'x',
+		renderTo: 'container',
+		defaultSeriesType: 'area'
+	},
+	title: {
+		text: 'Статистика заказов'
+	},
+	subtitle: {
+		text: ''
+	},
+	xAxis: {
+		type: 'datetime',
+		minRange: 7 * 24 * 3600000,
+		maxZoom: 7 * 24 * 3600000,
+		gridLineWidth: 1,
+		ordinal: true,
+		showEmpty: false
+	},
+	yAxis: {
 		title: {
-            text: '{/literal}{$currency->name}{literal}'
-         }
-      },
+			text: '{/literal}{$currency->name}{literal}'
+		}
+	},
 
  
-      plotOptions: {
-         line: {
-            dataLabels: {
-               enabled: true
-            },
-            enableMouseTracking: true
-         }
-      },
-      series: []
+	plotOptions: {
+		line: {
+			dataLabels: {
+				enabled: true
+			},
+			enableMouseTracking: true,
+			connectNulls: false
+		},
+		area: {
+			marker: {
+                        enabled: false
+            },		
+		}
+	},
+	series: []
 
 };
 
-	$.get('ajax/stat/stat.php', function(data) {
+$.get('ajax/stat/stat.php', function(data){
+	var series = {
+		data: []
+	};
 	
-	           var series = {
-	                data: []
-	            };
+	console.log(data);
 	
-	    series.name = 'Сумма заказов, {/literal}{$currency->sign}{literal}';
-	    
-	    d = new Date();
-		for(i=0; i<365; i++)
-		{	
- 			//series.data.push([Date.UTC(1900+d.getYear(), d.getMonth(), d.getDate()), 0]);
-			d.setDate(d.getDate()-1);
- 		}
-	    
-	    // Iterate over the lines and add categories or series
-	    $.each(data, function(lineNo, line) {
-			series.data.push([Date.UTC(line.year, line.month-1, line.day), parseInt(line.y)]);
-	    });
-	    options.series.push(series);
-	    
-	    // Create the chart
-	    var chart = new Highcharts.Chart(options);
+var minDate = Date.UTC(data[0].year, data[0].month-1, data[0].day),
+    maxDate = Date.UTC(data[data.length-1].year, data[data.length-1].month-1, data[data.length-1].day);
+
+var newDates = [], currentDate = minDate, d;
+
+while (currentDate <= maxDate) {
+    d = new Date(currentDate);
+    newDates.push((d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear());
+    currentDate += (24 * 60 * 60 * 1000); // add one day
+}
+
+console.log(newDates);	
+	
+	series.name = 'Сумма заказов, {/literal}{$currency->sign}{literal}';
+
+	// Iterate over the lines and add categories or series
+	$.each(data, function(lineNo, line) {
+		series.data.push([Date.UTC(line.year, line.month-1, line.day), parseInt(line.y)]);
+	});
+	//
+	options.series.push(series);
+	
+	// Create the chart
+	var chart = new Highcharts.Chart(options);
 	});
 	
  

@@ -251,57 +251,60 @@ class ImportAjax extends Simpla
 			}
 		}
 		
-		// Нужно вернуть обновленный товар
-		$imported_item->variant = $this->variants->get_variant(intval($variant_id));			
-		$imported_item->product = $this->products->get_product(intval($product_id));						
-
-		// Добавляем категории к товару
-		if(!empty($categories_ids))
-			foreach($categories_ids as $c_id)
-				$this->categories->add_product_category($product_id, $c_id);
-
- 		// Изображения товаров
- 		if(isset($item['images']))
- 		{
- 			// Изображений может быть несколько, через запятую
- 			$images = explode(',', $item['images']);
- 			foreach($images as $image)
- 			{
- 				$image = trim($image);
- 				if(!empty($image))
- 				{
-	 				// Имя файла
-					$image_filename = pathinfo($image, PATHINFO_BASENAME);
-	 				
-	 				// Добавляем изображение только если такого еще нет в этом товаре
-					$this->db->query('SELECT filename FROM __images WHERE product_id=? AND (filename=? OR filename=?) LIMIT 1', $product_id, $image_filename, $image);
-					if(!$this->db->result('filename'))
-					{
-						$this->products->add_image($product_id, $image);
+		if(!empty($variant_id) && !empty($product_id))
+		{
+			// Нужно вернуть обновленный товар
+			$imported_item->variant = $this->variants->get_variant(intval($variant_id));			
+			$imported_item->product = $this->products->get_product(intval($product_id));						
+	
+			// Добавляем категории к товару
+			if(!empty($categories_ids))
+				foreach($categories_ids as $c_id)
+					$this->categories->add_product_category($product_id, $c_id);
+	
+	 		// Изображения товаров
+	 		if(isset($item['images']))
+	 		{
+	 			// Изображений может быть несколько, через запятую
+	 			$images = explode(',', $item['images']);
+	 			foreach($images as $image)
+	 			{
+	 				$image = trim($image);
+	 				if(!empty($image))
+	 				{
+		 				// Имя файла
+						$image_filename = pathinfo($image, PATHINFO_BASENAME);
+		 				
+		 				// Добавляем изображение только если такого еще нет в этом товаре
+						$this->db->query('SELECT filename FROM __images WHERE product_id=? AND (filename=? OR filename=?) LIMIT 1', $product_id, $image_filename, $image);
+						if(!$this->db->result('filename'))
+						{
+							$this->products->add_image($product_id, $image);
+						}
 					}
-				}
- 			}
- 		}
- 		// Характеристики товаров
- 		foreach($item as $feature_name=>$feature_value)
- 		{
- 			// Если нет такого названия колонки, значит это название свойства
- 			if(!in_array($feature_name, $this->internal_columns_names))
- 			{ 
- 				// Свойство добавляем только если для товара указана категория
-				if($category_id)
-				{
-					$this->db->query('SELECT f.id FROM __features f WHERE f.name=? LIMIT 1', $feature_name);
-					if(!$feature_id = $this->db->result('id'))
-						$feature_id = $this->features->add_feature(array('name'=>$feature_name));
-						
-					$this->features->add_feature_category($feature_id, $category_id);				
-					$this->features->update_option($product_id, $feature_id, $feature_value);
-				}
-				
- 			}
- 		} 		
+	 			}
+	 		}
+	 		// Характеристики товаров
+	 		foreach($item as $feature_name=>$feature_value)
+	 		{
+	 			// Если нет такого названия колонки, значит это название свойства
+	 			if(!in_array($feature_name, $this->internal_columns_names))
+	 			{ 
+	 				// Свойство добавляем только если для товара указана категория
+					if($category_id)
+					{
+						$this->db->query('SELECT f.id FROM __features f WHERE f.name=? LIMIT 1', $feature_name);
+						if(!$feature_id = $this->db->result('id'))
+							$feature_id = $this->features->add_feature(array('name'=>$feature_name));
+							
+						$this->features->add_feature_category($feature_id, $category_id);				
+						$this->features->update_option($product_id, $feature_id, $feature_value);
+					}
+					
+	 			}
+	 		} 	
  		return $imported_item;
+	 	}	
 	}
 	
 	

@@ -104,7 +104,7 @@ $simpla->notify->email_order_admin(intval($order->id));
 $simpla->orders->close(intval($order->id));
 
 // Перенаправим пользователя на страницу заказа
-header('Location: '.$simpla->request->root_url.'/order/'.$order->url);
+header('Location: '.$simpla->config->root_url.'/order/'.$order->url);
 
 exit();
 

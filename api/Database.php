@@ -108,7 +108,7 @@ class Database extends Simpla
 		$args = func_get_args();	
 		$tmpl = array_shift($args);
 		// Заменяем все __ на префикс, но только необрамленные кавычками
-		$tmpl = preg_replace('/([^"\'0-9a-z_])__([a-z_]+[^"\'])/ui', "\$1".$this->config->db_prefix."\$2", $tmpl);
+		$tmpl = preg_replace('/([^"\'0-9a-z_])__([a-z_]+[^"\'])/i', "\$1".$this->config->db_prefix."\$2", $tmpl);
 		if(!empty($args))
 		{
 			$result = $this->sql_placeholder_ex($tmpl, $args, $error); 

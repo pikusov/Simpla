@@ -12,16 +12,42 @@
 {* Подключаем редактор кода *}
 <link rel="stylesheet" href="design/js/codemirror/lib/codemirror.css">
 <script src="design/js/codemirror/lib/codemirror.js"></script>
-<script src="design/js/codemirror/lib/overlay.js"></script>
 
-<link rel="stylesheet" href="design/js/codemirror/mode/xml/xml.css">
+<script src="design/js/codemirror/mode/smarty/smarty.js"></script>
+<script src="design/js/codemirror/mode/smartymixed/smartymixed.js"></script>
 <script src="design/js/codemirror/mode/xml/xml.js"></script>
+<script src="design/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="design/js/codemirror/mode/css/css.js"></script>
+<script src="design/js/codemirror/mode/javascript/javascript.js"></script>
+
+<script src="design/js/codemirror/addon/selection/active-line.js"></script>
  
 {literal}
 <style type="text/css">
-	.CodeMirror {font-family:'Courier New';padding-bottom:20px; margin-bottom:10px; border:1px solid #c0c0c0; background-color: #ffffff; height: auto; min-height: 300px; width:100%;}
-	.activeline {background: #f0fcff !important;}
-	.smarty {color: #ff008a;}
+
+.CodeMirror{
+	font-family:'Courier New';
+	padding-bottom:20px;
+	margin-bottom:10px;
+	border:1px solid #c0c0c0;
+	background-color: #ffffff;
+	height: auto;
+	min-height: 300px;
+	width:100%;
+}
+.CodeMirror-scroll
+{
+	overflow-y: hidden;
+	overflow-x: auto;
+}
+.cm-s-default .cm-smarty.cm-tag{color: #ff008a;}
+.cm-s-default .cm-smarty.cm-string {color: #007000;}
+.cm-s-default .cm-smarty.cm-variable {color: #ff008a;}
+.cm-s-default .cm-smarty.cm-variable-2 {color: #ff008a;}
+.cm-s-default .cm-smarty.cm-variable-3 {color: #ff008a;}
+.cm-s-default .cm-smarty.cm-property {color: #ff008a;}
+.cm-s-default .cm-comment {color: #505050;}
+.cm-s-default .cm-smarty.cm-attribute {color: #ff20Fa;}
 </style>
 
 <script>
@@ -102,39 +128,16 @@ $(function() {
 {* Подключение редактора *}
 {literal}
 <script>
-CodeMirror.defineMode("smarty", function(config, parserConfig) {
-	var smartyOverlay = {
-		token: function(stream, state){
-
-			if (stream.match("{*"))
-				return null;
-			if (stream.match("{") && (stream.next()!=' ') && stream.next()!= null) {
-				while ((ch = stream.next()) != null)
-					if (ch == "}") break;
-				return "smarty";
-			}
-			while (stream.next() != null && !stream.match('{', false)) {}
-			return null;
-		}
-	};
-	return CodeMirror.overlayParser(CodeMirror.getMode(config, parserConfig.backdrop || "text/html"), smartyOverlay);
-});
-
 var editor = CodeMirror.fromTextArea(document.getElementById("template_content"), {
-		mode: {name: "smarty", htmlMode: true},
-		
+		mode: "smartymixed",		
 		lineNumbers: true,
+		styleActiveLine: true,
 		matchBrackets: false,
 		enterMode: 'keep',
 		indentWithTabs: false,
 		indentUnit: 1,
-		tabMode: 'classic',
-		onCursorActivity: function() {
-			editor.setLineClass(hlLine, null);
-			hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
-		}
+		tabMode: 'classic'
 	});
-	var hlLine = editor.setLineClass(0, "activeline");
 </script>
 {/literal}
 

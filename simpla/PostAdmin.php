@@ -42,8 +42,6 @@ class PostAdmin extends Simpla
   	    			$post = $this->blog->get_post($post->id);
 					$this->design->assign('message_success', 'updated');
   	    		}	
-
-   	    		
 			}
 		}
 		else

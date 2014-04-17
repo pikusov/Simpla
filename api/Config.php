@@ -5,7 +5,7 @@
  * В отличие от класса Settings, Config оперирует низкоуровневыми настройками, например найстройками базы данных.
  *
  *
- * @copyright 	2013 Denis Pikusov
+ * @copyright 	2014 Denis Pikusov
  * @link 		http://simplacms.ru
  * @author 		Denis Pikusov
  *
@@ -15,7 +15,7 @@ require_once('Simpla.php');
 
 class Config
 {
-	public $version = '2.3.2';
+	public $version = '2.3.3';
 	
 	// Файл для хранения настроек
 	public $config_file = 'config/config.php';

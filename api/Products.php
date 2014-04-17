@@ -36,7 +36,6 @@ class Products extends Simpla
 		$features_filter = '';
 		$keyword_filter = '';
 		$visible_filter = '';
-		$visible_filter = '';
 		$is_featured_filter = '';
 		$discounted_filter = '';
 		$in_stock_filter = '';
@@ -137,7 +136,6 @@ class Products extends Simpla
 				ORDER BY $order
 					$sql_limit";
 
-		$query = $this->db->placehold($query);
 		$this->db->query($query);
 
 		return $this->db->results();
@@ -388,10 +386,9 @@ class Products extends Simpla
     		
     	return $new_id;
 	}
-	
 
 	
-	function get_related_products($product_id = array())
+	public function get_related_products($product_id = array())
 	{
 		if(empty($product_id))
 			return array();

@@ -1,8 +1,8 @@
 /**
- * @license Highcharts JS v2.1.9 (2011-11-11)
+ * @license Highcharts JS v3.0.10 (2014-03-10)
  * MooTools adapter
  *
- * (c) 2010-2011 Torstein Hønsi
+ * (c) 2010-2014 Torstein Honsi
  *
  * License: www.highcharts.com/license
  */
@@ -13,6 +13,7 @@
 (function () {
 
 var win = window,
+	doc = document,
 	mooVersion = win.MooTools.version.substring(0, 3), // Get the first three characters of the version number
 	legacy = mooVersion === '1.2' || mooVersion === '1.1', // 1.1 && 1.2 considered legacy, 1.3 is not.
 	legacyEvent = legacy || mooVersion === '1.3', // In versions 1.1 - 1.3 the event class is named Event, in newer versions it is named DOMEvent.
@@ -67,6 +68,37 @@ win.HighchartsAdapter = {
 		};
 		/*jslint unparam: false*/
 	},
+	
+	/**
+	 * Run a general method on the framework, following jQuery syntax
+	 * @param {Object} el The HTML element
+	 * @param {String} method Which method to run on the wrapped element
+	 */
+	adapterRun: function (el, method) {
+		
+		// This currently works for getting inner width and height. If adding
+		// more methods later, we need a conditional implementation for each.
+		if (method === 'width' || method === 'height') {
+			return parseInt(document.id(el).getStyle(method), 10);
+		}
+	},
+
+	/**
+	 * Downloads a script and executes a callback when done.
+	 * @param {String} scriptLocation
+	 * @param {Function} callback
+	 */
+	getScript: function (scriptLocation, callback) {
+		// We cannot assume that Assets class from mootools-more is available so instead insert a script tag to download script.
+		var head = doc.getElementsByTagName('head')[0];
+		var script = doc.createElement('script');
+
+		script.type = 'text/javascript';
+		script.src = scriptLocation;
+		script.onload = callback;
+
+		head.appendChild(script);
+	},
 
 	/**
 	 * Animate a HTML element or SVG element wrapper
@@ -84,10 +116,13 @@ win.HighchartsAdapter = {
 			el.getStyle = el.attr;
 			el.setStyle = function () { // property value is given as array in Moo - break it down
 				var args = arguments;
-				el.attr.call(el, args[0], args[1][0]);
+				this.attr.call(this, args[0], args[1][0]);
 			};
 			// dirty hack to trick Moo into handling el as an element wrapper
-			el.$family = el.uid = true;
+			el.$family = function () { return true; };
+			el.getComputedStyle = function () {
+				return el.element.getComputedStyle.apply(el.element, arguments);
+			};
 		}
 
 		// stop running animations
@@ -95,11 +130,16 @@ win.HighchartsAdapter = {
 
 		// define and run the effect
 		effect = new Fx.Morph(
-			isSVGElement ? el : $(el),
+			isSVGElement ? el : document.id(el),
 			$extend({
 				transition: Fx.Transitions.Quad.easeInOut
 			}, options)
 		);
+
+		// Make sure that the element reference is set when animating svg elements
+		if (isSVGElement) {
+			effect.element = el;
+		}
 
 		// special treatment for paths
 		if (params.d) {
@@ -125,7 +165,7 @@ win.HighchartsAdapter = {
 	each: function (arr, fn) {
 		return legacy ?
 			$each(arr, fn) :
-			arr.each(fn);
+			Array.each(arr, fn);
 	},
 
 	/**
@@ -145,30 +185,23 @@ win.HighchartsAdapter = {
 	grep: function (arr, fn) {
 		return arr.filter(fn);
 	},
+	
+	/**
+	 * Return the index of an item in an array, or -1 if not matched
+	 */
+	inArray: function (item, arr, from) {
+		return arr ? arr.indexOf(item, from) : -1;
+	},
 
 	/**
-	 * Deep merge two objects and return a third
+	 * Get the offset of an element relative to the top left corner of the web page
 	 */
-	merge: function () {
-		var args = arguments,
-			args13 = [{}], // MooTools 1.3+
-			i = args.length,
-			ret;
-
-		if (legacy) {
-			ret = $merge.apply(null, args);
-		} else {
-			while (i--) {
-				// Boolean argumens should not be merged.
-				// JQuery explicitly skips this, so we do it here as well.
-				if (typeof args[i] !== 'boolean') {
-					args13[i + 1] = args[i];
-				}
-			}
-			ret = Object.merge.apply(Object, args13);
-		}
-
-		return ret;
+	offset: function (el) {
+		var offsets = el.getPosition(); // #1496
+		return {
+			left: offsets.x,
+			top: offsets.y
+		};
 	},
 
 	/**
@@ -179,7 +212,7 @@ win.HighchartsAdapter = {
 		// like series or point
 		if (!el.addEvent) {
 			if (el.nodeName) {
-				el = $(el); // a dynamically generated node
+				el = document.id(el); // a dynamically generated node
 			} else {
 				$extend(el, new Events()); // a custom object
 			}
@@ -210,19 +243,21 @@ win.HighchartsAdapter = {
 			// el.removeEvents below apperantly calls this method again. Do not quite understand why, so for now just bail out.
 			return;
 		}
-		win.HighchartsAdapter.extendWithEvents(el);
-		if (type) {
-			if (type === 'unload') { // Moo self destructs before custom unload events
-				type = 'beforeunload';
-			}
-
-			if (fn) {
-				el.removeEvent(type, fn);
+		
+		if (el.addEvent) { // If el doesn't have an addEvent method, there are no events to remove
+			if (type) {
+				if (type === 'unload') { // Moo self destructs before custom unload events
+					type = 'beforeunload';
+				}
+	
+				if (fn) {
+					el.removeEvent(type, fn);
+				} else if (el.removeEvents) { // #958
+					el.removeEvents(type);
+				}
 			} else {
-				el.removeEvents(type);
+				el.removeEvents();
 			}
-		} else {
-			el.removeEvents();
 		}
 	},
 
@@ -234,6 +269,12 @@ win.HighchartsAdapter = {
 		// create an event object that keeps all functions
 		event = legacyEvent ? new Event(eventArgs) : new DOMEvent(eventArgs);
 		event = $extend(event, eventArguments);
+
+		// When running an event on the Chart.prototype, MooTools nests the target in event.event
+		if (!event.target && event.event) {
+			event.target = event.event.target;
+		}
+
 		// override the preventDefault function to be able to use
 		// this for custom events
 		event.preventDefault = function () {
@@ -249,6 +290,17 @@ win.HighchartsAdapter = {
 		if (defaultFunction) {
 			defaultFunction(event);
 		}
+	},
+	
+	/**
+	 * Set back e.pageX and e.pageY that MooTools has abstracted away. #1165, #1346.
+	 */
+	washMouseEvent: function (e) {
+		if (e.page) {
+			e.pageX = e.page.x;
+			e.pageY = e.page.y;
+		}
+		return e;
 	},
 
 	/**

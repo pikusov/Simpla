@@ -3,7 +3,7 @@
 /**
  * Simpla CMS
  *
- * @copyright 	2011 Denis Pikusov
+ * @copyright 	2014 Denis Pikusov
  * @link 		http://simplacms.ru
  * @author 		Denis Pikusov
  *
@@ -16,19 +16,24 @@ chdir ('../../');
 require_once('api/Simpla.php');
 $simpla = new Simpla();
 
-
-$xml = base64_decode($_POST['operation_xml']);
-$signature = $_POST['signature'];
-
 // Выбираем из xml нужные данные
-$order_id      = intval(get_tag_val($xml, 'order_id'));
-$merchant_id   = get_tag_val($xml, 'merchant_id'); 
-$amount        = get_tag_val($xml, 'amount'); 
-$currency_code = get_tag_val($xml, 'currency'); 
-$status        = get_tag_val($xml, 'status'); 
+$public_key		 	= $simpla->request->post('public_key');
+$amount				= $simpla->request->post('amount');
+$currency			= $simpla->request->post('currency');
+$description		= $simpla->request->post('description');
+$liqpay_order_id	= $simpla->request->post('order_id');
+$order_id			= intval(substr($liqpay_order_id, 0, strpos($liqpay_order_id, '-')));
+$type				= $simpla->request->post('type');
+$signature			= $simpla->request->post('signature');
+$status				= $simpla->request->post('status');
+$transaction_id		= $simpla->request->post('transaction_id');
+$sender_phone		= $simpla->request->post('sender_phone');
 
 if($status !== 'success')
-	exit();
+	die("bad status");
+
+if($type !== 'buy')
+	die("bad type");
 
 ////////////////////////////////////////////////
 // Выберем заказ из базы
@@ -47,20 +52,21 @@ if(empty($method))
 $settings = unserialize($method->settings);
 $payment_currency = $simpla->money->get_currency(intval($method->currency_id));
 
+// Валюта должна совпадать
+if($currency !== $payment_currency->code)
+	die("bad currency");
+
 // Проверяем контрольную подпись
-$mysignature = base64_encode(sha1($settings['liqpay_sign'].$xml.$settings['liqpay_sign'],1));
+$mysignature = base64_encode(sha1($settings['liqpay_private_key'].$amount.$currency.$public_key.$liqpay_order_id.$type.$description.$status.$transaction_id.$sender_phone, 1));
 if($mysignature !== $signature)
-	die("bad sign");
+	die("bad sign".$signature);
 
 // Нельзя оплатить уже оплаченный заказ  
 if($order->paid)
-	die('Этот заказ уже оплачен');
+	die('order already paid');
 
 if($amount != round($simpla->money->convert($order->total_price, $method->currency_id, false), 2) || $amount<=0)
 	die("incorrect price");
-	
-if($currency_code != $payment_currency->code)
-	die("incorrect currency");
 	       
 // Установим статус оплачен
 $simpla->orders->update_order(intval($order->id), array('paid'=>1));
@@ -73,12 +79,6 @@ $simpla->notify->email_order_admin(intval($order->id));
 $simpla->orders->close(intval($order->id));
 
 // Перенаправим пользователя на страницу заказа
-header('Location: '.$simpla->request->root_url.'/order/'.$order->url);
+// header('Location: '.$simpla->config->root_url.'/order/'.$order->url);
 
 exit();
-
-function get_tag_val($xml, $name)
-{
-	preg_match("/<$name>(.*)<\/$name>/i", $xml, $matches);
-	return trim($matches[1]); 
-}

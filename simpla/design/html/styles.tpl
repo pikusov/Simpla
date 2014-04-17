@@ -12,16 +12,28 @@
 {* Подключаем редактор кода *}
 <link rel="stylesheet" href="design/js/codemirror/lib/codemirror.css">
 <script src="design/js/codemirror/lib/codemirror.js"></script>
-<script src="design/js/codemirror/lib/overlay.js"></script>
 
-<link rel="stylesheet" href="design/js/codemirror/mode/css/css.css">
 <script src="design/js/codemirror/mode/css/css.js"></script>
+<script src="design/js/codemirror/addon/selection/active-line.js"></script>
  
 {literal}
 <style type="text/css">
-	.CodeMirror {font-family:'Courier New'; padding-bottom:20px; margin-bottom:10px; border:1px solid #c0c0c0; background-color: #ffffff; height: auto; min-height: 300px; width:100%;}
-	.activeline {background: #f0fcff !important;}
-	.smarty {color: #ff008a;}
+
+.CodeMirror{
+	font-family:'Courier New';
+	padding-bottom:20px;
+	margin-bottom:10px;
+	border:1px solid #c0c0c0;
+	background-color: #ffffff;
+	height: auto;
+	min-height: 300px;
+	width:100%;
+}
+.CodeMirror-scroll
+{
+	overflow-y: hidden;
+	overflow-x: auto;
+}
 </style>
 
 <script>
@@ -105,19 +117,15 @@ $(function() {
 <script>
 
 var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
-		mode: {name: "css"},		
+		mode: "css",		
 		lineNumbers: true,
+		styleActiveLine: true,
 		matchBrackets: false,
 		enterMode: 'keep',
 		indentWithTabs: false,
 		indentUnit: 1,
-		tabMode: 'classic',
-		onCursorActivity: function() {
-			editor.setLineClass(hlLine, null);
-			hlLine = editor.setLineClass(editor.getCursor().line, "activeline");
-		}
+		tabMode: 'classic'
 	});
-	var hlLine = editor.setLineClass(0, "activeline");
 </script>
 {/literal}
 
