@@ -13,6 +13,16 @@ require_once('Rest.php');
 
 class RestBlog extends Rest
 {	
+	public function __construct()
+	{		
+		parent::__construct();
+		if(!$this->managers->access('blog'))
+		{
+			header('HTTP/1.1 401 Unauthorized');
+			exit();
+		}
+	}
+	
 	public function fetch()
 	{
 		if($this->request->method('GET'))

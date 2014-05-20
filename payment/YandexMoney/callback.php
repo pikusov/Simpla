@@ -87,15 +87,24 @@ if($_POST['action'] == 'paymentAviso')
 	$simpla->orders->close(intval($order->id));
 	$simpla->notify->email_order_user(intval($order->id));
 	$simpla->notify->email_order_admin(intval($order->id));
+	
+	$datetime = new DateTime();
+	$performedDatetime = $datetime->format('c');
+	print '<?xml version="1.0" encoding="UTF-8"?> 
+	<paymentAvisoResponse performedDatetime="'.$performedDatetime.'" 
+	code="0" invoiceId="'.$invoice_id.'" 
+	shopId="'.$shop_id.'"/>';
+	
 }
-
-$datetime = new DateTime();
-$performedDatetime = $datetime->format('c');
-print '<?xml version="1.0" encoding="UTF-8"?> 
-<checkOrderResponse performedDatetime="'.$performedDatetime.'" 
-code="0" invoiceId="'.$invoice_id.'" 
-shopId="'.$shop_id.'"/>';
-
+elseif($_POST['action'] == 'checkOrder')
+{
+	$datetime = new DateTime();
+	$performedDatetime = $datetime->format('c');
+	print '<?xml version="1.0" encoding="UTF-8"?> 
+	<checkOrderResponse performedDatetime="'.$performedDatetime.'" 
+	code="0" invoiceId="'.$invoice_id.'" 
+	shopId="'.$shop_id.'"/>';
+}
 
 function print_error($text)
 {
@@ -103,9 +112,17 @@ function print_error($text)
 	$performedDatetime = $datetime->format('c');
 	$shop_id = intval($_POST['shopId']);
 	$invoice_id = intval($_POST['invoiceId']);
+	
+	$responce = '';
+	$action = $_POST['action'];
+	if($action === 'paymentAviso')
+		$responce = 'paymentAvisoResponse';
+	elseif($action === 'checkOrder')
+		$responce = 'checkOrderResponse';
+	
 
 	print '<?xml version="1.0" encoding="UTF-8"?> 
-	<checkOrderResponse performedDatetime="'.$performedDatetime.'" 
+	<'.$responce.' performedDatetime="'.$performedDatetime.'" 
 	code="200" invoiceId="'.$invoice_id.'" 
 	message="'.$text.'" shopId="'.$shop_id.'"/>';
 

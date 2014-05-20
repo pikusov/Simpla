@@ -12,7 +12,17 @@
 require_once('Rest.php');
 
 class RestOrders extends Rest
-{	
+{
+	public function __construct()
+	{		
+		parent::__construct();
+		if(!$this->managers->access('orders'))
+		{
+			header('HTTP/1.1 401 Unauthorized');
+			exit();
+		}
+	}
+	
 	public function get()
 	{
 		$items = array();
@@ -22,6 +32,8 @@ class RestOrders extends Rest
 		$filter['id'] = $this->request->get('id');
 		// Сортировка
 		$filter['status'] = $this->request->get('status');
+		// Страница
+		$filter['modified_since'] = $this->request->get('modified_since');
 		// Страница
 		$filter['page'] = $this->request->get('page');
 		// Количество элементов на странице

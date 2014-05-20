@@ -1,7 +1,6 @@
 <?php
 	session_start();
-	chdir('..');
-	require_once('api/Simpla.php');
+	require_once('../api/Simpla.php');
 	$simpla = new Simpla();
 	$simpla->cart->add_item($simpla->request->get('variant', 'integer'), $simpla->request->get('amount', 'integer'));
 	$cart = $simpla->cart->get_cart();

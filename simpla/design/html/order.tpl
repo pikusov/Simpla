@@ -526,9 +526,10 @@ $(function() {
 
 <style>
 .autocomplete-suggestions{
-background-color: #ffffff; width: 100px; overflow: hidden;
+background-color: #ffffff;
+overflow: hidden;
 border: 1px solid #e0e0e0;
-padding: 5px;
+overflow-y: auto;
 }
 .autocomplete-suggestions .autocomplete-suggestion{cursor: default;}
 .autocomplete-suggestions .selected { background:#F0F0F0; }

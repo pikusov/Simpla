@@ -1,7 +1,6 @@
 <?php
 
-chdir('../..');
-require_once('api/Simpla.php');
+require_once('../../api/Simpla.php');
 
 class ImportAjax extends Simpla
 {	
@@ -29,7 +28,7 @@ class ImportAjax extends Simpla
 	// Соответствие имени колонки и поля в базе
 	private $internal_columns_names = array();
 
-	private $import_files_dir      = 'simpla/files/import/'; // Временная папка		
+	private $import_files_dir      = '../files/import/'; // Временная папка		
 	private $import_file           = 'import.csv';           // Временный файл
 	private $category_delimiter = ',';                       // Разделитель каегорий в файле
 	private $subcategory_delimiter = '/';                    // Разделитель подкаегорий в файле

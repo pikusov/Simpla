@@ -3,7 +3,7 @@
 /**
  * Основной класс Simpla для доступа к API Simpla
  *
- * @copyright 	2011 Denis Pikusov
+ * @copyright 	2014 Denis Pikusov
  * @link 		http://simplacms.ru
  * @author 		Denis Pikusov
  *
@@ -71,7 +71,7 @@ class Simpla
 		$class = $this->classes[$name];
 		
 		// Подключаем его
-		include_once('api/'.$class.'.php');
+		include_once(dirname(__FILE__).'/'.$class.'.php');
 		
 		// Сохраняем для будущих обращений к нему
 		self::$objects[$name] = new $class();

@@ -2,8 +2,7 @@
 
 session_start();
 
-chdir('../..');
-require_once('api/Simpla.php');
+require_once('../../api/Simpla.php');
 
 $simpla = new Simpla();
 

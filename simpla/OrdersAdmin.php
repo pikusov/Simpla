@@ -53,6 +53,37 @@ class OrdersAdmin extends Simpla
 					}
 					break;
 				}
+				case 'set_status_0':
+				{
+					foreach($ids as $id)
+					{
+						if($this->orders->open(intval($id)))
+							$this->orders->update_order($id, array('status'=>0));	
+					}
+					break;
+				}
+				case 'set_status_1':
+				{
+					foreach($ids as $id)
+					{
+						if(!$this->orders->close(intval($id)))
+							$this->design->assign('message_error', 'error_closing');
+						else
+							$this->orders->update_order($id, array('status'=>1));	
+					}
+					break;
+				}
+				case 'set_status_2':
+				{
+					foreach($ids as $id)
+					{
+						if(!$this->orders->close(intval($id)))
+							$this->design->assign('message_error', 'error_closing');
+						else
+							$this->orders->update_order($id, array('status'=>2));	
+					}
+					break;
+				}
 				case(preg_match('/^set_label_([0-9]+)/', $this->request->post('action'), $a) ? true : false):
 				{
 					$l_id = intval($a[1]);

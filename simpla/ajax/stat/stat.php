@@ -1,7 +1,6 @@
 <?php
 
-chdir('../../..');
-require_once('api/Simpla.php');
+require_once('../../../api/Simpla.php');
 
 class StatAjax extends Simpla
 {	

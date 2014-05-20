@@ -32,6 +32,16 @@
 	<a class="add" href="{url module=OrderAdmin}">Добавить заказ</a>
 </div>	
 
+{if $message_error}
+<!-- Системное сообщение -->
+<div class="message message_error">
+	<span>{if $message_error=='error_closing'}Нехватка некоторых товаров на складе{else}{$message_error|escape}{/if}</span>
+	{if $smarty.get.return}
+	<a class="button" href="{$smarty.get.return}">Вернуться</a>
+	{/if}
+</div>
+{/if}
+
 {if $orders}
 <div id="main_list">
 	
@@ -100,6 +110,9 @@
 	
 		<span id="select">
 		<select name="action">
+			{if $status!==0}<option value="set_status_0">В новые</option>{/if}
+			{if $status!==1}<option value="set_status_1">В принятые</option>{/if}
+			{if $status!==2}<option value="set_status_2">В выполненные</option>{/if}
 			{foreach $labels as $l}
 			<option value="set_label_{$l->id}">Отметить &laquo;{$l->name}&raquo;</option>
 			{/foreach}

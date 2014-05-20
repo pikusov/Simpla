@@ -113,7 +113,7 @@ class Categories extends Simpla
 		$this->db->query($query);
 		unset($this->categories_tree);			
 		unset($this->all_categories);	
-		return $id;
+		return intval($id);
 	}
 	
 	// Удаление категории
@@ -134,7 +134,7 @@ class Categories extends Simpla
 		}
 		unset($this->categories_tree);			
 		unset($this->all_categories);	
-		return true;
+		return $id;
 	}
 	
 	// Добавить категорию к заданному товару

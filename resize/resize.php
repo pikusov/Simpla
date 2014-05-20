@@ -1,8 +1,6 @@
 <?php
 
-
-chdir('..');
-require_once('api/Simpla.php');
+require_once('../api/Simpla.php');
 
 $filename = $_GET['file'];
 $token = $_GET['token'];

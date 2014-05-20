@@ -41,6 +41,12 @@ class ProductsAdmin extends Simpla
 				$filter['featured'] = 1; 
 			elseif($f == 'discounted')
 				$filter['discounted'] = 1; 
+			elseif($f == 'visible')
+				$filter['visible'] = 1; 
+			elseif($f == 'hidden')
+				$filter['visible'] = 0; 
+			elseif($f == 'outofstock')
+				$filter['in_stock'] = 0; 
 			$this->design->assign('filter', $f);
 		}
 	

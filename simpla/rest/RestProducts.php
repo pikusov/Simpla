@@ -13,6 +13,16 @@ require_once('Rest.php');
 
 class RestProducts extends Rest
 {	
+	public function __construct()
+	{		
+		parent::__construct();
+		if(!$this->managers->access('prodcuts'))
+		{
+			header('HTTP/1.1 401 Unauthorized');
+			exit();
+		}
+	}
+	
 	public function get()
 	{
 		$items = array();
@@ -29,7 +39,7 @@ class RestProducts extends Rest
 		// Категория
 		$filter['category_id'] = $this->request->get('category');
 		// Дата последнего изменения
-		$filter['modified_from'] = $this->request->get('modified_from');
+		$filter['modified_since'] = $this->request->get('modified_since');
 		// Бренд
 		$filter['brand_id'] = $this->request->get('brand');
 		// Страница

@@ -1,0 +1,14 @@
+ALTER TABLE  `s_coupons` CHANGE  `value`  `value` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_coupons` CHANGE  `min_order_price`  `min_order_price` DECIMAL( 10, 2 ) NULL DEFAULT NULL;
+ALTER TABLE  `s_currencies` CHANGE  `rate_from`  `rate_from` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '1';
+ALTER TABLE  `s_currencies` CHANGE  `rate_to`  `rate_to` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '1';
+ALTER TABLE  `s_delivery` CHANGE  `free_from`  `free_from` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_delivery` CHANGE  `price`  `price` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_groups` CHANGE  `discount`  `discount` DECIMAL( 5, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_orders` CHANGE  `delivery_price`  `delivery_price` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_orders` CHANGE  `total_price`  `total_price` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_orders` CHANGE  `discount`  `discount` DECIMAL( 5, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_orders` CHANGE  `coupon_discount`  `coupon_discount` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_purchases` CHANGE  `price`  `price` DECIMAL( 10, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_variants` CHANGE  `price`  `price` DECIMAL( 14, 2 ) NOT NULL DEFAULT  '0';
+ALTER TABLE  `s_variants` CHANGE  `compare_price`  `compare_price` DECIMAL( 14, 2 ) NULL DEFAULT NULL;

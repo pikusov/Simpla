@@ -26,7 +26,7 @@ db_charset = UTF8;
 db_sql_mode =;
 
 ;Смещение часового пояса
-;db_timezone = '+04:00';
+;db_timezone = +04:00;
 
 
 [php]
@@ -37,7 +37,7 @@ php_locale_ctype = ru_RU;
 php_locale_monetary = ru_RU;
 php_locale_numeric = ru_RU;
 php_locale_time = ru_RU;
-;php_timezone = 'Europe/Moscow';
+;php_timezone = Europe/Moscow;
 
 logfile = admin/log/log.txt;
 

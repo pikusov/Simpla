@@ -1,7 +1,6 @@
 <?php
 
-chdir('../..');
-require_once('api/Simpla.php');
+require_once('../../api/Simpla.php');
 
 class ExportAjax extends Simpla
 {	
@@ -28,7 +27,7 @@ class ExportAjax extends Simpla
 	private $column_delimiter = ';';
 	private $subcategory_delimiter = '/';
 	private $products_count = 5;
-	private $export_files_dir = 'simpla/files/export/';
+	private $export_files_dir = '../files/export/';
 	private $filename = 'export.csv';
 
 	public function fetch()

@@ -146,8 +146,6 @@ e[type="button"] {
 	float: right;
 	font-size: 12px;
 	margin: 12px 10px 10px 0px;
-	margin-top: 12p
-	margin-right: 1e0px;
 	text-align: right;
 	color: #505050;
 }
@@ -172,7 +170,7 @@ e[type="button"] {
 	text-align: right;
 	margin-top: 45px;
 	margin-right: 5px;
-	font-sdtyle: italic;
+	font-style: italic;
 	height: 25px;
 	color: #505050;
 	font-size: 15px;
@@ -495,7 +493,7 @@ e[type="button"] {
 
 .products .product .annotation {
 	font-size: 12px;
-	color: #505050;;
+	color: #505050;
 	margin-bottom: 5px;
 }
 
@@ -557,7 +555,6 @@ cursor: pointer;
 	white-space: nowrap;
 }
 #features a.selected {
-	//background-color: #4a4a4a;
 	color: #505050;
 	text-decoration: none;
 }

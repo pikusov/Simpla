@@ -8,9 +8,6 @@ $resources = array(
 	'blog'     => 'RestBlog'
 );
 
-// Работаем в корне сайта
-chdir('../../');
-
 // Ресурс с которым будем работать
 $resource = $_GET['resource'];
 
@@ -18,7 +15,7 @@ $resource = $_GET['resource'];
 if(isset($resources[$resource]))
 {
 	$class_name = $resources[$resource];
-	require_once('simpla/rest/'.$class_name.'.php');
+	require_once($class_name.'.php');
 	$rest = new $class_name();
 
 	// Действие с ресурсом

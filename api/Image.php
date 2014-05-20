@@ -423,7 +423,7 @@ class Image extends Simpla
 	private function files_identical($fn1, $fn2)
 	{
 		$buffer_len = 1024;
-	    if(!$fp1 = fopen($fn1, 'rb'))
+	    if(!$fp1 = fopen(dirname(dirname(__FILE__)).'/'.$fn1, 'rb'))
 	        return FALSE;
 	
 	    if(!$fp2 = fopen($fn2, 'rb')) {

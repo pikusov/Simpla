@@ -62,16 +62,16 @@ class Products extends Simpla
 		if(!empty($filter['brand_id']))
 			$brand_id_filter = $this->db->placehold('AND p.brand_id in(?@)', (array)$filter['brand_id']);
 
-		if(!empty($filter['featured']))
+		if(isset($filter['featured']))
 			$is_featured_filter = $this->db->placehold('AND p.featured=?', intval($filter['featured']));
 
-		if(!empty($filter['discounted']))
+		if(isset($filter['discounted']))
 			$discounted_filter = $this->db->placehold('AND (SELECT 1 FROM __variants pv WHERE pv.product_id=p.id AND pv.compare_price>0 LIMIT 1) = ?', intval($filter['discounted']));
 
-		if(!empty($filter['in_stock']))
-			$in_stock_filter = $this->db->placehold('AND (SELECT 1 FROM __variants pv WHERE pv.product_id=p.id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
+		if(isset($filter['in_stock']))
+			$in_stock_filter = $this->db->placehold('AND (SELECT count(*)>0 FROM __variants pv WHERE pv.product_id=p.id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
 
-		if(!empty($filter['visible']))
+		if(isset($filter['visible']))
 			$visible_filter = $this->db->placehold('AND p.visible=?', intval($filter['visible']));
 
  		if(!empty($filter['sort']))
@@ -96,7 +96,10 @@ class Products extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
+			{
+				$kw = $this->db->escape(trim($keyword));
+				$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
+			}
 		}
 
 		if(!empty($filter['features']) && !empty($filter['features']))
@@ -177,16 +180,16 @@ class Products extends Simpla
 				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 
-		if(!empty($filter['featured']))
+		if(isset($filter['featured']))
 			$is_featured_filter = $this->db->placehold('AND p.featured=?', intval($filter['featured']));
 
-		if(!empty($filter['in_stock']))
-			$in_stock_filter = $this->db->placehold('AND (SELECT 1 FROM __variants pv WHERE pv.product_id=p.id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
+		if(isset($filter['in_stock']))
+			$in_stock_filter = $this->db->placehold('AND (SELECT count(*)>0 FROM __variants pv WHERE pv.product_id=p.id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
 
-		if(!empty($filter['discounted']))
+		if(isset($filter['discounted']))
 			$discounted_filter = $this->db->placehold('AND (SELECT 1 FROM __variants pv WHERE pv.product_id=p.id AND pv.compare_price>0 LIMIT 1) = ?', intval($filter['discounted']));
 
-		if(!empty($filter['visible']))
+		if(isset($filter['visible']))
 			$visible_filter = $this->db->placehold('AND p.visible=?', intval($filter['visible']));
 		
 		
@@ -320,6 +323,10 @@ class Products extends Simpla
 			$related = $this->get_related_products($id);
 			foreach($related as $r)
 				$this->delete_related_product($id, $r->related_id);
+			
+			// Удаляем товар из связанных с другими
+			$query = $this->db->placehold("DELETE FROM __related_products WHERE related_id=?", intval($id));
+			$this->db->query($query);
 			
 			// Удаляем отзывы
 			$comments = $this->comments->get_comments(array('object_id'=>$id, 'type'=>'product'));

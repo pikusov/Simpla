@@ -3,7 +3,7 @@
 /**
  * Simpla CMS
  *
- * @copyright	2011 Denis Pikusov
+ * @copyright	2014 Denis Pikusov
  * @link		http://simplacms.ru
  * @author		Denis Pikusov
  *
@@ -42,7 +42,7 @@ class Orders extends Simpla
 		$label_filter = '';	
 		$status_filter = '';
 		$user_filter = '';	
-		$modified_from_filter = '';	
+		$modified_since_filter = '';	
 		$id_filter = '';
 		
 		if(isset($filter['limit']))
@@ -63,8 +63,8 @@ class Orders extends Simpla
 		if(isset($filter['user_id']))
 			$user_filter = $this->db->placehold('AND o.user_id = ?', intval($filter['user_id']));
 		
-		if(isset($filter['modified_from']))
-			$modified_from_filter = $this->db->placehold('AND o.modified > ?', $filter['modified_from']);
+		if(isset($filter['modified_since']))
+			$modified_since_filter = $this->db->placehold('AND o.modified > ?', $filter['modified_since']);
 		
 		if(isset($filter['label']))
 			$label_filter = $this->db->placehold('AND ol.label_id = ?', $filter['label']);
@@ -73,7 +73,7 @@ class Orders extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (o.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.$this->db->escape(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.$this->db->escape(trim($keyword)).'%" )');
+				$keyword_filter .= $this->db->placehold('AND (o.id = "'.$this->db->escape(trim($keyword)).'" OR o.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR REPLACE(o.phone, "-", "")  LIKE "%'.$this->db->escape(str_replace('-', '', trim($keyword))).'%" OR o.address LIKE "%'.$this->db->escape(trim($keyword)).'%" )');
 		}
 		
 		// Выбираем заказы
@@ -84,7 +84,7 @@ class Orders extends Simpla
 									FROM __orders AS o 
 									LEFT JOIN __orders_labels AS ol ON o.id=ol.order_id 
 									WHERE 1
-									$id_filter $status_filter $user_filter $keyword_filter $label_filter $modified_from_filter GROUP BY o.id ORDER BY status, id DESC $sql_limit", "%Y-%m-%d");
+									$id_filter $status_filter $user_filter $keyword_filter $label_filter $modified_since_filter GROUP BY o.id ORDER BY status, id DESC $sql_limit", "%Y-%m-%d");
 		$this->db->query($query);
 		$orders = array();
 		foreach($this->db->results() as $order)
@@ -139,7 +139,10 @@ class Orders extends Simpla
 		{
 			$query = $this->db->placehold("DELETE FROM __purchases WHERE order_id=?", $id);
 			$this->db->query($query);
-			
+
+			$query = $this->db->placehold("DELETE FROM __orders_labels WHERE order_id=?", $id);
+			$this->db->query($query);
+ 			
 			$query = $this->db->placehold("DELETE FROM __orders WHERE id=? LIMIT 1", $id);
 			$this->db->query($query);
 		}
