@@ -42,7 +42,7 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{$message_success}</span>
+	<span class="text">{$message_success}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -53,7 +53,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_success == 'added'}Способ оплаты добавлен{elseif $message_success == 'updated'}Способ оплаты изменен{/if}</span>
+	<span class="text">{if $message_success == 'added'}Способ оплаты добавлен{elseif $message_success == 'updated'}Способ оплаты изменен{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

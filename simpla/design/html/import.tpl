@@ -69,7 +69,7 @@
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>
+	<span class="text">
 	{if $message_error == 'no_permission'}Установите права на запись в папку {$import_files_dir}
 	{elseif $message_error == 'convert_error'}Не получилось сконвертировать файл в кодировку UTF8
 	{elseif $message_error == 'locale_error'}На сервере не установлена локаль {$locale}, импорт может работать некорректно

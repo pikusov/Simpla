@@ -40,7 +40,7 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success == 'added'}Купон добавлен{elseif $message_success == 'updated'}Купон изменен{/if}</span>
+	<span class="text">{if $message_success == 'added'}Купон добавлен{elseif $message_success == 'updated'}Купон изменен{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -51,7 +51,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error == 'code_exists'}Купон с таким кодом уже существует{/if}</span>
+	<span class="text">{if $message_error == 'code_exists'}Купон с таким кодом уже существует{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

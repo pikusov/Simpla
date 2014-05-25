@@ -116,11 +116,22 @@ function translit(str)
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success == 'added'}Запись добавлена{elseif $message_success == 'updated'}Запись обновлена{/if}</span>
+	<span class="text">{if $message_success == 'added'}Запись добавлена{elseif $message_success == 'updated'}Запись обновлена{/if}</span>
 	<a class="link" target="_blank" href="../blog/{$post->url}">Открыть запись на сайте</a>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
+
+	<span class="share">		
+		<a href="#" onClick='window.open("http://vkontakte.ru/share.php?url={$config->root_url|urlencode}/blog/{$post->url|urlencode}&title={$post->name|urlencode}&description={$post->annotation|urlencode}&noparse=false","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
+  		<img src="{$config->root_url}/simpla/design/images/vk_icon.png" /></a>
+		<a href="#" onClick='window.open("http://www.facebook.com/sharer.php?u={$config->root_url|urlencode}/blog/{$post->url|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
+  		<img src="{$config->root_url}/simpla/design/images/facebook_icon.png" /></a>
+		<a href="#" onClick='window.open("http://twitter.com/share?text={$post->name|urlencode}&url={$config->root_url|urlencode}/blog/{$post->url|urlencode}&hashtags={$post->meta_keywords|replace:' ':''|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
+  		<img src="{$config->root_url}/simpla/design/images/twitter_icon.png" /></a>
+	</span>
+	
+	
 </div>
 <!-- Системное сообщение (The End)-->
 {/if}
@@ -128,7 +139,7 @@ function translit(str)
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error == 'url_exists'}Запись с таким адресом уже существует{/if}</span>
+	<span class="text">{if $message_error == 'url_exists'}Запись с таким адресом уже существует{/if}</span>
 	{if $smarty.get.return}
 		<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}

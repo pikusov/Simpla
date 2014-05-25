@@ -61,7 +61,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error == 'permissions'}Установите права на запись для папки {$themes_dir}
+	<span class="text">{if $message_error == 'permissions'}Установите права на запись для папки {$themes_dir}
 	{elseif $message_error == 'name_exists'}Тема с таким именем уже существует
 	{else}{$message_error}{/if}</span>
 </div>

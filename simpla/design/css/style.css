@@ -10,12 +10,12 @@
 	overflow: hidden;
 	color: black;
 }
-.message span{
+.message span.text{
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	display: block;
 	float: left;
- 	margin-right: 50px;
+ 	margin-right: 30px;
 	margin-top: 5px;
 }
 .message a.link {
@@ -26,7 +26,7 @@
 	display: block;
 	float: right;
 	text-decoration: none;
-	padding: 5px 20px;
+	padding: 5px 10px;
 	border: 1px solid #a3a5a5;
 	color: #0000;
 	background: #f5f5f5 url(../images/message_button_bgd.jpg) 0 -26px;
@@ -35,16 +35,31 @@
 	background-position: 0 0;
 	color: #000;
 }
-
+.message span.share {
+	display: block;
+	float: right;
+	background-image: none;
+	margin-right: 20px;
+}
+.message span.share img{
+	height: 27px;
+	opacity:0.3;
+	filter:alpha(opacity=30);	
+}
+.message span.share img:hover{
+	height: 27px;
+	opacity:1;
+	filter:alpha(opacity=100);	
+}
 /* Сообщение успешное */
 .message_success { background-color: #c5ff8d; border: 1px dotted #8cbf32; }
-.message_success span{	background-image: url(../images/tick.png); }
+.message_success span.text{	background-image: url(../images/tick.png); }
 .message_success a.link { color: #3f8000; }
 .message_success a.link:hover {	color: #5dbd00; }
 
 /* Сообщение с ошибкой */
 .message_error { background-color: #ffcaca; border: 1px dotted #ff4545; }
-.message_error span { background-image: url(../images/icon_message_error.png); }
+.message_error span.text { background-image: url(../images/icon_message_error.png); }
 .message_error a.link { color: #ff0000; }
 .message_error a.link:hover { color: #ff4f4f; }
 

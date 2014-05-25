@@ -60,7 +60,7 @@ class Image extends Simpla
 		$watermark_transparency =  1-min(100, $this->settings->watermark_transparency)/100;
 	
 	
-		if($set_watermark && is_file($this->config->watermark_file))
+		if($set_watermark && is_file($this->config->root_dir.$this->config->watermark_file))
 			$watermark = $this->config->root_dir.$this->config->watermark_file;
 		else
 			$watermark = null;

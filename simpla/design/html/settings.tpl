@@ -11,7 +11,7 @@
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success == 'saved'}Настройки сохранены{/if}</span>
+	<span class="text">{if $message_success == 'saved'}Настройки сохранены{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -22,7 +22,7 @@
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error == 'watermark_is_not_writable'}Установите права на запись для файла {$config->watermark_file}{/if}</span>
+	<span class="text">{if $message_error == 'watermark_is_not_writable'}Установите права на запись для файла {$config->watermark_file}{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

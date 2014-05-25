@@ -74,7 +74,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>
+	<span class="text">
 	{if $message_error == 'no_permission'}Установите права на запись в папку {$export_files_dir}
 	{else}{$message_error}{/if}
 	</span>

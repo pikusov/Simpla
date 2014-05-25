@@ -49,7 +49,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error == 'permissions'}Установите права на запись для папки {$images_dir}
+	<span class="text">{if $message_error == 'permissions'}Установите права на запись для папки {$images_dir}
 	{elseif $message_error == 'name_exists'}Файл с таким именем уже существует
 	{elseif $message_error == 'theme_locked'}Текущая тема защищена от изменений. Создайте копию темы.
 	{else}{$message_error}{/if}</span>

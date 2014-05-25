@@ -121,6 +121,8 @@ class ImportAjax extends Simpla
 			return false;
 
 		// Подготовим товар для добавления в базу
+		$product = array();
+		
 		if(isset($item['name']))
 			$product['name'] = trim($item['name']);
 
@@ -172,6 +174,8 @@ class ImportAjax extends Simpla
 		}
 	
 		// Подготовим вариант товара
+		$variant = array();
+		
 		if(isset($item['variant']))
 			$variant['name'] = trim($item['variant']);
 			

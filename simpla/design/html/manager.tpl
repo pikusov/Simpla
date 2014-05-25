@@ -37,7 +37,7 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success=='added'}Менеджер добавлен{elseif $message_success=='updated'}Менеджер обновлен{else}{$message_success|escape}{/if}</span>
+	<span class="text">{if $message_success=='added'}Менеджер добавлен{elseif $message_success=='updated'}Менеджер обновлен{else}{$message_success|escape}{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -48,7 +48,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>
+	<span class="text">
 	{if $message_error=='login_exists'}Менеджер с таким логином уже существует
 	{elseif $message_error=='empty_login'}Введите логин
 	{elseif $message_error=='not_writable'}Установите права на запись для файла /simpla/.passwd

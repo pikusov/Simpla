@@ -24,7 +24,7 @@
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success == 'created'}Бекап создан{elseif $message_success == 'restored'}Бекап восстановлен{/if}</span>
+	<span class="text">{if $message_success == 'created'}Бекап создан{elseif $message_success == 'restored'}Бекап восстановлен{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -35,7 +35,7 @@
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>
+	<span class="text">
 	{if $message_error == 'no_permission'}Установите права на запись в папку {$backup_files_dir}
 	{else}{$message_error}{/if}
 	</span>

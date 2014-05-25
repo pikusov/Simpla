@@ -12,7 +12,7 @@
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success=='updated'}Пользователь отредактирован{else}{$message_success|escape}{/if}</span>
+	<span class="text">{if $message_success=='updated'}Пользователь отредактирован{else}{$message_success|escape}{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -23,7 +23,7 @@
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error=='login_exists'}Пользователь с таким email уже зарегистрирован
+	<span class="text">{if $message_error=='login_exists'}Пользователь с таким email уже зарегистрирован
 	{elseif $message_error=='empty_name'}Введите имя пользователя
 	{elseif $message_error=='empty_email'}Введите email пользователя
 	{else}{$message_error|escape}{/if}</span>

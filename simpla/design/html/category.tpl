@@ -128,11 +128,22 @@ function translit(str)
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success=='added'}Категория добавлена{elseif $message_success=='updated'}Категория обновлена{else}{$message_success}{/if}</span>
+	<span class="text">{if $message_success=='added'}Категория добавлена{elseif $message_success=='updated'}Категория обновлена{else}{$message_success}{/if}</span>
 	<a class="link" target="_blank" href="../catalog/{$category->url}">Открыть категорию на сайте</a>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
+	
+	<span class="share">		
+		<a href="#" onClick='window.open("http://vkontakte.ru/share.php?url={$config->root_url|urlencode}/catalog/{$category->url|urlencode}&title={$category->name|urlencode}&description={$category->description|urlencode}&image={$config->root_url|urlencode}/files/categories/{$category->image|urlencode}&noparse=true","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
+  		<img src="{$config->root_url}/simpla/design/images/vk_icon.png" /></a>
+		<a href="#" onClick='window.open("http://www.facebook.com/sharer.php?u={$config->root_url|urlencode}/catalog/{$category->url|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
+  		<img src="{$config->root_url}/simpla/design/images/facebook_icon.png" /></a>
+		<a href="#" onClick='window.open("http://twitter.com/share?text={$category->name|urlencode}&url={$config->root_url|urlencode}/catalog/{$category->url|urlencode}&hashtags={$category->meta_keywords|replace:' ':''|urlencode}","displayWindow","width=700,height=400,left=250,top=170,status=no,toolbar=no,menubar=no");return false;'>
+  		<img src="{$config->root_url}/simpla/design/images/twitter_icon.png" /></a>
+	</span>
+	
+	
 </div>
 <!-- Системное сообщение (The End)-->
 {/if}
@@ -140,7 +151,7 @@ function translit(str)
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{if $message_error=='url_exists'}Категория с таким адресом уже существует{else}{$message_error}{/if}</span>
+	<span class="text">{if $message_error=='url_exists'}Категория с таким адресом уже существует{else}{$message_error}{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

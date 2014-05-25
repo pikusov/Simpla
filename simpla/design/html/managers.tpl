@@ -20,7 +20,7 @@
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>
+	<span class="text">
 	{if $message_error=='not_writable'}Установите права на запись для файла /simpla/.passwd
 	{else}{$message_error|escape}{/if}
 	</span>

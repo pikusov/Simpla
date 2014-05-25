@@ -41,7 +41,7 @@ $('select[name=module]').change(function(){
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span>{if $message_success == 'added'}Способ доставки добавлен{elseif $message_success == 'updated'}Способ доставки изменен{/if}</span>
+	<span class="text">{if $message_success == 'added'}Способ доставки добавлен{elseif $message_success == 'updated'}Способ доставки изменен{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -52,7 +52,7 @@ $('select[name=module]').change(function(){
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>{$message_error}</span>
+	<span class="text">{$message_error}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->

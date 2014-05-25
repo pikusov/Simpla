@@ -21,7 +21,6 @@
 
 .CodeMirror{
 	font-family:'Courier New';
-	padding-bottom:20px;
 	margin-bottom:10px;
 	border:1px solid #c0c0c0;
 	background-color: #ffffff;
@@ -84,7 +83,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span>
+	<span class="text">
 	{if $message_error == 'permissions'}Установите права на запись для файла {$style_file}
 	{elseif $message_error == 'theme_locked'}Текущая тема защищена от изменений. Создайте копию темы.
 	{else}{$message_error}{/if}
