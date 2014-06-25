@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Яндекс Деньги для юрлиц
+	</name>
+	<settings>
+		<variable>yandex_shopid</variable>
+		<name>Идентификатор Магазина</name>
+	</settings>
+	<settings>
+		<variable>yandex_scid</variable>
+		<name>Номер витрины</name>
+	</settings>
+	<settings>
+		<variable>yandex_password</variable>
+		<name>Пароль магазина</name>
+	</settings>
+	<settings>
+		<variable>yandex_paymenttype</variable>
+		<name>Способ оплаты</name>
+		<options>
+			<name>Не задан</name>
+			<value></value>
+		</options>
+		<options>
+			<name>Со счета в Яндекс.Деньгах</name>
+			<value>PC</value>
+		</options>
+		<options>
+			<name>С банковской карты</name>
+			<value>AC</value>
+		</options>
+		<options>
+			<name>По коду через терминал</name>
+			<value>GP</value>
+		</options>
+		<options>
+			<name>Со счета мобильного телефона</name>
+			<value>MC</value>
+		</options>
+		<options>
+			<name>С кошелька Webmoney</name>
+			<value>WM</value>
+		</options>
+		<options>
+			<name>Через Сбербанк Онлайн</name>
+			<value>SB</value>
+		</options>
+		<options>
+			<name>Через мобильный терминал (mPOS)</name>
+			<value>MP</value>
+		</options>
+	</settings>	
+	<settings>
+		<variable>yandex_testmode</variable>
+		<name>Режим оплаты</name>
+		<options>
+			<name>Тестовый режим</name>
+			<value>1</value>
+		</options>
+		<options>
+			<name>Рабочий режим</name>
+			<value>0</value>
+		</options>
+	</settings>	
+</module>
