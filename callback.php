@@ -17,8 +17,8 @@ require_once('api/Simpla.php');
 
 $simpla = new Simpla();
 
-$order_id = $simpla->request->post('orderNumber', 'integer');
-$invoice_id = $simpla->request->post('invoiceId', 'integer');
+$order_id = $simpla->request->post('orderNumber');
+$invoice_id = $simpla->request->post('invoiceId');
 
 ////////////////////////////////////////////////
 // Выберем заказ из базы
