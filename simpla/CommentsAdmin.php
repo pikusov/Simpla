@@ -64,7 +64,7 @@ class CommentsAdmin extends Simpla
 	// Показать все страницы сразу
 	if($this->request->get('page') == 'all')
 		$filter['limit'] = $comments_count;	
-  	$comments = $this->comments->get_comments($filter, true);
+  	$comments = $this->comments->get_comments($filter);
   	
   	// Выбирает объекты, которые прокомментированы:
   	$products_ids = array();
