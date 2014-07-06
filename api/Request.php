@@ -169,11 +169,12 @@ class Request extends Simpla
 		foreach($query as $name=>$value)
 			if($value!='' && $value!=null)
 				$query_is_empty = false;
-				
-		ksort($query, SORT_NUMERIC);
 		
 		if(!$query_is_empty)
+		{
+			ksort($query, SORT_NUMERIC);
 			$url['query'] = http_build_query($query);
+		}
 		else
 			$url['query'] = null;
 			
