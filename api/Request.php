@@ -169,6 +169,8 @@ class Request extends Simpla
 		foreach($query as $name=>$value)
 			if($value!='' && $value!=null)
 				$query_is_empty = false;
+				
+		ksort($query, SORT_NUMERIC);
 		
 		if(!$query_is_empty)
 			$url['query'] = http_build_query($query);
