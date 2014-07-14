@@ -47,8 +47,8 @@ class Brands extends Simpla
 			$filter = $this->db->placehold('id = ?', $id);
 		else
 			$filter = $this->db->placehold('url = ?', $id);
-		$query = "SELECT id, name, url, meta_title, meta_keywords, meta_description, description, image
-								 FROM __brands WHERE $filter ORDER BY name LIMIT 1";
+		$query = "SELECT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
+								 FROM __brands b WHERE $filter LIMIT 1";
 		$this->db->query($query);
 		return $this->db->result();
 	}
