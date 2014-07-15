@@ -39,8 +39,9 @@ class YandexMoney extends Simpla
 					<input type="hidden" name="cps_phone" value="'.htmlspecialchars($order->phone,ENT_QUOTES).'">
 					   
 
-					<input type="hidden" name="ordernumber" value="'.$order->id.'">
+					<input type="hidden" name="customerNumber" value="'.$order->id.'">
 					'.$payment_type.'
+					<input type="hidden" name="cms_name" value="simplacms"/>
 					<input type="submit" name="submit-button" value="'.$button_text.'" class="checkout_button">
 					</form>';
 		return $button;

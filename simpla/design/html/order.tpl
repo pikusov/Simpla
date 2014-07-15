@@ -418,7 +418,10 @@ $(function() {
   			// Добавляем варианты нового товара
   			var variants_select = new_item.find('select[name*=purchases][name*=variant_id]');
 			for(var i in suggestion.data.variants)
-  				variants_select.append("<option value='"+suggestion.data.variants[i].id+"' price='"+suggestion.data.variants[i].price+"' amount='"+suggestion.data.variants[i].stock+"'>"+suggestion.data.variants[i].name+"</option>");
+			{
+				sku = suggestion.data.variants[i].sku == ''?'':' (арт. '+suggestion.data.variants[i].sku+')';
+  				variants_select.append("<option value='"+suggestion.data.variants[i].id+"' price='"+suggestion.data.variants[i].price+"' amount='"+suggestion.data.variants[i].stock+"'>"+suggestion.data.variants[i].name+sku+"</option>");
+  			}
   			
   			if(suggestion.data.variants.length>1 || suggestion.data.variants[0].name != '')
   				variants_select.show();

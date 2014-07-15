@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Acquiropay
+	</name>
+	<settings>
+		<variable>acquiropay_mid</variable>
+		<name>ID торговца</name>
+	</settings>
+	<settings>
+		<variable>acquiropay_product</variable>
+		<name>ID продукта</name>
+	</settings>
+	<settings>
+		<variable>acquiropay_sw</variable>
+		<name>Секретное слово</name>
+	</settings>
+	<settings>
+		<variable>acquiropay_uerror</variable>
+		<name>Error URL</name>
+	</settings>
+</module>

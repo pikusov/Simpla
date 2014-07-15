@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		PayAnyWay
+	</name>
+	<settings>
+		<variable>payment_url</variable>
+		<name>URL сервера оплаты</name>
+		<options>
+			<name>www.payanyway.ru</name>
+			<value>www.payanyway.ru</value>
+		</options>
+		<options>
+			<name>demo.moneta.ru</name>
+			<value>demo.moneta.ru</value>
+		</options>
+	</settings>
+	<settings>
+		<variable>MNT_ID</variable>
+		<name>Номер счета</name>
+	</settings>
+	<settings>
+		<variable>MNT_DATAINTEGRITY_CODE</variable>
+		<name>Код проверки целостности данных</name>
+	</settings>
+	<settings>
+		<variable>MNT_TEST_MODE</variable>
+		<name>Тестовый режим</name>
+		<options>
+			<name>Да</name>
+			<value>1</value>
+		</options>
+		<options>
+			<name>Нет</name>
+			<value>0</value>
+		</options>
+	</settings>
+	<settings>
+		<variable>payment_system</variable>
+		<name>Способ оплаты</name>
+		<options>
+			<name>PayAnyWay</name>
+			<value>payanyway_1_0_0</value>
+		</options>
+		<options>
+			<name>Moneta.ru</name>
+			<value>moneta_1_1015_0</value>
+		</options>
+		<options>
+			<name>WebMoney</name>
+			<value>webmoney_1_1017_0</value>
+		</options>
+		<options>
+			<name>Яндекс.Деньги</name>
+			<value>yandex_1_1020_0</value>
+		</options>
+		<options>
+			<name>MoneyMail</name>
+			<value>moneymail_1_1038_0</value>
+		</options>
+		<options>
+			<name>Единый кошелек</name>
+			<value>walletone_1_310212_0</value>
+		</options>
+		<options>
+			<name>Форвард Мобайл</name>
+			<value>forward_0_83046_116</value>
+		</options>
+		<options>
+			<name>CiberPay</name>
+			<value>ciberpay_0_489755_19357960</value>
+		</options>
+		<options>
+			<name>NovoPlat</name>
+			<value>novoplat_0_281129_80314912</value>
+		</options>
+		<options>
+			<name>PLATiKA</name>
+			<value>platika_0_226272_15662295</value>
+		</options>
+		<options>
+			<name>МосКредитБанк</name>
+			<value>mcb_0_295339_143</value>
+		</options>
+		<options>
+			<name>Элекснет</name>
+			<value>elecsnet_0_232821_10496472</value>
+		</options>
+		<options>
+			<name>Comepay</name>
+			<value>comepay_0_228820_47654606</value>
+		</options>
+		<options>
+			<name>Федеральная Система ГОРОД</name>
+			<value>gorod_0_426904_152</value>
+		</options>
+		<options>
+			<name>ФГУП "Почта России"</name>
+			<value>post_0_1029_15</value>
+		</options>
+		<options>
+			<name>Банковский перевод</name>
+			<value>banktransfer_0_705000_75983431</value>
+		</options>
+		<options>
+			<name>Contact</name>
+			<value>contact_0_1028_26</value>
+		</options>
+		<options>
+			<name>VISA, Master Card</name>
+			<value>plastic_1_499669_0</value>
+		</options>
+		<options>
+			<name>Евросеть, Связной</name>
+			<value>euroset_0_248362_136</value>
+		</options>
+		<options>
+			<name>RBK Money</name>
+			<value>rbk_1_593369_0</value>
+		</options>
+		<options>
+			<name>Деньги@mail.ru</name>
+			<value>dengimail_1_545234_0</value>
+		</options>
+		<options>
+			<name>Интернет-банк "Альфа-Клик"</name>
+			<value>alfaclick_1_587412_0</value>
+		</options>
+		<options>
+			<name>Мегафон SMS</name>
+			<value>megafon_0_398454_150</value>
+		</options>
+		<options>
+			<name>MTS SMS</name>
+			<value>mts_0_499668_158</value>
+		</options>
+		<options>
+			<name>Кассира.нет</name>
+			<value>kassiranet_0_518006_12169152</value>
+		</options>
+		<options>
+			<name>QIWI кошелек</name>
+			<value>qiwi_1_822360_0</value>
+		</options>
+		<options>
+			<name>Интернет-банк "Faktura.ru"</name>
+			<value>faktura_1_609111_0</value>
+		</options>
+		<options>
+			<name>Интернет-банк "Промсвязьбанк"</name>
+			<value>psb_1_661709_0</value>
+		</options>
+		<options>
+			<name>Сбербанк</name>
+			<value>sberbank_0_510801_160</value>
+		</options>
+	</settings>
+	<settings>
+		<variable>payanyway_login</variable>
+		<name>Логин в PayAnyWay</name>
+	</settings>
+	<settings>
+		<variable>payanyway_password</variable>
+		<name>Пароль в PayAnyWay</name>
+	</settings>
+</module>

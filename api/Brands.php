@@ -23,8 +23,12 @@ class Brands extends Simpla
 	{
 		$brands = array();
 		$category_id_filter = '';
+		$visible_filter = '';
+		if(isset($filter['visible']))
+			$visible_filter = $this->db->placehold('AND p.visible=?', intval($filter['visible']));
+		
 		if(!empty($filter['category_id']))
-			$category_id_filter = $this->db->placehold('LEFT JOIN __products p ON p.brand_id=b.id LEFT JOIN __products_categories pc ON p.id = pc.product_id WHERE pc.category_id in(?@)', (array)$filter['category_id']);
+			$category_id_filter = $this->db->placehold("LEFT JOIN __products p ON p.brand_id=b.id LEFT JOIN __products_categories pc ON p.id = pc.product_id WHERE pc.category_id in(?@) $visible_filter", (array)$filter['category_id']);
 
 		// Выбираем все бренды
 		$query = $this->db->placehold("SELECT DISTINCT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
@@ -44,11 +48,11 @@ class Brands extends Simpla
 	public function get_brand($id)
 	{
 		if(is_int($id))			
-			$filter = $this->db->placehold('id = ?', $id);
+			$filter = $this->db->placehold('b.id = ?', $id);
 		else
-			$filter = $this->db->placehold('url = ?', $id);
-		$query = "SELECT id, name, url, meta_title, meta_keywords, meta_description, description, image
-								 FROM __brands WHERE $filter ORDER BY name LIMIT 1";
+			$filter = $this->db->placehold('b.url = ?', $id);
+		$query = "SELECT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
+								 FROM __brands b WHERE $filter LIMIT 1";
 		$this->db->query($query);
 		return $this->db->result();
 	}

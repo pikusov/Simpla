@@ -146,7 +146,7 @@ class View extends Simpla
 				$browsed_products_ids = array_slice($browsed_products_ids, 0, $params['limit']);
 
 			$products = array();
-			foreach($this->products->get_products(array('id'=>$browsed_products_ids)) as $p)
+			foreach($this->products->get_products(array('id'=>$browsed_products_ids, 'visible'=>1)) as $p)
 				$products[$p->id] = $p;
 			
 			$browsed_products_images = $this->products->get_images(array('product_id'=>$browsed_products_ids));

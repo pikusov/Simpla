@@ -44,6 +44,7 @@ class UserAdmin extends Simpla
 				case 'delete':
 				{
 					foreach($ids as $id)
+					{
 						$o = $this->orders->get_order(intval($id));
 						if($o->status<3)
 						{
@@ -52,6 +53,7 @@ class UserAdmin extends Simpla
 						}
 						else
 							$this->orders->delete_order($id);
+					}
 					break;
 				}
 			}

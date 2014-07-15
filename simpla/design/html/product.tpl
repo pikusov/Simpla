@@ -300,6 +300,7 @@ $(function() {
 	
 	// Волшебное описание
 	name_changed = false;
+	captcha_code = '';
 	$("input[name=name]").change(function() {
 		name_changed = true;
 	});	
@@ -307,23 +308,42 @@ $(function() {
 	$('#properties_wizard').click(function() {
 		
 		$('#properties_wizard img').attr('src', 'design/images/loader.gif');
+		$('#captcha_form').remove();
 		if(name_changed)
 			$('div.images ul li.wizard').remove();
 		name_changed = false;
 		key = $('input[name=name]').val();
+
 		$.ajax({
  			 url: "ajax/get_info.php",
- 			 	data: {keyword: key},
+ 			 	data: {keyword: key, captcha: captcha_code},
  			 	dataType: 'json',
   				success: function(data){
+ 
+  					captcha_code = '';
 					$('#properties_wizard img').attr('src', old_prop_wizard_icon_src);
-  					if(data)
-  					{
+
+					// Если запрашивают капчу
+					if(data.captcha)
+					{	 
+						captcha_form = $("<form id='captcha_form'><img src='data:image/png;base64,"+data.captcha+"' align='absmiddle'><input id='captcha_input' type=text><input type=submit value='Ok'></form>");
+						$("#properties_wizard").parent().append(captcha_form);
+						$('#captcha_input').focus();
+						captcha_form.submit(function() {
+							captcha_code = $('#captcha_input').val();
+							$(this).remove();
+							$('#properties_wizard').click();
+							return false;
+						});
+					}
+					else
+  					if(data.product)
+  					{ 
   						$('li#new_feature').remove();
-	    				for(i=0; i<data.options.length; i++)
+	    				for(i=0; i<data.product.options.length; i++)
 	    				{
-	    					option_name = data.options[i].name;
-	    					option_value = data.options[i].value;
+	    					option_name = data.product.options[i].name;
+	    					option_value = data.product.options[i].value;
 							// Добавление нового свойства товара
 							exists = false;
 														
@@ -336,7 +356,7 @@ $(function() {
 							}
 	   					}
 	   					
-   					}					
+   					}				
 				},
 				error: function(xhr, textStatus, errorThrown){
                 	alert("Error: " +textStatus);

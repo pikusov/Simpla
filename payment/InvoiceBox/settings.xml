@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>ИнвойсБокс</name>
+	<settings>
+		<variable>invoicebox_participant_id</variable>
+		<name>Идентификатор поставщика</name>
+	</settings>
+	<settings>
+		<variable>invoicebox_participant_ident</variable>
+		<name>Региональный код</name>
+	</settings>
+	<settings>
+		<variable>invoicebox_participant_apikey</variable>
+		<name>API ключ</name>
+	</settings>
+	<settings>
+		<variable>invoicebox_timelimit</variable>
+		<name>Срок оплаты (дни)</name>
+	</settings>
+</module>

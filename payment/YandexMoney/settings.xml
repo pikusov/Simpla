@@ -42,6 +42,14 @@
 			<name>С кошелька Webmoney</name>
 			<value>WM</value>
 		</options>
+		<options>
+			<name>Через Сбербанк Онлайн</name>
+			<value>SB</value>
+		</options>
+		<options>
+			<name>Через мобильный терминал (mPOS)</name>
+			<value>MP</value>
+		</options>
 	</settings>	
 	<settings>
 		<variable>yandex_testmode</variable>

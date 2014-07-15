@@ -64,7 +64,7 @@ class OrderAdmin extends Simpla
 
 					if(!empty($purchase->id))
 						if(!empty($variant))
-							$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
+							$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'sku'=>$variant->sku,'price'=>$purchase->price, 'amount'=>$purchase->amount));
 						else
 							$this->orders->update_purchase($purchase->id, array('price'=>$purchase->price, 'amount'=>$purchase->amount));
 					else

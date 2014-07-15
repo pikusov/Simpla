@@ -187,7 +187,7 @@ class ProductsView extends View
 		// Выбираем бренды, они нужны нам в шаблоне	
 		if(!empty($category))
 		{
-			$brands = $this->brands->get_brands(array('category_id'=>$category->children));
+			$brands = $this->brands->get_brands(array('category_id'=>$category->children, 'visible'=>1));
 			$category->brands = $brands;		
 		}
 		

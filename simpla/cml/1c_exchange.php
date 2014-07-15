@@ -515,6 +515,13 @@ function import_features($xml)
 			if(empty($feature_id))
 				$feature_id = $simpla->features->add_feature(array('name'=>strval($xml_feature->Наименование)));
 			$_SESSION['features_mapping'][strval($xml_feature->Ид)] = $feature_id;
+			if($xml_feature->ТипЗначений == 'Справочник')
+			{
+				foreach($xml_feature->ВариантыЗначений->Справочник as $val)
+				{
+					$_SESSION['features_values'][strval($val->ИдЗначения)] = strval($val->Значение);
+				}
+			}
 		}
 	}
 }
@@ -611,10 +618,22 @@ function import_product($xml_product)
 		// Обновляем товар
 		if($full_update)
 		{
-			$description = '';
+			$p = new stdClass();
 			if(!empty($xml_product->Описание))
-				$description = $xml_product->Описание;
-			$product_id = $simpla->products->update_product($product_id, array('external_id'=>$product_1c_id, 'url'=>translit($xml_product->Наименование), 'name'=>$xml_product->Наименование, 'meta_title'=>$xml_product->Наименование, 'meta_keywords'=>$xml_product->Наименование, 'meta_description'=>$xml_product->$description,  'annotation'=>$description, 'body'=>$description));
+			{
+				$description = strval($xml_product->Описание);
+				$p->meta_description = $description;
+				$p->meta_description = $description;
+				$p->annotation = $description;
+				$p->body = $description;
+			}
+			$p->external_id = $product_1c_id;
+			$p->url = translit($xml_product->Наименование);
+			$p->name = $xml_product->Наименование;
+			$p->meta_title = $xml_product->Наименование;
+			$p->meta_keywords = $xml_product->Наименование;
+
+			$product_id = $simpla->products->update_product($product_id, $p);
 			
 			// Обновляем категорию товара
 			if(isset($category_id) && !empty($product_id))
@@ -647,13 +666,13 @@ function import_product($xml_product)
 	}
 	
 	// Если не найден вариант, добавляем вариант один к товару
-	if(empty($variant_id) && !empty($variant->external_id))
+	if(empty($variant_id))
 	{
 		$variant->product_id = $product_id;
 		$variant->stock = 0;
 		$variant_id = $simpla->variants->add_variant($variant);
 	}
-	elseif(!empty($variant->external_id))
+	elseif(!empty($variant_id))
 	{
 		$simpla->variants->update_variant($variant_id, $variant);
 	}
@@ -670,7 +689,12 @@ function import_product($xml_product)
 					$simpla->features->add_feature_category($feature_id, $category_id);
 					$values = array();
 					foreach($xml_option->Значение as $xml_value)
-						$values[] = strval($xml_value);
+					{
+						if(isset($_SESSION['features_values'][strval($xml_value)]))
+							$values[] = strval($_SESSION['features_values'][strval($xml_value)]);
+						else
+							$values[] = strval($xml_value);
+					}
 					$simpla->features->update_option($product_id, $feature_id, implode(' ,', $values));
 				}
 			}
