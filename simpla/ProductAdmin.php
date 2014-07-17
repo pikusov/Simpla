@@ -339,7 +339,7 @@ class ProductAdmin extends Simpla
 		{
 			foreach($related_products as &$r_p)
 				$r_products[$r_p->related_id] = &$r_p;
-			$temp_products = $this->products->get_products(array('id'=>array_keys($r_products)));
+			$temp_products = $this->products->get_products(array('id'=>array_keys($r_products), 'limit'=>count($r_products)));
 			foreach($temp_products as $temp_product)
 				$r_products[$temp_product->id] = $temp_product;
 		
