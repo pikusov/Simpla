@@ -85,6 +85,19 @@ function ValidateForms() {
 					case 'text':
 					case 'password':
 					case 'textarea':
+					case 'color':
+					case 'date':
+					case 'datetime':
+					case 'datetime-local':
+					case 'email':
+					case 'month':
+					case 'number':
+					case 'range':
+					case 'search':
+					case 'tel':
+					case 'time':
+					case 'url':
+					case 'week':
 						pattern = form.elements[i].getAttribute('data-format');
 
 						if(pattern) {
