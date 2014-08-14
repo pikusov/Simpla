@@ -82,6 +82,11 @@ class Design extends Simpla
 		return $this->smarty->getTemplateVars($name);
 	}
 	
+	public function clearAllCache()
+	{
+		$this->smarty->clearAllCache();	
+	}
+	
 	private function is_mobile_browser()
 	{
 
