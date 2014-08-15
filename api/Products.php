@@ -33,6 +33,7 @@ class Products extends Simpla
 		$category_id_filter = '';
 		$brand_id_filter = '';
 		$product_id_filter = '';
+		$product_not_id_filter = '';
 		$features_filter = '';
 		$keyword_filter = '';
 		$visible_filter = '';
@@ -51,8 +52,11 @@ class Products extends Simpla
 		$sql_limit = $this->db->placehold(' LIMIT ?, ? ', ($page-1)*$limit, $limit);
 
 		if(!empty($filter['id']))
-			$product_id_filter = $this->db->placehold('AND p.id in(?@)', (array)$filter['id']);
-
+			$product_id_filter = $this->db->placehold('AND p.id IN (?@)', (array)$filter['id']);
+			
+		if(!empty($filter['not_id']))
+			$product_not_id_filter = $this->db->placehold('AND p.id NOT IN (?@)', (array)$filter['not_id']);
+			
 		if(!empty($filter['category_id']))
 		{
 			$category_id_filter = $this->db->placehold('INNER JOIN __products_categories pc ON pc.product_id = p.id AND pc.category_id in(?@)', (array)$filter['category_id']);
@@ -60,7 +64,7 @@ class Products extends Simpla
 		}
 
 		if(!empty($filter['brand_id']))
-			$brand_id_filter = $this->db->placehold('AND p.brand_id in(?@)', (array)$filter['brand_id']);
+			$brand_id_filter = $this->db->placehold('AND p.brand_id IN (?@)', (array)$filter['brand_id']);
 
 		if(isset($filter['featured']))
 			$is_featured_filter = $this->db->placehold('AND p.featured=?', intval($filter['featured']));
@@ -98,7 +102,7 @@ class Products extends Simpla
 			foreach($keywords as $keyword)
 			{
 				$kw = $this->db->escape(trim($keyword));
-				$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
+				$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id IN (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
 			}
 		}
 
@@ -128,6 +132,7 @@ class Products extends Simpla
 				WHERE 
 					1
 					$product_id_filter
+					$product_not_id_filter
 					$brand_id_filter
 					$features_filter
 					$keyword_filter
@@ -157,6 +162,7 @@ class Products extends Simpla
 		$category_id_filter = '';
 		$brand_id_filter = '';
 		$product_id_filter = '';
+		$product_not_id_filter = '';
 		$keyword_filter = '';
 		$visible_filter = '';
 		$is_featured_filter = '';
@@ -168,11 +174,14 @@ class Products extends Simpla
 			$category_id_filter = $this->db->placehold('INNER JOIN __products_categories pc ON pc.product_id = p.id AND pc.category_id in(?@)', (array)$filter['category_id']);
 
 		if(!empty($filter['brand_id']))
-			$brand_id_filter = $this->db->placehold('AND p.brand_id in(?@)', (array)$filter['brand_id']);
+			$brand_id_filter = $this->db->placehold('AND p.brand_id IN (?@)', (array)$filter['brand_id']);
 
 		if(!empty($filter['id']))
-			$product_id_filter = $this->db->placehold('AND p.id in(?@)', (array)$filter['id']);
-		
+			$product_id_filter = $this->db->placehold('AND p.id IN (?@)', (array)$filter['id']);
+			
+		if(!empty($filter['not_id']))
+			$product_not_id_filter = $this->db->placehold('AND p.id NOT IN (?@)', (array)$filter['not_id']);
+			
 		if(isset($filter['keyword']))
 		{
 			$keywords = explode(' ', $filter['keyword']);
@@ -203,6 +212,7 @@ class Products extends Simpla
 				WHERE 1
 					$brand_id_filter
 					$product_id_filter
+					$product_not_id_filter
 					$keyword_filter
 					$is_featured_filter
 					$in_stock_filter
