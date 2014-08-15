@@ -177,7 +177,10 @@ class Products extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
+			{
+				$kw = $this->db->escape(trim($keyword));
+				$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
+			}
 		}
 
 		if(isset($filter['featured']))
