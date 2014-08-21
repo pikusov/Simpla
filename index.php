@@ -29,8 +29,11 @@ if(isset($_GET['logout']))
 // Если все хорошо
 if(($res = $view->fetch()) !== false)
 {
+	$ETag = md5($res);
+	
 	// Выводим результат
-	header("Content-type: text/html; charset=UTF-8");	
+	header("Content-type: text/html; charset=UTF-8");
+	header('ETag: "'.$ETag.'"');	
 	print $res;
 
 	// Сохраняем последнюю просмотренную страницу в переменной $_SESSION['last_visited_page']
