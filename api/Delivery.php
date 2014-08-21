@@ -64,6 +64,10 @@ class Delivery extends Simpla
 	{
 		if(!empty($id))
 		{
+			// Удаляем связь доставки с методоми оплаты
+			$query = $this->db->placehold("SELECT payment_method_id FROM __delivery_payment WHERE delivery_id=?", intval($id));
+			$this->db->query($query);	
+			
 			$query = $this->db->placehold("DELETE FROM __delivery WHERE id=? LIMIT 1", intval($id));
 			$this->db->query($query);
 		}
