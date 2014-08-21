@@ -242,7 +242,6 @@ class Products extends Simpla
 					p.meta_keywords, 
 					p.meta_description
 				FROM __products AS p
-                LEFT JOIN __brands b ON p.brand_id = b.id
                 WHERE $filter
                 GROUP BY p.id
                 LIMIT 1";
