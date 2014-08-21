@@ -45,7 +45,7 @@ class DeliveryAdmin extends Simpla
 		}	
 		$this->design->assign('delivery_payments', $delivery_payments);
 
-		// Связанные способы оплаты
+		// Все способы оплаты
 		$payment_methods = $this->payment->get_payment_methods();
 		$this->design->assign('payment_methods', $payment_methods);
 
