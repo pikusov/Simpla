@@ -29,12 +29,24 @@ if(isset($_GET['logout']))
 // Если все хорошо
 if(($res = $view->fetch()) !== false)
 {
-	$ETag = md5($res);
+	$ETag = md5($res); 
+	$if_none_match = isset($_SERVER['HTTP_IF_NONE_MATCH']) ? stripslashes($_SERVER['HTTP_IF_NONE_MATCH']) : false ;
 	
-	// Выводим результат
-	header("Content-type: text/html; charset=UTF-8");
-	header('ETag: "'.$ETag.'"');	
-	print $res;
+	if ($if_none_match && $if_none_match == $ETag)
+	{ 
+	    header('HTTP/1.0 304 Not Modified'); 
+	    header('ETag: "'.$ETag.'"');
+	    print $res;
+	} 
+	else
+	{ 
+	    // Выводим результат
+	    header("Cache-Control: must-revalidate");  
+	    header("Content-type: text/html; charset=UTF-8");   
+	    header("ETag: $ETag");
+	    print $res;
+	
+	}
 
 	// Сохраняем последнюю просмотренную страницу в переменной $_SESSION['last_visited_page']
 	if(empty($_SESSION['last_visited_page']) || empty($_SESSION['current_page']) || $_SERVER['REQUEST_URI'] !== $_SESSION['current_page'])
