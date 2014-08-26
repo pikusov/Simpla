@@ -591,7 +591,7 @@ function import_product($xml_product)
 		{
 			foreach($xml_product->Картинка as $img)
 			{
-				$image = basename($xml_product->Картинка);
+				$image = basename($img);
 				if(!empty($image) && is_file($dir.$image) && is_writable($simpla->config->original_images_dir))
 				{
 					rename($dir.$image, $simpla->config->original_images_dir.$image);
