@@ -37,7 +37,7 @@
 {elseif $page}
 <h1>{$page->name|escape}</h1>
 {else}
-<h1>{$category->name|escape} {$brand->name|escape} {$keyword|escape}</h1>
+<h1>{$category->name|escape} {$brand->name|escape}</h1>
 {/if}
 
 
