@@ -108,7 +108,7 @@ class ProductsView extends View
 		// Постраничная навигация
 		$items_per_page = $this->settings->products_num;		
 		// Текущая страница в постраничном выводе
-		$current_page = $this->request->get('page', 'int');	
+		$current_page = $this->request->get('page', 'integer');	
 		// Если не задана, то равна 1
 		$current_page = max(1, $current_page);
 		$this->design->assign('current_page_num', $current_page);
