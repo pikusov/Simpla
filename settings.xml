@@ -43,6 +43,10 @@
 			<value>WM</value>
 		</options>
 		<options>
+			<name>Через Альфа-Клик</name>
+			<value>AB</value>
+		</options>
+		<options>
 			<name>Через Сбербанк Онлайн</name>
 			<value>SB</value>
 		</options>
