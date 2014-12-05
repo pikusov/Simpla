@@ -41,19 +41,22 @@ class Config
 		$script_dir1 = realpath(dirname(dirname(__FILE__)));
 		$script_dir2 = realpath($_SERVER['DOCUMENT_ROOT']);
 		$subdir = trim(substr($script_dir1, strlen($script_dir2)), "/\\");
+		
+		if (php_sapi_name() != "cli")
+		{
+			// Протокол
+			$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
+			if($_SERVER["SERVER_PORT"] == 443)
+				$protocol = 'https';
 
-		// Протокол
-		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
-		if($_SERVER["SERVER_PORT"] == 443)
-			$protocol = 'https';
+			$this->vars['protocol'] = $protocol;		
+			$this->vars['root_url'] = $protocol.'://'.rtrim($_SERVER['HTTP_HOST']);
+			if(!empty($subdir))
+				$this->vars['root_url'] .= '/'.$subdir;
 
-		$this->vars['protocol'] = $protocol;		
-		$this->vars['root_url'] = $protocol.'://'.rtrim($_SERVER['HTTP_HOST']);
-		if(!empty($subdir))
-			$this->vars['root_url'] .= '/'.$subdir;
-
-		// Подпапка в которую установлена симпла относительно корня веб-сервера
-		$this->vars['subfolder'] = $subdir.'/';
+			// Подпапка в которую установлена симпла относительно корня веб-сервера
+			$this->vars['subfolder'] = $subdir.'/';			
+		}
 
 		// Определяем корневую директорию сайта
 		$this->vars['root_dir'] =  dirname(dirname(__FILE__)).'/';
