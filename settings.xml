@@ -50,10 +50,10 @@
 			<name>Через Сбербанк Онлайн</name>
 			<value>SB</value>
 		</options>
-		<options>
+		<!--<options>
 			<name>Через мобильный терминал (mPOS)</name>
 			<value>MP</value>
-		</options>
+		</options>-->
 	</settings>	
 	<settings>
 		<variable>yandex_testmode</variable>
