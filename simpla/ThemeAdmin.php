@@ -94,7 +94,7 @@ class ThemeAdmin extends Simpla
 		}
 		elseif(file_exists($src))
 			copy($src, $dst);
-		@chmod($dts, 0777);
+		@chmod($dst, 0777);
 	}
 	
 	
