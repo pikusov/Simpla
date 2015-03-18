@@ -194,7 +194,7 @@ function translit(str)
 				<li><label class=property>Адрес</label><div class="page_url">/catalog/</div><input name="url" class="page_url" type="text" value="{$category->url|escape}" /></li>
 				<li><label class=property>Заголовок</label><input name="meta_title" class="simpla_inp" type="text" value="{$category->meta_title|escape}" /></li>
 				<li><label class=property>Ключевые слова</label><input name="meta_keywords" class="simpla_inp" type="text" value="{$category->meta_keywords|escape}" /></li>
-				<li><label class=property>Описание</label><textarea name="meta_description" class="simpla_inp" />{$category->meta_description|escape}</textarea></li>
+				<li><label class=property>Описание</label><textarea name="meta_description" class="simpla_inp">{$category->meta_description|escape}</textarea></li>
 			</ul>
 		</div>
 		<!-- Параметры страницы (The End)-->
