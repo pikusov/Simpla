@@ -150,6 +150,9 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 
 if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == 'query')
 {
+		$currencies = $simpla->money->get_currencies(array('enabled'=>1));
+		$main_currency = reset($currencies);
+		
 		$no_spaces = '<?xml version="1.0" encoding="utf-8"?>
 							<КоммерческаяИнформация ВерсияСхемы="2.04" ДатаФормирования="' . date ( 'Y-m-d' )  . '"></КоммерческаяИнформация>';
 		$xml = new SimpleXMLElement ( $no_spaces );
@@ -165,6 +168,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 			$doc->addChild ( "Дата", $date->format('Y-m-d'));
 			$doc->addChild ( "ХозОперация", "Заказ товара" );
 			$doc->addChild ( "Роль", "Продавец" );
+			$doc->addChild ( "Валюта", $main_currency->code );
 			$doc->addChild ( "Курс", "1" );
 			$doc->addChild ( "Сумма", $order->total_price);
 			$doc->addChild ( "Время",  $date->format('H:i:s'));
@@ -243,6 +247,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 					if($purchase->variant_name)
 						$name .= " $purchase->variant_name $id";
 					$t1_2 = $t1_1->addChild ( "Наименование", $name);
+					$t1_2 = $t1_1->addChild ( "БазоваяЕдиница", $simpla->settings->units);
 					$t1_2 = $t1_1->addChild ( "ЦенаЗаЕдиницу", $purchase->price*(100-$order->discount)/100);
 					$t1_2 = $t1_1->addChild ( "Количество", $purchase->amount );
 					$t1_2 = $t1_1->addChild ( "Сумма", $purchase->amount*$purchase->price*(100-$order->discount)/100);
@@ -259,7 +264,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 					$t1_4 = $t1_3->addChild ( "Наименование", "ВидНоменклатуры" );
 					$t1_4 = $t1_3->addChild ( "Значение", "Товар" );
 	
-					$t1_2 = $t1_1->addChild ( "ЗначенияРеквизитов" );
+					//$t1_2 = $t1_1->addChild ( "ЗначенияРеквизитов" );
 					$t1_3 = $t1_2->addChild ( "ЗначениеРеквизита" );
 					$t1_4 = $t1_3->addChild ( "Наименование", "ТипНоменклатуры" );
 					$t1_4 = $t1_3->addChild ( "Значение", "Товар" );
@@ -280,7 +285,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 				$t1_4 = $t1_3->addChild ( "Наименование", "ВидНоменклатуры" );
 				$t1_4 = $t1_3->addChild ( "Значение", "Услуга" );
 
-				$t1_2 = $t1->addChild ( "ЗначенияРеквизитов" );
+				//$t1_2 = $t1->addChild ( "ЗначенияРеквизитов" );
 				$t1_3 = $t1_2->addChild ( "ЗначениеРеквизита" );
 				$t1_4 = $t1_3->addChild ( "Наименование", "ТипНоменклатуры" );
 				$t1_4 = $t1_3->addChild ( "Значение", "Услуга" );
