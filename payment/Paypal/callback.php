@@ -71,31 +71,11 @@ if($order->paid)
 ////////////////////////////////////
 // Verify total payment amount
 ////////////////////////////////////
-$total_price = 0;
-
-// Get order purchases
-$purchases = $simpla->orders->get_purchases(array('order_id'=>intval($order->id)));
-foreach($purchases as $purchase)
-{			
-	$price = $simpla->money->convert($purchase->price, $method->currency_id, false);
-	$price = round($price, 2);
-	$total_price += $price*$purchase->amount;
-}
-// Substract the discount
-if($order->discount)
-{
-	$total_price *= (100-$order->discount)/100;
-	$total_price = round($total_price, 2);
-}
-// Adding delivery price
-if($order->delivery_id && !$order->separate_delivery && $order->delivery_price>0)
-{
-	$delivery_price = $simpla->money->convert($order->delivery_price, $payment_method->currency_id, false);
-	$delivery_price =round($delivery_price, 2);
-	$total_price += $delivery_price;
-}
+$total_price = $simpla->money->convert($order->total_price, $method->currency_id, false);
 if($total_price != $simpla->request->post('mc_gross'))
+{
 	die("Incorrect total price (".$total_price."!=".$simpla->request->post('mc_gross').")");
+}
        
 // Set order status paid
 $simpla->orders->update_order(intval($order->id), array('paid'=>1));
