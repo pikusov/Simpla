@@ -56,7 +56,7 @@ class Variants extends Simpla
 			return false;
 			
 		$query = $this->db->placehold("SELECT v.id, v.product_id , v.price, NULLIF(v.compare_price, 0) as compare_price, v.sku, IFNULL(v.stock, ?) as stock, (v.stock IS NULL) as infinity, v.name, v.attachment
-					FROM __variants v WHERE id=?
+					FROM __variants v WHERE v.id=?
 					LIMIT 1", $this->settings->max_order_amount, $id);
 		
 		$this->db->query($query);	
