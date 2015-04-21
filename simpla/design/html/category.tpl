@@ -173,7 +173,7 @@ function translit(str)
 			<select name="parent_id">
 				<option value='0'>Корневая категория</option>
 				{function name=category_select level=0}
-				{foreach from=$cats item=cat}
+				{foreach $cats as $cat}
 					{if $category->id != $cat->id}
 						<option value='{$cat->id}' {if $category->parent_id == $cat->id}selected{/if}>{section name=sp loop=$level}&nbsp;&nbsp;&nbsp;&nbsp;{/section}{$cat->name}</option>
 						{category_select cats=$cat->subcategories level=$level+1}
@@ -194,7 +194,7 @@ function translit(str)
 				<li><label class=property>Адрес</label><div class="page_url">/catalog/</div><input name="url" class="page_url" type="text" value="{$category->url|escape}" /></li>
 				<li><label class=property>Заголовок</label><input name="meta_title" class="simpla_inp" type="text" value="{$category->meta_title|escape}" /></li>
 				<li><label class=property>Ключевые слова</label><input name="meta_keywords" class="simpla_inp" type="text" value="{$category->meta_keywords|escape}" /></li>
-				<li><label class=property>Описание</label><textarea name="meta_description" class="simpla_inp" />{$category->meta_description|escape}</textarea></li>
+				<li><label class=property>Описание</label><textarea name="meta_description" class="simpla_inp">{$category->meta_description|escape}</textarea></li>
 			</ul>
 		</div>
 		<!-- Параметры страницы (The End)-->

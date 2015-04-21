@@ -16,27 +16,6 @@
 {* Подключаем Tiny MCE *}
 {include file='tinymce_init.tpl'}
 
-{* On document load *}
-{literal}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
-
-<script>
-$(function() {
-
-$('select[name=module]').change(function(){
-	$('div#module_settings').hide();
-	$('div#module_settings[module='+$(this).val()+']').show();
-	});
-});
-
-
-</script>
-
-
-{/literal}
-
-
 
 {if $message_success}
 <!-- Системное сообщение -->

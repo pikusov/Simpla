@@ -11,7 +11,7 @@ class PageAdmin extends Simpla
 			$page->id = $this->request->post('id', 'integer');
 			$page->name = $this->request->post('name');
 			$page->header = $this->request->post('header');
-			$page->url = $this->request->post('url');
+			$page->url = trim($this->request->post('url'));
 			$page->meta_title = $this->request->post('meta_title');
 			$page->meta_keywords = $this->request->post('meta_keywords');
 			$page->meta_description = $this->request->post('meta_description');

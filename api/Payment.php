@@ -140,6 +140,10 @@ class Payment extends Simpla
 
 	public function delete_payment_method($id)
 	{
+		// Удаляем связь метода оплаты с достаками
+		$query = $this->db->placehold("DELETE FROM __delivery_payment WHERE payment_method_id=?", intval($id));
+		$this->db->query($query);
+	
 		if(!empty($id))
 		{
 			$query = $this->db->placehold("DELETE FROM __payment_methods WHERE id=? LIMIT 1", intval($id));

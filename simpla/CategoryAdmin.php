@@ -20,7 +20,7 @@ class CategoryAdmin extends Simpla
 			$category->name = $this->request->post('name');
 			$category->visible = $this->request->post('visible', 'boolean');
 
-			$category->url = $this->request->post('url', 'string');
+			$category->url = trim($this->request->post('url', 'string'));
 			$category->meta_title = $this->request->post('meta_title');
 			$category->meta_keywords = $this->request->post('meta_keywords');
 			$category->meta_description = $this->request->post('meta_description');

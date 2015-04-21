@@ -1,7 +1,7 @@
 {* Вкладки *}
 {capture name=tabs}
 	{if in_array('pages', $manager->permissions)}
-	{foreach from=$menus item=m}
+	{foreach $menus as $m}
 		<li {if $m->id == $menu->id}class="active"{/if}><a href="{url module=PagesAdmin menu_id=$m->id}">{$m->name}</a></li>
 	{/foreach}
 	{/if}

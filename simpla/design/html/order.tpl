@@ -192,7 +192,7 @@
 <div id="purchases">
  
 	<div id="list" class="purchases">
-		{foreach from=$purchases item=purchase}
+		{foreach $purchases as $purchase}
 		<div class="row">
 			<div class="image cell">
 				<input type=hidden name=purchases[id][{$purchase->id}] value='{$purchase->id}'>

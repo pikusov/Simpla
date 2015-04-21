@@ -155,6 +155,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 		$xml = new SimpleXMLElement ( $no_spaces );
 
 		$orders = $simpla->orders->get_orders(array('modified_since'=>$simpla->settings->last_1c_orders_export_date));
+		$currency = $simpla->money->get_currency();
 		foreach($orders as $order)
 		{
 			$date = new DateTime($order->date);
@@ -165,6 +166,7 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 			$doc->addChild ( "Дата", $date->format('Y-m-d'));
 			$doc->addChild ( "ХозОперация", "Заказ товара" );
 			$doc->addChild ( "Роль", "Продавец" );
+			$doc->addChild ( "Валюта", $currency->code);
 			$doc->addChild ( "Курс", "1" );
 			$doc->addChild ( "Сумма", $order->total_price);
 			$doc->addChild ( "Время",  $date->format('H:i:s'));
@@ -287,29 +289,55 @@ if($simpla->request->get('type') == 'sale' && $simpla->request->get('mode') == '
 				
 			}
 			
+			// Способ оплаты и доставки
+			$s1_2 = $doc->addChild ( "ЗначенияРеквизитов");
+
+			$payment_method = $simpla->payment->get_payment_method($order->payment_method_id);
+			$delivery = $simpla->delivery->get_delivery($order->delivery_id);
+			
+			if($payment_method)
+			{
+				$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита");
+				$s1_3->addChild ( "Наименование", "Метод оплаты" );
+				$s1_3->addChild ( "Значение", $payment_method->name );
+			}
+			if($delivery)
+			{
+				$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита");
+				$s1_3->addChild ( "Наименование", "Способ доставки" );
+				$s1_3->addChild ( "Значение", $delivery->name);
+			}
+			$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита");
+			$s1_3->addChild ( "Наименование", "Заказ оплачен" );
+			$s1_3->addChild ( "Значение", $order->paid?'true':'false' );
+
 
 			// Статус			
+			if($order->status == 0)
+			{
+				$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита" );
+				$s1_3->addChild ( "Наименование", "Статус заказа" );
+				$s1_3->addChild ( "Значение", "Новый" );
+			}
 			if($order->status == 1)
 			{
-				$s1_2 = $doc->addChild ( "ЗначенияРеквизитов" );
 				$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита" );
 				$s1_3->addChild ( "Наименование", "Статус заказа" );
 				$s1_3->addChild ( "Значение", "[N] Принят" );
 			}
 			if($order->status == 2)
 			{
-				$s1_2 = $doc->addChild ( "ЗначенияРеквизитов" );
 				$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита" );
 				$s1_3->addChild ( "Наименование", "Статус заказа" );
 				$s1_3->addChild ( "Значение", "[F] Доставлен" );
 			}
 			if($order->status == 3)
 			{
-				$s1_2 = $doc->addChild ( "ЗначенияРеквизитов" );
 				$s1_3 = $s1_2->addChild ( "ЗначениеРеквизита" );
 				$s1_3->addChild ( "Наименование", "Отменен" );
 				$s1_3->addChild ( "Значение", "true" );
-			}			
+			}
+			
 
 		}
 
@@ -591,7 +619,7 @@ function import_product($xml_product)
 		{
 			foreach($xml_product->Картинка as $img)
 			{
-				$image = basename($xml_product->Картинка);
+				$image = basename($img);
 				if(!empty($image) && is_file($dir.$image) && is_writable($simpla->config->original_images_dir))
 				{
 					rename($dir.$image, $simpla->config->original_images_dir.$image);

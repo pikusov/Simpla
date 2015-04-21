@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		IntellectMoney
+	</name>
+	<settings>
+		<variable>im_eshop_id</variable>
+		<name>ID магазина</name>
+	</settings>
+	<settings>
+		<variable>im_secret_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+</module>

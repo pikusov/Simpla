@@ -305,7 +305,12 @@ class Orders extends Simpla
 		$order = $this->get_order(intval($old_purchase->order_id));
 		if(!$order)
 			return false;
-			
+		
+		// Не допустить нехватки на складе
+		$variant = $this->variants->get_variant($purchase->variant_id);
+		if($order->closed && !empty($purchase->amount) && !empty($variant) && !$variant->infinity && $variant->stock<($purchase->amount-$old_purchase->amount))
+			return false;
+		
 		// Если заказ закрыт, нужно обновить склад при изменении покупки
 		if($order->closed && !empty($purchase->amount))
 		{
@@ -352,6 +357,9 @@ class Orders extends Simpla
 		if(empty($order))
 			return false;				
 	
+		// Не допустить нехватки на складе
+		if($order->closed && !empty($purchase->amount) && !$variant->infinity && $variant->stock<$purchase->amount)
+			return false;
 		
 		if(!isset($purchase->product_id) && isset($variant))
 			$purchase->product_id = $variant->product_id;

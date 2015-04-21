@@ -28,7 +28,7 @@
 <p></p>
 <h2>Ваши заказы</h2>
 <ul id="orders_history">
-{foreach name=orders item=order from=$orders}
+{foreach $orders as $order}
 	<li>
 	{$order->date|date} <a href='order/{$order->url}'>Заказ №{$order->id}</a>
 	{if $order->paid == 1}оплачен,{/if} 

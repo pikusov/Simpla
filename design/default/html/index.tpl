@@ -209,7 +209,7 @@
 			<div id="currencies">
 				<h2>Валюта</h2>
 				<ul>
-					{foreach from=$currencies item=c}
+					{foreach $currencies as $c}
 					{if $c->enabled} 
 					<li class="{if $c->id==$currency->id}selected{/if}"><a href='{url currency_id=$c->id}'>{$c->name|escape}</a></li>
 					{/if}

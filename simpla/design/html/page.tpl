@@ -1,6 +1,6 @@
 {capture name=tabs}
 	{if in_array('pages', $manager->permissions)}
-	{foreach from=$menus item=m}
+	{foreach $menus  as $m}
 		<li {if $m->id == $menu->id}class="active"{/if}><a href='index.php?module=PagesAdmin&menu_id={$m->id}'>{$m->name}</a></li>
 	{/foreach}
 	{/if}
@@ -178,7 +178,7 @@ function translit(str)
 				<li><label class=property>Название пункта в меню</label><input name="name" class="simpla_inp" type="text" value="{$page->name|escape}" /></li>
 				<li><label class=property>Меню</label>	
 					<select name="menu_id">
-				   		{foreach from=$menus item=m}
+				   		{foreach $menus as $m}
 				        	<option value='{$m->id}' {if $page->menu_id == $m->id}selected{/if}>{$m->name|escape}</option>
 				    	{/foreach}
 					</select>		

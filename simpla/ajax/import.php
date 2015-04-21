@@ -147,9 +147,9 @@ class ImportAjax extends Simpla
 		if(isset($item['featured']))
 			$product['featured'] = intval($item['featured']);
 	
-		if(isset($item['url']))
+		if(!empty($item['url']))
 			$product['url'] = trim($item['url']);
-		elseif(isset($item['name']))
+		elseif(!empty($item['name']))
 			$product['url'] = $this->translit($item['name']);
 	
 		// Если задан бренд
@@ -166,7 +166,7 @@ class ImportAjax extends Simpla
 		// Если задана категория
 		$category_id = null;
 		$categories_ids = array();
-		if(isset($item['category']))
+		if(!empty($item['category']))
 		{
 			foreach(explode($this->category_delimiter, $item['category']) as $c)
 				$categories_ids[] = $this->import_category($c);
@@ -293,8 +293,8 @@ class ImportAjax extends Simpla
 	 			// Если нет такого названия колонки, значит это название свойства
 	 			if(!in_array($feature_name, $this->internal_columns_names))
 	 			{ 
-	 				// Свойство добавляем только если для товара указана категория
-					if($category_id)
+	 				// Свойство добавляем только если для товара указана категория и непустое значение свойства
+					if($category_id && $feature_value!=='')
 					{
 						$this->db->query('SELECT f.id FROM __features f WHERE f.name=? LIMIT 1', $feature_name);
 						if(!$feature_id = $this->db->result('id'))

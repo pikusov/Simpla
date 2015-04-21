@@ -5,7 +5,7 @@
 	<a href="{$config->root_url}/order/{$order->url}">Ваш заказ №{$order->id}</a>
 	на сумму {$order->total_price|convert:$currency->id}&nbsp;{$currency->sign}
 	{if $order->paid == 1}оплачен{else}еще не оплачен{/if},
-	{if $order->status == 0}ждет обработки{elseif $order->status == 1}в обработке{elseif $order->status == 2}выполнен{/if}	
+	{if $order->status == 0}ждет обработки{elseif $order->status == 1}в обработке{elseif $order->status == 2}выполнен{elseif $order->status == 3}отменен{/if}
 </h1>
 <table cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
 	<tr>
@@ -19,6 +19,8 @@
 				в обработке
 			{elseif $order->status == 2}
 				выполнен
+			{elseif $order->status == 3}
+				отменен
 			{/if}
 		</td>
 	</tr>
@@ -98,7 +100,7 @@
 
 <table cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
 
-	{foreach name=purchases from=$purchases item=purchase}
+	{foreach $purchases as $purchase}
 	<tr>
 		<td align="center" style="padding:6px; width:100; padding:6px; background-color:#ffffff; border:1px solid #e0e0e0;font-family:arial;">
 			{$image = $purchase->product->images[0]}

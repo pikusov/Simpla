@@ -167,7 +167,7 @@ class Request extends Simpla
 
 		$query_is_empty = true;
 		foreach($query as $name=>$value)
-			if($value!='' && $value!=null)
+			if($value!=='' && $value!==null)
 				$query_is_empty = false;
 		
 		if(!$query_is_empty)

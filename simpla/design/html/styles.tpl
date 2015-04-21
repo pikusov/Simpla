@@ -95,7 +95,7 @@ $(function() {
 <!-- Список файлов для выбора -->
 <div class="block layer">
 	<div class="templates_names">
-		{foreach item=s from=$styles}
+		{foreach $styles as $s}
 			<a {if $style_file == $s}class="selected"{/if} href='index.php?module=StylesAdmin&file={$s}'>{$s}</a>
 		{/foreach}
 	</div>

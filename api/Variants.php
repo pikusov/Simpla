@@ -31,7 +31,7 @@ class Variants extends Simpla
 			$variant_id_filter = $this->db->placehold('AND v.id in(?@)', (array)$filter['id']);
 
 		if(!empty($filter['in_stock']) && $filter['in_stock'])
-			$variant_id_filter = $this->db->placehold('AND (v.stock>0 OR v.stock IS NULL)');
+			$instock_filter = $this->db->placehold('AND (v.stock>0 OR v.stock IS NULL)');
 
 		if(!$product_id_filter && !$variant_id_filter)
 			return array();
@@ -41,7 +41,8 @@ class Variants extends Simpla
 					WHERE 
 					1
 					$product_id_filter          
-					$variant_id_filter   
+					$variant_id_filter  
+					$instock_filter 
 					ORDER BY v.position       
 					", $this->settings->max_order_amount);
 		
@@ -56,7 +57,7 @@ class Variants extends Simpla
 			return false;
 			
 		$query = $this->db->placehold("SELECT v.id, v.product_id , v.price, NULLIF(v.compare_price, 0) as compare_price, v.sku, IFNULL(v.stock, ?) as stock, (v.stock IS NULL) as infinity, v.name, v.attachment
-					FROM __variants v WHERE id=?
+					FROM __variants v WHERE v.id=?
 					LIMIT 1", $this->settings->max_order_amount, $id);
 		
 		$this->db->query($query);	

@@ -58,7 +58,7 @@ class ThemeAdmin extends Simpla
 					$this->dir_delete($this->themes_dir.$action_theme);
 					if($action_theme == $this->settings->theme)
 					{
-						$t = reset($this->get_themes());
+						$t = current($this->get_themes());
 						$this->settings->theme = $t->name;
 					}
 			        break;
@@ -94,7 +94,7 @@ class ThemeAdmin extends Simpla
 		}
 		elseif(file_exists($src))
 			copy($src, $dst);
-		@chmod($dts, 0777);
+		@chmod($dst, 0777);
 	}
 	
 	

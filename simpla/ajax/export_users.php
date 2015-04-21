@@ -15,7 +15,7 @@ class ExportAjax extends Simpla
 			);
 			
 	private $column_delimiter = ';';
-	private $users_count = 5;
+	private $users_count = 10;
 	private $export_files_dir = '../files/export_users/';
 	private $filename = 'users.csv';
 

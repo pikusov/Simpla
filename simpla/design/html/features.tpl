@@ -72,7 +72,7 @@
 		{if $categories[0]->parent_id == 0}
 		<li {if !$category->id}class="selected"{/if}><a href="{url category_id=null}">Все категории</a></li>	
 		{/if}
-		{foreach item=c from=$categories}
+		{foreach $categories as $c}
 		<li {if $category->id == $c->id}class="selected"{/if}><a href="index.php?module=FeaturesAdmin&category_id={$c->id}">{$c->name}</a></li>
 		{categories_tree categories=$c->subcategories}
 		{/foreach}

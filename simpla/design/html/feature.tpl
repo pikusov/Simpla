@@ -58,7 +58,7 @@ $(function() {
 			<h2>Использовать в категориях</h2>
 					<select class=multiple_categories multiple name="feature_categories[]">
 						{function name=category_select selected_id=$product_category level=0}
-						{foreach from=$categories item=category}
+						{foreach $categories as $category}
 								<option value='{$category->id}' {if in_array($category->id, $feature_categories)}selected{/if} category_name='{$category->single_name}'>{section name=sp loop=$level}&nbsp;&nbsp;&nbsp;&nbsp;{/section}{$category->name}</option>
 								{category_select categories=$category->subcategories selected_id=$selected_id  level=$level+1}
 						{/foreach}

@@ -6,7 +6,7 @@
 <!-- Хлебные крошки /-->
 <div id="path">
 	<a href="./">Главная</a>
-	{foreach from=$category->path item=cat}
+	{foreach $category->path as $cat}
 	→ <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
 	{/foreach}
 	{if $brand}

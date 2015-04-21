@@ -13,7 +13,7 @@
 {* Список покупок *}
 <table id="purchases">
 
-{foreach from=$cart->purchases item=purchase}
+{foreach $cart->purchases as $purchase}
 <tr>
 	{* Изображение товара *}
 	<td class="image">

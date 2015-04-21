@@ -91,12 +91,12 @@ class View extends Simpla
 			$this->design->assign('settings',	$this->settings);
 
 			// Настраиваем плагины для смарти
-			$this->design->smarty->registerPlugin("function", "get_posts",               array($this, 'get_posts_plugin'));
-			$this->design->smarty->registerPlugin("function", "get_brands",              array($this, 'get_brands_plugin'));
-			$this->design->smarty->registerPlugin("function", "get_browsed_products",    array($this, 'get_browsed_products'));
-			$this->design->smarty->registerPlugin("function", "get_featured_products",        array($this, 'get_featured_products_plugin'));
-			$this->design->smarty->registerPlugin("function", "get_new_products",        array($this, 'get_new_products_plugin'));
-			$this->design->smarty->registerPlugin("function", "get_discounted_products", array($this, 'get_discounted_products_plugin'));
+			$this->design->smarty->registerPlugin("function", "get_posts",					array($this, 'get_posts_plugin'));
+			$this->design->smarty->registerPlugin("function", "get_brands",					array($this, 'get_brands_plugin'));
+			$this->design->smarty->registerPlugin("function", "get_browsed_products",		array($this, 'get_browsed_products'));
+			$this->design->smarty->registerPlugin("function", "get_featured_products",		array($this, 'get_featured_products_plugin'));
+			$this->design->smarty->registerPlugin("function", "get_new_products",			array($this, 'get_new_products_plugin'));
+			$this->design->smarty->registerPlugin("function", "get_discounted_products",	array($this, 'get_discounted_products_plugin'));
 		}
 	}
 		
@@ -122,12 +122,7 @@ class View extends Simpla
 		if(!empty($params['var']))
 			$smarty->assign($params['var'], $this->blog->get_posts($params));
 	}
-	
-	/**
-	 *
-	 * Плагины для смарти
-	 *
-	 */	
+
 	public function get_brands_plugin($params, &$smarty)
 	{
 		if(!isset($params['visible']))

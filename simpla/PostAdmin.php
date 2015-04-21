@@ -15,7 +15,7 @@ class PostAdmin extends Simpla
 			
 			$post->visible = $this->request->post('visible', 'boolean');
 
-			$post->url = $this->request->post('url', 'string');
+			$post->url = trim($this->request->post('url', 'string'));
 			$post->meta_title = $this->request->post('meta_title');
 			$post->meta_keywords = $this->request->post('meta_keywords');
 			$post->meta_description = $this->request->post('meta_description');

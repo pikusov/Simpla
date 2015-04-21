@@ -48,7 +48,7 @@ class Database extends Simpla
 		// Выводим сообщение, в случае ошибки
 		if($this->mysqli->connect_error)
 		{
-			trigger_error("Could not connect to the database: ".$mysqli->connect_error, E_USER_WARNING);
+			trigger_error("Could not connect to the database: ".$this->mysqli->connect_error, E_USER_WARNING);
 			return false;
 		}
 		// Или настраиваем соединение
@@ -496,8 +496,8 @@ class Database extends Simpla
 					$index++;
 				}
 			}
+			$result->free();
 		}
-		$result->free();
 		fwrite($h, "\n");
 	}
 }

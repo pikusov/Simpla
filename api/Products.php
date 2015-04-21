@@ -98,7 +98,8 @@ class Products extends Simpla
 			foreach($keywords as $keyword)
 			{
 				$kw = $this->db->escape(trim($keyword));
-				$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
+				if($kw!=='')
+					$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
 			}
 		}
 
@@ -177,7 +178,11 @@ class Products extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND (p.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR p.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
+			{
+				$kw = $this->db->escape(trim($keyword));
+				if($kw!=='')
+					$keyword_filter .= $this->db->placehold("AND (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))");
+			}
 		}
 
 		if(isset($filter['featured']))
@@ -242,7 +247,6 @@ class Products extends Simpla
 					p.meta_keywords, 
 					p.meta_description
 				FROM __products AS p
-                LEFT JOIN __brands b ON p.brand_id = b.id
                 WHERE $filter
                 GROUP BY p.id
                 LIMIT 1";
@@ -348,6 +352,7 @@ class Products extends Simpla
 	{
     	$product = $this->get_product($id);
     	$product->id = null;
+    	$product->external_id = '';
     	$product->created = null;
 
 		// Сдвигаем товары вперед и вставляем копию на соседнюю позицию
@@ -377,6 +382,7 @@ class Products extends Simpla
     		if($variant->infinity)
     			$variant->stock = null;
     		unset($variant->infinity);
+    		$variant->external_id = '';
     		$this->variants->add_variant($variant);
     	}
     	

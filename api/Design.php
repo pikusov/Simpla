@@ -41,14 +41,15 @@ class Design extends Simpla
 						
 		$this->smarty->cache_dir = 'cache';
 				
-		$this->smarty->registerPlugin('modifier', 'resize', array($this, 'resize_modifier'));		
-		$this->smarty->registerPlugin('modifier', 'token', array($this, 'token_modifier'));
-		$this->smarty->registerPlugin('modifier', 'plural', array($this, 'plural_modifier'));		
-		$this->smarty->registerPlugin('function', 'url', array($this, 'url_modifier'));		
-		$this->smarty->registerPlugin('modifier', 'first', array($this, 'first_modifier'));		
-		$this->smarty->registerPlugin('modifier', 'cut', array($this, 'cut_modifier'));		
-		$this->smarty->registerPlugin('modifier', 'date', array($this, 'date_modifier'));		
-		$this->smarty->registerPlugin('modifier', 'time', array($this, 'time_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'resize',		array($this, 'resize_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'token',		array($this, 'token_modifier'));
+		$this->smarty->registerPlugin('modifier', 'plural',		array($this, 'plural_modifier'));		
+		$this->smarty->registerPlugin('function', 'url', 		array($this, 'url_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'first',		array($this, 'first_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'cut',		array($this, 'cut_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'date',		array($this, 'date_modifier'));		
+		$this->smarty->registerPlugin('modifier', 'time',		array($this, 'time_modifier'));		
+		$this->smarty->registerPlugin('function', 'api',		array($this, 'api_plugin'));
 
 		if($this->config->smarty_html_minify)
 			$this->smarty->loadFilter('output', 'trimwhitespace');
@@ -62,8 +63,8 @@ class Design extends Simpla
 	public function fetch($template)
 	{
 		// Передаем в дизайн то, что может понадобиться в нем
-		$this->design->assign('config',		$this->config);
-		$this->design->assign('settings',	$this->settings);
+		$this->assign('config',		$this->config);
+		$this->assign('settings',	$this->settings);
 		return $this->smarty->fetch($template);
 	}
 	
@@ -82,9 +83,13 @@ class Design extends Simpla
 		return $this->smarty->getTemplateVars($name);
 	}
 	
+	public function clear_cache()
+	{
+		$this->smarty->clearAllCache();	
+	}
+
 	private function is_mobile_browser()
 	{
-
 		$user_agent = $_SERVER['HTTP_USER_AGENT']; 
 		$http_accept = isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:'';
 
@@ -277,4 +282,21 @@ class Design extends Simpla
 	{
 	    return date(empty($format)?'H:i':$format, strtotime($date));
 	}
+	
+	public function api_plugin($params, &$smarty)
+	{
+		if(!isset($params['module']))
+			return false;
+		if(!isset($params['method']))
+			return false;
+
+		$module = $params['module'];
+		$method = $params['method'];
+		$var = $params['var'];
+		unset($params['module']);
+		unset($params['method']);
+		unset($params['var']);
+		$res = $this->$module->$method($params);
+		$smarty->assign($var, $res);
+	}	
 }

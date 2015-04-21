@@ -130,7 +130,7 @@ class Coupons extends Simpla
 	{	
 		if(empty($coupon->single))
 			$coupon->single = 0;
-		$query = $this->db->placehold("INSERT INTO __coupons SET ?% $date_query", $coupon);
+		$query = $this->db->placehold("INSERT INTO __coupons SET ?%", $coupon);
 		
 		if(!$this->db->query($query))
 			return false;

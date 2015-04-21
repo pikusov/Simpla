@@ -17,7 +17,7 @@
 <div id="path">
 	<a href="/">Главная</a>
 	{if $category}
-	{foreach from=$category->path item=cat}
+	{foreach $category->path as $cat}
 	→ <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
 	{/foreach}  
 	{if $brand}
@@ -37,7 +37,7 @@
 {elseif $page}
 <h1>{$page->name|escape}</h1>
 {else}
-<h1>{$category->name|escape} {$brand->name|escape} {$keyword|escape}</h1>
+<h1>{$category->name|escape} {$brand->name|escape}</h1>
 {/if}
 
 
@@ -53,7 +53,7 @@
 {if $category->brands}
 <div id="brands">
 	<a href="catalog/{$category->url}" {if !$brand->id}class="selected"{/if}>Все бренды</a>
-	{foreach name=brands item=b from=$category->brands}
+	{foreach $category->brands as $b}
 		{if $b->image}
 		<a data-brand="{$b->id}" href="catalog/{$category->url}/{$b->url}"><img src="{$config->brands_images_dir}{$b->image}" alt="{$b->name|escape}"></a>
 		{else}

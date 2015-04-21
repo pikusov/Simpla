@@ -63,7 +63,7 @@ $(function() {
 <!-- Список файлов для выбора -->
 <div class="block layer">
 	<ul class="theme_images">
-		{foreach item=image from=$images}
+		{foreach $images as $image}
 			<li name='{$image->name|escape}'>
 			<a href='#' class='delete' title="Удалить"><img src='design/images/delete.png'></a>
 			<a href='#' class='edit' title="Переименовать"><img src='design/images/pencil.png'></a>

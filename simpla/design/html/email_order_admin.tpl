@@ -101,7 +101,7 @@
 
 <table cellpadding="6" cellspacing="0" style="border-collapse: collapse;">
 
-	{foreach name=purchases from=$purchases item=purchase}
+	{foreach $purchases as $purchase}
 	<tr>
 		<td align="center" style="padding:6px; width:100; padding:6px; background-color:#ffffff; border:1px solid #e0e0e0;font-family:arial;">
 			{$image = $purchase->product->images[0]}

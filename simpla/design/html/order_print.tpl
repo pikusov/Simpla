@@ -196,7 +196,7 @@
 			<th class="align_right">Количество</th>
 			<th class="align_right">Всего</th>
 		</tr>
-		{foreach from=$purchases item=purchase}
+		{foreach $purchases as $purchase}
 		<tr>
 			<td>
 				<span class=view_purchase>

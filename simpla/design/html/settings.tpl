@@ -59,15 +59,15 @@
 			<ul>
 				<li><label class=property>Разделитель копеек</label>
 					<select name="decimals_point" class="simpla_inp">
-						<option value='.' {if $settings->decimals_point == '.'}selected{/if}>точка: 12.45 рублей</option>
-						<option value=',' {if $settings->decimals_point == ','}selected{/if}>запятая: 12,45 рублей</option>
+						<option value='.' {if $settings->decimals_point == '.'}selected{/if}>точка: 12.45 {$currency->sign|escape}</option>
+						<option value=',' {if $settings->decimals_point == ','}selected{/if}>запятая: 12,45 {$currency->sign|escape}</option>
 					</select>
 				</li>
 				<li><label class=property>Разделитель тысяч</label>
 					<select name="thousands_separator" class="simpla_inp">
-						<option value='' {if $settings->thousands_separator == ''}selected{/if}>без разделителя: 1245678 рублей</option>
-						<option value=' ' {if $settings->thousands_separator == ' '}selected{/if}>пробел: 1 245 678 рублей</option>
-						<option value=',' {if $settings->thousands_separator == ','}selected{/if}>запятая: 1,245,678 рублей</option>
+						<option value='' {if $settings->thousands_separator == ''}selected{/if}>без разделителя: 1245678 {$currency->sign|escape}</option>
+						<option value=' ' {if $settings->thousands_separator == ' '}selected{/if}>пробел: 1 245 678 {$currency->sign|escape}</option>
+						<option value=',' {if $settings->thousands_separator == ','}selected{/if}>запятая: 1,245,678 {$currency->sign|escape}</option>
 					</select>
 				
 				

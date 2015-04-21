@@ -143,15 +143,14 @@ class OrderView extends View
 			return false;
 						
 		// Проверяем, есть ли такой файл в покупках	
-		$query = $this->db->placehold("SELECT p.id FROM __purchases p, __variants v WHERE p.variant_id=v.id AND p.order_id=?", $order->id);
-		$this->db->query($query);
+		$query = $this->db->placehold("SELECT p.id FROM __purchases p, __variants v WHERE p.variant_id=v.id AND p.order_id=? AND v.attachment=?", $order->id, $file);		$this->db->query($query);
 		if($this->db->num_rows()==0)
 			return false;
 		
 		header("Content-type: application/force-download");
 		header("Content-Disposition: attachment; filename=\"$file\"");
 		header("Content-Length: ".filesize($this->config->root_dir.$this->config->downloads_dir.$file));
-		print file_get_contents($this->config->root_dir.$this->config->downloads_dir.$file);
+		readfile($this->config->root_dir.$this->config->downloads_dir.$file);
 		
 		exit();
 	}

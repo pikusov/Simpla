@@ -19,7 +19,7 @@ class BrandAdmin extends Simpla
 			$brand->name = $this->request->post('name');
 			$brand->description = $this->request->post('description');
 
-			$brand->url = $this->request->post('url', 'string');
+			$brand->url = trim($this->request->post('url', 'string'));
 			$brand->meta_title = $this->request->post('meta_title');
 			$brand->meta_keywords = $this->request->post('meta_keywords');
 			$brand->meta_description = $this->request->post('meta_description');

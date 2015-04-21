@@ -67,8 +67,8 @@ class OrderAdmin extends Simpla
 							$this->orders->update_purchase($purchase->id, array('variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'sku'=>$variant->sku,'price'=>$purchase->price, 'amount'=>$purchase->amount));
 						else
 							$this->orders->update_purchase($purchase->id, array('price'=>$purchase->price, 'amount'=>$purchase->amount));
-					else
-						$purchase->id = $this->orders->add_purchase(array('order_id'=>$order->id, 'variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount));
+					elseif(!$purchase->id = $this->orders->add_purchase(array('order_id'=>$order->id, 'variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount)))
+						$this->design->assign('message_error', 'error_closing');
 						
 					$posted_purchases_ids[] = $purchase->id;			
 				}

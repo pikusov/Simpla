@@ -19,7 +19,10 @@
 	
 	$simpla->db->query('SELECT p.id, p.name, i.filename as image FROM __products p
 	                    LEFT JOIN __images i ON i.product_id=p.id AND i.position=(SELECT MIN(position) FROM __images WHERE product_id=p.id LIMIT 1)
-	                    WHERE 1 '.$keyword_sql.' ORDER BY p.name LIMIT ?', $limit);
+	                    LEFT JOIN __variants pv ON pv.product_id=p.id AND (pv.stock IS NULL OR pv.stock>0)
+	                    WHERE 1 '.$keyword_sql.' AND pv.id
+	                    GROUP BY p.id
+	                    ORDER BY p.name LIMIT ?', $limit);
 	foreach($simpla->db->results() as $product)
 		$products[$product->id] = $product;
 	

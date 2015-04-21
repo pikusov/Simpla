@@ -19,8 +19,15 @@
  * @param integer      $length  maximum string length if $var is a string
  * @return string
  */
-function smarty_modifier_debug_print_var ($var, $depth = 0, $length = 40)
+function smarty_modifier_debug_print_var ($var, $depth = 0, $length = 40, &$history = array())
 {
+	foreach($history as $h)
+	{
+ 		if((is_object($var) || is_array($var)) && $var === $h)
+ 			return "RECURSION";
+	}
+	$history[] = &$var;
+
     $_replace = array("\n" => '<i>\n</i>',
         "\r" => '<i>\r</i>',
         "\t" => '<i>\t</i>'
@@ -32,7 +39,7 @@ function smarty_modifier_debug_print_var ($var, $depth = 0, $length = 40)
             foreach ($var as $curr_key => $curr_val) {
                 $results .= '<br>' . str_repeat('&nbsp;', $depth * 2)
                  . '<b>' . strtr($curr_key, $_replace) . '</b> =&gt; '
-                 . smarty_modifier_debug_print_var($curr_val, ++$depth, $length);
+                 . smarty_modifier_debug_print_var($curr_val, ++$depth, $length, $history);
                 $depth--;
             }
             break;
@@ -43,7 +50,7 @@ function smarty_modifier_debug_print_var ($var, $depth = 0, $length = 40)
             foreach ($object_vars as $curr_key => $curr_val) {
                 $results .= '<br>' . str_repeat('&nbsp;', $depth * 2)
                  . '<b> -&gt;' . strtr($curr_key, $_replace) . '</b> = '
-                 . smarty_modifier_debug_print_var($curr_val, ++$depth, $length);
+                 . smarty_modifier_debug_print_var($curr_val, ++$depth, $length, $history);
                 $depth--;
             }
             break;

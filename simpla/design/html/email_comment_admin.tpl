@@ -46,6 +46,14 @@
       {/if}
     </td>
   </tr>
+<tr>
+  <td style='padding:6px; background-color:#f0f0f0; border:1px solid #e0e0e0;font-family:arial;'>
+    IP
+  </td>
+  <td style='padding:6px; width:170; background-color:#ffffff; border:1px solid #e0e0e0;font-family:arial;'>
+    {$comment->ip|escape} (<a href='http://www.ip-adress.com/ip_tracer/{$comment->ip}/'>где это?</a>)
+  </td>
+  </tr>
   <tr>
     <td style="padding:6px; width:170; background-color:#f0f0f0; border:1px solid #e0e0e0;font-family:arial;">
       {if $comment->type == 'product'}К товару{/if}

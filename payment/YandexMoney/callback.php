@@ -17,7 +17,7 @@ require_once('api/Simpla.php');
 
 $simpla = new Simpla();
 
-$order_id = $simpla->request->post('orderNumber', 'integer');
+$order_id = $simpla->request->post('customerNumber', 'integer');
 $invoice_id = $simpla->request->post('invoiceId', 'string');
 
 ////////////////////////////////////////////////

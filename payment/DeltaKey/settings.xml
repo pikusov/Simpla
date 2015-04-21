@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		DeltaKey
+	</name>
+	<settings>
+		<variable>keyt_shop</variable>
+		<name>Рублевый счет</name>
+	</settings>
+	<settings>
+		<variable>skeys</variable>
+		<name>Секретный ключ</name>
+	</settings>
+	<settings>
+		<variable>num_shop</variable>
+		<name>Номер магазина</name>
+	</settings>
+</module>

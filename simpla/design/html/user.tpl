@@ -59,7 +59,7 @@
 					<label class=property>Группа</label>
 					<select name="group_id">
 						<option value='0'>Не входит в группу</option>
-				   		{foreach from=$groups item=g}
+				   		{foreach $groups as $g}
 				        	<option value='{$g->id}' {if $user->group_id == $g->id}selected{/if}>{$g->name|escape}</option>
 				    	{/foreach}
 					</select>

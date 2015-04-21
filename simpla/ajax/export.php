@@ -26,7 +26,7 @@ class ExportAjax extends Simpla
 			
 	private $column_delimiter = ';';
 	private $subcategory_delimiter = '/';
-	private $products_count = 5;
+	private $products_count = 10;
 	private $export_files_dir = '../files/export/';
 	private $filename = 'export.csv';
 
@@ -75,7 +75,7 @@ class ExportAjax extends Simpla
 	 		foreach($options as $option)
 	 		{
 	 			if(!isset($products[$option->product_id][$option->name]))
-					$products[$option->product_id][$option->name] = $option->value;
+					$products[$option->product_id][$option->name] = str_replace(',', '.', trim($option->value));
 	 		}
 
  			

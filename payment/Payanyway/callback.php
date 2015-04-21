@@ -5,7 +5,7 @@ chdir ('../../');
 require_once('api/Simpla.php');
 $simpla = new Simpla();
 
-require_once('view/PawInvoiceView.php');
+require_once(dirname(__FILE__).'/PawInvoiceView.php');
 $pawView = new PawInvoiceView();
 
 if (isset($_REQUEST['invoice']))

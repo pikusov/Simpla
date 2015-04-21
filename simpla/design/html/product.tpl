@@ -531,7 +531,7 @@ overflow-y: auto;
 		<label>Бренд</label>
 		<select name="brand_id">
             <option value='0' {if !$product->brand_id}selected{/if} brand_name=''>Не указан</option>
-       		{foreach from=$brands item=brand}
+       		{foreach $brands as $brand}
             	<option value='{$brand->id}' {if $product->brand_id == $brand->id}selected{/if} brand_name='{$brand->name|escape}'>{$brand->name|escape}</option>
         	{/foreach}
 		</select>
@@ -542,11 +542,11 @@ overflow-y: auto;
 		<label>Категория</label>
 		<div>
 			<ul>
-				{foreach name=categories from=$product_categories item=product_category}
+				{foreach $product_categories as $product_category name=categories}
 				<li>
 					<select name="categories[]">
 						{function name=category_select level=0}
-						{foreach from=$categories item=category}
+						{foreach $categories as $category}
 								<option value='{$category->id}' {if $category->id == $selected_id}selected{/if} category_name='{$category->name|escape}'>{section name=sp loop=$level}&nbsp;&nbsp;&nbsp;&nbsp;{/section}{$category->name|escape}</option>
 								{category_select categories=$category->subcategories selected_id=$selected_id  level=$level+1}
 						{/foreach}
@@ -573,7 +573,7 @@ overflow-y: auto;
 			<li class="variant_amount">Кол-во</li>
 		</ul>
 		<div id="variants">
-		{foreach from=$product_variants item=variant}
+		{foreach $product_variants as $variant}
 		<ul>
 			<li class="variant_move"><div class="move_zone"></div></li>
 			<li class="variant_name">      <input name="variants[id][]"            type="hidden" value="{$variant->id|escape}" /><input name="variants[name][]" type="" value="{$variant->name|escape}" /> <a class="del_variant" href=""><img src="design/images/cross-circle-frame.png" alt="" /></a></li>
@@ -679,7 +679,7 @@ overflow-y: auto;
 			<h2>Изображения товара
 			<a href="#" id=images_wizard><img src="design/images/wand.png" alt="Подобрать автоматически" title="Подобрать автоматически"/></a>
 			</h2>
-			<ul>{foreach from=$product_images item=image}<li>
+			<ul>{foreach $product_images as $image}<li>
 					<a href='#' class="delete"><img src='design/images/cross-circle-frame.png'></a>
 					<img src="{$image->filename|resize:100:100}" alt="" />
 					<input type=hidden name='images[]' value='{$image->id}'>
@@ -695,7 +695,7 @@ overflow-y: auto;
 		<div class="block layer">
 			<h2>Связанные товары</h2>
 			<div id=list class="sortable related_products">
-				{foreach from=$related_products item=related_product}
+				{foreach $related_products as $related_product}
 				<div class="row">
 					<div class="move cell">
 						<div class="move_zone"></div>
