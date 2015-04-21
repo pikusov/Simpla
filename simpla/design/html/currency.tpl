@@ -128,7 +128,7 @@ $(function() {
 			<li class="iso">Код ISO</li>	
 		</ul>
 		<div id="currencies">
-		{foreach $currencies $c}
+		{foreach $currencies as $c}
 		<ul class="sortable {if !$c->enabled}invisible{/if} {if $c->cents == 2}cents{/if}">
 			<li class="move"><div class="move_zone"></div></li>
 			<li class="name">
