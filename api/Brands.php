@@ -22,17 +22,34 @@ class Brands extends Simpla
 	public function get_brands($filter = array())
 	{
 		$brands = array();
-		$category_id_filter = '';
+		$category_id_filter_left_join = '';
+		$category_id_filter_where = '';
 		$visible_filter = '';
+		$brand_id_filter = '';
+		$sort = 'b.name';
+		
 		if(isset($filter['visible']))
 			$visible_filter = $this->db->placehold('AND p.visible=?', intval($filter['visible']));
 		
 		if(!empty($filter['category_id']))
-			$category_id_filter = $this->db->placehold("LEFT JOIN __products p ON p.brand_id=b.id LEFT JOIN __products_categories pc ON p.id = pc.product_id WHERE pc.category_id in(?@) $visible_filter", (array)$filter['category_id']);
+		{
+			$category_id_filter_left_join = $this->db->placehold("LEFT JOIN __products p ON p.brand_id=b.id LEFT JOIN __products_categories pc ON p.id = pc.product_id");
+			$category_id_filter_where = $this->db->placehold("AND pc.category_id in(?@) $visible_filter", (array)$filter['category_id']);
+		}
+        	if(!empty($filter['id']))
+            		$brand_id_filter = $this->db->placehold('AND b.id in(?@)', (array)$filter['id']);
 
-		// Выбираем все бренды
+		if(isset($filter['sort_by_ids']) && !empty($filter['id']))
+			$sort = $this->db->placehold('FIELD( b.id, ?@ )', (array)$filter['id']);
+			
+		// Выбираем бренды
 		$query = $this->db->placehold("SELECT DISTINCT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
-								 		FROM __brands b $category_id_filter ORDER BY b.name");
+								 		FROM __brands b 
+								 		$category_id_filter_left_join
+								 		WHERE 1
+								 		$category_id_filter_where
+								 		$brand_id_filter
+								 		ORDER BY $sort");
 		$this->db->query($query);
 
 		return $this->db->results();
