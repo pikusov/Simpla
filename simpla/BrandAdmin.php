@@ -26,8 +26,16 @@ class BrandAdmin extends Simpla
 			
 			// Не допустить одинаковые URL разделов.
 			if(($c = $this->brands->get_brand($brand->url)) && $c->id!=$brand->id)
-			{			
+			{
 				$this->design->assign('message_error', 'url_exists');
+			}
+			elseif(empty($category->name))
+			{
+				$this->design->assign('message_error', 'name_empty');
+			}
+			elseif(empty($category->url))
+			{
+				$this->design->assign('message_error', 'url_empty');
 			}
 			else
 			{
@@ -63,7 +71,7 @@ class BrandAdmin extends Simpla
 			$brand = $this->brands->get_brand($brand->id);
 		}
 		
- 		$this->design->assign('brand', $brand);
+		$this->design->assign('brand', $brand);
 		return  $this->design->fetch('brand.tpl');
 	}
 }
