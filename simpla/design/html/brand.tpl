@@ -112,7 +112,7 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span class="text">{if $message_success=='added'}Бренд добавлен{elseif $message_success=='updated'}Бренд обновлен{else}{$message_success}{/if}</span>
+	<span class="text">{if $message_error=='url_exists'}Бренд с таким адресом уже существует{elseif $message_error=='name_empty'}У бренда должно быть название{elseif $message_error=='url_empty'}URl адрес не может быть пустым{/if}</span>
 	<a class="link" target="_blank" href="../brands/{$brand->url}">Открыть бренд на сайте</a>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
