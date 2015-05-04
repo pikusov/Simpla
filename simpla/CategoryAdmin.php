@@ -29,8 +29,16 @@ class CategoryAdmin extends Simpla
 	
 			// Не допустить одинаковые URL разделов.
 			if(($c = $this->categories->get_category($category->url)) && $c->id!=$category->id)
-			{			
+			{
 				$this->design->assign('message_error', 'url_exists');
+			}
+			elseif(empty($category->name))
+			{
+				$this->design->assign('message_error', 'name_empty');
+			}
+			elseif(empty($category->url))
+			{
+				$this->design->assign('message_error', 'url_empty');
 			}
 			else
 			{
