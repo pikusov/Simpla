@@ -1,5 +1,7 @@
 <?php
-
+/**
+	Version: 1.0.0
+*/
 require_once('api/Simpla.php');
 
 class YandexMoney extends Simpla
