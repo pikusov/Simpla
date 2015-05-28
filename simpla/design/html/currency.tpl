@@ -132,7 +132,7 @@ $(function() {
 		<ul class="sortable {if !$c->enabled}invisible{/if} {if $c->cents == 2}cents{/if}">
 			<li class="move"><div class="move_zone"></div></li>
 			<li class="name">
-				<input name="currency[id][{$c->id}]" type="hidden" 	value="{$c->id|escape}" /><input name="currency[name][{$c->id}]" type="" value="{$c->name|escape}" />
+				<input name="currency[id][{$c->id}]" type="hidden" 	value="{$c->id|escape}" /><input name="currency[name][{$c->id}]" type="text" value="{$c->name|escape}" />
 			</li>
 			<li class="icons">
 				<a class="cents" href="#" title="Выводить копейки"></a>
@@ -161,8 +161,8 @@ $(function() {
 			<li class="name"><input name="currency[id][]" type="hidden" value="" /><input name="currency[name][]" type="" value="" /></li>
 			<li class="icons">
 			</li>
-			<li class="sign"><input name="currency[sign][]" type="" value="" /></li>
-			<li class="iso"><input  name="currency[code][]" type="" value="" /></li>
+			<li class="sign"><input name="currency[sign][]" type="text" value="" /></li>
+			<li class="iso"><input  name="currency[code][]" type="text" value="" /></li>
 			<li class="rate">
 				<div class=rate_from><input name="currency[rate_from][]" type="text" value="1" /> </div>
 				<div class=rate_to>= <input name="currency[rate_to][]" type="text" value="1" /> {$currency->sign|escape}</div>			
