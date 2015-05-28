@@ -10,9 +10,6 @@
 
 {* On document load *}
 {literal}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
-
 <script>
 $(function() {
 
