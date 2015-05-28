@@ -124,17 +124,6 @@
 		<input class="button_green button_save" type="submit" name="save" value="Сохранить" />
 			
 	<!-- Левая колонка свойств товара (The End)--> 
-	
+
 </form>
 <!-- Основная форма (The End) -->
-
-{literal}
-<script>
-$(function() {
-	$('#change_password_form').hide();
-	$('#change_password').click(function() {
-		$('#change_password_form').show();
-	});
-});
-</script>
-{/literal}
