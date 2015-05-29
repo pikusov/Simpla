@@ -21,7 +21,11 @@ class PaymentMethodAdmin extends Simpla
 	 		if(!$payment_deliveries = $this->request->post('payment_deliveries'))
 	 			$payment_deliveries = array();
 
-			if(empty($payment_method->id))
+			if(empty($payment_method->name))
+		        {
+		             $this->design->assign('message_error', 'empty_name');
+		        }
+			elseif(empty($payment_method->id))
 			{
   				$payment_method->id = $this->payment->add_payment_method($payment_method);
   				$this->design->assign('message_success', 'Добавлено');
