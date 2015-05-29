@@ -18,9 +18,6 @@
 
 {* On document load *}
 {literal}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
-
 <script>
 $(function() {
 	$('div#module_settings').filter(':hidden').find("input, select, textarea").attr("disabled", true);
@@ -42,7 +39,7 @@ $(function() {
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
-	<span class="text">{$message_success}</span>
+	<span class="text">{if $message_success == 'added'}Способ оплаты добавлен{elseif $message_success == 'updated'}Способ оплаты изменен{/if}</span>
 	{if $smarty.get.return}
 	<a class="button" href="{$smarty.get.return}">Вернуться</a>
 	{/if}
@@ -53,7 +50,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span class="text">{if $message_success == 'added'}Способ оплаты добавлен{elseif $message_success == 'updated'}Способ оплаты изменен{/if}</span>
+	<span class="text">{if $message_error == 'empty_name'}Укажите название способа оплаты{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
