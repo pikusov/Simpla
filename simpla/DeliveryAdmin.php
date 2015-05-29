@@ -17,22 +17,28 @@ class DeliveryAdmin extends Simpla
 	 		$delivery->free_from        = $this->request->post('free_from');
 	 		$delivery->separate_payment	= $this->request->post('separate_payment');
 	 		
-	 		if(!$delivery_payments = $this->request->post('delivery_payments'))
-	 			$delivery_payments = array();
-			
-			if(empty($delivery->id))
-			{
-  				$delivery->id = $this->delivery->add_delivery($delivery);
-  				$this->design->assign('message_success', 'added');
-	    	}
-	    	else
-	    	{
-	    		$this->delivery->update_delivery($delivery->id, $delivery);
-  				$this->design->assign('message_success', 'updated');
-	    	}
-	    	
-	    	$this->delivery->update_delivery_payments($delivery->id, $delivery_payments);
+			if(!$delivery_payments = $this->request->post('delivery_payments'))
+				$delivery_payments = array();
 
+			if(empty($delivery->name))
+		        {
+		            $this->design->assign('message_error', 'empty_name');
+		        }
+		        else
+		        {
+		             if(empty($delivery->id))
+		             {
+		                 $delivery->id = $this->delivery->add_delivery($delivery);
+		                 $this->design->assign('message_success', 'added');
+		             }
+		             else
+		             {
+		                 $this->delivery->update_delivery($delivery->id, $delivery);
+		                 $this->design->assign('message_success', 'updated');
+		             }
+
+			     $this->delivery->update_delivery_payments($delivery->id, $delivery_payments);
+		         }
 		}
 		else
 		{
