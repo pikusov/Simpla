@@ -11,36 +11,6 @@
 {$meta_title = 'Новая группа' scope=parent}
 {/if}
 
-{* On document load *}
-{literal}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
-
-
-<script type="text/javascript" src="design/js/autocomplete/jquery.autocomplete-min.js"></script>
-<style>
-.autocomplete-w1 { background:url(img/shadow.png) no-repeat bottom right; position:absolute; top:0px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; }
-.autocomplete { border:1px solid #999; background:#FFF; cursor:default; text-align:left; overflow-x:auto; min-width: 300px; overflow-y: auto; margin:-6px 6px 6px -6px; /* IE6 specific: */ _height:350px;  _margin:0; _overflow-x:hidden; }
-.autocomplete .selected { background:#F0F0F0; }
-.autocomplete div { padding:2px 5px; white-space:nowrap; }
-.autocomplete strong { font-weight:normal; color:#3399FF; }
-</style>
-
-<script>
-$(function() {
-
-
-
-});
-
-
-</script>
-
-
-{/literal}
-
-
-
 {if $message_success}
 <!-- Системное сообщение -->
 <div class="message message_success">
@@ -55,7 +25,7 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span class="text">{$message_error}</span>
+	<span class="text">{if $message_error == 'empty_name'}Название группы не может быть пустым{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
