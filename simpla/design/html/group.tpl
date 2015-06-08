@@ -13,10 +13,6 @@
 
 {* On document load *}
 {literal}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
-
-
 <script type="text/javascript" src="design/js/autocomplete/jquery.autocomplete-min.js"></script>
 <style>
 .autocomplete-w1 { background:url(img/shadow.png) no-repeat bottom right; position:absolute; top:0px; left:0px; margin:6px 0 0 6px; /* IE6 fix: */ _background:none; _margin:1px 0 0 0; }
