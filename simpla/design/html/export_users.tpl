@@ -4,7 +4,6 @@
 
 <script src="{$config->root_url}/simpla/design/js/piecon/piecon.js"></script>
 <script>
-var in_process=false;
 var group_id='{$group_id|escape}';
 var keyword='{$keyword|escape}';
 var sort='{$sort|escape}';
