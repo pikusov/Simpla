@@ -12,7 +12,11 @@ class OrdersLabelAdmin extends Simpla
 			$label->id = $this->request->post('id', 'integer');
 			$label->name = $this->request->post('name');
 			$label->color = $this->request->post('color');
-			if(empty($label->id))
+			if(empty($label->name))
+            {
+                $this->design->assign('message_error', 'empty_name');
+            }
+            elseif(empty($label->id))
 			{
   				$label->id = $this->orders->add_label($label);
   				$label = $this->orders->get_label($label->id);
