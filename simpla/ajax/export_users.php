@@ -5,13 +5,13 @@ require_once('../../api/Simpla.php');
 class ExportAjax extends Simpla
 {	
 	private $columns_names = array(
-			'name'=>             'Èìÿ',
+			'name'=>             'ÃˆÃ¬Ã¿',
 			'email'=>            'Email',
-			'group_name'=>            'Ãğóïïà',
-			'discount'=>         'Ñêèäêà',
-			'enabled'=>          'Àêòèâåí',
-			'created'=>          'Äàòà',
-			'last_ip'=>          'Ïîñëåäíèé IP'
+			'group_name'=>            'ÃƒÃ°Ã³Ã¯Ã¯Ã ',
+			'discount'=>         'Ã‘ÃªÃ¨Ã¤ÃªÃ ',
+			'enabled'=>          'Ã€ÃªÃ²Ã¨Ã¢Ã¥Ã­',
+			'created'=>          'Ã„Ã Ã²Ã ',
+			'last_ip'=>          'ÃÃ®Ã±Ã«Ã¥Ã¤Ã­Ã¨Ã© IP'
 			);
 			
 	private $column_delimiter = ';';
@@ -24,24 +24,24 @@ class ExportAjax extends Simpla
 		if(!$this->managers->access('users'))
 			return false;
 	
-		// İêñåëü êóøàåò òîëüêî 1251
+		// ÃÃªÃ±Ã¥Ã«Ã¼ ÃªÃ³Ã¸Ã Ã¥Ã² Ã²Ã®Ã«Ã¼ÃªÃ® 1251
 		setlocale(LC_ALL, 'ru_RU.1251');
 		$this->db->query('SET NAMES cp1251');
 	
-		// Ñòğàíèöà, êîòîğóş ıêñïîğòèğóåì
+		// Ã‘Ã²Ã°Ã Ã­Ã¨Ã¶Ã , ÃªÃ®Ã²Ã®Ã°Ã³Ã¾ Ã½ÃªÃ±Ã¯Ã®Ã°Ã²Ã¨Ã°Ã³Ã¥Ã¬
 		$page = $this->request->get('page');
 		if(empty($page) || $page==1)
 		{
 			$page = 1;
-			// Åñëè íà÷àëè ñíà÷àëà - óäàëèì ñòàğûé ôàéë ıêñïîğòà
+			// Ã…Ã±Ã«Ã¨ Ã­Ã Ã·Ã Ã«Ã¨ Ã±Ã­Ã Ã·Ã Ã«Ã  - Ã³Ã¤Ã Ã«Ã¨Ã¬ Ã±Ã²Ã Ã°Ã»Ã© Ã´Ã Ã©Ã« Ã½ÃªÃ±Ã¯Ã®Ã°Ã²Ã 
 			if(is_writable($this->export_files_dir.$this->filename))
 				unlink($this->export_files_dir.$this->filename);
 		}
 		
-		// Îòêğûâàåì ôàéë ıêñïîğòà íà äîáàâëåíèå
+		// ÃÃ²ÃªÃ°Ã»Ã¢Ã Ã¥Ã¬ Ã´Ã Ã©Ã« Ã½ÃªÃ±Ã¯Ã®Ã°Ã²Ã  Ã­Ã  Ã¤Ã®Ã¡Ã Ã¢Ã«Ã¥Ã­Ã¨Ã¥
 		$f = fopen($this->export_files_dir.$this->filename, 'ab');
 				
-		// Åñëè íà÷àëè ñíà÷àëà - äîáàâèì â ïåğâóş ñòğîêó íàçâàíèÿ êîëîíîê
+		// Ã…Ã±Ã«Ã¨ Ã­Ã Ã·Ã Ã«Ã¨ Ã±Ã­Ã Ã·Ã Ã«Ã  - Ã¤Ã®Ã¡Ã Ã¢Ã¨Ã¬ Ã¢ Ã¯Ã¥Ã°Ã¢Ã³Ã¾ Ã±Ã²Ã°Ã®ÃªÃ³ Ã­Ã Ã§Ã¢Ã Ã­Ã¨Ã¿ ÃªÃ®Ã«Ã®Ã­Ã®Ãª
 		if($page == 1)
 		{
 			fputcsv($f, $this->columns_names, $this->column_delimiter);
@@ -55,7 +55,7 @@ class ExportAjax extends Simpla
 		$filter['sort'] = $this->request->get('sort');
 		$filter['keyword'] = $this->request->get('keyword');
 		
-		// Âûáèğàåì ïîëüçîâàòåëåé
+		// Ã‚Ã»Ã¡Ã¨Ã°Ã Ã¥Ã¬ Ã¯Ã®Ã«Ã¼Ã§Ã®Ã¢Ã Ã²Ã¥Ã«Ã¥Ã©
 		$users = array();
  		foreach($this->users->get_users($filter) as $u)
  		{
@@ -66,7 +66,7 @@ class ExportAjax extends Simpla
  			fputcsv($f, $str, $this->column_delimiter);
  		}
  		
-		$total_users = $this->users->count_users();
+		$total_users = $this->users->count_users($filter);
 		
 		if($this->users_count*$page < $total_users)
 			return array('end'=>false, 'page'=>$page, 'totalpages'=>$total_users/$this->users_count);
