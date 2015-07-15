@@ -12,8 +12,6 @@
 {/if}
 
 {* Подключаем Tiny MCE *}
-{include file='tinymce_init.tpl'}
-
 <script src="design/js/jquery/datepicker/jquery.ui.datepicker-ru.js"></script>
 {literal}
 <script>
@@ -51,7 +49,10 @@ $(function() {
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span class="text">{if $message_error == 'code_exists'}Купон с таким кодом уже существует{/if}</span>
+	<span class="text">
+		{if $message_error == 'code_exists'}Купон с таким кодом уже существует{/if}
+		{if $message_error == 'code_empty'}Заполните название купона{/if}
+	</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
