@@ -25,6 +25,10 @@ class CouponAdmin extends Simpla
 			{			
 				$this->design->assign('message_error', 'code_exists');
 			}
+			 elseif(empty($coupon->code))
+		        {
+		                $this->design->assign('message_error', 'code_empty');
+		        }
 			else
 			{
 				if(empty($coupon->id))
