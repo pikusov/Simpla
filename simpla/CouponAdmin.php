@@ -22,9 +22,13 @@ class CouponAdmin extends Simpla
 
  			// Не допустить одинаковые URL разделов.
 			if(($a = $this->coupons->get_coupon((string)$coupon->code)) && $a->id!=$coupon->id)
-			{			
+			{
 				$this->design->assign('message_error', 'code_exists');
 			}
+			 elseif(empty($coupon->code))
+		        {
+		                $this->design->assign('message_error', 'code_empty');
+		        }
 			else
 			{
 				if(empty($coupon->id))
@@ -53,6 +57,6 @@ class CouponAdmin extends Simpla
 //			$coupon->expire = date($this->settings->date_format, time());
  		
 		$this->design->assign('coupon', $coupon);
- 	  	return $this->design->fetch('coupon.tpl');
+		return $this->design->fetch('coupon.tpl');
 	}
 }
