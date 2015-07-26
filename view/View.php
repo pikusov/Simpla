@@ -125,8 +125,6 @@ class View extends Simpla
 
 	public function get_brands_plugin($params, &$smarty)
 	{
-		if(!isset($params['visible']))
-			$params['visible'] = 1;
 		if(!empty($params['var']))
 			$smarty->assign($params['var'], $this->brands->get_brands($params));
 	}
