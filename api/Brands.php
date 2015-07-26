@@ -21,12 +21,8 @@ class Brands extends Simpla
 	*/
 	public function get_brands($filter = array())
 	{
-		$brands = array();
 		$category_id_filter = '';
-		$visible_filter = '';
-		if(isset($filter['visible']))
-			$visible_filter = $this->db->placehold('AND p.visible=?', intval($filter['visible']));
-		
+
 		if(!empty($filter['category_id']))
 			$category_id_filter = $this->db->placehold("LEFT JOIN __products p ON p.brand_id=b.id LEFT JOIN __products_categories pc ON p.id = pc.product_id WHERE pc.category_id in(?@) $visible_filter", (array)$filter['category_id']);
 
