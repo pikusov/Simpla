@@ -41,9 +41,7 @@ class Features extends Simpla
 		// Выбираем свойство
 		$query = $this->db->placehold("SELECT id, name, position, in_filter FROM __features WHERE id=? LIMIT 1", $id);
 		$this->db->query($query);
-		$feature = $this->db->result();
-
-		return $feature;
+		return $this->db->result();
 	}
 	
 	function get_feature_categories($id)
@@ -184,9 +182,7 @@ class Features extends Simpla
 			WHERE 1 $feature_id_filter $product_id_filter $brand_id_filter $features_filter GROUP BY po.feature_id, po.value ORDER BY value=0, -value DESC, value");
 
 		$this->db->query($query);
-		$res = $this->db->results();
-
-		return $res;
+		return $this->db->results();
 	}
 	
 	public function get_product_options($product_id)
@@ -195,11 +191,6 @@ class Features extends Simpla
 										WHERE po.product_id in(?@) ORDER BY f.position", (array)$product_id);
 
 		$this->db->query($query);
-		$res = $this->db->results();
-
-		return $res;
+		return $this->db->results();
 	}
-	
-
-
 }
