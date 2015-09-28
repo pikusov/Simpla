@@ -58,6 +58,14 @@
 			<name>Оплата через интернет-банк Промсвязьбанка</name>
 			<value>PB</value>
 		</options>
+		<options>
+			<name>Оплата через QIWI Wallet</name>
+			<value>QW</value>
+		</options>
+		<options>
+			<name>Оплата через доверительный платеж (Куппи.ру)</name>
+			<value>QP</value>
+		</options>
 		<!--<options>
 			<name>Через мобильный терминал (mPOS)</name>
 			<value>MP</value>
