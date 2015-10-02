@@ -6,8 +6,12 @@
 	$keyword = $simpla->request->get('query', 'string');
 	$kw = $simpla->db->escape($keyword);
 	$simpla->db->query("SELECT p.id, p.name, i.filename as image FROM __products p
-	                    LEFT JOIN __images i ON i.product_id=p.id AND i.position=(SELECT MIN(position) FROM __images WHERE product_id=p.id LIMIT 1)
-	                    WHERE (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%')) AND visible=1 ORDER BY p.name LIMIT ?", $limit);
+						LEFT JOIN __images i ON i.product_id=p.id AND i.position=(SELECT MIN(position) FROM __images WHERE product_id=p.id LIMIT 1)
+						WHERE (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%'))
+						AND visible=1
+						GROUP BY p.id
+						ORDER BY p.name
+						LIMIT ?", $limit);
 	$products = $simpla->db->results();
 
 	$suggestions = array();
