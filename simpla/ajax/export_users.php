@@ -5,13 +5,13 @@ require_once('../../api/Simpla.php');
 class ExportAjax extends Simpla
 {	
 	private $columns_names = array(
-			'name'=>             'Èìÿ',
-			'email'=>            'Email',
-			'group_name'=>            'Ãğóïïà',
-			'discount'=>         'Ñêèäêà',
-			'enabled'=>          'Àêòèâåí',
-			'created'=>          'Äàòà',
-			'last_ip'=>          'Ïîñëåäíèé IP'
+			'name'			=>	'Èìÿ',
+			'email'			=>	'Email',
+			'group_name'	=>	'Ãğóïïà',
+			'discount'		=>	'Ñêèäêà',
+			'enabled'		=>	'Àêòèâåí',
+			'created'		=>	'Äàòà',
+			'last_ip'		=>	'Ïîñëåäíèé IP'
 			);
 			
 	private $column_delimiter = ';';
@@ -66,7 +66,7 @@ class ExportAjax extends Simpla
  			fputcsv($f, $str, $this->column_delimiter);
  		}
  		
-		$total_users = $this->users->count_users();
+		$total_users = $this->users->count_users($filter);
 		
 		if($this->users_count*$page < $total_users)
 			return array('end'=>false, 'page'=>$page, 'totalpages'=>$total_users/$this->users_count);
