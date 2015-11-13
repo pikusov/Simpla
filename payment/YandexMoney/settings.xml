@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Яндекс Деньги для юрлиц
+	</name>
+	<settings>
+		<variable>yandex_shopid</variable>
+		<name>Идентификатор Магазина</name>
+	</settings>
+	<settings>
+		<variable>yandex_scid</variable>
+		<name>Номер витрины</name>
+	</settings>
+	<settings>
+		<variable>yandex_password</variable>
+		<name>Пароль магазина</name>
+	</settings>
+	<settings>
+		<variable>yandex_paymenttype</variable>
+		<name>Способ оплаты</name>
+		<options>
+			<name>Не задан</name>
+			<value></value>
+		</options>
+		<options>
+			<name>Оплата из кошелька в Яндекс.Деньгах</name>
+			<value>PC</value>
+		</options>
+		<options>
+			<name>Оплата с произвольной банковской карты</name>
+			<value>AC</value>
+		</options>
+		<options>
+			<name>Оплата наличными через кассы и терминалы</name>
+			<value>GP</value>
+		</options>
+		<options>
+			<name>Платеж со счета мобильного телефона</name>
+			<value>MC</value>
+		</options>
+		<options>
+			<name>Оплата из кошелька в системе WebMoney</name>
+			<value>WM</value>
+		</options>
+		<options>
+			<name>Оплата через Альфа-Клик</name>
+			<value>AB</value>
+		</options>
+		<options>
+			<name>Оплата через Сбербанк: оплата по SMS или Сбербанк Онлайн</name>
+			<value>SB</value>
+		</options>
+		<options>
+			<name>Оплата через MasterPass</name>
+			<value>MA</value>
+		</options>
+		<options>
+			<name>Оплата через интернет-банк Промсвязьбанка</name>
+			<value>PB</value>
+		</options>
+		<options>
+			<name>Оплата через QIWI Wallet</name>
+			<value>QW</value>
+		</options>
+		<options>
+			<name>Оплата через доверительный платеж (Куппи.ру)</name>
+			<value>QP</value>
+		</options>
+		<!--<options>
+			<name>Через мобильный терминал (mPOS)</name>
+			<value>MP</value>
+		</options>-->
+	</settings>	
+	<settings>
+		<variable>yandex_testmode</variable>
+		<name>Режим оплаты</name>
+		<options>
+			<name>Тестовый режим</name>
+			<value>1</value>
+		</options>
+		<options>
+			<name>Рабочий режим</name>
+			<value>0</value>
+		</options>
+	</settings>	
+</module>
