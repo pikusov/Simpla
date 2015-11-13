@@ -1,3 +1,0 @@
-[submodule "payment/YandexMoney"]
-	path = payment/YandexMoney
-	url = https://github.com/yandex-money/yandex-money-cms-simplacms.git
