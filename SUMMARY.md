@@ -1,4 +1,0 @@
-# Summary
-
-* [Установка](install.md)
-
