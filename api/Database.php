@@ -425,7 +425,7 @@ class Database extends Simpla
 					if (substr(trim($line), -1, 1) == ';')
 					{
 						// Perform the query
-						$this->mysqli->query($templine) or print('Error performing query \'<b>'.$templine.'</b>\': '.$this->mysqli->error.'<br/><br/>');
+						$this->query($templine) or print('Error performing query \'<b>'.$templine.'</b>\': '.$this->mysqli->error.'<br/><br/>');
 						// Reset temp variable to empty
 						$templine = '';
 					}
