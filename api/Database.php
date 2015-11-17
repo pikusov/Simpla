@@ -402,10 +402,10 @@ class Database extends Simpla
 			if($row[1] == 'BASE TABLE')
 				$this->dump_table($row[0], $h);
 		}
-	    fclose($h);
+		fclose($h);
 	}
 	
-	function restore($filename)
+	public function restore($filename)
 	{
 		$templine = '';
 		$h = fopen($filename, 'r');
