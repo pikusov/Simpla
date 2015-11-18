@@ -180,7 +180,7 @@ class ImportAjax extends Simpla
 			$variant['name'] = trim($item['variant']);
 			
 		if(isset($item['price']))
-			$variant['price'] = str_replace(',', '.', trim($item['price']));
+			$variant['price'] = str_replace(',', '.', str_replace(' ', '', trim($item['price'])));
 			
 		if(isset($item['compare_price']))
 			$variant['compare_price'] = trim($item['compare_price']);
