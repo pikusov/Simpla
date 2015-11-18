@@ -197,7 +197,7 @@ class ImportAjax extends Simpla
 		// Если задан артикул варианта, найдем этот вариант и соответствующий товар
 		if(!empty($variant['sku']))
 		{ 
-			$this->db->query('SELECT id as variant_id, product_id FROM __variants, __products WHERE sku=? AND __variants.product_id = __products.id LIMIT 1', $variant['sku']);
+			$this->db->query('SELECT id as s_variants.variant_id, s_variants.product_id FROM __variants, __products WHERE sku=? AND __variants.product_id = __products.id LIMIT 1', $variant['sku']);
 			$result = $this->db->result();
 			if($result)
 			{
