@@ -442,8 +442,9 @@ class Database extends Simpla
 		$result = $this->mysqli->query($sql);
 		if($result)
 		{
-			fwrite($h, "/* Data for table $table */\n");
-			fwrite($h, "TRUNCATE TABLE `$table`;\n");
+			$table_no_prefix = preg_replace('/([^"\'0-9a-z_])'.$this->config->db_prefix.'([a-z_]+[^"\'])/i', "\$1__\$2", $table);
+			fwrite($h, "/* Data for table $table_no_prefix */\n");
+			fwrite($h, "TRUNCATE TABLE `$table_no_prefix`;\n");
 			
 			$num_rows = $result->num_rows;
 			$num_fields = $this->mysqli->field_count;
@@ -459,7 +460,7 @@ class Database extends Simpla
 					array_push($field_name, $m->name);
 				}
 				$fields = implode('`, `', $field_name);
-				fwrite($h,  "INSERT INTO `$table` (`$fields`) VALUES\n");
+				fwrite($h,  "INSERT INTO `$table_no_prefix` (`$fields`) VALUES\n");
 				$index=0;
 				while( $row = $result->fetch_row())
 				{
