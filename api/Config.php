@@ -64,9 +64,14 @@ class Config
 		$memory_limit = (int)(ini_get('memory_limit'));
 		$this->vars['max_upload_filesize'] = min($max_upload, $max_post, $memory_limit)*1024*1024;
 		
-		// Соль (разная для каждой копии сайта, изменяющаяся при изменении config-файла)
-		$s = stat(dirname(dirname(__FILE__)).'/'.$this->config_file);
-		$this->vars['salt'] = md5(md5_file(dirname(dirname(__FILE__)).'/'.$this->config_file).$s['dev'].$s['ino'].$s['uid'].$s['mtime']);
+		// Если соль не определена, то будем генировать ее
+		if(empty($this->vars['salt']))
+		{
+			// Соль (разная для каждой копии сайта, изменяющаяся при изменении config-файла)
+			$s = stat(dirname(dirname(__FILE__)).'/'.$this->config_file);
+			$this->vars['salt'] = md5(md5_file(dirname(dirname(__FILE__)).'/'.$this->config_file).$s['dev'].$s['ino'].$s['uid'].$s['mtime']);
+		}
+
 		
 		// Часовой пояс
 		if(!empty($this->vars['php_timezone']))
