@@ -402,10 +402,10 @@ class Database extends Simpla
 			if($row[1] == 'BASE TABLE')
 				$this->dump_table($row[0], $h);
 		}
-	    fclose($h);
+		fclose($h);
 	}
 	
-	function restore($filename)
+	public function restore($filename)
 	{
 		$templine = '';
 		$h = fopen($filename, 'r');
@@ -425,7 +425,7 @@ class Database extends Simpla
 					if (substr(trim($line), -1, 1) == ';')
 					{
 						// Perform the query
-						$this->mysqli->query($templine) or print('Error performing query \'<b>'.$templine.'</b>\': '.$this->mysqli->error.'<br/><br/>');
+						$this->query($templine) or print('Error performing query \'<b>'.$templine.'</b>\': '.$this->mysqli->error.'<br/><br/>');
 						// Reset temp variable to empty
 						$templine = '';
 					}
@@ -442,8 +442,9 @@ class Database extends Simpla
 		$result = $this->mysqli->query($sql);
 		if($result)
 		{
-			fwrite($h, "/* Data for table $table */\n");
-			fwrite($h, "TRUNCATE TABLE `$table`;\n");
+			$table_no_prefix = preg_replace('/([^"\'0-9a-z_])'.$this->config->db_prefix.'([a-z_]+[^"\'])/i', "\$1__\$2", $table);
+			fwrite($h, "/* Data for table $table_no_prefix */\n");
+			fwrite($h, "TRUNCATE TABLE `$table_no_prefix`;\n");
 			
 			$num_rows = $result->num_rows;
 			$num_fields = $this->mysqli->field_count;
@@ -459,7 +460,7 @@ class Database extends Simpla
 					array_push($field_name, $m->name);
 				}
 				$fields = implode('`, `', $field_name);
-				fwrite($h,  "INSERT INTO `$table` (`$fields`) VALUES\n");
+				fwrite($h,  "INSERT INTO `$table_no_prefix` (`$fields`) VALUES\n");
 				$index=0;
 				while( $row = $result->fetch_row())
 				{

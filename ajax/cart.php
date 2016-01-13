@@ -15,8 +15,11 @@
 	$simpla->design->assign('currency',	$currency);
 	
 	$result = $simpla->design->fetch('cart_informer.tpl');
+
 	header("Content-type: application/json; charset=UTF-8");
-	header("Cache-Control: must-revalidate");
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("X-Robots-Tag: noindex");
 	header("Pragma: no-cache");
-	header("Expires: -1");		
+	header("Expires: -1");
 	print json_encode($result);
+	exit;

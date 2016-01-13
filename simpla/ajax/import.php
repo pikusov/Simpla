@@ -180,7 +180,7 @@ class ImportAjax extends Simpla
 			$variant['name'] = trim($item['variant']);
 			
 		if(isset($item['price']))
-			$variant['price'] = str_replace(',', '.', trim($item['price']));
+			$variant['price'] = str_replace(',', '.', str_replace(' ', '', trim($item['price'])));
 			
 		if(isset($item['compare_price']))
 			$variant['compare_price'] = trim($item['compare_price']);
@@ -197,7 +197,7 @@ class ImportAjax extends Simpla
 		// Если задан артикул варианта, найдем этот вариант и соответствующий товар
 		if(!empty($variant['sku']))
 		{ 
-			$this->db->query('SELECT id as variant_id, product_id FROM __variants, __products WHERE sku=? AND __variants.product_id = __products.id LIMIT 1', $variant['sku']);
+			$this->db->query('SELECT v.id as variant_id, v.product_id FROM __variants v, __products p WHERE v.sku=? AND v.product_id = p.id LIMIT 1', $variant['sku']);
 			$result = $this->db->result();
 			if($result)
 			{
