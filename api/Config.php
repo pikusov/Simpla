@@ -45,13 +45,17 @@ class Config
 		if (!isset($_SERVER['HTTP_HOST']))
 			$_SERVER['HTTP_HOST'] = getenv('HTTP_HOST');
 
-
-		// Протокол
+		// Протокол (http OR https)
 		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
-		if($_SERVER["SERVER_PORT"] == 443)
+		if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'))) {
 			$protocol = 'https';
+		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+			$protocol = 'https';
+		} elseif( isset($_SERVER['SERVER_PORT']) && '443' == $_SERVER['SERVER_PORT'] ) {
+			$protocol = 'https';
+		}
 
-		$this->vars['protocol'] = $protocol;		
+		$this->vars['protocol'] = $protocol;
 		$this->vars['root_url'] = $protocol.'://'.rtrim($_SERVER['HTTP_HOST']);
 		if(!empty($subdir))
 			$this->vars['root_url'] .= '/'.$subdir;
