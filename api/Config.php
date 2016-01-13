@@ -42,6 +42,10 @@ class Config
 		$script_dir2 = realpath($_SERVER['DOCUMENT_ROOT']);
 		$subdir = trim(substr($script_dir1, strlen($script_dir2)), "/\\");
 
+		if (!isset($_SERVER['HTTP_HOST']))
+			$_SERVER['HTTP_HOST'] = getenv('HTTP_HOST');
+
+
 		// Протокол
 		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
 		if($_SERVER["SERVER_PORT"] == 443)
