@@ -19,10 +19,10 @@ class ProductsAdmin extends Simpla
 		// Текущая категория
 		$category_id = $this->request->get('category_id', 'integer'); 
 		if($category_id && $category = $this->categories->get_category($category_id))
-	  		$filter['category_id'] = $category->children;
-		      
+			$filter['category_id'] = $category->children;
+
 		// Бренды категории
-		$brands = $this->brands->get_brands(array('category_id'=>$category_id));
+		$brands = $this->brands->get_brands(array('category_id'=>$filter['category_id']));
 		$this->design->assign('brands', $brands);
 		
 		// Все бренды
