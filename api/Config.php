@@ -45,6 +45,8 @@ class Config
 		if (!isset($_SERVER['HTTP_HOST']))
 			$_SERVER['HTTP_HOST'] = getenv('HTTP_HOST');
 
+		$this->vars['host'] = rtrim($_SERVER['HTTP_HOST']);
+
 		// Протокол (http OR https)
 		$protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'? 'https' : 'http';
 		if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'))) {
@@ -56,7 +58,7 @@ class Config
 		}
 
 		$this->vars['protocol'] = $protocol;
-		$this->vars['root_url'] = $protocol.'://'.rtrim($_SERVER['HTTP_HOST']);
+		$this->vars['root_url'] = $protocol.'://'.$this->vars['host'];
 		if(!empty($subdir))
 			$this->vars['root_url'] .= '/'.$subdir;
 
