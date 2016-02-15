@@ -2,6 +2,7 @@
 
 # compiled smarty
 compiled/*
+simpla/design/compiled/*
 *.tpl.php
 
 # logos brands
@@ -31,3 +32,6 @@ compiled/*
 # uploads
 /files/uploads/*
 !/files/uploads/index.html
+
+# IDE Project files
+/.idea
