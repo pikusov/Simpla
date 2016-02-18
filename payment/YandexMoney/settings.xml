@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<name>
-		Яндекс Деньги для юрлиц
+		Яндекс.Касса (версия 1.2.0)
 	</name>
 	<settings>
 		<variable>yandex_shopid</variable>
-		<name>Идентификатор Магазина</name>
+		<name>Идентификатор магазина (Shop ID)</name>
 	</settings>
 	<settings>
 		<variable>yandex_scid</variable>
-		<name>Номер витрины</name>
+		<name>Номер витрины (Scid)</name>
 	</settings>
 	<settings>
 		<variable>yandex_password</variable>
-		<name>Пароль магазина</name>
+		<name>Пароль магазина (shopPassword)</name>
+	</settings>
+	<settings>
+		<variable>yandex_paymode</variable>
+		<name>Режим оплаты</name>
+		<options>
+			<name>Выбор оплаты на стороне магазина</name>
+			<value>site</value>
+		</options>
+		<options>
+			<name>Выбор оплаты на стороне сервиса Яндекс.Касса (требуется сообщить менеджеру Яндекс.Денег)</name>
+			<value>kassa</value>
+		</options>
 	</settings>
 	<settings>
 		<variable>yandex_paymenttype</variable>
-		<name>Способ оплаты</name>
+		<name>Способ оплаты (для режима оплаты с выбором на стороне магазина)</name>
 		<options>
 			<name>Не задан</name>
 			<value></value>
