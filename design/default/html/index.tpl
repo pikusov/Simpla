@@ -32,7 +32,7 @@
 	{/if}
 	
 	{* Ctrl-навигация на соседние товары *}
-	<script type="text/javascript" src="js/ctrlnavigate.js"></script>           
+	<script type="text/javascript" src="design/{$settings->theme}/js/ctrlnavigate.js"></script>           
 	
 	{* Аяксовая корзина *}
 	<script src="design/{$settings->theme}/js/jquery-ui.min.js"></script>
