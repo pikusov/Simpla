@@ -23,7 +23,7 @@
 	<link href="design/{$settings->theme|escape}/images/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 	
 	{* JQuery *}
-	<script src="design/{$settings->theme|escape}/js/jquery/jquery.js"  type="text/javascript"></script>
+	<script src="design/{$settings->theme|escape}/js/jquery.js"  type="text/javascript"></script>
 	
 	{* Всплывающие подсказки для администратора *}
 	{if $smarty.session.admin == 'admin'}
@@ -38,23 +38,22 @@
 	<script src="design/{$settings->theme}/js/jquery-ui.min.js"></script>
 	<script src="design/{$settings->theme}/js/ajax_cart.js"></script>
 
-	{literal}
 	{* Увеличение картинок *}
 	<script type="text/javascript" src="design/{$settings->theme}/js/fancybox/jquery.fancybox.pack.js"></script>
 	<link rel="stylesheet" href="design/{$settings->theme}/js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+	{literal}
+		<script>
+			$(function() {
+				// Раскраска строк характеристик
+				$(".features li:even").addClass('even');
 
-	<script>
-	$(function() {
-		// Раскраска строк характеристик
-		$(".features li:even").addClass('even');
-
-		// Зум картинок
-		$("a.zoom").fancybox({
-			prevEffect	: 'fade',
-			nextEffect	: 'fade'
-		});
-	});
-	</script>
+				// Зум картинок
+				$("a.zoom").fancybox({
+					prevEffect	: 'fade',
+					nextEffect	: 'fade'
+				});
+			});
+		</script>
 	{/literal}
 	
 	{* js-проверка форм *}
@@ -62,8 +61,8 @@
 	<link   href="design/{$settings->theme}/js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
 	
 	{* Автозаполнитель поиска *}
-	{literal}
 	<script src="design/{$settings->theme}/js/autocomplete/jquery.autocomplete-min.js" type="text/javascript"></script>
+	{literal}
 	<style>
 		.autocomplete-suggestions{
 		background-color: #ffffff;
