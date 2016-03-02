@@ -7,12 +7,12 @@
 <div id="path">
 	<a href="./">Главная</a>
 	{foreach $category->path as $cat}
-	→ <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
+	› <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
 	{/foreach}
 	{if $brand}
-	→ <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
+	› <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
 	{/if}
-	→  {$product->name|escape}                
+	› {$product->name|escape}                
 </div>
 <!-- Хлебные крошки #End /-->
 

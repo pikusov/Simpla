@@ -18,15 +18,15 @@
 	<a href="/">Главная</a>
 	{if $category}
 	{foreach $category->path as $cat}
-	→ <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
+	› <a href="catalog/{$cat->url}">{$cat->name|escape}</a>
 	{/foreach}  
 	{if $brand}
-	→ <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
+	› <a href="catalog/{$cat->url}/{$brand->url}">{$brand->name|escape}</a>
 	{/if}
 	{elseif $brand}
-	→ <a href="brands/{$brand->url}">{$brand->name|escape}</a>
+	› <a href="brands/{$brand->url}">{$brand->name|escape}</a>
 	{elseif $keyword}
-	→ Поиск
+	› Поиск
 	{/if}
 </div>
 <!-- Хлебные крошки #End /-->
