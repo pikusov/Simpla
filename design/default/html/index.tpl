@@ -23,7 +23,7 @@
 	<link href="design/{$settings->theme|escape}/images/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 	
 	{* JQuery *}
-	<script src="js/jquery/jquery.js"  type="text/javascript"></script>
+	<script src="design/{$settings->theme|escape}/js/jquery/jquery.js"  type="text/javascript"></script>
 	
 	{* Всплывающие подсказки для администратора *}
 	{if $smarty.session.admin == 'admin'}
