@@ -44,7 +44,7 @@
 	
 	{* Автозаполнитель поиска *}
 	{literal}
-	<script src="js/autocomplete/jquery.autocomplete-min.js" type="text/javascript"></script>
+	<script src="design/{$settings->theme}/js/autocomplete/jquery.autocomplete-min.js" type="text/javascript"></script>
 	<style>
 		.autocomplete-suggestions{
 		background-color: #ffffff;
