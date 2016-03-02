@@ -217,21 +217,3 @@
 	
 </div>
 <!-- Комментарии (The End) -->
-
-{* Увеличитель картинок *}
-{literal}
-<script type="text/javascript" src="js/fancybox/jquery.fancybox.pack.js"></script>
-<link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-
-<script>
-$(function() {
-	// Раскраска строк характеристик
-	$(".features li:even").addClass('even');
-
-	// Зум картинок
-	$("a.zoom").fancybox({
-		prevEffect	: 'fade',
-		nextEffect	: 'fade'});
-	});
-</script>
-{/literal}

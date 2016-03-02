@@ -23,7 +23,7 @@
 	<link href="design/{$settings->theme|escape}/images/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
 	
 	{* JQuery *}
-	<script src="js/jquery/jquery.js"  type="text/javascript"></script>
+	<script src="design/{$settings->theme|escape}/js/jquery/jquery.js"  type="text/javascript"></script>
 	
 	{* Всплывающие подсказки для администратора *}
 	{if $smarty.session.admin == 'admin'}
@@ -32,11 +32,30 @@
 	{/if}
 	
 	{* Ctrl-навигация на соседние товары *}
-	<script type="text/javascript" src="js/ctrlnavigate.js"></script>           
+	<script type="text/javascript" src="design/{$settings->theme}/js/ctrlnavigate.js"></script>           
 	
 	{* Аяксовая корзина *}
 	<script src="design/{$settings->theme}/js/jquery-ui.min.js"></script>
 	<script src="design/{$settings->theme}/js/ajax_cart.js"></script>
+
+	{literal}
+	{* Увеличение картинок *}
+	<script type="text/javascript" src="design/{$settings->theme}/js/fancybox/jquery.fancybox.pack.js"></script>
+	<link rel="stylesheet" href="design/{$settings->theme}/js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+
+	<script>
+	$(function() {
+		// Раскраска строк характеристик
+		$(".features li:even").addClass('even');
+
+		// Зум картинок
+		$("a.zoom").fancybox({
+			prevEffect	: 'fade',
+			nextEffect	: 'fade'
+		});
+	});
+	</script>
+	{/literal}
 	
 	{* js-проверка форм *}
 	<script src="design/{$settings->theme}/js/baloon/js/baloon.js" type="text/javascript"></script>
@@ -44,7 +63,7 @@
 	
 	{* Автозаполнитель поиска *}
 	{literal}
-	<script src="js/autocomplete/jquery.autocomplete-min.js" type="text/javascript"></script>
+	<script src="design/{$settings->theme}/js/autocomplete/jquery.autocomplete-min.js" type="text/javascript"></script>
 	<style>
 		.autocomplete-suggestions{
 		background-color: #ffffff;
