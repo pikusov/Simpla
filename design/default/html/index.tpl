@@ -39,8 +39,8 @@
 	<script src="design/{$settings->theme}/js/ajax_cart.js"></script>
 	
 	{* js-проверка форм *}
-	<script src="js/baloon/js/baloon.js" type="text/javascript"></script>
-	<link   href="js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
+	<script src="design/{$settings->theme}/js/baloon/js/baloon.js" type="text/javascript"></script>
+	<link   href="design/{$settings->theme}/js/baloon/css/baloon.css" rel="stylesheet" type="text/css" /> 
 	
 	{* Автозаполнитель поиска *}
 	{literal}

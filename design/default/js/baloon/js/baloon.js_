@@ -1,6 +1,13 @@
 // (C) Netlogic, 2003
+function clearPageInputs() {
+	var pageInputs = document.querySelectorAll('textarea,input');
+	for (var i = pageInputs.length - 1; i >= 0; i--) {
+		pageInputs[i].classList.remove('error');	
+	};
+}
 
 function CreateBaloon() {
+
 	baloon = document.createElement('DIV');
 	baloon.setAttribute('id', 'baloon');
 
@@ -16,24 +23,30 @@ function CreateBaloon() {
 
 	baloonBody.innerText = 'baloon';
 
-	baloon.appendChild(baloonHeader);
+	//baloon.appendChild(baloonHeader);
 	baloon.appendChild(baloonBody);
-	baloon.appendChild(baloonFooter);
+	//baloon.appendChild(baloonFooter);
 
 	baloon.onmouseover   = function(e) { this.style.filter = "Alpha(Opacity='100')"; this.style.cursor = 'pointer'; this.style.MozOpacity = '1';}
 	baloon.onmouseout    = function(e) { this.style.filter = "Alpha(Opacity='75')";  this.style.cursor = 'auto'; this.style.MozOpacity = '0.75'; }
 	baloon.onselectstart = function(e) { return false; }
-	baloon.onclick       = function(e) { this.style.display = 'none'; }
+	baloon.onclick       = function(e) { this.style.display = 'none';clearPageInputs(); }
 
 	document.body.appendChild(baloon);
 
-	window.onresize      = function(e) { document.getElementById('baloon').style.display = 'none'; }
+	window.onresize      = function(e) { document.getElementById('baloon').style.display = 'none';clearPageInputs(); }
 }
 
 function ShowBaloon(i) {
 	baloon = document.getElementById('baloon');
+	var baloonSide = i.getAttribute('data-side');
+	i.classList.add('error');
 
 	document.getElementById('baloonBody').innerHTML = i.getAttribute('data-notice') && i.getAttribute('data-notice').length ? i.getAttribute('data-notice') : 'ERROR';
+
+	if (baloonSide) {
+		baloon.classList.add(baloonSide);
+	}
 	baloon.style.display = 'block';
 
 	var xleft=0;
@@ -50,7 +63,7 @@ function ShowBaloon(i) {
 	xheight = i.offsetHeight ? i.offsetHeight : i.style.pixelHeight;
 
 	bwidth =  baloon.offsetWidth  ? baloon.offsetWidth  : baloon.style.pixelWidth;
-
+	bheight =  baloon.offsetHeight  ? baloon.offsetHeight  : baloon.style.pixelHeight;
 	w = window;
 
 	xbody  = document.compatMode=='CSS1Compat' ? w.document.documentElement : w.document.body;
@@ -59,10 +72,21 @@ function ShowBaloon(i) {
 
 	flip = !(xwidth - 10 + xleft + bwidth < dwidth);
 
-	baloon.style.top  = xheight - 10 + xtop + 'px';
-	baloon.style.left = (xleft + xwidth - (flip ? bwidth : 0)  - 25) + 'px';
+	if (baloonSide == 'left') {
+		baloon.style.top  = xtop + ((xheight - bheight) / 2) + 'px';
+		baloon.style.left = (xleft - bwidth + 2) + 'px';
+	} else if (baloonSide == 'right') {
+		baloon.style.top  = xtop + ((xheight - bheight) / 2) + 'px';
+		baloon.style.left = (xleft + xwidth - 4) + 'px';
+	} else if (baloonSide == 'bottom') {
+		baloon.style.top  = xtop + xheight - 6 + 'px';
+		baloon.style.left = (xleft + (xwidth / 2)) - (bwidth / 2) + 'px';
+	} else {
+		baloon.style.top  = xtop - bheight + 6 + 'px';
+		baloon.style.left = (xleft + (xwidth / 2)) - (bwidth / 2) + 'px';
+	}
 
-	document.getElementById('baloonHeader').className = flip ? 'baloonHeaderFlip' : 'baloonHeaderDirect';
+	//document.getElementById('baloonHeader').className = flip ? 'baloonHeaderFlip' : 'baloonHeaderDirect';
 
 	i.focus();
 	return false;
@@ -72,15 +96,17 @@ function ShowBaloon(i) {
 // (C) Netlogic, 2003
 
 function ValidateForms() {
+
 	for (i = 0; i < document.forms.length; i++) {
 		if(document.forms[i].onsubmit) continue;
 
 		document.forms[i].onsubmit = function(e) {
+			
 			var form = e ? e.target : window.event.srcElement;
 
 			for(var i=0; i<form.elements.length; i++) {
 				var value = form.elements[i].value;
-
+				clearPageInputs();
 				switch(form.elements[i].type) {
 					case 'text':
 					case 'password':
@@ -107,7 +133,11 @@ function ValidateForms() {
 										return ValidateNotice(form.elements[i]);
 									}
 									break;
-
+								case 'phone':
+									if(!isPhone(value)) {
+										return ValidateNotice(form.elements[i]);
+									}
+									break;
 								case 'number':
 									if(!isNumeric(value)) {
 										return ValidateNotice(form.elements[i]);
@@ -193,7 +223,12 @@ function isUrl(str) {
 function isNumeric(str) {
 	return isPattern("^[0-9]+$", str);
 }
-
+function isPhone(str) {
+	if(str.length) {
+		return str.match(/^8 \(\d{3}\) \d{3}\-\d{2}\-\d{2}$/);
+	}
+	return false;
+}
 function isInteger(str) {
 	return isNumeric(str);
 }
