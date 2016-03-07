@@ -85,6 +85,10 @@ class IndexAdmin extends Simpla
 		$this->design->assign('license', $l);
 
 		$this->design->set_templates_dir('simpla/design/html');
+
+		if(!is_dir($this->config->root_dir.'/compiled'))
+			mkdir($this->config->root_dir.'simpla/design/compiled', 0777);
+
 		$this->design->set_compiled_dir('simpla/design/compiled');
 		
 		$this->design->assign('settings',	$this->settings);
