@@ -35,6 +35,9 @@ class Design extends Simpla
 		$this->smarty->compile_dir = $this->config->root_dir.'/compiled/'.$theme;
 		$this->smarty->template_dir = $this->config->root_dir.'/design/'.$theme.'/html';		
 
+		if(!is_dir($this->config->root_dir.'/compiled'))
+			mkdir($this->config->root_dir.'/compiled', 0777);
+
 		// Создаем папку для скомпилированных шаблонов текущей темы
 		if(!is_dir($this->smarty->compile_dir))
 			mkdir($this->smarty->compile_dir, 0777);
