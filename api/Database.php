@@ -442,7 +442,7 @@ class Database extends Simpla
 		$result = $this->mysqli->query($sql);
 		if($result)
 		{
-			$table_no_prefix = preg_replace('/([^"\'0-9a-z_])'.$this->config->db_prefix.'([a-z_]+[^"\'])/i', "\$1__\$2", $table);
+			$table_no_prefix = preg_replace('/^('.$this->config->db_prefix.')/i', "__", $table);
 			fwrite($h, "/* Data for table $table_no_prefix */\n");
 			fwrite($h, "TRUNCATE TABLE `$table_no_prefix`;\n");
 			
