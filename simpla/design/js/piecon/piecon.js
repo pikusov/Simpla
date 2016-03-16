@@ -3,7 +3,7 @@
 //
 // https://github.com/lipka/piecon
 //
-// Copyright (c) 2012 Lukas Lipka <lukaslipka@gmail.com>. All rights reserved.
+// Copyright (c) 2015 Lukas Lipka <lukaslipka@gmail.com>. All rights reserved.
 //
 
 (function(){
@@ -20,6 +20,8 @@
         shadow: '#fff',
         fallback: false
     };
+
+    var isRetina = window.devicePixelRatio > 1;
 
     var ua = (function () {
         var agent = navigator.userAgent.toLowerCase();
@@ -40,7 +42,7 @@
         var links = document.getElementsByTagName('link');
 
         for (var i = 0, l = links.length; i < l; i++) {
-            if ((links[i].getAttribute('rel') || '').match(/\bicon\b/)) {
+            if (links[i].getAttribute('rel') === 'icon' || links[i].getAttribute('rel') === 'shortcut icon') {
                 return links[i];
             }
         }
@@ -49,11 +51,11 @@
     };
 
     var removeFaviconTag = function() {
-        var links = document.getElementsByTagName('link');
+        var links = Array.prototype.slice.call(document.getElementsByTagName('link'), 0);
         var head = document.getElementsByTagName('head')[0];
 
         for (var i = 0, l = links.length; i < l; i++) {
-            if (typeof(links[i]) !== 'undefined' && links[i].getAttribute('rel') === 'icon') {
+            if (links[i].getAttribute('rel') === 'icon' || links[i].getAttribute('rel') === 'shortcut icon') {
                 head.removeChild(links[i]);
             }
         }
@@ -73,8 +75,13 @@
     var getCanvas = function () {
         if (!canvas) {
             canvas = document.createElement("canvas");
-            canvas.width = 16;
-            canvas.height = 16;
+            if (isRetina) {
+                canvas.width = 32;
+                canvas.height = 32;
+            } else {
+                canvas.width = 16;
+                canvas.height = 16;
+            }
         }
 
         return canvas;
@@ -83,12 +90,11 @@
     var drawFavicon = function(percentage) {
         var canvas = getCanvas();
         var context = canvas.getContext("2d");
-        var percentage = percentage || 0;
-        var src = currentFavicon;
 
-        var faviconImage = new Image();
-        faviconImage.onload = function() {
-            context.clearRect(0, 0, 16, 16);
+        percentage = percentage || 0;
+
+        if (context) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw shadow
             context.beginPath();
@@ -114,27 +120,15 @@
                 context.fill();
             }
 
-            if (context) {
-                setFaviconTag(canvas.toDataURL());
-            }
-        };
-
-        // allow cross origin resource requests if the image is not a data:uri
-        // as detailed here: https://github.com/mrdoob/three.js/issues/1305
-        if (!src.match(/^data/)) {
-            faviconImage.crossOrigin = 'anonymous';
+            setFaviconTag(canvas.toDataURL());
         }
-
-        faviconImage.src = src;
     };
 
     var updateTitle = function(percentage) {
-        if (options.fallback) {
-            if (percentage > 0) {
-                document.title = '(' + percentage + '%) ' + originalTitle;
-            } else {
-                document.title = originalTitle;
-            }
+        if (percentage > 0) {
+            document.title = '(' + percentage + '%) ' + originalTitle;
+        } else {
+            document.title = originalTitle;
         }
     };
 
@@ -159,7 +153,7 @@
         }
 
         if (!isNaN(parseFloat(percentage)) && isFinite(percentage)) {
-            if (!getCanvas().getContext || browser.ie || browser.safari || options.fallback == true) {
+            if (!getCanvas().getContext || browser.ie || browser.safari || options.fallback === true) {
                 // Fallback to updating the browser title if unsupported
                 return updateTitle(percentage);
             } else if (options.fallback === 'force') {
@@ -184,5 +178,12 @@
     };
 
     Piecon.setOptions(defaults);
-    window.Piecon = Piecon;
+
+    if(typeof define === 'function' && define.amd) {
+        define(Piecon);
+    } else if (typeof module !== 'undefined') {
+        module.exports = Piecon;
+    } else {
+        window.Piecon = Piecon;
+    }
 })();
