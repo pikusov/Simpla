@@ -1,40 +1,38 @@
 <?php
 
 /**
- * Класс-обертка для конфигурационного файла с настройками магазина
- * В отличие от класса Settings, Config оперирует низкоуровневыми настройками, например найстройками базы данных.
+ * Simpla CMS
  *
- *
- * @copyright 	2014 Denis Pikusov
- * @link 		http://simplacms.ru
- * @author 		Denis Pikusov
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
  *
  */
- 
+
 require_once('Simpla.php');
 
 class Config
 {
 	public $version = '2.3.7';
-	
+
 	// Файл для хранения настроек
 	public $config_file = 'config/config.php';
 
 	private $vars = array();
-	
+
 	// В конструкторе записываем настройки файла в переменные этого класса
 	// для удобного доступа к ним. Например: $simpla->config->db_user
 	public function __construct()
-	{		
+	{
 		// Читаем настройки из дефолтного файла
 		$ini = parse_ini_file(dirname(dirname(__FILE__)).'/'.$this->config_file);
 		// Записываем настройку как переменную класса
 		foreach($ini as $var=>$value)
 			$this->vars[$var] = $value;
-		
+
 		// Вычисляем DOCUMENT_ROOT вручную, так как иногда в нем находится что-то левое
-		$localpath=getenv("SCRIPT_NAME");
-		$absolutepath=getenv("SCRIPT_FILENAME");
+		$localpath = getenv("SCRIPT_NAME");
+		$absolutepath = getenv("SCRIPT_FILENAME");
 		$_SERVER['DOCUMENT_ROOT']=substr($absolutepath,0,strpos($absolutepath,$localpath));
 
 		// Адрес сайта - тоже одна из настроек, но вычисляем его автоматически, а не берем из файла
@@ -73,7 +71,7 @@ class Config
 		$max_post = (int)(ini_get('post_max_size'));
 		$memory_limit = (int)(ini_get('memory_limit'));
 		$this->vars['max_upload_filesize'] = min($max_upload, $max_post, $memory_limit)*1024*1024;
-		
+
 		// Если соль не определена, то будем генировать ее
 		if(empty($this->vars['salt']))
 		{
@@ -82,13 +80,13 @@ class Config
 			$this->vars['salt'] = md5(md5_file(dirname(dirname(__FILE__)).'/'.$this->config_file).$s['dev'].$s['ino'].$s['uid'].$s['mtime']);
 		}
 
-		
+
 		// Часовой пояс
 		if(!empty($this->vars['php_timezone']))
 		{
 			date_default_timezone_set($this->vars['php_timezone']);
 		}
-		elseif(!ini_get('date.timezone')) 
+		elseif(!ini_get('date.timezone'))
 		{
 			date_default_timezone_set('UTC');
 		}
@@ -102,7 +100,7 @@ class Config
 		else
 			return null;
 	}
-	
+
 	// Магическим методов задаём нужную переменную
 	public function __set($name, $value)
 	{
@@ -121,12 +119,12 @@ class Config
 	public function token($text)
 	{
 		return md5($text.$this->salt);
-	}	
-	
+	}
+
 	public function check_token($text, $token)
 	{
 		if(!empty($token) && $token === $this->token($text))
 			return true;
 		return false;
-	}	
+	}
 }

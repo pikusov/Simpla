@@ -3,7 +3,7 @@
 /**
  * Simpla CMS
  *
- * @copyright	2011 Denis Pikusov
+ * @copyright	2016 Denis Pikusov
  * @link		http://simplacms.ru
  * @author		Denis Pikusov
  *
@@ -37,7 +37,7 @@ class Brands extends Simpla
 
 		// Выбираем все бренды
 		$query = $this->db->placehold("SELECT DISTINCT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
-								 		FROM __brands b $category_id_filter ORDER BY b.name");
+										FROM __brands b $category_id_filter ORDER BY b.name");
 		$this->db->query($query);
 
 		return $this->db->results();
@@ -52,7 +52,7 @@ class Brands extends Simpla
 	*/
 	public function get_brand($id)
 	{
-		if(is_int($id))			
+		if(is_int($id))
 			$filter = $this->db->placehold('b.id = ?', $id);
 		else
 			$filter = $this->db->placehold('b.url = ?', $id);
@@ -76,7 +76,7 @@ class Brands extends Simpla
 			$brand['url'] = preg_replace("/[\s]+/ui", '_', $brand['name']);
 			$brand['url'] = strtolower(preg_replace("/[^0-9a-zа-я_]+/ui", '', $brand['url']));
 		}
-	
+
 		$this->db->query("INSERT INTO __brands SET ?%", $brand);
 		return $this->db->insert_id();
 	}
@@ -86,32 +86,32 @@ class Brands extends Simpla
 	* Обновление бренда(ов)
 	* @param $brand
 	*
-	*/		
+	*/
 	public function update_brand($id, $brand)
 	{
 		$query = $this->db->placehold("UPDATE __brands SET ?% WHERE id=? LIMIT 1", $brand, intval($id));
 		$this->db->query($query);
 		return $id;
 	}
-	
+
 	/*
 	*
 	* Удаление бренда
 	* @param $id
 	*
-	*/	
+	*/
 	public function delete_brand($id)
 	{
 		if(!empty($id))
 		{
-			$this->delete_image($id);	
+			$this->delete_image($id);
 			$query = $this->db->placehold("DELETE FROM __brands WHERE id=? LIMIT 1", $id);
-			$this->db->query($query);		
+			$this->db->query($query);
 			$query = $this->db->placehold("UPDATE __products SET brand_id=NULL WHERE brand_id=?", $id);
-			$this->db->query($query);	
+			$this->db->query($query);
 		}
 	}
-	
+
 	/*
 	*
 	* Удаление изображения бренда
@@ -131,8 +131,8 @@ class Brands extends Simpla
 			$this->db->query($query);
 			$count = $this->db->result('count');
 			if($count == 0)
-			{			
-				@unlink($this->config->root_dir.$this->config->brands_images_dir.$filename);		
+			{
+				@unlink($this->config->root_dir.$this->config->brands_images_dir.$filename);
 			}
 		}
 	}

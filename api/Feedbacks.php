@@ -3,11 +3,12 @@
 /**
  * Simpla CMS
  *
- * @copyright	2013 Denis Pikusov
+ * @copyright	2016 Denis Pikusov
  * @link		http://simplacms.ru
  * @author		Denis Pikusov
  *
  */
+
 
 require_once('Simpla.php');
 
@@ -21,11 +22,11 @@ class Feedbacks extends Simpla
 		if($this->db->query($query))
 			return $this->db->result();
 		else
-			return false; 
+			return false;
 	}
-	
+
 	public function get_feedbacks($filter = array(), $new_on_top = false)
-	{	
+	{
 		// По умолчанию
 		$limit = 0;
 		$page = 1;
@@ -45,7 +46,7 @@ class Feedbacks extends Simpla
 			foreach($keywords as $keyword)
 				$keyword_filter .= $this->db->placehold('AND f.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR f.message LIKE "%'.$this->db->escape(trim($keyword)).'%" OR f.email LIKE "%'.$this->db->escape(trim($keyword)).'%" ');
 		}
-			
+
 		if($new_on_top)
 			$sort='DESC';
 		else
@@ -53,13 +54,13 @@ class Feedbacks extends Simpla
 
 		$query = $this->db->placehold("SELECT f.id, f.name, f.email, f.ip, f.message, f.date
 										FROM __feedbacks f WHERE 1 $keyword_filter ORDER BY f.id $sort $sql_limit");
-	
+
 		$this->db->query($query);
 		return $this->db->results();
 	}
-	
+
 	public function count_feedbacks($filter = array())
-	{	
+	{
 		$keyword_filter = '';
 
 		if(!empty($filter['keyword']))
@@ -71,28 +72,28 @@ class Feedbacks extends Simpla
 
 		$query = $this->db->placehold("SELECT count(distinct f.id) as count
 										FROM __feedbacks f WHERE 1 $keyword_filter");
-	
-		$this->db->query($query);	
+
+		$this->db->query($query);
 		return $this->db->result('count');
 
 	}
-	
-	
+
+
 	public function add_feedback($feedback)
-	{	
+	{
 		$query = $this->db->placehold('INSERT INTO __feedbacks
 		SET ?%,
 		date = NOW()',
 		$feedback);
-		
+
 		if(!$this->db->query($query))
 			return false;
 
 		$id = $this->db->insert_id();
 		return $id;
 	}
-	
-	
+
+
 	public function update_feedback($id, $feedback)
 	{
 		$date_query = '';
@@ -115,5 +116,5 @@ class Feedbacks extends Simpla
 			$query = $this->db->placehold("DELETE FROM __feedbacks WHERE id=? LIMIT 1", intval($id));
 			$this->db->query($query);
 		}
-	}	
+	}
 }

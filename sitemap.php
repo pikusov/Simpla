@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
+
 require_once('api/Simpla.php');
 $simpla = new Simpla();
 
@@ -71,5 +80,5 @@ print '</urlset>'."\n";
 
 function esc($s)
 {
-	return(htmlspecialchars($s, ENT_QUOTES, 'UTF-8'));	
+	return(htmlspecialchars($s, ENT_QUOTES, 'UTF-8'));
 }
