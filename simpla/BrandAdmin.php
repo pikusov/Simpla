@@ -1,18 +1,23 @@
 <?php
 
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
+
 require_once('api/Simpla.php');
 
-
-############################################
-# Class Category - Edit the good gategory
-############################################
 class BrandAdmin extends Simpla
 {
-  private $allowed_image_extentions = array('png', 'gif', 'jpg', 'jpeg', 'ico');
+	private $allowed_image_extentions = array('png', 'gif', 'jpg', 'jpeg', 'ico');
 
-  function fetch()
-  {
-	  	$brand = new stdClass;
+	public function fetch()
+	{
+		$brand = new stdClass;
 		if($this->request->method('post'))
 		{
 			$brand->id = $this->request->post('id', 'integer');
@@ -41,28 +46,28 @@ class BrandAdmin extends Simpla
 			{
 				if(empty($brand->id))
 				{
-	  				$brand->id = $this->brands->add_brand($brand);
+					$brand->id = $this->brands->add_brand($brand);
 					$this->design->assign('message_success', 'added');
-	  			}
-  	    		else
-  	    		{
-  	    			$this->brands->update_brand($brand->id, $brand);
+				}
+				else
+				{
+					$this->brands->update_brand($brand->id, $brand);
 					$this->design->assign('message_success', 'updated');
-  	    		}	
-  	    		// Удаление изображения
-  	    		if($this->request->post('delete_image'))
-  	    		{
-  	    			$this->brands->delete_image($brand->id);
-  	    		}
-  	    		// Загрузка изображения
-  	    		$image = $this->request->files('image');
-  	    		if(!empty($image['name']) && in_array(strtolower(pathinfo($image['name'], PATHINFO_EXTENSION)), $this->allowed_image_extentions))
-  	    		{
-  	    			$this->brands->delete_image($brand->id);   	    			
-  	    			move_uploaded_file($image['tmp_name'], $this->root_dir.$this->config->brands_images_dir.$image['name']);
-  	    			$this->brands->update_brand($brand->id, array('image'=>$image['name']));
-  	    		}
-	  			$brand = $this->brands->get_brand($brand->id);
+				}	
+				// Удаление изображения
+				if($this->request->post('delete_image'))
+				{
+					$this->brands->delete_image($brand->id);
+				}
+				// Загрузка изображения
+				$image = $this->request->files('image');
+				if(!empty($image['name']) && in_array(strtolower(pathinfo($image['name'], PATHINFO_EXTENSION)), $this->allowed_image_extentions))
+				{
+					$this->brands->delete_image($brand->id);
+					move_uploaded_file($image['tmp_name'], $this->root_dir.$this->config->brands_images_dir.$image['name']);
+					$this->brands->update_brand($brand->id, array('image'=>$image['name']));
+				}
+				$brand = $this->brands->get_brand($brand->id);
 			}
 		}
 		else
@@ -72,6 +77,7 @@ class BrandAdmin extends Simpla
 		}
 		
 		$this->design->assign('brand', $brand);
+		
 		return  $this->design->fetch('brand.tpl');
 	}
 }

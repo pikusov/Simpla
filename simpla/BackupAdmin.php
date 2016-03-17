@@ -1,4 +1,13 @@
-<?PHP
+<?php
+
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
 
 define( 'PCLZIP_TEMPORARY_DIR', 'simpla/files/backup/' );
 
@@ -7,7 +16,7 @@ require_once('simpla/pclzip/pclzip.lib.php');
 
 class BackupAdmin extends Simpla
 {
- 
+
 	public function fetch()
 	{
 	
@@ -31,19 +40,19 @@ class BackupAdmin extends Simpla
 					{
 						trigger_error('Не могу заархивировать '.$zip->errorInfo(true));
 					}
-					$this->design->assign('message_success', 'created');		
-	
+					$this->design->assign('message_success', 'created');
+
 					break;
-			    }
-			    case 'restore':
-			    {
-			    	$name = $this->request->post('name');
+				}
+				case 'restore':
+				{
+					$name = $this->request->post('name');
 
 					$archive = $dir.$name;
 					$zip = new PclZip($archive);
-					
+
 					$this->clean_dir('files');
-	
+
 					if (!$zip->extract(PCLZIP_OPT_PATH, '', PCLZIP_OPT_BY_PREG, "/^files\//", PCLZIP_CB_POST_EXTRACT, 'myPostExtractCallBack'))
 					{
 						trigger_error('Не могу разархивировать '.$zip->errorInfo(true));
@@ -60,18 +69,18 @@ class BackupAdmin extends Simpla
 					{
 						$this->db->restore($dir.'simpla.sql');
 						unlink($dir.'simpla.sql');
-						$this->design->assign('message_success', 'restored');		
+						$this->design->assign('message_success', 'restored');
 					}
-			        break;
-			    }
-			    case 'delete':
-			    {
-			    	$names = $this->request->post('check');
-				    foreach($names as $name)
-						unlink($dir.$name);   
-			        break;
-			    }
-			}				
+					break;
+				}
+				case 'delete':
+				{
+					$names = $this->request->post('check');
+					foreach($names as $name)
+						unlink($dir.$name);
+					break;
+				}
+			}
 		}
 
 		$backup_files = glob($dir."*.zip");
@@ -93,26 +102,27 @@ class BackupAdmin extends Simpla
 			$this->design->assign('message_error', 'no_permission');
 		
 		$this->design->assign('backups', $backups);
+
 		return $this->design->fetch('backup.tpl');
 	}
 	
 	private function clean_dir($path)
 	{
-	    $path= rtrim($path, '/').'/';
-	    $handle = opendir($path);
-	    for (;false !== ($file = readdir($handle));)
-	        if($file != "." and $file != ".." )
-	        {
-	            $fullpath= $path.$file;
-	            if( is_dir($fullpath) )
-	            {
-	                $this->clean_dir($fullpath);
-	                rmdir($fullpath);
-	            }
-	            else
-	              unlink($fullpath);
-	        }
-	    closedir($handle);
+		$path= rtrim($path, '/').'/';
+		$handle = opendir($path);
+		for (;false !== ($file = readdir($handle));)
+			if($file != "." and $file != ".." )
+			{
+				$fullpath= $path.$file;
+				if( is_dir($fullpath) )
+				{
+					$this->clean_dir($fullpath);
+					rmdir($fullpath);
+				}
+				else
+					unlink($fullpath);
+			}
+		closedir($handle);
 	}
 	
 }
