@@ -1,4 +1,13 @@
-<?PHP
+<?php
+
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
 
 chdir('..');
 
@@ -45,14 +54,14 @@ if($backend->config->debug)
 		print "$i.\t$q->exec_time sec\r\n$q->sql\r\n\r\n";
 		$sql_time += $q->exec_time;
 	}
-  
+
 	$time_end = microtime(true);
 	$exec_time = $time_end-$time_start;
-  
-  	if(function_exists('memory_get_peak_usage'))
-		print "memory peak usage: ".memory_get_peak_usage()." bytes\r\n";  
-	print "page generation time: ".$exec_time." seconds\r\n";  
-	print "sql queries time: ".$sql_time." seconds\r\n";  
-	print "php run time: ".($exec_time-$sql_time)." seconds\r\n";  
+
+	if(function_exists('memory_get_peak_usage'))
+		print "memory peak usage: ".memory_get_peak_usage()." bytes\r\n";
+	print "page generation time: ".$exec_time." seconds\r\n";
+	print "sql queries time: ".$sql_time." seconds\r\n";
+	print "php run time: ".($exec_time-$sql_time)." seconds\r\n";
 	print "-->";
 }
