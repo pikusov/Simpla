@@ -1,26 +1,20 @@
-<?PHP
+<?php
 
 /**
  * Simpla CMS
- * Storefront class: Каталог товаров
  *
- * Этот класс использует шаблоны hits.tpl
- *
- * @copyright 	2010 Denis Pikusov
- * @link 		http://simplacms.ru
- * @author 		Denis Pikusov
- *
- * 
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
  *
  */
- 
-require_once('View.php');
 
+require_once('View.php');
 
 class MainView extends View
 {
 
-	function fetch()
+	public function fetch()
 	{
 		if($this->page)
 		{
