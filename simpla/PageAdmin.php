@@ -1,10 +1,20 @@
-<?PHP
+<?php
+
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
+
 require_once('api/Simpla.php');
 
 class PageAdmin extends Simpla
-{	
+{
 	public function fetch()
-	{	
+	{
 		$page = new stdClass;
 		if($this->request->method('POST'))
 		{
@@ -18,57 +28,56 @@ class PageAdmin extends Simpla
 			$page->body = $this->request->post('body');
 			$page->menu_id = $this->request->post('menu_id', 'integer');
 			$page->visible = $this->request->post('visible', 'boolean');
-	
+
 			## Не допустить одинаковые URL разделов.
 			if(($p = $this->pages->get_page($page->url)) && $p->id!=$page->id)
-			{			
+			{
 				$this->design->assign('message_error', 'url_exists');
 			}
 			else
 			{
 				if(empty($page->id))
 				{
-	  				$page->id = $this->pages->add_page($page);
-	  				$page = $this->pages->get_page($page->id);
-	  				$this->design->assign('message_success', 'added');
-  	    		}
-  	    		else
-  	    		{
-  	    			$this->pages->update_page($page->id, $page);
-	  				$page = $this->pages->get_page($page->id);
-	  				$this->design->assign('message_success', 'updated');
-   	    		}
+					$page->id = $this->pages->add_page($page);
+					$page = $this->pages->get_page($page->id);
+					$this->design->assign('message_success', 'added');
+				}
+				else
+				{
+					$this->pages->update_page($page->id, $page);
+					$page = $this->pages->get_page($page->id);
+					$this->design->assign('message_success', 'updated');
+				}
 			}
 		}
 		else
 		{
 			$id = $this->request->get('id', 'integer');
 			if(!empty($id))
-				$page = $this->pages->get_page(intval($id));			
+				$page = $this->pages->get_page(intval($id));
 			else
 			{
 				$page->menu_id = $this->request->get('menu_id');
 				$page->visible = 1;
 			}
-		}	
+		}
 
 		$this->design->assign('page', $page);
-		
- 	  	$menus = $this->pages->get_menus();
+
+		$menus = $this->pages->get_menus();
 		$this->design->assign('menus', $menus);
-		
-	    // Текущее меню
-	    if(isset($page->menu_id))
-	  		$menu_id = $page->menu_id; 
-	  	if(empty($menu_id) || !$menu = $this->pages->get_menu($menu_id))
-	  	{
-	  		$menu = reset($menus);
-	  	}
-	 	$this->design->assign('menu', $menu);
 
+		// Текущее меню
+		if(isset($page->menu_id))
+			$menu_id = $page->menu_id;
+		if(empty($menu_id) || !$menu = $this->pages->get_menu($menu_id))
+		{
+			$menu = reset($menus);
+		}
+		$this->design->assign('menu', $menu);
 
- 	  	return $this->design->fetch('page.tpl');
+		return $this->design->fetch('page.tpl');
 	}
-	
+
 }
 
