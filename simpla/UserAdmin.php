@@ -19,12 +19,11 @@ class UserAdmin extends Simpla
 		if(!empty($_POST['user_info']))
 		{
 			$user->id = $this->request->post('id', 'integer');
-			$user->enabled = $this->request->post('enabled');
+			$user->enabled = $this->request->post('enabled', 'boolean');
 			$user->name = $this->request->post('name');
 			$user->email = $this->request->post('email');
 			$user->group_id = $this->request->post('group_id');
 
-			## Не допустить одинаковые email пользователей.
 			if(empty($user->name))
 			{
 				$this->design->assign('message_error', 'empty_name');
