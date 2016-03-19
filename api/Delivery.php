@@ -16,8 +16,10 @@ class Delivery extends Simpla
 
 	public function get_delivery($id)
 	{
-
-		$query = $this->db->placehold("SELECT id, name, description, free_from, price, enabled, position, separate_payment FROM __delivery WHERE id=? LIMIT 1", intval($id));
+		$query = $this->db->placehold("SELECT d.id, d.name, d.description, d.free_from, d.price, d.enabled, d.position, d.separate_payment
+										FROM __delivery d
+										WHERE d.id=?
+										LIMIT 1", intval($id));
 
 		$this->db->query($query);
 		return $this->db->result();
@@ -29,10 +31,13 @@ class Delivery extends Simpla
 		$enabled_filter = '';
 
 		if(!empty($filter['enabled']))
-			$enabled_filter = $this->db->placehold('AND enabled=?', intval($filter['enabled']));
+			$enabled_filter = $this->db->placehold('AND d.enabled=?', intval($filter['enabled']));
 
-		$query = "SELECT id, name, description, free_from, price, enabled, position, separate_payment
-					FROM __delivery WHERE 1 $enabled_filter ORDER BY position";
+		$query = $this->db->placehold("SELECT d.id, d.name, d.description, d.free_from, d.price, d.enabled, d.position, d.separate_payment
+										FROM __delivery d
+										WHERE 1
+											$enabled_filter
+										ORDER BY d.position");
 
 		$this->db->query($query);
 
@@ -48,9 +53,7 @@ class Delivery extends Simpla
 
 	public function add_delivery($delivery)
 	{
-		$query = $this->db->placehold('INSERT INTO __delivery
-		SET ?%',
-		$delivery);
+		$query = $this->db->placehold('INSERT INTO __delivery SET ?%', $delivery);
 
 		if(!$this->db->query($query))
 			return false;

@@ -193,7 +193,8 @@ class Categories extends Simpla
 
 		// Выбираем все категории
 		$query = $this->db->placehold("SELECT c.id, c.parent_id, c.name, c.description, c.url, c.meta_title, c.meta_keywords, c.meta_description, c.image, c.visible, c.position
-										FROM __categories c ORDER BY c.parent_id, c.position");
+										FROM __categories c
+										ORDER BY c.parent_id, c.position");
 
 		// Выбор категорий с подсчетом количества товаров для каждой. Может тормозить при большом количестве товаров.
 		// $query = $this->db->placehold("SELECT c.id, c.parent_id, c.name, c.description, c.url, c.meta_title, c.meta_keywords, c.meta_description, c.image, c.visible, c.position, COUNT(p.id) as products_count
