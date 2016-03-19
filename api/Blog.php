@@ -28,9 +28,10 @@ class Blog extends Simpla
 		else
 			$where = $this->db->placehold(' WHERE b.url=? ', $id);
 
-		$query = $this->db->placehold("SELECT b.id, b.url, b.name, b.annotation, b.text, b.meta_title,
-									   b.meta_keywords, b.meta_description, b.visible, b.date
-									   FROM __blog b $where LIMIT 1");
+		$query = $this->db->placehold("SELECT b.id, b.url, b.name, b.annotation, b.text, b.meta_title, b.meta_keywords, b.meta_description, b.visible, b.date
+										FROM __blog b
+											$where
+										LIMIT 1");
 		if($this->db->query($query))
 			return $this->db->result();
 		else
@@ -74,11 +75,14 @@ class Blog extends Simpla
 
 		$sql_limit = $this->db->placehold(' LIMIT ?, ? ', ($page-1)*$limit, $limit);
 
-		$query = $this->db->placehold("SELECT b.id, b.url, b.name, b.annotation, b.text,
-											  b.meta_title, b.meta_keywords, b.meta_description, b.visible,
-											  b.date
-											  FROM __blog b WHERE 1 $post_id_filter $visible_filter $keyword_filter
-											  ORDER BY date DESC, id DESC $sql_limit");
+		$query = $this->db->placehold("SELECT b.id, b.url, b.name, b.annotation, b.text, b.meta_title, b.meta_keywords, b.meta_description, b.visible, b.date
+										FROM __blog b
+										WHERE 1
+											$post_id_filter
+											$visible_filter
+											$keyword_filter
+										ORDER BY date DESC, id DESC
+										$sql_limit");
 
 		$this->db->query($query);
 		return $this->db->results();
@@ -110,8 +114,12 @@ class Blog extends Simpla
 				$keyword_filter .= $this->db->placehold('AND (b.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR b.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 
-		$query = "SELECT COUNT(distinct b.id) as count
-				  FROM __blog b WHERE 1 $post_id_filter $visible_filter $keyword_filter";
+		$query = $this->db->placehold("SELECT COUNT(distinct b.id) as count
+										FROM __blog b
+										WHERE 1
+											$post_id_filter
+											$visible_filter
+											$keyword_filter");
 
 		if($this->db->query($query))
 			return $this->db->result('count');
@@ -131,6 +139,7 @@ class Blog extends Simpla
 			$date_query = ', date=NOW()';
 		else
 			$date_query = '';
+
 		$query = $this->db->placehold("INSERT INTO __blog SET ?% $date_query", $post);
 
 		if(!$this->db->query($query))
@@ -188,9 +197,9 @@ class Blog extends Simpla
 		$date = $this->db->result('date');
 
 		$this->db->query("(SELECT id FROM __blog WHERE date=? AND id>? AND visible  ORDER BY id limit 1)
-						   UNION
-						  (SELECT id FROM __blog WHERE date>? AND visible ORDER BY date, id limit 1)",
-						  $date, $id, $date);
+								UNION
+							(SELECT id FROM __blog WHERE date>? AND visible ORDER BY date, id limit 1)",
+							$date, $id, $date);
 		$next_id = $this->db->result('id');
 		if($next_id)
 			return $this->get_post(intval($next_id));
@@ -210,9 +219,9 @@ class Blog extends Simpla
 		$date = $this->db->result('date');
 
 		$this->db->query("(SELECT id FROM __blog WHERE date=? AND id<? AND visible ORDER BY id DESC limit 1)
-						   UNION
-						  (SELECT id FROM __blog WHERE date<? AND visible ORDER BY date DESC, id DESC limit 1)",
-						  $date, $id, $date);
+								UNION
+							(SELECT id FROM __blog WHERE date<? AND visible ORDER BY date DESC, id DESC limit 1)",
+							$date, $id, $date);
 		$prev_id = $this->db->result('id');
 		if($prev_id)
 			return $this->get_post(intval($prev_id));

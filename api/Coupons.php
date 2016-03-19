@@ -30,7 +30,9 @@ class Coupons extends Simpla
 
 		$query = $this->db->placehold("SELECT c.id, c.code, c.value, c.type, c.expire, min_order_price, c.single, c.usages,
 										((DATE(NOW()) <= DATE(c.expire) OR c.expire IS NULL) AND (c.usages=0 OR NOT c.single)) AS valid
-									   FROM __coupons c $where LIMIT 1");
+										FROM __coupons c
+										$where
+										LIMIT 1");
 		if($this->db->query($query))
 			return $this->db->result();
 		else
@@ -78,9 +80,13 @@ class Coupons extends Simpla
 
 		$query = $this->db->placehold("SELECT c.id, c.code, c.value, c.type, c.expire, min_order_price, c.single, c.usages,
 										((DATE(NOW()) <= DATE(c.expire) OR c.expire IS NULL) AND (c.usages=0 OR NOT c.single)) AS valid
-											  FROM __coupons c WHERE 1 $coupon_id_filter $valid_filter $keyword_filter
-											  ORDER BY valid DESC, id DESC $sql_limit",
-											  $this->settings->date_format);
+										FROM __coupons c
+										WHERE 1
+											$coupon_id_filter
+											$valid_filter
+											$keyword_filter
+										ORDER BY valid DESC, id DESC
+										$sql_limit", $this->settings->date_format);
 
 		$this->db->query($query);
 		return $this->db->results();
@@ -111,8 +117,11 @@ class Coupons extends Simpla
 				$keyword_filter .= $this->db->placehold('AND (b.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR b.meta_keywords LIKE "%'.$this->db->escape(trim($keyword)).'%") ');
 		}
 
-		$query = "SELECT COUNT(distinct c.id) as count
-				  FROM __coupons c WHERE 1 $coupon_id_filter $valid_filter";
+		$query = $this->db->placehold("SELECT COUNT(distinct c.id) as count
+										FROM __coupons c
+										WHERE 1
+											$coupon_id_filter
+											$valid_filter");
 
 		if($this->db->query($query))
 			return $this->db->result('count');

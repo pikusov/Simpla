@@ -37,7 +37,9 @@ class Brands extends Simpla
 
 		// Выбираем все бренды
 		$query = $this->db->placehold("SELECT DISTINCT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
-										FROM __brands b $category_id_filter ORDER BY b.name");
+										FROM __brands b
+											$category_id_filter
+										ORDER BY b.name");
 		$this->db->query($query);
 
 		return $this->db->results();
@@ -56,8 +58,11 @@ class Brands extends Simpla
 			$filter = $this->db->placehold('b.id = ?', $id);
 		else
 			$filter = $this->db->placehold('b.url = ?', $id);
-		$query = "SELECT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
-								 FROM __brands b WHERE $filter LIMIT 1";
+
+		$query = $this->db->placehold("SELECT b.id, b.name, b.url, b.meta_title, b.meta_keywords, b.meta_description, b.description, b.image
+										FROM __brands b
+										WHERE $filter
+										LIMIT 1");
 		$this->db->query($query);
 		return $this->db->result();
 	}

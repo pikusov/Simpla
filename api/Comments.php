@@ -69,7 +69,14 @@ class Comments extends Simpla
 		$sort='DESC';
 
 		$query = $this->db->placehold("SELECT c.id, c.object_id, c.ip, c.name, c.text, c.type, c.date, c.approved
-										FROM __comments c WHERE 1 $object_id_filter $type_filter $keyword_filter $approved_filter ORDER BY id $sort $sql_limit");
+										FROM __comments c
+										WHERE 1
+											$object_id_filter
+											$type_filter
+											$keyword_filter
+											$approved_filter
+										ORDER BY id $sort
+										$sql_limit");
 
 		$this->db->query($query);
 		return $this->db->results();
@@ -100,7 +107,12 @@ class Comments extends Simpla
 		}
 
 		$query = $this->db->placehold("SELECT count(distinct c.id) as count
-										FROM __comments c WHERE 1 $object_id_filter $type_filter $keyword_filter $approved_filter", $this->settings->date_format);
+										FROM __comments c
+										WHERE 1
+										$object_id_filter
+										$type_filter
+										$keyword_filter
+										$approved_filter", $this->settings->date_format);
 
 		$this->db->query($query);
 		return $this->db->result('count');
