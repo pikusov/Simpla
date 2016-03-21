@@ -1,8 +1,10 @@
 <?php
-
-	header("Content-type: image/jpeg");
-
 	session_start();
+	header("Content-type: image/jpeg");
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("X-Robots-Tag: noindex");
+	header("Pragma: no-cache");
+	header("Expires: -1");
 
 // image config
 
@@ -50,7 +52,7 @@
 		ImageSetPixel($img, rand(0,$width), rand(0,$height), $dc);
 	}
 	*/
-	
+
 	imagejpeg($img);
 
 
