@@ -26,8 +26,10 @@ class ExportUsersAdmin extends Simpla
 		if(!is_writable($this->export_files_dir))
 			$this->design->assign('message_error', 'no_permission');
 
+		if (!function_exists('iconv') && !function_exists('mb_convert_encoding'))
+			$this->design->assign('message_error', 'iconv_or_mb_convert_encoding');
+
 		return $this->design->fetch('export_users.tpl');
 	}
 
 }
-
