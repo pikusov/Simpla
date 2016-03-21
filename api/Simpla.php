@@ -82,4 +82,28 @@ class Simpla
 		// Возвращаем созданный объект
 		return self::$objects[$name];
 	}
+
+	/*
+		Вспомогательные методы
+	*/
+
+	public function convert_str_encoding($str, $to_encoding, $from_encoding, $alt = false)
+	{
+
+		if (function_exists('iconv'))
+		{
+			$str = @iconv($from_encoding, $to_encoding, $str);
+		}
+		elseif (function_exists('mb_convert_encoding'))
+		{
+			$str = @mb_convert_encoding($str, $to_encoding, $from_encoding);
+		}
+		else
+		{
+			// TODO add сonverting Windows-1251 to UTF-8 and the reverse when no iconv and mb_convert_encoding
+			return $alt ? $alt : $str;
+		}
+
+		return $str;
+	}
 }
