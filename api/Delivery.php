@@ -48,6 +48,7 @@ class Delivery extends Simpla
 	{
 		$query = $this->db->placehold("UPDATE __delivery SET ?% WHERE id in(?@)", $delivery, (array)$id);
 		$this->db->query($query);
+
 		return $id;
 	}
 
@@ -60,20 +61,22 @@ class Delivery extends Simpla
 
 		$id = $this->db->insert_id();
 		$this->db->query("UPDATE __delivery SET position=id WHERE id=?", intval($id));
+
 		return $id;
 	}
 
 	public function delete_delivery($id)
 	{
-		// Удаляем связь доставки с методоми оплаты
-		$query = $this->db->placehold("SELECT payment_method_id FROM __delivery_payment WHERE delivery_id=?", intval($id));
-		$this->db->query($query);
-
 		if(!empty($id))
 		{
+			// Удаляем связь метода доставки с оплатами
+			$query = $this->db->placehold("DELETE FROM __delivery_payment WHERE delivery_id=?", intval($id));
+			$this->db->query($query);
+
 			$query = $this->db->placehold("DELETE FROM __delivery WHERE id=? LIMIT 1", intval($id));
 			$this->db->query($query);
 		}
+
 	}
 
 
@@ -81,6 +84,7 @@ class Delivery extends Simpla
 	{
 		$query = $this->db->placehold("SELECT payment_method_id FROM __delivery_payment WHERE delivery_id=?", intval($id));
 		$this->db->query($query);
+
 		return $this->db->results('payment_method_id');
 	}
 
@@ -89,8 +93,8 @@ class Delivery extends Simpla
 		$query = $this->db->placehold("DELETE FROM __delivery_payment WHERE delivery_id=?", intval($id));
 		$this->db->query($query);
 		if(is_array($payment_methods_ids))
-		foreach($payment_methods_ids as $p_id)
-			$this->db->query("INSERT INTO __delivery_payment SET delivery_id=?, payment_method_id=?", $id, $p_id);
+			foreach($payment_methods_ids as $p_id)
+				$this->db->query("INSERT INTO __delivery_payment SET delivery_id=?, payment_method_id=?", $id, $p_id);
 	}
 
 }
