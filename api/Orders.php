@@ -67,7 +67,7 @@ class Orders extends Simpla
 		if(isset($filter['modified_since']))
 			$modified_since_filter = $this->db->placehold('AND o.modified > ?', $filter['modified_since']);
 
-		if(isset($filter['label']))
+		if(!empty($filter['label']))
 			$label_filter = $this->db->placehold('AND ol.label_id = ?', $filter['label']);
 
 		if(!empty($filter['keyword']))
@@ -106,7 +106,7 @@ class Orders extends Simpla
 		if(isset($filter['user_id']))
 			$user_filter = $this->db->placehold('AND o.user_id = ?', intval($filter['user_id']));
 
-		if(isset($filter['label']))
+		if(!empty($filter['label']))
 			$label_filter = $this->db->placehold('AND ol.label_id = ?', $filter['label']);
 
 		if(!empty($filter['keyword']))
