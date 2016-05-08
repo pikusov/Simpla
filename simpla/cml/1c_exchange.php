@@ -394,7 +394,7 @@ if($simpla->request->get('type') == 'catalog' && $simpla->request->get('mode') =
 {
 	$filename = basename($simpla->request->get('filename'));
 
-	if($filename === 'import.xml')
+	if(stristr($filename, 'import') !== FALSE)
 	{
 		// Категории и свойства (только в первом запросе пакетной передачи)
 		if(!isset($_SESSION['last_1c_imported_product_num']))
@@ -450,7 +450,7 @@ if($simpla->request->get('type') == 'catalog' && $simpla->request->get('mode') =
 		//unlink($dir.$filename);
 		unset($_SESSION['last_1c_imported_product_num']);
 	}
-	elseif($filename === 'offers.xml')
+	elseif(stristr($filename, 'offers') !== FALSE)
 	{
 		// Варианты
 		$z = new XMLReader;
