@@ -25,6 +25,10 @@ class ProductsAdmin extends Simpla
 		$categories = $this->categories->get_categories_tree();
 		$this->design->assign('categories', $categories);
 
+		// Все бренды
+		$all_brands = $this->brands->get_brands();
+		$this->design->assign('all_brands', $all_brands);
+
 		// Текущая категория
 		$category_id = $this->request->get('category_id', 'integer');
 		if($category_id && $category = $this->categories->get_category($category_id))
@@ -33,12 +37,14 @@ class ProductsAdmin extends Simpla
 
 			// Бренды категории
 			$brands = $this->brands->get_brands(array('category_id'=>$filter['category_id']));
-			$this->design->assign('brands', $brands);
+
+		}
+		else
+		{
+			$brands = $all_brands;
 		}
 
-		// Все бренды
-		$all_brands = $this->brands->get_brands();
-		$this->design->assign('all_brands', $all_brands);
+		$this->design->assign('brands', $brands);
 
 		// Текущий бренд
 		$brand_id = $this->request->get('brand_id', 'integer');
