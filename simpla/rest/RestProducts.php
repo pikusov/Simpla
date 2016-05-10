@@ -91,7 +91,7 @@ class RestProducts extends Rest
 			$categories_ids = array();	
 			if(in_array('categories', $join))
 			{
-				foreach($this->categories->get_products_categories(array('product_id'=>$items_ids)) as $pc)
+				foreach($this->categories->get_products_categories(array('product_id'=>$items_ids, 'limit' => count($items_ids))) as $pc)
 				{
 					if(isset($items[$pc->product_id]))
 					{
