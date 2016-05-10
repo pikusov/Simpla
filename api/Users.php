@@ -44,19 +44,24 @@ class Users extends Simpla
 			switch ($filter['sort'])
 			{
 				case 'date':
-				$order = 'u.created DESC';
+					$order = 'u.created DESC';
 				break;
+
 				case 'name':
-				$order = 'u.name';
+					$order = 'u.name';
 				break;
 			}
 
 
 		$sql_limit = $this->db->placehold(' LIMIT ?, ? ', ($page-1)*$limit, $limit);
 		// Выбираем пользователей
-		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name FROM __users u
-		                                LEFT JOIN __groups g ON u.group_id=g.id
-										WHERE 1 $group_id_filter $keyword_filter ORDER BY $order $sql_limit");
+		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name
+										FROM __users u
+										LEFT JOIN __groups g ON u.group_id=g.id
+										WHERE 1
+											$group_id_filter
+											$keyword_filter
+										ORDER BY $order $sql_limit");
 		$this->db->query($query);
 		return $this->db->results();
 	}
@@ -77,9 +82,12 @@ class Users extends Simpla
 		}
 
 		// Выбираем пользователей
-		$query = $this->db->placehold("SELECT count(*) as count FROM __users u
-		                                LEFT JOIN __groups g ON u.group_id=g.id
-										WHERE 1 $group_id_filter $keyword_filter");
+		$query = $this->db->placehold("SELECT count(*) as count
+										FROM __users u
+										LEFT JOIN __groups g ON u.group_id=g.id
+										WHERE 1
+											$group_id_filter
+											$keyword_filter");
 		$this->db->query($query);
 		return $this->db->result('count');
 	}
@@ -128,12 +136,6 @@ class Users extends Simpla
 		return $id;
 	}
 
-	/*
-	*
-	* Удалить пользователя
-	* @param $post
-	*
-	*/
 	public function delete_user($id)
 	{
 		if(!empty($id))
