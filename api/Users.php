@@ -44,19 +44,24 @@ class Users extends Simpla
 			switch ($filter['sort'])
 			{
 				case 'date':
-				$order = 'u.created DESC';
+					$order = 'u.created DESC';
 				break;
+
 				case 'name':
-				$order = 'u.name';
+					$order = 'u.name';
 				break;
 			}
 
 
 		$sql_limit = $this->db->placehold(' LIMIT ?, ? ', ($page-1)*$limit, $limit);
 		// Выбираем пользователей
-		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name FROM __users u
-		                                LEFT JOIN __groups g ON u.group_id=g.id
-										WHERE 1 $group_id_filter $keyword_filter ORDER BY $order $sql_limit");
+		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name
+										FROM __users u
+										LEFT JOIN __groups g ON u.group_id=g.id
+										WHERE 1
+											$group_id_filter
+											$keyword_filter
+										ORDER BY $order $sql_limit");
 		$this->db->query($query);
 		return $this->db->results();
 	}
@@ -73,13 +78,16 @@ class Users extends Simpla
 		{
 			$keywords = explode(' ', $filter['keyword']);
 			foreach($keywords as $keyword)
-				$keyword_filter .= $this->db->placehold('AND u.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR u.email LIKE "%'.$this->db->escape(trim($keyword)).'%"');
+				$keyword_filter .= $this->db->placehold('AND (u.name LIKE "%'.$this->db->escape(trim($keyword)).'%" OR u.email LIKE "%'.$this->db->escape(trim($keyword)).'%"  OR u.last_ip LIKE "%'.$this->db->escape(trim($keyword)).'%")');
 		}
 
 		// Выбираем пользователей
-		$query = $this->db->placehold("SELECT count(*) as count FROM __users u
-		                                LEFT JOIN __groups g ON u.group_id=g.id
-										WHERE 1 $group_id_filter $keyword_filter");
+		$query = $this->db->placehold("SELECT count(*) as count
+										FROM __users u
+										LEFT JOIN __groups g ON u.group_id=g.id
+										WHERE 1
+											$group_id_filter
+											$keyword_filter");
 		$this->db->query($query);
 		return $this->db->result('count');
 	}
@@ -92,7 +100,11 @@ class Users extends Simpla
 			$where = $this->db->placehold(' WHERE u.id=? ', intval($id));
 
 		// Выбираем пользователя
-		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name FROM __users u LEFT JOIN __groups g ON u.group_id=g.id $where LIMIT 1", $id);
+		$query = $this->db->placehold("SELECT u.id, u.email, u.password, u.name, u.group_id, u.enabled, u.last_ip, u.created, g.discount, g.name as group_name
+										FROM __users u
+										LEFT JOIN __groups g ON u.group_id=g.id
+											$where
+										LIMIT 1", $id);
 		$this->db->query($query);
 		$user = $this->db->result();
 		if(empty($user))
@@ -107,7 +119,9 @@ class Users extends Simpla
 		if(isset($user['password']))
 			$user['password'] = md5($this->salt.$user['password'].md5($user['password']));
 
-		$query = $this->db->placehold("SELECT count(*) as count FROM __users WHERE email=?", $user['email']);
+		$query = $this->db->placehold("SELECT count(*) as count
+										FROM __users
+										WHERE email=?", $user['email']);
 		$this->db->query($query);
 
 		if($this->db->result('count') > 0)
@@ -128,17 +142,11 @@ class Users extends Simpla
 		return $id;
 	}
 
-	/*
-	*
-	* Удалить пользователя
-	* @param $post
-	*
-	*/
 	public function delete_user($id)
 	{
 		if(!empty($id))
 		{
-			$query = $this->db->placehold("UPDATE __orders SET user_id=NULL WHERE id=? LIMIT 1", intval($id));
+			$query = $this->db->placehold("UPDATE __orders SET user_id=NULL WHERE user_id=?", intval($id));
 			$this->db->query($query);
 
 			$query = $this->db->placehold("DELETE FROM __users WHERE id=? LIMIT 1", intval($id));
@@ -151,7 +159,9 @@ class Users extends Simpla
 	public function get_groups()
 	{
 		// Выбираем группы
-		$query = $this->db->placehold("SELECT g.id, g.name, g.discount FROM __groups AS g ORDER BY g.discount");
+		$query = $this->db->placehold("SELECT g.id, g.name, g.discount
+										FROM __groups AS g
+										ORDER BY g.discount");
 		$this->db->query($query);
 		return $this->db->results();
 	}
@@ -159,7 +169,10 @@ class Users extends Simpla
 	public function get_group($id)
 	{
 		// Выбираем группу
-		$query = $this->db->placehold("SELECT * FROM __groups WHERE id=? LIMIT 1", $id);
+		$query = $this->db->placehold("SELECT g.*
+										FROM __groups AS g
+										WHERE g.id=?
+										LIMIT 1", $id);
 		$this->db->query($query);
 		$group = $this->db->result();
 
