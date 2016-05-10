@@ -138,7 +138,7 @@ class Users extends Simpla
 	{
 		if(!empty($id))
 		{
-			$query = $this->db->placehold("UPDATE __orders SET user_id=NULL WHERE id=? LIMIT 1", intval($id));
+			$query = $this->db->placehold("UPDATE __orders SET user_id=NULL WHERE user_id=?", intval($id));
 			$this->db->query($query);
 
 			$query = $this->db->placehold("DELETE FROM __users WHERE id=? LIMIT 1", intval($id));
