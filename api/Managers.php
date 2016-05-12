@@ -35,7 +35,7 @@ class Managers extends Simpla
 
 	public function get_managers()
 	{
-		$lines = explode("\n", @file_get_contents(dirname(dirname(__FILE__)).'/'.$this->passwd_file));
+		$lines = explode("\n", @file_get_contents($this->passwd_file));
 		$managers = array();
 		foreach($lines as $line)
 		{
