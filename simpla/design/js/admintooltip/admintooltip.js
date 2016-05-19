@@ -1,10 +1,20 @@
 $(function() {
+	if(!('live' in jQuery.fn))
+	{
+		jQuery.fn.extend({
+			live: function (event, callback) {
+				if (this.selector) {
+					jQuery(document).on(event, this.selector, callback);
+				}
+			}
+		});
+	}
 	$("<a href='simpla/' class='admin_bookmark'></a>").appendTo('body');
-	tooltip = $("<div class='tooltip'><div class='tooltipHeader'></div><div class='tooltipBody'></div><div class='tooltipFooter'></div></div>").appendTo($('body'));		
+	tooltip = $("<div class='tooltip'><div class='tooltipHeader'></div><div class='tooltipBody'></div><div class='tooltipFooter'></div></div>").appendTo($('body'));
 	$('.tooltip').live('mouseleave', function(){tooltipcanclose=true;setTimeout("close_tooltip();", 300);});
 	$('.tooltip').live('mouseover', function(){tooltipcanclose=false;});
-	
-	$('[data-page]').live('mouseover', show_tooltip);	
+
+	$('[data-page]').live('mouseover', show_tooltip);
 	$('[data-category]').live('mouseover', show_tooltip);
 	$('[data-brand]').live('mouseover', show_tooltip);
 	$('[data-product]').live('mouseover', show_tooltip);
@@ -17,7 +27,7 @@ function show_tooltip()
 	tooltipcanclose=false;
 	tooltip.show();
 	$(this).live('mouseleave', function(){tooltipcanclose=true;setTimeout("close_tooltip();", 500);});
-	
+
 
 
 	flip = !($(this).offset().left+tooltip.width()+25 < $('body').width());
@@ -28,29 +38,29 @@ function show_tooltip()
 
 	from = encodeURIComponent(window.location);
 	tooltipcontent = '';
-	
+
 	if(id = $(this).attr('data-page'))
 	{
 		tooltipcontent = "<a href='simpla/index.php?module=PageAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 		tooltipcontent += "<a href='simpla/index.php?module=PageAdmin&return="+from+"' class=admin_tooltip_add>Добавить страницу</a>";
 	}
-		
+
 	if(id = $(this).attr('data-category'))
 	{
 		tooltipcontent = "<a href='simpla/index.php?module=CategoryAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 		tooltipcontent += "<a href='simpla/index.php?module=ProductAdmin&category_id="+id+"&return="+from+"' class=admin_tooltip_add>Добавить товар</a>";
 	}
-	
+
 	if(id = $(this).attr('data-brand'))
 	{
 		tooltipcontent = "<a href='simpla/index.php?module=BrandAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
-	
+
 	if(id = $(this).attr('data-product'))
 	{
 		tooltipcontent = "<a href='simpla/index.php?module=ProductAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
-	
+
 	if(id = $(this).attr('data-post'))
 	{
 		tooltipcontent = "<a href='simpla/index.php?module=PostAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
@@ -60,7 +70,7 @@ function show_tooltip()
 	{
 		tooltipcontent = "<a href='simpla/index.php?module=FeatureAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
-	
+
 	$('.tooltipBody').html(tooltipcontent);
 }
 
@@ -81,35 +91,35 @@ function SetTooltips() {
 		tooltip = elements[i].getAttribute('tooltip');
 		if(tooltip)
 		{
-		    elements[i].onmouseout = function(e) {tooltipcanclose=true;setTimeout("CloseTooltip();", 1000);};		
+		    elements[i].onmouseout = function(e) {tooltipcanclose=true;setTimeout("CloseTooltip();", 1000);};
 			switch(tooltip)
-			{	
-				case 'product':					   			   
+			{
+				case 'product':
 				   elements[i].onmouseover = function(e) {AdminProductTooltip(this,  this.getAttribute('product_id'));tooltipcanclose=false;}
 				break;
-				case 'hit':					   			   
+				case 'hit':
 				   elements[i].onmouseover = function(e) {AdminHitTooltip(this,  this.getAttribute('product_id'));tooltipcanclose=false;tooltipcanclose=false;}
 				break;
-				case 'category':					   				   
+				case 'category':
 				   elements[i].onmouseover = function(e) {AdminCategoryTooltip(this,  this.getAttribute('category_id'));tooltipcanclose=false;}
 				break;
-				case 'news':					   				   
+				case 'news':
 				   elements[i].onmouseover = function(e) {AdminNewsTooltip(this,  this.getAttribute('news_id'));tooltipcanclose=false;}
 				break;
-				case 'article':					   				   
+				case 'article':
 				   elements[i].onmouseover = function(e) {AdminArticleTooltip(this,  this.getAttribute('article_id'));tooltipcanclose=false;}
 				break;
-				case 'page':					   				   
+				case 'page':
 				   elements[i].onmouseover = function(e) {AdminPageTooltip(this,  this.getAttribute('id')); tooltipcanclose=false;}
 				break;
-				case 'currency':					   				   
+				case 'currency':
 				   elements[i].onmouseover = function(e) {AdminCurrencyTooltip(this); tooltipcanclose=false;}
 				break;
 			}
 
 
 		}
-		
+
 	}
 
 }
