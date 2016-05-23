@@ -18,14 +18,9 @@ class FeedbacksAdmin extends Simpla
 	public function fetch()
 	{
 
-		// Поиск
-		$keyword = $this->request->get('keyword', 'string');
-		if(!empty($keyword))
-		{
-			$filter['keyword'] = $keyword;
-			$this->design->assign('keyword', $keyword);
-		}
-
+		$filter = array();
+		$filter['page'] = max(1, $this->request->get('page', 'integer'));
+		$filter['limit'] = 40;
 
 		// Обработка действий
 		if($this->request->method('post'))
@@ -44,11 +39,6 @@ class FeedbacksAdmin extends Simpla
 			}
 
 		}
-
-		// Отображение
-		$filter = array();
-		$filter['page'] = max(1, $this->request->get('page', 'integer'));
-		$filter['limit'] = 40;
 
 		// Поиск
 		$keyword = $this->request->get('keyword', 'string');
