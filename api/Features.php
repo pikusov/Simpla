@@ -196,7 +196,7 @@ class Features extends Simpla
 											$brand_id_filter
 											$features_filter
 										GROUP BY po.feature_id, po.value
-										ORDER BY value=0, -value DESC, value");
+										ORDER BY po.value=0, -po.value DESC, po.value");
 
 		$this->db->query($query);
 		return $this->db->results();
