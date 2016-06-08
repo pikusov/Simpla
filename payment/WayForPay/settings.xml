@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+        WayForPay
+	</name>
+	<settings>
+		<variable>wayforpay_merchant</variable>
+		<name>Идентификатор мерчанта</name>
+	</settings>
+	<settings>
+		<variable>wayforpay_secretkey</variable>
+		<name>Секретный ключ мерчанта</name>
+	</settings>
+	<settings>
+		<variable>wayforpay_language</variable>
+		<name>Язык платежной страницы</name>
+		<options>
+			<name>Русский</name>
+			<value>RU</value>
+		</options>
+        <options>
+            <name>Українська</name>
+            <value>UA</value>
+        </options>
+		<options>
+			<name>English</name>
+			<value>EN</value>
+		</options>
+	</settings>
+</module>
