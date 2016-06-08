@@ -288,9 +288,7 @@ class Design extends Simpla
 
 	public function api_plugin($params, &$smarty)
 	{
-		if(!isset($params['module']))
-			return false;
-		if(!isset($params['method']))
+		if(!isset($params['module']) || !isset($params['method']))
 			return false;
 
 		$module = $params['module'];
@@ -299,7 +297,11 @@ class Design extends Simpla
 		unset($params['module']);
 		unset($params['method']);
 		unset($params['var']);
-		$res = $this->$module->$method($params);
+
+		if(isset($params['_']))
+			$res = $this->$module->$method($params['_']);
+		else
+			$res = $this->$module->$method($params);
 		$smarty->assign($var, $res);
 	}
 }
