@@ -153,6 +153,11 @@ class ProductsView extends View
 				$product->images = array();
 				$product->properties = array();
 			}
+			
+			//категория товара
+		        $categories = $this->categories->get_product_categories($products_ids);
+		        foreach($categories as $cat)
+		        	$products[$cat->product_id]->category = $this->categories->get_category((int)$cat->category_id);
 	
 			$variants = $this->variants->get_variants(array('product_id'=>$products_ids, 'in_stock'=>true));
 			
