@@ -186,7 +186,7 @@ class Features extends Simpla
 			}
 
 
-		$query = $this->db->placehold("SELECT po.product_id, po.feature_id, po.value, count(po.product_id) as count
+		$query = $this->db->placehold("SELECT po.feature_id, po.value, count(po.product_id) as count
 										FROM __options po
 										$visible_filter
 										$category_id_filter
