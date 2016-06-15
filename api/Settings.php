@@ -55,4 +55,9 @@ class Settings extends Simpla
 		else
 			$this->db->query('INSERT INTO __settings SET value=?, name=?', $value, $name);
 	}
+
+	public function __isset($name)
+	{
+		return isset($this->vars[$name]);
+	}
 }
