@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<name>
-		Яндекс.Касса (версия 1.2.0.1)
+		Яндекс.Касса (версия 1.2.0.2)
 	</name>
 	<settings>
 		<variable>yandex_shopid</variable>
@@ -19,12 +19,12 @@
 		<variable>yandex_paymode</variable>
 		<name>Сценарий оплаты</name>
 		<options>
-			<name>Выбор оплаты на стороне магазина</name>
-			<value>site</value>
+			<name>Выбор оплаты на стороне сервиса Яндекс.Касса</name>
+			<value>kassa</value>
 		</options>
 		<options>
-			<name>Выбор оплаты на стороне сервиса Яндекс.Касса (требуется сообщить менеджеру Яндекс.Денег)</name>
-			<value>kassa</value>
+			<name>Выбор оплаты на стороне магазина</name>
+			<value>site</value>
 		</options>
 	</settings>
 	<settings>
