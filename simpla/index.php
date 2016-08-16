@@ -39,7 +39,7 @@ if(!$backend->request->check_session())
 	trigger_error('Session expired', E_USER_WARNING);
 }
 
-
+header("Content-type: text/html; charset=UTF-8");
 print $backend->fetch();
 
 // Отладочная информация
