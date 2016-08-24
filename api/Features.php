@@ -175,7 +175,7 @@ class Features extends Simpla
 			$category_id_filter = $this->db->placehold('INNER JOIN __products_categories pc ON pc.product_id=po.product_id AND pc.category_id in(?@)', (array)$filter['category_id']);
 
 		if(isset($filter['visible']))
-			$visible_filter = $this->db->placehold('INNER JOIN __products p ON p.id=po.product_id AND visible=?', intval($filter['visible']));
+			$visible_filter = $this->db->placehold('INNER JOIN __products p ON p.id=po.product_id AND p.visible=?', intval($filter['visible']));
 
 		if(isset($filter['in_stock']))
 			$in_stock_filter = $this->db->placehold('AND (SELECT count(*)>0 FROM __variants pv WHERE pv.product_id=po.product_id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
