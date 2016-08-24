@@ -154,6 +154,7 @@ class Features extends Simpla
 		$product_id_filter = '';
 		$category_id_filter = '';
 		$visible_filter = '';
+		$in_stock_filter = '';
 		$brand_id_filter = '';
 		$features_filter = '';
 
@@ -176,6 +177,9 @@ class Features extends Simpla
 		if(isset($filter['visible']))
 			$visible_filter = $this->db->placehold('INNER JOIN __products p ON p.id=po.product_id AND visible=?', intval($filter['visible']));
 
+		if(isset($filter['in_stock']))
+			$in_stock_filter = $this->db->placehold('AND (SELECT count(*)>0 FROM __variants pv WHERE pv.product_id=po.product_id AND pv.price>0 AND (pv.stock IS NULL OR pv.stock>0) LIMIT 1) = ?', intval($filter['in_stock']));
+
 		if(isset($filter['brand_id']))
 			$brand_id_filter = $this->db->placehold('AND po.product_id in(SELECT id FROM __products WHERE brand_id in(?@))', (array)$filter['brand_id']);
 
@@ -193,6 +197,7 @@ class Features extends Simpla
 										WHERE 1
 											$feature_id_filter
 											$product_id_filter
+											$in_stock_filter
 											$brand_id_filter
 											$features_filter
 										GROUP BY po.feature_id, po.value
