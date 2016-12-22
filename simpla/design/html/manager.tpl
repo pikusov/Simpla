@@ -14,8 +14,6 @@
 {/if}
 
 {* On document load *}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
 <script>
 {literal}
 $(function() {
@@ -114,19 +112,13 @@ $(function() {
 				<input id="{$p}" name="permissions[]" class="simpla_inp" type="checkbox" value="{$p}"
 				{if $m->permissions && in_array($p, $m->permissions)}checked{/if} {if $m->login==$manager->login}disabled{/if}/></li>
 				{/foreach}
-				
+
 			</ul>
-			
 		</div>
 		<!-- Параметры (The End)-->
-		
-
-			
 	</div>
-	<!-- Левая колонка (The End)--> 
-	
-	
+	<!-- Левая колонка (The End)-->
+
 	<input class="button_green button_save" type="submit" name="" value="Сохранить" />
-	
 </form>
 <!-- Основная форма (The End) -->

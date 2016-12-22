@@ -1,31 +1,39 @@
-<?PHP 
+<?php
+
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
 
 require_once('api/Simpla.php');
 
-########################################
 class OrdersAdmin extends Simpla
 {
 	public function fetch()
 	{
-	 	$filter = array();
-	  	$filter['page'] = max(1, $this->request->get('page', 'integer'));
-	  		
-	  	$filter['limit'] = 40;
-	  	
-	    // Поиск
-	  	$keyword = $this->request->get('keyword', 'string');
-	  	if(!empty($keyword))
-	  	{
-		  	$filter['keyword'] = $keyword;
-	 		$this->design->assign('keyword', $keyword);
+		$filter = array();
+		$filter['page'] = max(1, $this->request->get('page', 'integer'));
+
+		$filter['limit'] = 40;
+
+		// Поиск
+		$keyword = $this->request->get('keyword', 'string');
+		if(!empty($keyword))
+		{
+			$filter['keyword'] = $keyword;
+			$this->design->assign('keyword', $keyword);
 		}
 
 		// Фильтр по метке
-	  	$label = $this->orders->get_label($this->request->get('label'));	  	
-	  	if(!empty($label))
-	  	{
-		  	$filter['label'] = $label->id;
-		 	$this->design->assign('label', $label);
+		$label = $this->orders->get_label($this->request->get('label'));
+		if(!empty($label))
+		{
+			$filter['label'] = $label->id;
+			$this->design->assign('label', $label);
 		}
 
 
@@ -46,7 +54,7 @@ class OrdersAdmin extends Simpla
 						if($o->status<3)
 						{
 							$this->orders->update_order($id, array('status'=>3));
-							$this->orders->open($id);							
+							$this->orders->open($id);
 						}
 						else
 							$this->orders->delete_order($id);
@@ -58,7 +66,7 @@ class OrdersAdmin extends Simpla
 					foreach($ids as $id)
 					{
 						if($this->orders->open(intval($id)))
-							$this->orders->update_order($id, array('status'=>0));	
+							$this->orders->update_order($id, array('status'=>0));
 					}
 					break;
 				}
@@ -69,7 +77,7 @@ class OrdersAdmin extends Simpla
 						if(!$this->orders->close(intval($id)))
 							$this->design->assign('message_error', 'error_closing');
 						else
-							$this->orders->update_order($id, array('status'=>1));	
+							$this->orders->update_order($id, array('status'=>1));
 					}
 					break;
 				}
@@ -80,7 +88,7 @@ class OrdersAdmin extends Simpla
 						if(!$this->orders->close(intval($id)))
 							$this->design->assign('message_error', 'error_closing');
 						else
-							$this->orders->update_order($id, array('status'=>2));	
+							$this->orders->update_order($id, array('status'=>2));
 					}
 					break;
 				}
@@ -105,41 +113,41 @@ class OrdersAdmin extends Simpla
 					break;
 				}
 			}
-		}		
+		}
 
 		if(empty($keyword))
 		{
 			$status = $this->request->get('status', 'integer');
 			$filter['status'] = $status;
-		 	$this->design->assign('status', $status);
+			$this->design->assign('status', $status);
 		}
-				  	
-	  	$orders_count = $this->orders->count_orders($filter);
+
+		$orders_count = $this->orders->count_orders($filter);
 		// Показать все страницы сразу
 		if($this->request->get('page') == 'all')
-			$filter['limit'] = $orders_count;	
+			$filter['limit'] = $orders_count;
 
 		// Отображение
 		$orders = array();
 		foreach($this->orders->get_orders($filter) as $o)
 			$orders[$o->id] = $o;
-	 	
+
 		// Метки заказов
 		$orders_labels = array();
-	  	foreach($this->orders->get_order_labels(array_keys($orders)) as $ol)
-	  		$orders[$ol->order_id]->labels[] = $ol;
-	  	
-	 	$this->design->assign('pages_count', ceil($orders_count/$filter['limit']));
-	 	$this->design->assign('current_page', $filter['page']);
-	  	
-	 	$this->design->assign('orders_count', $orders_count);
-	
-	 	$this->design->assign('orders', $orders);
-	
+		foreach($this->orders->get_order_labels(array_keys($orders)) as $ol)
+			$orders[$ol->order_id]->labels[] = $ol;
+
+		$this->design->assign('pages_count', ceil($orders_count/$filter['limit']));
+		$this->design->assign('current_page', $filter['page']);
+
+		$this->design->assign('orders_count', $orders_count);
+
+		$this->design->assign('orders', $orders);
+
 		// Метки заказов
-	  	$labels = $this->orders->get_labels();
-	 	$this->design->assign('labels', $labels);
-	  	
+		$labels = $this->orders->get_labels();
+		$this->design->assign('labels', $labels);
+
 		return $this->design->fetch('orders.tpl');
 	}
 }

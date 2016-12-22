@@ -1,12 +1,20 @@
-<?PHP
+<?php
+
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
 
 require_once('api/Simpla.php');
 
-############################################
-# Class Product - edit the static section
-############################################
+
 class OrderAdmin extends Simpla
 {
+
 	public function fetch()
 	{
 		$order = new stdClass;
@@ -27,23 +35,23 @@ class OrderAdmin extends Simpla
 			$order->paid = $this->request->post('paid', 'integer');
 			$order->user_id = $this->request->post('user_id', 'integer');
 			$order->separate_delivery = $this->request->post('separate_delivery', 'integer');
-	 
-	 		if(!$order_labels = $this->request->post('order_labels'))
-	 			$order_labels = array();
+
+			if(!$order_labels = $this->request->post('order_labels'))
+				$order_labels = array();
 
 			if(empty($order->id))
 			{
-  				$order->id = $this->orders->add_order($order);
+				$order->id = $this->orders->add_order($order);
 				$this->design->assign('message_success', 'added');
-  			}
-    		else
-    		{
-    			$this->orders->update_order($order->id, $order);
+			}
+			else
+			{
+				$this->orders->update_order($order->id, $order);
 				$this->design->assign('message_success', 'updated');
-    		}	
+			}
 
-	    	$this->orders->update_order_labels($order->id, $order_labels);
-			
+			$this->orders->update_order_labels($order->id, $order_labels);
+
 			if($order->id)
 			{
 				// Покупки
@@ -56,7 +64,7 @@ class OrderAdmin extends Simpla
 							$purchases[$i] = new stdClass;
 						$purchases[$i]->$n = $v;
 					}
-				}		
+				}
 				$posted_purchases_ids = array();
 				foreach($purchases as $purchase)
 				{
@@ -69,15 +77,15 @@ class OrderAdmin extends Simpla
 							$this->orders->update_purchase($purchase->id, array('price'=>$purchase->price, 'amount'=>$purchase->amount));
 					elseif(!$purchase->id = $this->orders->add_purchase(array('order_id'=>$order->id, 'variant_id'=>$purchase->variant_id, 'variant_name'=>$variant->name, 'price'=>$purchase->price, 'amount'=>$purchase->amount)))
 						$this->design->assign('message_error', 'error_closing');
-						
-					$posted_purchases_ids[] = $purchase->id;			
+
+					$posted_purchases_ids[] = $purchase->id;
 				}
-				
+
 				// Удалить непереданные товары
 				foreach($this->orders->get_purchases(array('order_id'=>$order->id)) as $p)
 					if(!in_array($p->id, $posted_purchases_ids))
 						$this->orders->delete_purchase($p->id);
-					
+
 				// Принять?
 				if($this->request->post('status_new'))
 					$new_status = 0;
@@ -89,29 +97,29 @@ class OrderAdmin extends Simpla
 					$new_status = 3;
 				else
 					$new_status = $this->request->post('status', 'string');
-	
-				if($new_status == 0)					
+
+				if($new_status == 0)
 				{
 					if(!$this->orders->open(intval($order->id)))
 						$this->design->assign('message_error', 'error_open');
 					else
 						$this->orders->update_order($order->id, array('status'=>0));
 				}
-				elseif($new_status == 1)					
+				elseif($new_status == 1)
 				{
 					if(!$this->orders->close(intval($order->id)))
 						$this->design->assign('message_error', 'error_closing');
 					else
 						$this->orders->update_order($order->id, array('status'=>1));
 				}
-				elseif($new_status == 2)					
+				elseif($new_status == 2)
 				{
 					if(!$this->orders->close(intval($order->id)))
 						$this->design->assign('message_error', 'error_closing');
 					else
 						$this->orders->update_order($order->id, array('status'=>2));
 				}
-				elseif($new_status == 3)					
+				elseif($new_status == 3)
 				{
 					if(!$this->orders->open(intval($order->id)))
 						$this->design->assign('message_error', 'error_open');
@@ -120,7 +128,7 @@ class OrderAdmin extends Simpla
 					header('Location: '.$this->request->get('return'));
 				}
 				$order = $this->orders->get_order($order->id);
-	
+
 				// Отправляем письмо пользователю
 				if($this->request->post('notify_user'))
 					$this->notify->email_order_user($order->id);
@@ -135,7 +143,7 @@ class OrderAdmin extends Simpla
 			$order_labels = array();
 			if(isset($order->id))
 			foreach($this->orders->get_order_labels($order->id) as $ol)
-				$order_labels[] = $ol->id;			
+				$order_labels[] = $ol->id;
 		}
 
 
@@ -151,24 +159,24 @@ class OrderAdmin extends Simpla
 				$products_ids[] = $purchase->product_id;
 				$variants_ids[] = $purchase->variant_id;
 			}
-			
+
 			$products = array();
-			foreach($this->products->get_products(array('id'=>$products_ids)) as $p)
+			foreach($this->products->get_products(array('id'=>$products_ids, 'limit' => count($products_ids))) as $p)
 				$products[$p->id] = $p;
-	
-			$images = $this->products->get_images(array('product_id'=>$products_ids));		
+
+			$images = $this->products->get_images(array('product_id'=>$products_ids));
 			foreach($images as $image)
 				$products[$image->product_id]->images[] = $image;
-			
+
 			$variants = array();
 			foreach($this->variants->get_variants(array('product_id'=>$products_ids)) as $v)
 				$variants[$v->id] = $v;
-			
+
 			foreach($variants as $variant)
 				if(!empty($products[$variant->product_id]))
 					$products[$variant->product_id]->variants[] = $variant;
-				
-	
+
+
 			foreach($purchases as &$purchase)
 			{
 				if(!empty($products[$purchase->product_id]))
@@ -176,15 +184,15 @@ class OrderAdmin extends Simpla
 				if(!empty($variants[$purchase->variant_id]))
 					$purchase->variant = $variants[$purchase->variant_id];
 				$subtotal += $purchase->price*$purchase->amount;
-				$purchases_count += $purchase->amount;				
-			}			
-			
+				$purchases_count += $purchase->amount;
+			}
+
 		}
 		else
 		{
 			$purchases = array();
 		}
-		
+
 		// Если новый заказ и передали get параметры
 		if(empty($order->id))
 		{
@@ -209,14 +217,14 @@ class OrderAdmin extends Simpla
 			// Способ доставки
 			$delivery = $this->delivery->get_delivery($order->delivery_id);
 			$this->design->assign('delivery', $delivery);
-	
+
 			// Способ оплаты
 			$payment_method = $this->payment->get_payment_method($order->payment_method_id);
-			
+
 			if(!empty($payment_method))
 			{
 				$this->design->assign('payment_method', $payment_method);
-		
+
 				// Валюта оплаты
 				$payment_currency = $this->money->get_currency(intval($payment_method->currency_id));
 				$this->design->assign('payment_currency', $payment_currency);
@@ -224,7 +232,7 @@ class OrderAdmin extends Simpla
 			// Пользователь
 			if($order->user_id)
 				$this->design->assign('user', $this->users->get_user(intval($order->user_id)));
-	
+
 			// Соседние заказы
 			$this->design->assign('next_order', $this->orders->get_next_order($order->id, $this->request->get('status', 'string')));
 			$this->design->assign('prev_order', $this->orders->get_prev_order($order->id, $this->request->get('status', 'string')));
@@ -239,14 +247,14 @@ class OrderAdmin extends Simpla
 		$this->design->assign('payment_methods', $payment_methods);
 
 		// Метки заказов
-	  	$labels = $this->orders->get_labels();
-	 	$this->design->assign('labels', $labels);
-	  	
-	 	$this->design->assign('order_labels', $order_labels);	  	
-		
+		$labels = $this->orders->get_labels();
+		$this->design->assign('labels', $labels);
+
+		$this->design->assign('order_labels', $order_labels);
+
 		if($this->request->get('view') == 'print')
- 		  	return $this->design->fetch('order_print.tpl');
- 	  	else
-	 	  	return $this->design->fetch('order.tpl');
+			return $this->design->fetch('order_print.tpl');
+		else
+			return $this->design->fetch('order.tpl');
 	}
 }

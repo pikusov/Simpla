@@ -1,19 +1,28 @@
 <?php
 
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
+
 require_once('../../api/Simpla.php');
 
 class ExportAjax extends Simpla
-{	
+{
 	private $columns_names = array(
-			'name'=>             'Èìÿ',
-			'email'=>            'Email',
-			'group_name'=>            'Ãðóïïà',
-			'discount'=>         'Ñêèäêà',
-			'enabled'=>          'Àêòèâåí',
-			'created'=>          'Äàòà',
-			'last_ip'=>          'Ïîñëåäíèé IP'
+			'name'			=>	'Ð˜Ð¼Ñ',
+			'email'			=>	'Email',
+			'group_name'	=>	'Ð“Ñ€ÑƒÐ¿Ð¿Ð°',
+			'discount'		=>	'Ð¡ÐºÐ¸Ð´ÐºÐ°',
+			'enabled'		=>	'ÐÐºÑ‚Ð¸Ð²ÐµÐ½',
+			'created'		=>	'Ð”Ð°Ñ‚Ð°',
+			'last_ip'		=>	'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ IP'
 			);
-			
+
 	private $column_delimiter = ';';
 	private $users_count = 10;
 	private $export_files_dir = '../files/export_users/';
@@ -22,31 +31,33 @@ class ExportAjax extends Simpla
 	public function fetch()
 	{
 		if(!$this->managers->access('users'))
-			return false;
-	
-		// Ýêñåëü êóøàåò òîëüêî 1251
-		setlocale(LC_ALL, 'ru_RU.1251');
+			return array('error' => 'Permission denied');
+
+		// Ð­ÐºÑÐµÐ»ÑŒ ÐºÑƒÑˆÐ°ÐµÑ‚ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ 1251
 		$this->db->query('SET NAMES cp1251');
-	
-		// Ñòðàíèöà, êîòîðóþ ýêñïîðòèðóåì
-		$page = $this->request->get('page');
+
+		// Ð¡Ñ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€ÑƒÑŽ ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ñ€ÑƒÐµÐ¼
+		$page = $this->request->get('page', 'integer');
 		if(empty($page) || $page==1)
 		{
 			$page = 1;
-			// Åñëè íà÷àëè ñíà÷àëà - óäàëèì ñòàðûé ôàéë ýêñïîðòà
+			// Ð•ÑÐ»Ð¸ Ð½Ð°Ñ‡Ð°Ð»Ð¸ ÑÐ½Ð°Ñ‡Ð°Ð»Ð° - ÑƒÐ´Ð°Ð»Ð¸Ð¼ ÑÑ‚Ð°Ñ€Ñ‹Ð¹ Ñ„Ð°Ð¹Ð» ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð°
 			if(is_writable($this->export_files_dir.$this->filename))
 				unlink($this->export_files_dir.$this->filename);
 		}
-		
-		// Îòêðûâàåì ôàéë ýêñïîðòà íà äîáàâëåíèå
+
+		// ÐžÑ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼ Ñ„Ð°Ð¹Ð» ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð° Ð½Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ
 		$f = fopen($this->export_files_dir.$this->filename, 'ab');
-				
-		// Åñëè íà÷àëè ñíà÷àëà - äîáàâèì â ïåðâóþ ñòðîêó íàçâàíèÿ êîëîíîê
+
+		foreach($this->columns_names as $key => $value)
+			$this->columns_names[$key] = $this->convert_str_encoding($value, 'windows-1251', 'UTF-8', $key);
+
+		// Ð•ÑÐ»Ð¸ Ð½Ð°Ñ‡Ð°Ð»Ð¸ ÑÐ½Ð°Ñ‡Ð°Ð»Ð° - Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð² Ð¿ÐµÑ€Ð²ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ñ ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº
 		if($page == 1)
 		{
 			fputcsv($f, $this->columns_names, $this->column_delimiter);
 		}
-		
+
 		$filter = array();
 		$filter['page'] = $page;
 		$filter['limit'] = $this->users_count;
@@ -54,35 +65,35 @@ class ExportAjax extends Simpla
 			$filter['group_id'] = intval($this->request->get('group_id'));
 		$filter['sort'] = $this->request->get('sort');
 		$filter['keyword'] = $this->request->get('keyword');
-		
-		// Âûáèðàåì ïîëüçîâàòåëåé
+
+		// Ð’Ñ‹Ð±Ð¸Ñ€Ð°ÐµÐ¼ Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»ÐµÐ¹
 		$users = array();
  		foreach($this->users->get_users($filter) as $u)
  		{
  			$str = array();
  			foreach($this->columns_names as $n=>$c)
  				$str[] = $u->$n;
- 				
+
  			fputcsv($f, $str, $this->column_delimiter);
  		}
- 		
-		$total_users = $this->users->count_users();
-		
+
+		$total_users = $this->users->count_users($filter);
+
 		if($this->users_count*$page < $total_users)
 			return array('end'=>false, 'page'=>$page, 'totalpages'=>$total_users/$this->users_count);
 		else
-			return array('end'=>true, 'page'=>$page, 'totalpages'=>$total_users/$this->users_count);		
+			return array('end'=>true, 'page'=>$page, 'totalpages'=>$total_users/$this->users_count);
 
 		fclose($f);
 
 	}
-	
+
 }
 
 $export_ajax = new ExportAjax();
 $json = json_encode($export_ajax->fetch());
 header("Content-type: application/json; charset=utf-8");
-header("Cache-Control: must-revalidate");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
-header("Expires: -1");		
+header("Expires: -1");
 print $json;

@@ -3,7 +3,7 @@
 {if $total_pages_num>1}
 {* Скрипт для листания через ctrl → *}
 {* Ссылки на соседние страницы должны иметь id PrevLink и NextLink *}
-<script type="text/javascript" src="js/ctrlnavigate.js"></script>           
+<script type="text/javascript" src="design/{$settings->theme}/js/ctrlnavigate.js"></script>           
 
 <!-- Листалка страниц -->
 <div class="pagination">
@@ -27,6 +27,9 @@
 	{* До какой страницы выводить - выводим всё окно, но не более ощего количества страниц *}
 	{$page_to = min($page_from+$visible_pages, $total_pages_num-1)}
 
+	{if $current_page_num==2}<a class="prev_page_link" href="{url page=null}">‹ назад</a>{/if}
+	{if $current_page_num>2}<a class="prev_page_link" href="{url page=$current_page_num-1}">‹ назад</a>{/if}
+
 	{* Ссылка на 1 страницу отображается всегда *}
 	<a {if $current_page_num==1}class="selected"{/if} href="{url page=null}">1</a>
 	
@@ -46,9 +49,7 @@
 	<a {if $current_page_num==$total_pages_num}class="selected"{/if}  href="{url page=$total_pages_num}">{$total_pages_num}</a>
 	
 	<a href="{url page=all}">все сразу</a>
-	{if $current_page_num==2}<a class="prev_page_link" href="{url page=null}">←назад</a>{/if}
-	{if $current_page_num>2}<a class="prev_page_link" href="{url page=$current_page_num-1}">←назад</a>{/if}
-	{if $current_page_num<$total_pages_num}<a class="next_page_link" href="{url page=$current_page_num+1}">вперед→</a>{/if}
+	{if $current_page_num<$total_pages_num}<a class="next_page_link" href="{url page=$current_page_num+1}">вперед ›</a>{/if}
 	
 </div>
 <!-- Листалка страниц (The End) -->

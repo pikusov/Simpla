@@ -1,29 +1,38 @@
 <?php
 
+/**
+ * Simpla CMS
+ *
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
+ *
+ */
+
 require_once('../../api/Simpla.php');
 
 class ExportAjax extends Simpla
-{	
+{
 	private $columns_names = array(
-			'category'=>         'Êàòåãîðèÿ',
-			'name'=>             'Òîâàð',
-			'price'=>            'Öåíà',
-			'url'=>              'Àäðåñ',
-			'visible'=>          'Âèäèì',
-			'featured'=>         'Ðåêîìåíäóåìûé',
-			'brand'=>            'Áðåíä',
-			'variant'=>          'Âàðèàíò',
-			'compare_price'=>    'Ñòàðàÿ öåíà',
-			'sku'=>              'Àðòèêóë',
-			'stock'=>            'Ñêëàä',
-			'meta_title'=>       'Çàãîëîâîê ñòðàíèöû',
-			'meta_keywords'=>    'Êëþ÷åâûå ñëîâà',
-			'meta_description'=> 'Îïèñàíèå ñòðàíèöû',
-			'annotation'=>       'Àííîòàöèÿ',
-			'body'=>             'Îïèñàíèå',
-			'images'=>           'Èçîáðàæåíèÿ'
+			'category'=>         'ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ñ',
+			'name'=>             'Ð¢Ð¾Ð²Ð°Ñ€',
+			'price'=>            'Ð¦ÐµÐ½Ð°',
+			'url'=>              'ÐÐ´Ñ€ÐµÑ',
+			'visible'=>          'Ð’Ð¸Ð´Ð¸Ð¼',
+			'featured'=>         'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ñ‹Ð¹',
+			'brand'=>            'Ð‘Ñ€ÐµÐ½Ð´',
+			'variant'=>          'Ð’Ð°Ñ€Ð¸Ð°Ð½Ñ‚',
+			'compare_price'=>    'Ð¡Ñ‚Ð°Ñ€Ð°Ñ Ñ†ÐµÐ½Ð°',
+			'sku'=>              'ÐÑ€Ñ‚Ð¸ÐºÑƒÐ»',
+			'stock'=>            'Ð¡ÐºÐ»Ð°Ð´',
+			'meta_title'=>       'Ð—Ð°Ð³Ð¾Ð»Ð¾Ð²Ð¾Ðº ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹',
+			'meta_keywords'=>    'ÐšÐ»ÑŽÑ‡ÐµÐ²Ñ‹Ðµ ÑÐ»Ð¾Ð²Ð°',
+			'meta_description'=> 'ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ñ‹',
+			'annotation'=>       'ÐÐ½Ð½Ð¾Ñ‚Ð°Ñ†Ð¸Ñ',
+			'body'=>             'ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ',
+			'images'=>           'Ð˜Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ'
 			);
-			
+
 	private $column_delimiter = ';';
 	private $subcategory_delimiter = '/';
 	private $products_count = 10;
@@ -34,152 +43,153 @@ class ExportAjax extends Simpla
 	{
 
 		if(!$this->managers->access('export'))
-			return false;
+			return array('error' => 'Permission denied');
 
-		// Ýêñåëü êóøàåò òîëüêî 1251
-		setlocale(LC_ALL, 'ru_RU.1251');
+		// Ð­ÐºÑÐµÐ»ÑŒ ÐºÑƒÑˆÐ°ÐµÑ‚ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ 1251
 		$this->db->query('SET NAMES cp1251');
-	
-		// Ñòðàíèöà, êîòîðóþ ýêñïîðòèðóåì
-		$page = $this->request->get('page');
+
+		// Ð¡Ñ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€ÑƒÑŽ ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ñ€ÑƒÐµÐ¼
+		$page = $this->request->get('page', 'integer');
 		if(empty($page) || $page==1)
 		{
 			$page = 1;
-			// Åñëè íà÷àëè ñíà÷àëà - óäàëèì ñòàðûé ôàéë ýêñïîðòà
+			// Ð•ÑÐ»Ð¸ Ð½Ð°Ñ‡Ð°Ð»Ð¸ ÑÐ½Ð°Ñ‡Ð°Ð»Ð° - ÑƒÐ´Ð°Ð»Ð¸Ð¼ ÑÑ‚Ð°Ñ€Ñ‹Ð¹ Ñ„Ð°Ð¹Ð» ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð°
 			if(is_writable($this->export_files_dir.$this->filename))
 				unlink($this->export_files_dir.$this->filename);
 		}
-		
-		// Îòêðûâàåì ôàéë ýêñïîðòà íà äîáàâëåíèå
+
+		// ÐžÑ‚ÐºÑ€Ñ‹Ð²Ð°ÐµÐ¼ Ñ„Ð°Ð¹Ð» ÑÐºÑÐ¿Ð¾Ñ€Ñ‚Ð° Ð½Ð° Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ
 		$f = fopen($this->export_files_dir.$this->filename, 'ab');
-		
-		// Äîáàâèì â ñïèñîê êîëîíîê ñâîéñòâà òîâàðîâ
+
+		//
+		foreach($this->columns_names as $key => $value)
+			$this->columns_names[$key] = $this->convert_str_encoding($value, 'windows-1251', 'UTF-8', $key);
+
+		// Ð”Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð² ÑÐ¿Ð¸ÑÐ¾Ðº ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº ÑÐ²Ð¾Ð¹ÑÑ‚Ð²Ð° Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²
 		$features = $this->features->get_features();
 		foreach($features as $feature)
 			$this->columns_names[$feature->name] = $feature->name;
-		
-		// Åñëè íà÷àëè ñíà÷àëà - äîáàâèì â ïåðâóþ ñòðîêó íàçâàíèÿ êîëîíîê
+
+		// Ð•ÑÐ»Ð¸ Ð½Ð°Ñ‡Ð°Ð»Ð¸ ÑÐ½Ð°Ñ‡Ð°Ð»Ð° - Ð´Ð¾Ð±Ð°Ð²Ð¸Ð¼ Ð² Ð¿ÐµÑ€Ð²ÑƒÑŽ ÑÑ‚Ñ€Ð¾ÐºÑƒ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸Ñ ÐºÐ¾Ð»Ð¾Ð½Ð¾Ðº
 		if($page == 1)
 		{
 			fputcsv($f, $this->columns_names, $this->column_delimiter);
 		}
-		
-		// Âñå òîâàðû
+
+		// Ð’ÑÐµ Ñ‚Ð¾Ð²Ð°Ñ€Ñ‹
 		$products = array();
- 		foreach($this->products->get_products(array('page'=>$page, 'limit'=>$this->products_count)) as $p)
- 		{
- 			$products[$p->id] = (array)$p;
- 			
-	 		// Ñâîéñòâà òîâàðîâ
-	 		$options = $this->features->get_product_options($p->id);
-	 		foreach($options as $option)
-	 		{
-	 			if(!isset($products[$option->product_id][$option->name]))
+		foreach($this->products->get_products(array('page'=>$page, 'limit'=>$this->products_count)) as $p)
+		{
+			$products[$p->id] = (array)$p;
+
+			// Ð¡Ð²Ð¾Ð¹ÑÑ‚Ð²Ð° Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²
+			$options = $this->features->get_product_options($p->id);
+			foreach($options as $option)
+			{
+				if(!isset($products[$option->product_id][$option->name]))
 					$products[$option->product_id][$option->name] = str_replace(',', '.', trim($option->value));
-	 		}
+			}
 
- 			
- 		}
- 		
- 		if(empty($products))
- 			return false;
- 		
- 		// Êàòåãîðèè òîâàðîâ
- 		foreach($products as $p_id=>&$product)
- 		{
-	 		$categories = array();
-	 		$cats = $this->categories->get_product_categories($p_id);
-	 		foreach($cats as $category)
-	 		{
-	 			$path = array();
-	 			$cat = $this->categories->get_category((int)$category->category_id);
-	 			if(!empty($cat))
- 				{
-	 				// Âû÷èñëÿåì ñîñòàâëÿþùèå êàòåãîðèè
-	 				foreach($cat->path as $p)
-	 					$path[] = str_replace($this->subcategory_delimiter, '\\'.$this->subcategory_delimiter, $p->name);
-	 				// Äîáàâëÿåì êàòåãîðèþ ê òîâàðó 
-	 				$categories[] = implode('/', $path);
- 				}
-	 		}
-	 		$product['category'] = implode(', ', $categories);
- 		}
- 		
- 		// Èçîáðàæåíèÿ òîâàðîâ
- 		$images = $this->products->get_images(array('product_id'=>array_keys($products)));
- 		foreach($images as $image)
- 		{
- 			// Äîáàâëÿåì èçîáðàæåíèÿ ê òîâàðó ÷åçåð çàïÿòóþ
- 			if(empty($products[$image->product_id]['images']))
- 				$products[$image->product_id]['images'] = $image->filename;
- 			else
- 				$products[$image->product_id]['images'] .= ', '.$image->filename;
- 		}
- 
- 		$variants = $this->variants->get_variants(array('product_id'=>array_keys($products)));
-
-		foreach($variants as $variant)
- 		{
- 			if(isset($products[$variant->product_id]))
- 			{
-	 			$v                    = array();
-	 			$v['variant']         = $variant->name;
-	 			$v['price']           = $variant->price;
-	 			$v['compare_price']   = $variant->compare_price;
-	 			$v['sku']             = $variant->sku;
-	 			$v['stock']           = $variant->stock;
-	 			if($variant->infinity)
-	 				$v['stock']           = '';
-				$products[$variant->product_id]['variants'][] = $v;
-	 		}
 		}
-		
-		foreach($products as &$product)
- 		{
- 			$variants = $product['variants'];
- 			unset($product['variants']);
- 			
- 			if(isset($variants))
- 			foreach($variants as $variant)
- 			{
- 				$result = array();
- 				$result =  $product;
- 				foreach($variant as $name=>$value)
- 					$result[$name]=$value;
 
-	 			foreach($this->columns_names as $internal_name=>$column_name)
-	 			{
-	 				if(isset($result[$internal_name]))
-		 				$res[$internal_name] = $result[$internal_name];
-	 				else
-		 				$res[$internal_name] = '';
-	 			}
-	 			fputcsv($f, $res, $this->column_delimiter);
 
-	 		}
+		if(!empty($products))
+		{
+			// ÐšÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸ Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²
+			foreach($products as $p_id=>&$product)
+			{
+				$categories = array();
+				$cats = $this->categories->get_product_categories($p_id);
+				foreach($cats as $category)
+				{
+					$path = array();
+					$cat = $this->categories->get_category((int)$category->category_id);
+					if(!empty($cat))
+					{
+						// Ð’Ñ‹Ñ‡Ð¸ÑÐ»ÑÐµÐ¼ ÑÐ¾ÑÑ‚Ð°Ð²Ð»ÑÑŽÑ‰Ð¸Ðµ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸Ð¸
+						foreach($cat->path as $p)
+							$path[] = str_replace($this->subcategory_delimiter, '\\'.$this->subcategory_delimiter, $p->name);
+						// Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ ÐºÐ°Ñ‚ÐµÐ³Ð¾Ñ€Ð¸ÑŽ Ðº Ñ‚Ð¾Ð²Ð°Ñ€Ñƒ
+						$categories[] = implode('/', $path);
+					}
+				}
+				$product['category'] = implode(', ', $categories);
+			}
+
+			// Ð˜Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²
+			$images = $this->products->get_images(array('product_id'=>array_keys($products)));
+			foreach($images as $image)
+			{
+				// Ð”Ð¾Ð±Ð°Ð²Ð»ÑÐµÐ¼ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ Ðº Ñ‚Ð¾Ð²Ð°Ñ€Ñƒ Ñ‡ÐµÐ·ÐµÑ€ Ð·Ð°Ð¿ÑÑ‚ÑƒÑŽ
+				if(empty($products[$image->product_id]['images']))
+					$products[$image->product_id]['images'] = $image->filename;
+				else
+					$products[$image->product_id]['images'] .= ', '.$image->filename;
+			}
+
+			$variants = $this->variants->get_variants(array('product_id'=>array_keys($products)));
+
+			foreach($variants as $variant)
+			{
+				if(isset($products[$variant->product_id]))
+				{
+					$v                    = array();
+					$v['variant']         = $variant->name;
+					$v['price']           = $variant->price;
+					$v['compare_price']   = $variant->compare_price;
+					$v['sku']             = $variant->sku;
+					$v['stock']           = $variant->stock;
+					if($variant->infinity)
+						$v['stock']           = '';
+					$products[$variant->product_id]['variants'][] = $v;
+				}
+			}
+
+			foreach($products as &$product)
+			{
+				$variants = $product['variants'];
+				unset($product['variants']);
+
+				if(isset($variants))
+				foreach($variants as $variant)
+				{
+					$result = array();
+					$result =  $product;
+					foreach($variant as $name=>$value)
+						$result[$name]=$value;
+
+					foreach($this->columns_names as $internal_name=>$column_name)
+					{
+						if(isset($result[$internal_name]))
+							$res[$internal_name] = $result[$internal_name];
+						else
+							$res[$internal_name] = '';
+					}
+					fputcsv($f, $res, $this->column_delimiter);
+
+				}
+			}
 		}
-		
+
 		$total_products = $this->products->count_products();
-		
+
 		if($this->products_count*$page < $total_products)
 			return array('end'=>false, 'page'=>$page, 'totalpages'=>$total_products/$this->products_count);
 		else
-			return array('end'=>true, 'page'=>$page, 'totalpages'=>$total_products/$this->products_count);		
+			return array('end'=>true, 'page'=>$page, 'totalpages'=>$total_products/$this->products_count);
 
 		fclose($f);
 
 	}
-	
+
 }
 
 $export_ajax = new ExportAjax();
 $data = $export_ajax->fetch();
-if($data)
-{
-	header("Content-type: application/json; charset=utf-8");
-	header("Cache-Control: must-revalidate");
-	header("Pragma: no-cache");
-	header("Expires: -1");
-	$json = json_encode($data);
-	print $json;
-}
+
+header("Content-type: application/json; charset=utf-8");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: -1");
+$json = json_encode($data);
+print $json;

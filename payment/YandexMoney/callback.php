@@ -7,7 +7,7 @@
  * @link 		http://simplacms.ru
  * @author 		Denis Pikusov
  *
- * К этому скрипту обращается Яндекс в процессе оплаты
+ * К этому скрипту обращается Яндекс.Касса в процессе оплаты
  *
  */
  
@@ -17,8 +17,8 @@ require_once('api/Simpla.php');
 
 $simpla = new Simpla();
 
-$order_id = $simpla->request->post('customerNumber', 'integer');
-$invoice_id = $simpla->request->post('invoiceId', 'string');
+$order_id = $simpla->request->post('customerNumber');
+$invoice_id = $simpla->request->post('invoiceId');
 
 ////////////////////////////////////////////////
 // Выберем заказ из базы
@@ -112,17 +112,9 @@ function print_error($text)
 	$performedDatetime = $datetime->format('c');
 	$shop_id = intval($_POST['shopId']);
 	$invoice_id = intval($_POST['invoiceId']);
-	
-	$responce = '';
-	$action = $_POST['action'];
-	if($action === 'paymentAviso')
-		$responce = 'paymentAvisoResponse';
-	elseif($action === 'checkOrder')
-		$responce = 'checkOrderResponse';
-	
 
 	print '<?xml version="1.0" encoding="UTF-8"?> 
-	<'.$responce.' performedDatetime="'.$performedDatetime.'" 
+	<'.$_POST['action'].'Response performedDatetime="'.$performedDatetime.'"
 	code="200" invoiceId="'.$invoice_id.'" 
 	message="'.$text.'" shopId="'.$shop_id.'"/>';
 

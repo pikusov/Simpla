@@ -3,11 +3,12 @@
 /**
  * Simpla CMS
  *
- * @copyright	2011 Denis Pikusov
+ * @copyright	2016 Denis Pikusov
  * @link		http://simplacms.ru
  * @author		Denis Pikusov
  *
  */
+
 
 require_once('Simpla.php');
 
@@ -26,14 +27,14 @@ class Pages extends Simpla
 			$where = $this->db->placehold(' WHERE url=? ', $id);
 		else
 			$where = $this->db->placehold(' WHERE id=? ', intval($id));
-		
+
 		$query = "SELECT id, url, header, name, meta_title, meta_description, meta_keywords, body, menu_id, position, visible
-		          FROM __pages $where LIMIT 1";
+				  FROM __pages $where LIMIT 1";
 
 		$this->db->query($query);
 		return $this->db->result();
 	}
-	
+
 	/*
 	*
 	* Функция возвращает массив страниц, удовлетворяющих фильтру
@@ -41,7 +42,7 @@ class Pages extends Simpla
 	*
 	*/
 	public function get_pages($filter = array())
-	{	
+	{
 		$menu_filter = '';
 		$visible_filter = '';
 		$pages = array();
@@ -51,15 +52,15 @@ class Pages extends Simpla
 
 		if(isset($filter['visible']))
 			$visible_filter = $this->db->placehold('AND visible = ?', intval($filter['visible']));
-		
+
 		$query = "SELECT id, url, header, name, meta_title, meta_description, meta_keywords, body, menu_id, position, visible
-		          FROM __pages WHERE 1 $menu_filter $visible_filter ORDER BY position";
-	
+				  FROM __pages WHERE 1 $menu_filter $visible_filter ORDER BY position";
+
 		$this->db->query($query);
-		
+
 		foreach($this->db->results() as $page)
 			$pages[$page->id] = $page;
-			
+
 		return $pages;
 	}
 
@@ -67,36 +68,36 @@ class Pages extends Simpla
 	*
 	* Создание страницы
 	*
-	*/	
+	*/
 	public function add_page($page)
-	{	
+	{
 		$query = $this->db->placehold('INSERT INTO __pages SET ?%', $page);
 		if(!$this->db->query($query))
 			return false;
 
 		$id = $this->db->insert_id();
-		$this->db->query("UPDATE __pages SET position=id WHERE id=?", $id);	
+		$this->db->query("UPDATE __pages SET position=id WHERE id=?", $id);
 		return $id;
 	}
-	
+
 	/*
 	*
 	* Обновить страницу
 	*
 	*/
 	public function update_page($id, $page)
-	{	
+	{
 		$query = $this->db->placehold('UPDATE __pages SET ?% WHERE id in (?@)', $page, (array)$id);
 		if(!$this->db->query($query))
 			return false;
 		return $id;
 	}
-	
+
 	/*
 	*
 	* Удалить страницу
 	*
-	*/	
+	*/
 	public function delete_page($id)
 	{
 		if(!empty($id))
@@ -106,8 +107,8 @@ class Pages extends Simpla
 				return true;
 		}
 		return false;
-	}	
-	
+	}
+
 	/*
 	*
 	* Функция возвращает массив меню
@@ -122,7 +123,7 @@ class Pages extends Simpla
 			$menus[$menu->id] = $menu;
 		return $menus;
 	}
-	
+
 	/*
 	*
 	* Функция возвращает меню по id
@@ -130,10 +131,10 @@ class Pages extends Simpla
 	*
 	*/
 	public function get_menu($menu_id)
-	{	
+	{
 		$query = $this->db->placehold("SELECT * FROM __menu WHERE id=? LIMIT 1", intval($menu_id));
 		$this->db->query($query);
 		return $this->db->result();
 	}
-	
+
 }

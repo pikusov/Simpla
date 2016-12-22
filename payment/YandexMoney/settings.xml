@@ -1,59 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<name>
-		Яндекс Деньги для юрлиц
+		Яндекс.Касса (версия 1.2.0.2)
 	</name>
 	<settings>
 		<variable>yandex_shopid</variable>
-		<name>Идентификатор Магазина</name>
+		<name>Идентификатор магазина (Shop ID)</name>
 	</settings>
 	<settings>
 		<variable>yandex_scid</variable>
-		<name>Номер витрины</name>
+		<name>Номер витрины (Scid)</name>
 	</settings>
 	<settings>
 		<variable>yandex_password</variable>
-		<name>Пароль магазина</name>
+		<name>Пароль магазина (shopPassword)</name>
+	</settings>
+	<settings>
+		<variable>yandex_paymode</variable>
+		<name>Сценарий оплаты</name>
+		<options>
+			<name>Выбор оплаты на стороне сервиса Яндекс.Касса</name>
+			<value>kassa</value>
+		</options>
+		<options>
+			<name>Выбор оплаты на стороне магазина</name>
+			<value>site</value>
+		</options>
 	</settings>
 	<settings>
 		<variable>yandex_paymenttype</variable>
-		<name>Способ оплаты</name>
+		<name>Способ оплаты (для режима оплаты с выбором на стороне магазина)</name>
 		<options>
 			<name>Не задан</name>
 			<value></value>
 		</options>
 		<options>
-			<name>Со счета в Яндекс.Деньгах</name>
+			<name>Оплата из кошелька в Яндекс.Деньгах</name>
 			<value>PC</value>
 		</options>
 		<options>
-			<name>С банковской карты</name>
+			<name>Оплата с произвольной банковской карты</name>
 			<value>AC</value>
 		</options>
 		<options>
-			<name>По коду через терминал</name>
+			<name>Оплата наличными через кассы и терминалы</name>
 			<value>GP</value>
 		</options>
 		<options>
-			<name>Со счета мобильного телефона</name>
+			<name>Платеж со счета мобильного телефона</name>
 			<value>MC</value>
 		</options>
 		<options>
-			<name>С кошелька Webmoney</name>
+			<name>Оплата из кошелька в системе WebMoney</name>
 			<value>WM</value>
 		</options>
 		<options>
-			<name>Через Сбербанк Онлайн</name>
+			<name>Оплата через Альфа-Клик</name>
+			<value>AB</value>
+		</options>
+		<options>
+			<name>Оплата через Сбербанк: оплата по SMS или Сбербанк Онлайн</name>
 			<value>SB</value>
 		</options>
 		<options>
+			<name>Оплата через MasterPass</name>
+			<value>MA</value>
+		</options>
+		<options>
+			<name>Оплата через интернет-банк Промсвязьбанка</name>
+			<value>PB</value>
+		</options>
+		<options>
+			<name>Оплата через QIWI Wallet</name>
+			<value>QW</value>
+		</options>
+		<options>
+			<name>Оплата через доверительный платеж (Куппи.ру)</name>
+			<value>QP</value>
+		</options>
+		<!--<options>
 			<name>Через мобильный терминал (mPOS)</name>
 			<value>MP</value>
-		</options>
+		</options>-->
 	</settings>	
 	<settings>
 		<variable>yandex_testmode</variable>
-		<name>Режим оплаты</name>
+		<name>Режим работы</name>
 		<options>
 			<name>Тестовый режим</name>
 			<value>1</value>

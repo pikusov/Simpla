@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Класс-обертка для обращения к переменным _GET, _POST, _FILES
+ * Simpla CMS
  *
- * @copyright 	2011 Denis Pikusov
- * @link 		http://simplacms.ru
- * @author 		Denis Pikusov
+ * @copyright	2016 Denis Pikusov
+ * @link		http://simplacms.ru
+ * @author		Denis Pikusov
  *
  */
+
 
 require_once('Simpla.php');
 
@@ -18,11 +19,17 @@ class Request extends Simpla
 	 * Конструктор, чистка слешей
 	 */
 	public function __construct()
-	{		
+	{
 		parent::__construct();
-		
-		$_POST = $this->stripslashes_recursive($_POST);
-		$_GET = $this->stripslashes_recursive($_GET);	
+
+		if(get_magic_quotes_gpc())
+		{
+			$_POST = $this->stripslashes_recursive($_POST);
+			$_GET = $this->stripslashes_recursive($_GET);
+			$_COOKIE = $this->stripslashes_recursive($_COOKIE);
+			$_REQUEST = $this->stripslashes_recursive($_REQUEST);
+		}
+
 	}
 
 	/**
@@ -30,111 +37,110 @@ class Request extends Simpla
 	* Если задан аргумент функции (название метода, в любом регистре), возвращает true или false
 	* Если аргумент не задан, возвращает имя метода
 	* Пример:
-	* 
+	*
 	*	if($simpla->request->method('post'))
 	*		print 'Request method is POST';
-	* 
+	*
 	*/
-    public function method($method = null)
-    {
-    	if(!empty($method))
-    		return strtolower($_SERVER['REQUEST_METHOD']) == strtolower($method);
-	    return $_SERVER['REQUEST_METHOD'];
-    }
+	public function method($method = null)
+	{
+		if(!empty($method))
+			return strtolower($_SERVER['REQUEST_METHOD']) == strtolower($method);
+		return $_SERVER['REQUEST_METHOD'];
+	}
 
 	/**
 	* Возвращает переменную _GET, отфильтрованную по заданному типу, если во втором параметре указан тип фильтра
 	* Второй параметр $type может иметь такие значения: integer, string, boolean
 	* Если $type не задан, возвращает переменную в чистом виде
 	*/
-    public function get($name, $type = null)
-    {
-    	$val = null;
-    	if(isset($_GET[$name]))
-    		$val = $_GET[$name];
-    		
-    	if(!empty($type) && is_array($val))
-    		$val = reset($val);
-    	
-    	if($type == 'string')
-    		return strval(preg_replace('/[^\p{L}\p{Nd}\d\s_\-\.\%\s]/ui', '', $val));
-    		
-    	if($type == 'integer')
-    		return intval($val);
+	public function get($name, $type = null)
+	{
+		$val = null;
+		if(isset($_GET[$name]))
+			$val = $_GET[$name];
 
-    	if($type == 'boolean')
-    		return !empty($val);
-    		
-    	return $val;
-    }
+		if(!empty($type) && is_array($val))
+			$val = reset($val);
+
+		if($type == 'string')
+			return strval(preg_replace('/[^\p{L}\p{Nd}\d\s_\-\.\%\s]/ui', '', $val));
+
+		if($type == 'integer')
+			return intval($val);
+
+		if($type == 'boolean')
+			return !empty($val);
+
+		return $val;
+	}
 
 	/**
 	* Возвращает переменную _POST, отфильтрованную по заданному типу, если во втором параметре указан тип фильтра
 	* Второй параметр $type может иметь такие значения: integer, string, boolean
 	* Если $type не задан, возвращает переменную в чистом виде
 	*/
-    public function post($name = null, $type = null)
-    {
-    	$val = null;
-    	if(!empty($name) && isset($_POST[$name]))
-    		$val = $_POST[$name];
-    	elseif(empty($name))
-    		$val = file_get_contents('php://input');
-    		
-    	if($type == 'string')
-    		return strval(preg_replace('/[^\p{L}\p{Nd}\d\s_\-\.\%\s]/ui', '', $val));
-    		
-    	if($type == 'integer')
-    		return intval($val);
+	public function post($name = null, $type = null)
+	{
+		$val = null;
+		if(!empty($name) && isset($_POST[$name]))
+			$val = $_POST[$name];
+		elseif(empty($name))
+			$val = file_get_contents('php://input');
 
-    	if($type == 'boolean')
-    		return !empty($val);
+		if($type == 'string')
+			return strval(preg_replace('/[^\p{L}\p{Nd}\d\s_\-\.\%\s]/ui', '', $val));
 
-    	return $val;
-    }
+		if($type == 'integer')
+			return intval($val);
+
+		if($type == 'boolean')
+			return !empty($val);
+
+		return $val;
+	}
 
 	/**
 	* Возвращает переменную _FILES
 	* Обычно переменные _FILES являются двухмерными массивами, поэтому можно указать второй параметр,
 	* например, чтобы получить имя загруженного файла: $filename = $simpla->request->files('myfile', 'name');
 	*/
-    public function files($name, $name2 = null)
-    {
-    	if(!empty($name2) && !empty($_FILES[$name][$name2]))
-    		return $_FILES[$name][$name2];
-    	elseif(empty($name2) && !empty($_FILES[$name]))
-    		return $_FILES[$name];
-    	else
-    		return null;
-    }
+	public function files($name, $name2 = null)
+	{
+		if(!empty($name2) && !empty($_FILES[$name][$name2]))
+			return $_FILES[$name][$name2];
+		elseif(empty($name2) && !empty($_FILES[$name]))
+			return $_FILES[$name];
+		else
+			return null;
+	}
 
 	/**
 	 * Рекурсивная чистка магических слешей
 	 */
+
 	private function stripslashes_recursive($var)
 	{
-		if(get_magic_quotes_gpc())
+		if (is_array($var))
 		{
-			$res = null;
-			if(is_array($var))
-				foreach($var as $k=>$v)
-					$res[stripcslashes($k)] = $this->stripslashes_recursive($v);
-				else
-					$res = stripcslashes($var);
+			$res = array();
+			foreach($var as $k => $v)
+				$res[$this->stripslashes_recursive($k)] = $this->stripslashes_recursive($v);
+
+			return $res;
 		}
 		else
 		{
-			$res = $var;
+			return stripslashes($var);
 		}
-		return $res;
 	}
-    
-    	
+
+
 	/**
 	* Проверка сессии
 	*/
-    public function check_session()
-    {
+	public function check_session()
+	{
 		if(!empty($_POST))
 		{
 			if(empty($_POST['session_id']) || $_POST['session_id'] != session_id())
@@ -144,17 +150,17 @@ class Request extends Simpla
 			}
 		}
 		return true;
-    }
+	}
 
-	
+
 	/**
 	* URL
 	*/
-    public function url($params = array())
-    {
+	public function url($params = array())
+	{
 		$url = @parse_url($_SERVER["REQUEST_URI"]);
 		parse_str($url['query'], $query);
-		
+
 		if(get_magic_quotes_gpc())
 			foreach($query as &$v)
 			{
@@ -169,15 +175,15 @@ class Request extends Simpla
 		foreach($query as $name=>$value)
 			if($value!=='' && $value!==null)
 				$query_is_empty = false;
-		
+
 		if(!$query_is_empty)
 			$url['query'] = http_build_query($query);
 		else
 			$url['query'] = null;
-			
+
 		$result = http_build_url(null, $url);
 		return $result;
-    }
+	}
 }
 
 
@@ -194,18 +200,18 @@ if (!function_exists('http_build_url'))
 	define('HTTP_URL_STRIP_QUERY', 256);		// Strip query string
 	define('HTTP_URL_STRIP_FRAGMENT', 512);		// Strip any fragments (#identifier)
 	define('HTTP_URL_STRIP_ALL', 1024);			// Strip anything but scheme and host
-	
+
 	// Build an URL
-	// The parts of the second URL will be merged into the first according to the flags argument. 
-	// 
+	// The parts of the second URL will be merged into the first according to the flags argument.
+	//
 	// @param	mixed			(Part(s) of) an URL in form of a string or associative array like parse_url() returns
 	// @param	mixed			Same as the first argument
 	// @param	int				A bitmask of binary or'ed HTTP_URL constants (Optional)HTTP_URL_REPLACE is the default
-	// @param	array			If set, it will be filled with the parts of the composed url like parse_url() would return 
+	// @param	array			If set, it will be filled with the parts of the composed url like parse_url() would return
 	function http_build_url($url, $parts=array(), $flags=HTTP_URL_REPLACE, &$new_url=false)
 	{
 		$keys = array('user','pass','port','path','query','fragment');
-		
+
 		// HTTP_URL_STRIP_ALL becomes all the HTTP_URL_STRIP_Xs
 		if ($flags & HTTP_URL_STRIP_ALL)
 		{
@@ -222,16 +228,16 @@ if (!function_exists('http_build_url'))
 			$flags |= HTTP_URL_STRIP_USER;
 			$flags |= HTTP_URL_STRIP_PASS;
 		}
-		
+
 		// Parse the original URL
 		$parse_url = parse_url($url);
-		
+
 		// Scheme and Host are always replaced
 		if (isset($parts['scheme']))
 			$parse_url['scheme'] = $parts['scheme'];
 		if (isset($parts['host']))
 			$parse_url['host'] = $parts['host'];
-		
+
 		// (If applicable) Replace the original URL with it's new parts
 		if ($flags & HTTP_URL_REPLACE)
 		{
@@ -251,7 +257,7 @@ if (!function_exists('http_build_url'))
 				else
 					$parse_url['path'] = $parts['path'];
 			}
-			
+
 			// Join the original query string with the new query string
 			if (isset($parts['query']) && ($flags & HTTP_URL_JOIN_QUERY))
 			{
@@ -261,7 +267,7 @@ if (!function_exists('http_build_url'))
 					$parse_url['query'] = $parts['query'];
 			}
 		}
-			
+
 		// Strips all the applicable sections of the URL
 		// Note: Scheme and Host are never stripped
 		foreach ($keys as $key)
@@ -269,11 +275,11 @@ if (!function_exists('http_build_url'))
 			if ($flags & (int)constant('HTTP_URL_STRIP_' . strtoupper($key)))
 				unset($parse_url[$key]);
 		}
-		
-		
+
+
 		$new_url = $parse_url;
-		
-		return 
+
+		return
 			 ((isset($parse_url['scheme'])) ? $parse_url['scheme'] . '://' : '')
 			.((isset($parse_url['user'])) ? $parse_url['user'] . ((isset($parse_url['pass'])) ? ':' . $parse_url['pass'] : '') .'@' : '')
 			.((isset($parse_url['host'])) ? $parse_url['host'] : '')
@@ -286,29 +292,29 @@ if (!function_exists('http_build_url'))
 }
 
 if(!function_exists('http_build_query')) {
-    function http_build_query($data,$prefix=null,$sep='',$key='') {
-        $ret    = array();
-            foreach((array)$data as $k => $v) {
-                $k    = urlencode($k);
-                if(is_int($k) && $prefix != null) {
-                    $k    = $prefix.$k;
-                };
-                if(!empty($key)) {
-                    $k    = $key."[".$k."]";
-                };
+	function http_build_query($data,$prefix=null,$sep='',$key='') {
+		$ret    = array();
+			foreach((array)$data as $k => $v) {
+				$k    = urlencode($k);
+				if(is_int($k) && $prefix != null) {
+					$k    = $prefix.$k;
+				};
+				if(!empty($key)) {
+					$k    = $key."[".$k."]";
+				};
 
-                if(is_array($v) || is_object($v)) {
-                    array_push($ret,http_build_query($v,"",$sep,$k));
-                }
-                else {
-                    array_push($ret,$k."=".urlencode($v));
-                };
-            };
+				if(is_array($v) || is_object($v)) {
+					array_push($ret,http_build_query($v,"",$sep,$k));
+				}
+				else {
+					array_push($ret,$k."=".urlencode($v));
+				};
+			};
 
-        if(empty($sep)) {
-            $sep = ini_get("arg_separator.output");
-        };
+		if(empty($sep)) {
+			$sep = ini_get("arg_separator.output");
+		};
 
-        return    implode($sep, $ret);
-    };
+		return    implode($sep, $ret);
+	};
 };
