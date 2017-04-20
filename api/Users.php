@@ -79,7 +79,7 @@ class Users extends Simpla
 		// Выбираем пользователей
 		$query = $this->db->placehold("SELECT count(*) as count FROM __users u
 		                                LEFT JOIN __groups g ON u.group_id=g.id 
-										WHERE 1 $group_id_filter $keyword_filter ORDER BY u.name");
+										WHERE 1 $group_id_filter $keyword_filter");
 		$this->db->query($query);
 		return $this->db->result('count');
 	}
