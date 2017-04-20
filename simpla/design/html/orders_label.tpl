@@ -18,9 +18,6 @@
 {$meta_title = 'Новая метка' scope=parent}
 {/if}
 
-{* Подключаем Tiny MCE *}
-{include file='tinymce_init.tpl'}
-
 {* On document load *}
 {literal}
 <link rel="stylesheet" media="screen" type="text/css" href="design/js/colorpicker/css/colorpicker.css" />
@@ -60,6 +57,12 @@ $(function() {
 	{/if}
 </div>
 <!-- Системное сообщение (The End)-->
+{/if}
+
+{if $message_error}
+    <div class="message_box message_error">
+        <span>{if $message_error == 'empty_name'}Название метки не может быть пустым{/if}</span>
+    </div>
 {/if}
 
 <!-- Основная форма -->
