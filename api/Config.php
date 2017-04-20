@@ -75,6 +75,8 @@ class Config
 		// Часовой пояс
 		if(!empty($this->vars['php_timezone']))
 			date_default_timezone_set($this->vars['php_timezone']);
+		elseif (!ini_get('date.timezone'))
+			date_default_timezone_set('UTC');
 	}
 
 	// Магическим методов возвращаем нужную переменную
