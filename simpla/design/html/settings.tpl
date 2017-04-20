@@ -127,14 +127,3 @@
 	
 </form>
 <!-- Основная форма (The End) -->
-
-{literal}
-<script>
-$(function() {
-	$('#change_password_form').hide();
-	$('#change_password').click(function() {
-		$('#change_password_form').show();
-	});
-});
-</script>
-{/literal}
