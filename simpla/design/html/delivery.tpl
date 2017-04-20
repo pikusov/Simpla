@@ -31,7 +31,7 @@
 {if $message_error}
 <!-- Системное сообщение -->
 <div class="message message_error">
-	<span class="text">{$message_error}</span>
+	<span class="text">{if $message_error == 'empty_name'}Не указано название доставки{/if}</span>
 	<a class="button" href="">Вернуться</a>
 </div>
 <!-- Системное сообщение (The End)-->
