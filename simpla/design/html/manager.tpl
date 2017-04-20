@@ -14,8 +14,6 @@
 {/if}
 
 {* On document load *}
-<script src="design/js/jquery/jquery.js"></script>
-<script src="design/js/jquery/jquery-ui.min.js"></script>
 <script>
 {literal}
 $(function() {
@@ -116,17 +114,11 @@ $(function() {
 				{/foreach}
 				
 			</ul>
-			
 		</div>
 		<!-- Параметры (The End)-->
-		
-
-			
 	</div>
 	<!-- Левая колонка (The End)--> 
 	
-	
 	<input class="button_green button_save" type="submit" name="" value="Сохранить" />
-	
 </form>
 <!-- Основная форма (The End) -->
