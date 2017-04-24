@@ -29,6 +29,14 @@ class BrandAdmin extends Simpla
 			{			
 				$this->design->assign('message_error', 'url_exists');
 			}
+			elseif(empty($brand->name))
+			{
+				$this->design->assign('message_error', 'name_empty');				
+			}
+			elseif(empty($brand->url))
+			{
+				$this->design->assign('message_error', 'url_empty');
+			}
 			else
 			{
 				if(empty($brand->id))
