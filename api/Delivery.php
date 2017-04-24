@@ -63,7 +63,7 @@ class Delivery extends Simpla
 	public function delete_delivery($id)
 	{
 		// Удаляем связь доставки с методоми оплаты
-		$query = $this->db->placehold("SELECT payment_method_id FROM __delivery_payment WHERE delivery_id=?", intval($id));
+		$query = $this->db->placehold("DELETE FROM __delivery_payment WHERE delivery_id=?", intval($id));
 		$this->db->query($query);
 		
 		if(!empty($id))
