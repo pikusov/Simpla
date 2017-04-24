@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <name>ChronoPay</name>
+    <settings>
+        <variable>chronopay_product_id</variable>
+        <name>Ваш идентификатор продукта</name>
+    </settings>
+    <settings>
+        <variable>chronopay_sharedSec</variable>
+        <name>Cекретный ключ</name>
+    </settings>
+</module>

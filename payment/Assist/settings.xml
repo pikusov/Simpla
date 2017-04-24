@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Assist
+	</name>
+	<settings>
+		<variable>assist_key</variable>
+		<name>Секретное слово</name>
+	</settings>
+	<settings>
+		<variable>assist_merchant_id</variable>
+		<name>ID магазина</name>
+	</settings>
+	<settings>
+		<variable>assist_url</variable>
+		<name>URL</name>
+	</settings>
+</module>

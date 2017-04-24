@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		NetPay
+	</name>
+	<settings>
+		<variable>api_key</variable>
+		<name>Api_key</name>
+	</settings>
+	<settings>
+		<variable>auth_sign</variable>
+		<name>Auth_signature</name>
+	</settings>
+        <settings>
+		<variable>mailforsend</variable>
+		<name>Mail for send paylink</name>
+	</settings>
+        <settings>
+		<variable>textinsteadbutton</variable>
+		<name>Text instead button</name>
+	</settings>
+        <settings>
+		<variable>sendmailerror</variable>
+		<name>Text instead button (error send link)</name>
+	</settings>
+</module>

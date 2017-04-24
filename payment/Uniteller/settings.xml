@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Uniteller
+	</name>
+	<settings>
+		<variable>uniteller_shop_id</variable>
+		<name>ID точки продажи</name>
+	</settings>
+	<settings>
+		<variable>uniteller_password</variable>
+		<name>Пароль Uniteller</name>
+	</settings>
+	<settings>
+		<variable>uniteller_test_action</variable>
+		<name>Тестовый шлюз</name>
+		<options>
+			<name>Нет</name>
+			<value>0</value>
+		</options>
+		<options>
+			<name>Да</name>
+			<value>1</value>
+		</options>
+	</settings>
+</module>

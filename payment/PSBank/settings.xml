@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Промсвязьбанк
+	</name>
+	<settings>
+		<variable>psbank_terminal</variable>
+		<name>Терминал</name>
+	</settings>
+	<settings>
+		<variable>psbank_merchant</variable>
+		<name>Номер торговой точки</name>
+	</settings>
+	<settings>
+		<variable>psbank_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+	<settings>
+		<variable>psbank_test_mode</variable>
+		<name>Режим</name>
+		<options>
+			<name>Тестовые платежи</name>
+			<value>1</value>
+		</options>
+		<options>
+			<name>Реальные платежи</name>
+			<value>0</value>
+		</options>
+	</settings>
+</module>

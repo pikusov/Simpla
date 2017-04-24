@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Альфа-Банк
+	</name>
+	<settings>
+		<variable>alfabank_login</variable>
+		<name>Логин от API</name>
+	</settings>
+	<settings>
+		<variable>alfabank_password</variable>
+		<name>Пароль от API</name>
+	</settings>
+	<settings>
+		<variable>alfabank_server</variable>
+		<name>Адрес сервера</name>
+		<default>https://test.paymentgate.ru/testpayment/rest/</default>
+	</settings>
+</module>

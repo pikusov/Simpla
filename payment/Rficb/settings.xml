@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		РФИ банк
+	</name>
+	<settings>
+		<variable>rficb_payment_key</variable>
+		<name>Ключ магазина</name>
+	</settings>
+	<settings>
+		<variable>rficb_secret_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+</module>

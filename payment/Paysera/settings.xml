@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		Paysera
+	</name>
+	<settings>
+		<variable>paysera_project_id</variable>
+		<name>Project ID</name>
+	</settings>
+	<settings>
+		<variable>paysera_password</variable>
+		<name>Project password</name>
+	</settings>
+	<settings>
+		<variable>paysera_test_mode</variable>
+		<name>Test mode</name>
+		<options>
+			<name>Test payments</name>
+			<value>1</value>
+		</options>
+		<options>
+			<name>Real payments</name>
+			<value>0</value>
+		</options>
+	</settings>
+</module>
