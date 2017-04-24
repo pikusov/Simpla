@@ -20,7 +20,7 @@ class Receipt extends Simpla
 		$bik = $payment_settings['bik'];
 		$correspondent_account = $payment_settings['correspondent_account'];		
 		
-		$button = "<FORM class='form' ACTION='payment/Receipt/callback.php' METHOD='POST'>
+		$button = "<FORM class='form' ACTION='".$this->config->root_url."/payment/Receipt/callback.php' METHOD='POST'>
 					<INPUT TYPE='HIDDEN' NAME='recipient' VALUE='".$payment_settings['recipient']."'>
 					<INPUT TYPE='HIDDEN' NAME='inn' VALUE='".$payment_settings['inn']."'>
 					<INPUT TYPE='HIDDEN' NAME='account' VALUE='".$payment_settings['account']."'>
