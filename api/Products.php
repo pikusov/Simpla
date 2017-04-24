@@ -323,13 +323,8 @@ class Products extends Simpla
 			foreach($options as $o)
 				$this->features->delete_option($id, $o->feature_id);
 			
-			// Удаляем связанные товары
-			$related = $this->get_related_products($id);
-			foreach($related as $r)
-				$this->delete_related_product($id, $r->related_id);
-			
-			// Удаляем товар из связанных с другими
-			$query = $this->db->placehold("DELETE FROM __related_products WHERE related_id=?", intval($id));
+			// Удаляем связанные товары и Удаляем товар из связанных с другими
+			$query = $this->db->placehold("DELETE FROM __related_products WHERE (related_id=? OR product_id=?)", intval($id), intval($id));
 			$this->db->query($query);
 			
 			// Удаляем отзывы
