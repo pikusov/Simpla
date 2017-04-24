@@ -21,8 +21,11 @@ class Request extends Simpla
 	{		
 		parent::__construct();
 		
-		$_POST = $this->stripslashes_recursive($_POST);
-		$_GET = $this->stripslashes_recursive($_GET);	
+		if (ini_get('magic_quotes_gpc')) {
+			$_POST = $this->stripslashes_recursive($_POST);
+			$_GET =	$this->stripslashes_recursive($_GET);
+			$_COOKIE = $this->stripslashes_recursive($_COOKIE);
+		}
 	}
 
 	/**
@@ -112,20 +115,18 @@ class Request extends Simpla
 	 * Рекурсивная чистка магических слешей
 	 */
 	private function stripslashes_recursive($var)
-	{
-		if(get_magic_quotes_gpc())
+	{	
+		$res = null;
+		if (is_array($var))
 		{
-			$res = null;
-			if(is_array($var))
-				foreach($var as $k=>$v)
-					$res[stripcslashes($k)] = $this->stripslashes_recursive($v);
-				else
-					$res = stripcslashes($var);
+			foreach($var as $k => $v)
+				$res[$this->stripslashes_recursive($k)] = $this->stripslashes_recursive($v);
 		}
 		else
 		{
-			$res = $var;
+			$var = stripslashes($var);
 		}
+
 		return $res;
 	}
     
