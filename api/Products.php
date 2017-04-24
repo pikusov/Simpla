@@ -354,6 +354,7 @@ class Products extends Simpla
     	$product->id = null;
     	$product->external_id = '';
     	$product->created = null;
+    	$product->external_id = '';
 
 		// Сдвигаем товары вперед и вставляем копию на соседнюю позицию
     	$this->db->query('UPDATE __products SET position=position+1 WHERE position>?', $product->position);
