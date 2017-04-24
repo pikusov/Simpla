@@ -5,23 +5,23 @@ require_once('../../api/Simpla.php');
 class ExportAjax extends Simpla
 {	
 	private $columns_names = array(
-			'category'=>         'Êàòåãîðèÿ',
-			'name'=>             'Òîâàð',
-			'price'=>            'Öåíà',
-			'url'=>              'Àäðåñ',
-			'visible'=>          'Âèäèì',
-			'featured'=>         'Ðåêîìåíäóåìûé',
-			'brand'=>            'Áðåíä',
-			'variant'=>          'Âàðèàíò',
-			'compare_price'=>    'Ñòàðàÿ öåíà',
-			'sku'=>              'Àðòèêóë',
-			'stock'=>            'Ñêëàä',
-			'meta_title'=>       'Çàãîëîâîê ñòðàíèöû',
-			'meta_keywords'=>    'Êëþ÷åâûå ñëîâà',
-			'meta_description'=> 'Îïèñàíèå ñòðàíèöû',
-			'annotation'=>       'Àííîòàöèÿ',
-			'body'=>             'Îïèñàíèå',
-			'images'=>           'Èçîáðàæåíèÿ'
+			'category'=>         'ÃŠÃ Ã²Ã¥Ã£Ã®Ã°Ã¨Ã¿',
+			'name'=>             'Ã’Ã®Ã¢Ã Ã°',
+			'price'=>            'Ã–Ã¥Ã­Ã ',
+			'url'=>              'Ã€Ã¤Ã°Ã¥Ã±',
+			'visible'=>          'Ã‚Ã¨Ã¤Ã¨Ã¬',
+			'featured'=>         'ÃÃ¥ÃªÃ®Ã¬Ã¥Ã­Ã¤Ã³Ã¥Ã¬Ã»Ã©',
+			'brand'=>            'ÃÃ°Ã¥Ã­Ã¤',
+			'variant'=>          'Ã‚Ã Ã°Ã¨Ã Ã­Ã²',
+			'compare_price'=>    'Ã‘Ã²Ã Ã°Ã Ã¿ Ã¶Ã¥Ã­Ã ',
+			'sku'=>              'Ã€Ã°Ã²Ã¨ÃªÃ³Ã«',
+			'stock'=>            'Ã‘ÃªÃ«Ã Ã¤',
+			'meta_title'=>       'Ã‡Ã Ã£Ã®Ã«Ã®Ã¢Ã®Ãª Ã±Ã²Ã°Ã Ã­Ã¨Ã¶Ã»',
+			'meta_keywords'=>    'ÃŠÃ«Ã¾Ã·Ã¥Ã¢Ã»Ã¥ Ã±Ã«Ã®Ã¢Ã ',
+			'meta_description'=> 'ÃŽÃ¯Ã¨Ã±Ã Ã­Ã¨Ã¥ Ã±Ã²Ã°Ã Ã­Ã¨Ã¶Ã»',
+			'annotation'=>       'Ã€Ã­Ã­Ã®Ã²Ã Ã¶Ã¨Ã¿',
+			'body'=>             'ÃŽÃ¯Ã¨Ã±Ã Ã­Ã¨Ã¥',
+			'images'=>           'ÃˆÃ§Ã®Ã¡Ã°Ã Ã¦Ã¥Ã­Ã¨Ã¿'
 			);
 			
 	private $column_delimiter = ';';
@@ -36,41 +36,41 @@ class ExportAjax extends Simpla
 		if(!$this->managers->access('export'))
 			return false;
 
-		// Ýêñåëü êóøàåò òîëüêî 1251
+		// ÃÃªÃ±Ã¥Ã«Ã¼ ÃªÃ³Ã¸Ã Ã¥Ã² Ã²Ã®Ã«Ã¼ÃªÃ® 1251
 		setlocale(LC_ALL, 'ru_RU.1251');
 		$this->db->query('SET NAMES cp1251');
 	
-		// Ñòðàíèöà, êîòîðóþ ýêñïîðòèðóåì
+		// Ã‘Ã²Ã°Ã Ã­Ã¨Ã¶Ã , ÃªÃ®Ã²Ã®Ã°Ã³Ã¾ Ã½ÃªÃ±Ã¯Ã®Ã°Ã²Ã¨Ã°Ã³Ã¥Ã¬
 		$page = $this->request->get('page');
 		if(empty($page) || $page==1)
 		{
 			$page = 1;
-			// Åñëè íà÷àëè ñíà÷àëà - óäàëèì ñòàðûé ôàéë ýêñïîðòà
+			// Ã…Ã±Ã«Ã¨ Ã­Ã Ã·Ã Ã«Ã¨ Ã±Ã­Ã Ã·Ã Ã«Ã  - Ã³Ã¤Ã Ã«Ã¨Ã¬ Ã±Ã²Ã Ã°Ã»Ã© Ã´Ã Ã©Ã« Ã½ÃªÃ±Ã¯Ã®Ã°Ã²Ã 
 			if(is_writable($this->export_files_dir.$this->filename))
 				unlink($this->export_files_dir.$this->filename);
 		}
 		
-		// Îòêðûâàåì ôàéë ýêñïîðòà íà äîáàâëåíèå
+		// ÃŽÃ²ÃªÃ°Ã»Ã¢Ã Ã¥Ã¬ Ã´Ã Ã©Ã« Ã½ÃªÃ±Ã¯Ã®Ã°Ã²Ã  Ã­Ã  Ã¤Ã®Ã¡Ã Ã¢Ã«Ã¥Ã­Ã¨Ã¥
 		$f = fopen($this->export_files_dir.$this->filename, 'ab');
 		
-		// Äîáàâèì â ñïèñîê êîëîíîê ñâîéñòâà òîâàðîâ
+		// Ã„Ã®Ã¡Ã Ã¢Ã¨Ã¬ Ã¢ Ã±Ã¯Ã¨Ã±Ã®Ãª ÃªÃ®Ã«Ã®Ã­Ã®Ãª Ã±Ã¢Ã®Ã©Ã±Ã²Ã¢Ã  Ã²Ã®Ã¢Ã Ã°Ã®Ã¢
 		$features = $this->features->get_features();
 		foreach($features as $feature)
 			$this->columns_names[$feature->name] = $feature->name;
 		
-		// Åñëè íà÷àëè ñíà÷àëà - äîáàâèì â ïåðâóþ ñòðîêó íàçâàíèÿ êîëîíîê
+		// Ã…Ã±Ã«Ã¨ Ã­Ã Ã·Ã Ã«Ã¨ Ã±Ã­Ã Ã·Ã Ã«Ã  - Ã¤Ã®Ã¡Ã Ã¢Ã¨Ã¬ Ã¢ Ã¯Ã¥Ã°Ã¢Ã³Ã¾ Ã±Ã²Ã°Ã®ÃªÃ³ Ã­Ã Ã§Ã¢Ã Ã­Ã¨Ã¿ ÃªÃ®Ã«Ã®Ã­Ã®Ãª
 		if($page == 1)
 		{
 			fputcsv($f, $this->columns_names, $this->column_delimiter);
 		}
 		
-		// Âñå òîâàðû
+		// Ã‚Ã±Ã¥ Ã²Ã®Ã¢Ã Ã°Ã»
 		$products = array();
  		foreach($this->products->get_products(array('page'=>$page, 'limit'=>$this->products_count)) as $p)
  		{
  			$products[$p->id] = (array)$p;
  			
-	 		// Ñâîéñòâà òîâàðîâ
+	 		// Ã‘Ã¢Ã®Ã©Ã±Ã²Ã¢Ã  Ã²Ã®Ã¢Ã Ã°Ã®Ã¢
 	 		$options = $this->features->get_product_options($p->id);
 	 		foreach($options as $option)
 	 		{
@@ -84,7 +84,7 @@ class ExportAjax extends Simpla
  		if(empty($products))
  			return false;
  		
- 		// Êàòåãîðèè òîâàðîâ
+ 		// ÃŠÃ Ã²Ã¥Ã£Ã®Ã°Ã¨Ã¨ Ã²Ã®Ã¢Ã Ã°Ã®Ã¢
  		foreach($products as $p_id=>&$product)
  		{
 	 		$categories = array();
@@ -95,21 +95,21 @@ class ExportAjax extends Simpla
 	 			$cat = $this->categories->get_category((int)$category->category_id);
 	 			if(!empty($cat))
  				{
-	 				// Âû÷èñëÿåì ñîñòàâëÿþùèå êàòåãîðèè
+	 				// Ã‚Ã»Ã·Ã¨Ã±Ã«Ã¿Ã¥Ã¬ Ã±Ã®Ã±Ã²Ã Ã¢Ã«Ã¿Ã¾Ã¹Ã¨Ã¥ ÃªÃ Ã²Ã¥Ã£Ã®Ã°Ã¨Ã¨
 	 				foreach($cat->path as $p)
 	 					$path[] = str_replace($this->subcategory_delimiter, '\\'.$this->subcategory_delimiter, $p->name);
-	 				// Äîáàâëÿåì êàòåãîðèþ ê òîâàðó 
+	 				// Ã„Ã®Ã¡Ã Ã¢Ã«Ã¿Ã¥Ã¬ ÃªÃ Ã²Ã¥Ã£Ã®Ã°Ã¨Ã¾ Ãª Ã²Ã®Ã¢Ã Ã°Ã³ 
 	 				$categories[] = implode('/', $path);
  				}
 	 		}
 	 		$product['category'] = implode(', ', $categories);
  		}
  		
- 		// Èçîáðàæåíèÿ òîâàðîâ
+ 		// ÃˆÃ§Ã®Ã¡Ã°Ã Ã¦Ã¥Ã­Ã¨Ã¿ Ã²Ã®Ã¢Ã Ã°Ã®Ã¢
  		$images = $this->products->get_images(array('product_id'=>array_keys($products)));
  		foreach($images as $image)
  		{
- 			// Äîáàâëÿåì èçîáðàæåíèÿ ê òîâàðó ÷åçåð çàïÿòóþ
+ 			// Ã„Ã®Ã¡Ã Ã¢Ã«Ã¿Ã¥Ã¬ Ã¨Ã§Ã®Ã¡Ã°Ã Ã¦Ã¥Ã­Ã¨Ã¿ Ãª Ã²Ã®Ã¢Ã Ã°Ã³ Ã·Ã¥Ã§Ã¥Ã° Ã§Ã Ã¯Ã¿Ã²Ã³Ã¾
  			if(empty($products[$image->product_id]['images']))
  				$products[$image->product_id]['images'] = $image->filename;
  			else
