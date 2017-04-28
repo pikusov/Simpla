@@ -1,7 +1,6 @@
 User-agent: *
-
 Disallow: /sections/404
-
+Disallow: /404
 Disallow: /simpla/
 Disallow: /order/
 Disallow: /user/
@@ -12,7 +11,20 @@ Disallow: /compiled/
 Disallow: /cart/
 Disallow: /resize/
 Disallow: /password.php
-
-
-
-
+Disallow: /*sort=*
+Disallow: /?currency_id=*
+Disallow: /*?currency_id=*
+Disallow: /*/?currency_id=*
+Disallow: /?module=*
+Disallow: /*?module=*
+Disallow: /*/?module=*
+Disallow: /*utm_
+Disallow: /*_openstat
+Disallow: /*gclid
+Disallow: /*from=adwords
+Disallow: /*ext_meta_id
+Disallow: /*aday
+# Clean parameters
+Clean-param: gclid /
+Clean-param: utm_source&utm_medium&utm_term&utm_campaign /
+Clean-param: _openstat /
