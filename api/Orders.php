@@ -137,6 +137,9 @@ class Orders extends Simpla
 	{
 		if(!empty($id))
 		{
+			$query = $this->db->placehold("DELETE FROM __orders_labels WHERE order_id=?", $id);
+			$this->db->query($query);
+			
 			$query = $this->db->placehold("DELETE FROM __purchases WHERE order_id=?", $id);
 			$this->db->query($query);
 
