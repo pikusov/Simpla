@@ -171,7 +171,10 @@ class Request extends Simpla
 				$query_is_empty = false;
 		
 		if(!$query_is_empty)
+		{
+			ksort($query, SORT_NUMERIC);
 			$url['query'] = http_build_query($query);
+		}
 		else
 			$url['query'] = null;
 			
