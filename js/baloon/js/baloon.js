@@ -59,7 +59,10 @@ function ShowBaloon(i) {
 
 	flip = !(xwidth - 10 + xleft + bwidth < dwidth);
 
-	baloon.style.top  = xheight - 10 + xtop + 'px';
+	if(i.type == 'checkbox')
+		baloon.style.top  = xheight + 10 + xtop + 'px';
+	else
+		baloon.style.top  = xheight - 10 + xtop + 'px';
 	baloon.style.left = (xleft + xwidth - (flip ? bwidth : 0)  - 25) + 'px';
 
 	document.getElementById('baloonHeader').className = flip ? 'baloonHeaderFlip' : 'baloonHeaderDirect';
