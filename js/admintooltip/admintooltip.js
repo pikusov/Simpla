@@ -1,5 +1,5 @@
 $(function() {
-	$("<a href='simpla/' class='admin_bookmark'></a>").appendTo('body');
+	$("<a href='" + location.protocol + '//' + location.host + "/simpla/' class='admin_bookmark'></a>").appendTo('body');
 	tooltip = $("<div class='tooltip'><div class='tooltipHeader'></div><div class='tooltipBody'></div><div class='tooltipFooter'></div></div>").appendTo($('body'));		
 	$('.tooltip').live('mouseleave', function(){tooltipcanclose=true;setTimeout("close_tooltip();", 300);});
 	$('.tooltip').live('mouseover', function(){tooltipcanclose=false;});
@@ -31,34 +31,34 @@ function show_tooltip()
 	
 	if(id = $(this).attr('data-page'))
 	{
-		tooltipcontent = "<a href='simpla/index.php?module=PageAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
-		tooltipcontent += "<a href='simpla/index.php?module=PageAdmin&return="+from+"' class=admin_tooltip_add>Добавить страницу</a>";
+		tooltipcontent = "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=PageAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
+		tooltipcontent += "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=PageAdmin&return="+from+"' class=admin_tooltip_add>Добавить страницу</a>";
 	}
 		
 	if(id = $(this).attr('data-category'))
 	{
-		tooltipcontent = "<a href='simpla/index.php?module=CategoryAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
-		tooltipcontent += "<a href='simpla/index.php?module=ProductAdmin&category_id="+id+"&return="+from+"' class=admin_tooltip_add>Добавить товар</a>";
+		tooltipcontent = "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=CategoryAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
+		tooltipcontent += "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=ProductAdmin&category_id="+id+"&return="+from+"' class=admin_tooltip_add>Добавить товар</a>";
 	}
 	
 	if(id = $(this).attr('data-brand'))
 	{
-		tooltipcontent = "<a href='simpla/index.php?module=BrandAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
+		tooltipcontent = "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=BrandAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
 	
 	if(id = $(this).attr('data-product'))
 	{
-		tooltipcontent = "<a href='simpla/index.php?module=ProductAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
+		tooltipcontent = "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=ProductAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
 	
 	if(id = $(this).attr('data-post'))
 	{
-		tooltipcontent = "<a href='simpla/index.php?module=PostAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
+		tooltipcontent = "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=PostAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
 
 	if(id = $(this).attr('data-feature'))
 	{
-		tooltipcontent = "<a href='simpla/index.php?module=FeatureAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
+		tooltipcontent = "<a href='" + location.protocol + '//' + location.host + "/simpla/index.php?module=FeatureAdmin&id="+id+"&return="+from+"' class=admin_tooltip_edit>Редактировать</a>";
 	}
 	
 	$('.tooltipBody').html(tooltipcontent);
