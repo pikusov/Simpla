@@ -47,9 +47,10 @@ print "</categories>
 // Товары
 $simpla->db->query("SET SQL_BIG_SELECTS=1");
 // Товары
-$simpla->db->query("SELECT v.price, v.id as variant_id, p.name as product_name, v.name as variant_name, v.position as variant_position, p.id as product_id, p.url, p.annotation, pc.category_id, i.filename as image
-					FROM __variants v LEFT JOIN __products p ON v.product_id=p.id
-					
+$simpla->db->query("SELECT v.price, v.id as variant_id, p.name as product_name, v.name as variant_name, v.position as variant_position, p.id as product_id, p.url, p.annotation, pc.category_id, b.name as brand_name, i.filename as image
+					FROM __variants v 
+					LEFT JOIN __products p ON v.product_id=p.id
+					LEFT JOIN __brands b ON p.brand_id = b.id
 					LEFT JOIN __products_categories pc ON p.id = pc.product_id AND pc.position=(SELECT MIN(position) FROM __products_categories WHERE product_id=p.id LIMIT 1)	
 					LEFT JOIN __images i ON p.id = i.product_id AND i.position=(SELECT MIN(position) FROM __images WHERE product_id=p.id LIMIT 1)	
 					WHERE p.visible AND (v.stock >0 OR v.stock is NULL) GROUP BY v.id ORDER BY p.id, v.position ");
@@ -83,6 +84,9 @@ print "
 
 if($p->image)
 print "<picture>".$simpla->design->resize_modifier($p->image, 200, 200)."</picture>
+";
+if($p->brand_name)
+print "<vendor>".htmlspecialchars($p->brand_name)."</vendor>
 ";
 
 print "<name>".htmlspecialchars($p->product_name).($p->variant_name?' '.htmlspecialchars($p->variant_name):'')."</name>
