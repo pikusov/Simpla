@@ -51,10 +51,8 @@ class PostAdmin extends Simpla
 		}
 
 		if(empty($post))
-		{
-			$post = new stdClass;
 			$post->date = date($this->settings->date_format, time());
-		}
+		
  		
 		$this->design->assign('post', $post);
 		
