@@ -27,7 +27,8 @@ class ProductsView extends View
 		$brand_url    = $this->request->get('brand', 'string');
 		
 		$filter = array();
-		$filter['visible'] = 1;	
+		$filter['visible'] = 1;
+		$filter['in_stock'] = true;
 
 		// Если задан бренд, выберем его из базы
 		if (!empty($brand_url))
