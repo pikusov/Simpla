@@ -139,16 +139,13 @@ class ProductView extends View
 			$this->design->assign('related_products', $related_products);
 		}
 
-		// Отзывы о товаре
-		$comments = $this->comments->get_comments(array('type'=>'product', 'object_id'=>$product->id, 'approved'=>1, 'ip'=>$_SERVER['REMOTE_ADDR']));
-		
 		// Соседние товары
 		$this->design->assign('next_product', $this->products->get_next_product($product->id));
 		$this->design->assign('prev_product', $this->products->get_prev_product($product->id));
 
 		// И передаем его в шаблон
 		$this->design->assign('product', $product);
-		$this->design->assign('comments', $comments);
+
 		
 		// Категория и бренд товара
 		$product->categories = $this->categories->get_categories(array('product_id'=>$product->id));
