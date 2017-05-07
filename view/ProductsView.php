@@ -123,6 +123,10 @@ class ProductsView extends View
 		$this->design->assign('total_pages_num', $pages_num);
 		$this->design->assign('total_products_num', $products_count);
 
+		// return 404 если страницу хотят подменить
+		if($this->request->get('page') != 'all' && $pages_num > 1 && $this->request->get('page') > $pages_num)
+			return false;
+
 		$filter['page'] = $current_page;
 		$filter['limit'] = $items_per_page;
 		
