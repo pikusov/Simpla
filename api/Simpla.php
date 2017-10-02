@@ -7,8 +7,31 @@
  * @link 		http://simplacms.ru
  * @author 		Denis Pikusov
  *
+ * @property Config $config
+ * @property Request $request
+ * @property Database $db
+ * @property Smarty $design
+ * @property Settings $settings
+ * @property Products $products
+ * @property Variants $variants
+ * @property Categories $categories
+ * @property Brands $brands
+ * @property Features $features
+ * @property Money $money
+ * @property Pages $pages
+ * @property Blog $blog
+ * @property Cart $cart
+ * @property Image $image
+ * @property Delivery $delivery
+ * @property Payment $payment
+ * @property Orders $orders
+ * @property Users $users
+ * @property Coupons $coupons
+ * @property Comments $comments
+ * @property Feedbacks $feedbacks
+ * @property Notify $notify
+ * @property Managers $managers
  */
-
 class Simpla
 {
 	// Свойства - Классы API
