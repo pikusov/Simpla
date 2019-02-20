@@ -5,9 +5,17 @@
 	
 	$keyword = $simpla->request->get('query', 'string');
 	$kw = $simpla->db->escape($keyword);
+	$kw = preg_replace('/\s{2,}/', ' ', trim($kw));
+	$kw_array = explode(' ', $kw);
+	$kw_filter = '';
+	foreach ($kw_array as $kw1) {
+		$kw_filter .= $simpla->db->placehold("AND (p.name LIKE '%$kw1%' OR p.meta_keywords LIKE '%$kw1%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw1%')) ");
+	}
+
 	$simpla->db->query("SELECT p.id, p.name, i.filename as image FROM __products p
 						LEFT JOIN __images i ON i.product_id=p.id AND i.position=(SELECT MIN(position) FROM __images WHERE product_id=p.id LIMIT 1)
-						WHERE (p.name LIKE '%$kw%' OR p.meta_keywords LIKE '%$kw%' OR p.id in (SELECT product_id FROM __variants WHERE sku LIKE '%$kw%')) 
+						WHERE 1
+						$kw_filter
 						AND visible=1 
 						GROUP BY p.id
 						ORDER BY p.name 
