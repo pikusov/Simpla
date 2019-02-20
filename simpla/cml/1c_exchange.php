@@ -686,15 +686,19 @@ function import_product($xml_product)
 		// Обновляем изображение товара
 		if(isset($xml_product->Картинка))
 		{
+			$simpla->db->query('SELECT id FROM __images WHERE product_id=? ORDER BY position', $product_id);
+			$img_ids = $simpla->db->results('id');
+			foreach ($img_ids as $img_id) 
+			{
+				if(!empty($img_id))
+				$simpla->products->delete_image($img_id);
+			}
+
 			foreach($xml_product->Картинка as $img)
 			{
 				$image = basename($img);
 				if(!empty($image) && is_file($dir.$image) && is_writable($simpla->config->original_images_dir))
 				{
-					$simpla->db->query('SELECT id FROM __images WHERE product_id=? ORDER BY position LIMIT 1', $product_id);
-					$img_id = $simpla->db->result('id');
-					if(!empty($img_id))
-						$simpla->products->delete_image($img_id);
 					rename($dir.$image, $simpla->config->original_images_dir.$image);
 					$simpla->products->add_image($product_id, $image);
 				}
