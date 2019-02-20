@@ -64,6 +64,7 @@
 			serviceUrl:'ajax/search_products.php',
 			minChars:1,
 			noCache: false, 
+			triggerSelectOnValidInput: 0,
 			onSelect:
 				function(suggestion){
 					 $(".input_search").closest('form').submit();
