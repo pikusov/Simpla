@@ -3,6 +3,23 @@ ErrorDocument 404 /404
 ErrorDocument 401 /password.php
 RewriteEngine on
 
+#Редирект на HTTPS:
+#RewriteCond %{HTTPS} =off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#!!!Внимание, с редиректом вход будет обязательно со слешем в конце /simpla/
+
+#Редирект С www на БЕЗ www:
+#RewriteCond %{HTTP_HOST} ^www\.(.*) [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+#Редирект с одного домена на другой:
+#RewriteCond %{HTTP_HOST} old.ru
+#RewriteRule (.*) http://new.ru/$1 [R=301,L]
+
+#301 Редирект страниц:
+#RewriteRule ^category/old-page.html$ category/new-page [R=301,NC,L]
+
+
 # Админка теперь по адресу /simpla
 RewriteRule	^admin/?$  simpla [L]
 
