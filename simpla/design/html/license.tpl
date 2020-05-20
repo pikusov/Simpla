@@ -13,7 +13,7 @@
 		<h2 style='color:green;'>Лицензия действительна {if $license->expiration != '*'}до {$license->expiration}{/if} для домен{$license->domains|count|plural:'а':'ов'} {foreach $license->domains as $d}{$d}{if !$d@last}, {/if}{/foreach}</h2>
 		{else}
 		<h2 style='color:red;'>Лицензия недействительна</h2>
-		<input type='button' value='продлить' onclick="document.license.license.value='{$testlicense|escape}';">
+		<input type='button_green' value='Продлить' onclick="document.license.license.value='{$testlicense|escape}';">
 		{/if}
 		<textarea name=license style='width:420px; height:100px;'>{$config->license|escape}</textarea>
 		</div>
