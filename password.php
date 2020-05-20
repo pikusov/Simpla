@@ -26,14 +26,14 @@ $simpla = new Simpla();
 // Если пришли по ссылке из письма
 if($c = $simpla->request->get('code'))
 {
-	// Код не совпадает - прекращяем работу
+	// Код не совпадает - прекращаем работу
 	if(empty($_SESSION['admin_password_recovery_code']) || empty($c) || $_SESSION['admin_password_recovery_code'] !== $c)
 	{
 		header('Location:password.php');
 		exit();
 	}
 	
-	// IP не совпадает - прекращяем работу
+	// IP не совпадает - прекращаем работу
 	if(empty($_SESSION['admin_password_recovery_ip'])|| empty($_SERVER['REMOTE_ADDR']) || $_SESSION['admin_password_recovery_ip'] !== $_SERVER['REMOTE_ADDR'])
 	{
 		header('Location:password.php');
