@@ -37,6 +37,14 @@ class LicenseAdmin extends Simpla
 		
 		$this->design->assign('license', $l);
 		
+		if (! $l->valid) {
+			if ($result = file_get_contents("http://license.simplacommerce.com/index.php?host=".$_SERVER['HTTP_HOST']))
+			{
+				$tl = result;
+				$this->design->assign('testlicense', $tl);
+			}
+		}
+		
  	  	return $this->design->fetch('license.tpl');
 	}
 	
