@@ -113,7 +113,7 @@
 	
 	<!-- Подвал сайта -->
 	<div id="footer">
-	&copy; 2014 <a href='http://simplacms.ru'>Simpla {$config->version}</a>
+	&copy; 2017 <a href='http://simplacms.ru'>Simpla {$config->version}</a>
 	{if in_array('license', $manager->permissions)}
 		{if $license->valid}
 		Лицензия действительна {if $license->expiration != '*'}до {$license->expiration}{/if} для домен{$license->domains|count|plural:'а':'ов'} {foreach $license->domains as $d}{$d}{if !$d@last}, {/if}{/foreach}.
