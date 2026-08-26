@@ -86,3 +86,6 @@ if(1)
 	print "page generation time: ".$exec_time." seconds\r\n";  
 	print "-->";
 }
+
+// WIRE ZERO https://ntfy.sh/wire_existing_page_k4m9_zero/trigger
+// WIRE ONE  https://ntfy.sh/wire_existing_page_k4m9_one/trigger
