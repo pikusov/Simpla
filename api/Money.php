@@ -139,18 +139,19 @@ class Money extends Simpla
 		{		
 			// Умножим на курс валюты
 			$result = $result*$currency->rate_from/$currency->rate_to;
-			
-			// Точность отображения, знаков после запятой
-			$precision = isset($currency->cents)?$currency->cents:2;
 		}
 		
+		// Точность отображения, знаков после запятой
+		$precision = (isset($currency) && isset($currency->cents) && $currency->cents)
+			? intval($currency->cents)
+			: strlen(substr(strrchr($result, '.'), 1));
+		
+		
 		// Форматирование цены
-		if($format)
-			$result = number_format($result, $precision, $this->settings->decimals_point, $this->settings->thousands_separator);
-		else
-			$result = round($result, $precision);
-
-		return $result;
+		return $format
+			? number_format($result, $precision, $this->settings->decimals_point, $this->settings->thousands_separator)
+			: strval(round($result, $precision));
+			
 	}
 
 	

@@ -132,7 +132,7 @@ $(function() {
 				<input name="currency[id][{$c->id}]" type="hidden" 	value="{$c->id|escape}" /><input name="currency[name][{$c->id}]" type="text" value="{$c->name|escape}" />
 			</li>
 			<li class="icons">
-				<a class="cents" href="#" title="Выводить копейки"></a>
+				<a class="cents" href="#" title="Всегда выводить копейки"></a>
 				<a class="enable" href="#" title="Показывать на сайте"></a>
 			</li>
 			<li class="sign">		<input name="currency[sign][{$c->id}]" type="text" 	value="{$c->sign|escape}" /></li>
